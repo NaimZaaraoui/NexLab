@@ -1,0 +1,44 @@
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Next.js
+.next/
+out/
+build
+
+# Version Control
+.git
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables
+.env*.local
+.env
+
+# MacOS
+.DS_Store
+
+# Electron Build Artifacts (Legacy)
+dist/
+output-standalone/
+main.js
+preload.js
+
+# Deployment Artifacts
+nexlab-install/
+nexlab-image.tar
+
+# Local Database
+data/
+*.db
+*.db-journal
+*.sqlite

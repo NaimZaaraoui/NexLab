@@ -1,0 +1,51 @@
+services:
+  nexlab:
+    container_name: nexlab-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: root
+    restart: always
+    ports:
+      - "0.0.0.0:80:3000"
+    environment:
+      - DATABASE_URL=file:/app/data/nexlab.db
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - CHROMIUM_PATH=/usr/bin/chromium
+      - AUTH_SECRET=${AUTH_SECRET}
+      - NEXTAUTH_URL=http://nexlab.localhost
+      - AUTH_TRUST_HOST=${AUTH_TRUST_HOST}
+    volumes:
+      - nexlab-db:/app/data
+      - ./public/uploads:/app/public/uploads
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+volumes:
+  nexlab-db:
+    driver: local
+
+networks:
+  app-net:
+    driver: bridge

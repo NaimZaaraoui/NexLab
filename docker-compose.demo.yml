@@ -1,0 +1,32 @@
+services:
+  nexlab-demo:
+    container_name: nexlab-demo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: file:/app/data/nexlab.db
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+      CHROMIUM_PATH: /usr/bin/chromium
+      AUTH_SECRET: ${AUTH_SECRET}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      AUTH_TRUST_HOST: "true"
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      INTERNAL_PRINT_TOKEN: ${INTERNAL_PRINT_TOKEN}
+    volumes:
+      - nexlab-demo-db:/app/data
+      - ./public/uploads:/app/public/uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 45s
+
+volumes:
+  nexlab-demo-db:
+    driver: local
