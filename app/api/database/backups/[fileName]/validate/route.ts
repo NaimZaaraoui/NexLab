@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAnyRole } from '@/lib/authz';
 import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { getBackupFileByName, testDatabaseBackupRestore, validateDatabaseBackupFile } from '@/lib/database-backups';
+import { getBackupFileByName, testDatabaseBackupRestore, validateStoredDatabaseBackupFile } from '@/lib/database-backups';
 
 export const runtime = 'nodejs';
 
@@ -21,7 +21,7 @@ export async function POST(request: Request, context: RouteContext) {
     return NextResponse.json({ error: 'Sauvegarde introuvable.' }, { status: 404 });
   }
 
-  const validation = validateDatabaseBackupFile(backup.absolutePath);
+  const validation = await validateStoredDatabaseBackupFile(backup.absolutePath);
   const restoreTest = await testDatabaseBackupRestore(backup.fileName);
 
   await createAuditLog({

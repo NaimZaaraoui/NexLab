@@ -26,7 +26,7 @@ export type Material = {
   name: string;
   level: string;
   manufacturer: string | null;
-  isActive?: boolean;
+  isActive: boolean;
   lots: QcLot[];
 };
 

@@ -22,6 +22,16 @@ const PUBLIC_PREFIXES = [
   '/diagnostic',
 ];
 
+const CSRF_COOKIE_NAME = 'csrf-token';
+const CSRF_HEADER_NAME = 'x-csrf-token';
+const CSRF_SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
+const CSRF_EXEMPT_API_PREFIXES = [
+  '/api/auth',
+  '/api/setup',
+  '/api/diagnostic',
+  '/api/health',
+];
+
 const SECURITY_HEADERS: Record<string, string> = {
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'SAMEORIGIN',
@@ -51,6 +61,48 @@ function withSecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
+function createCSRFToken() {
+  return `${crypto.randomUUID()}${crypto.randomUUID()}`.replaceAll('-', '');
+}
+
+function isCSRFExemptApi(pathname: string) {
+  return CSRF_EXEMPT_API_PREFIXES.some(prefix => pathname.startsWith(prefix));
+}
+
+function ensureCSRFCookie(req: NextRequest, response: NextResponse): NextResponse {
+  if (!req.cookies.get(CSRF_COOKIE_NAME)?.value) {
+    response.cookies.set(CSRF_COOKIE_NAME, createCSRFToken(), {
+      httpOnly: false,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      maxAge: 60 * 60 * 24,
+    });
+  }
+
+  return response;
+}
+
+function validateAPIRequestCSRF(req: NextRequest): NextResponse | null {
+  const { pathname } = req.nextUrl;
+
+  if (!pathname.startsWith('/api/') || CSRF_SAFE_METHODS.has(req.method) || isCSRFExemptApi(pathname)) {
+    return null;
+  }
+
+  const cookieToken = req.cookies.get(CSRF_COOKIE_NAME)?.value;
+  const headerToken = req.headers.get(CSRF_HEADER_NAME);
+
+  if (!cookieToken || !headerToken || cookieToken !== headerToken) {
+    return NextResponse.json(
+      { error: 'CSRF validation failed: invalid or missing token' },
+      { status: 403 }
+    );
+  }
+
+  return null;
+}
+
 export async function proxy(req: NextRequest) {
   const { nextUrl } = req;
   const pathname = nextUrl.pathname;
@@ -60,9 +112,18 @@ export async function proxy(req: NextRequest) {
     Boolean(internalPrintToken) &&
     nextUrl.searchParams.get('printToken') === internalPrintToken;
 
+  const csrfError = validateAPIRequestCSRF(req);
+  if (csrfError) {
+    return withSecurityHeaders(csrfError);
+  }
+
+  if (pathname.startsWith('/api/')) {
+    return ensureCSRFCookie(req, withSecurityHeaders(NextResponse.next()));
+  }
+
   // 1. Allow public routes
   if (isPublicPath(pathname) || (isInternalExportRoute && hasValidInternalPrintToken)) {
-    return withSecurityHeaders(NextResponse.next());
+    return ensureCSRFCookie(req, withSecurityHeaders(NextResponse.next()));
   }
 
   // 2. Get token and handle unauthenticated users
@@ -72,30 +133,30 @@ export async function proxy(req: NextRequest) {
   });
 
   if (!token) {
-    return withSecurityHeaders(NextResponse.redirect(new URL('/login', req.url)));
+    return ensureCSRFCookie(req, withSecurityHeaders(NextResponse.redirect(new URL('/login', req.url))));
   }
 
   // 3. Force password change if required
   if (token.mustChangePassword && pathname !== '/changer-mot-de-passe') {
-    return withSecurityHeaders(NextResponse.redirect(new URL('/changer-mot-de-passe', req.url)));
+    return ensureCSRFCookie(req, withSecurityHeaders(NextResponse.redirect(new URL('/changer-mot-de-passe', req.url))));
   }
 
   // 4. Role-based Page Restrictions
   const role = token.role as string;
 
   if (role === 'MEDECIN' && BLOCKED_MEDECIN.some(p => pathname.startsWith(p))) {
-    return withSecurityHeaders(NextResponse.redirect(new URL('/', req.url)));
+    return ensureCSRFCookie(req, withSecurityHeaders(NextResponse.redirect(new URL('/', req.url))));
   }
   if (role === 'RECEPTIONNISTE' && BLOCKED_RECEPTIONNISTE.some(p => pathname.startsWith(p))) {
-    return withSecurityHeaders(NextResponse.redirect(new URL('/', req.url)));
+    return ensureCSRFCookie(req, withSecurityHeaders(NextResponse.redirect(new URL('/', req.url))));
   }
   if (role !== 'ADMIN' && ADMIN_ONLY.some(p => pathname.startsWith(p))) {
-    return withSecurityHeaders(NextResponse.redirect(new URL('/', req.url)));
+    return ensureCSRFCookie(req, withSecurityHeaders(NextResponse.redirect(new URL('/', req.url))));
   }
 
-  return withSecurityHeaders(NextResponse.next());
+  return ensureCSRFCookie(req, withSecurityHeaders(NextResponse.next()));
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|icon.png|apple-icon.png|branding|public|uploads).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|icon.png|apple-icon.png|branding|public|uploads).*)'],
 };

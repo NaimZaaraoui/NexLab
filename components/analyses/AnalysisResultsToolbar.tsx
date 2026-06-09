@@ -1,4 +1,4 @@
-import { Activity, Calculator, CheckCircle, Microscope } from 'lucide-react';
+import { Activity, Calculator, CheckCircle, Download, Microscope } from 'lucide-react';
 import { calculateCbcIndices } from '@/lib/calculations';
 
 import { useAnalysisContext } from './AnalysisContext';
@@ -66,6 +66,19 @@ export function AnalysisResultsToolbar() {
             </div>
             Tout sélectionner
           </button>
+        )}
+
+        {isFinalValidated && (
+          <a
+            href={`/api/analyses/${analysis.id}/pdf`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary h-9 text-xs inline-flex items-center gap-1.5"
+            title="Télécharger le rapport PDF en cache (instantané)"
+          >
+            <Download size={13} />
+            PDF
+          </a>
         )}
       </div>
     </div>

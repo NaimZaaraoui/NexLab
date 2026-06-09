@@ -106,6 +106,15 @@ export function DatabaseFileTable({
                   <tr key={item.fileName} className="hover:bg-[var(--color-surface-muted)]/50">
                     <td className="px-5 py-4">
                       <div className="font-semibold text-[var(--color-text)]">{item.fileName}</div>
+                      {item.fileName.endsWith('.sqlite') || item.fileName.endsWith('.sqlite.enc') ? (
+                        <span className={`mt-1 inline-flex rounded-full border px-2 py-0.5 text-[10px] font-medium ${
+                          item.encrypted
+                            ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                            : 'border-amber-200 bg-amber-50 text-amber-700'
+                        }`}>
+                          {item.encrypted ? 'Chiffré' : 'Non chiffré'}
+                        </span>
+                      ) : null}
                     </td>
                     <td className="px-5 py-4 text-sm text-[var(--color-text-secondary)]">
                       {new Date(item.createdAt).toLocaleString('fr-FR')}

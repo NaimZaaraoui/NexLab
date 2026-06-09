@@ -5,7 +5,12 @@ import crypto from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import Database from 'better-sqlite3';
-import { getDatabaseFilePath, removeSqliteSidecars, validateDatabaseBackupFile } from '@/lib/database-backups';
+import {
+  createPlainDatabaseSnapshot,
+  getDatabaseFilePath,
+  removeSqliteSidecars,
+  validateDatabaseBackupFile,
+} from '@/lib/database-backups';
 
 const execFileAsync = promisify(execFile);
 
@@ -14,12 +19,14 @@ export type RecoveryBundleFile = {
   size: number;
   createdAt: string;
   absolutePath: string;
+  encrypted: boolean;
 };
 
 export type RecoveryBundleValidation = {
   valid: boolean;
   issues: string[];
   entries: string[];
+  encrypted?: boolean;
 };
 
 export type RecoveryBundleRestoreTest = {
@@ -35,6 +42,17 @@ export type RecoveryBundleRestoreTest = {
 };
 
 const RECOVERY_DIR = path.join(process.cwd(), 'backups', 'recovery');
+const PLAIN_RECOVERY_SUFFIX = '.tar.gz';
+const ENCRYPTED_RECOVERY_SUFFIX = '.tar.gz.enc';
+const ENCRYPTED_RECOVERY_MAGIC = 'NEXLAB_RECOVERY_BUNDLE_V1';
+
+type EncryptedRecoveryHeader = {
+  magic: typeof ENCRYPTED_RECOVERY_MAGIC;
+  algorithm: 'aes-256-gcm';
+  kdf: 'scrypt';
+  salt: string;
+  iv: string;
+};
 
 async function copyIfExists(sourcePath: string, destinationPath: string) {
   try {
@@ -55,6 +73,92 @@ async function computeFileSha256(absolutePath: string) {
   return crypto.createHash('sha256').update(file).digest('hex');
 }
 
+function getRecoveryEncryptionSecret() {
+  return process.env.BACKUP_ENCRYPTION_KEY || process.env.DATABASE_ENCRYPTION_KEY || '';
+}
+
+function isRecoveryEncryptionConfigured() {
+  return Boolean(getRecoveryEncryptionSecret());
+}
+
+function isEncryptedRecoveryBundleName(fileName: string) {
+  return fileName.endsWith(ENCRYPTED_RECOVERY_SUFFIX);
+}
+
+function isRecoveryBundleName(fileName: string) {
+  return fileName.endsWith(PLAIN_RECOVERY_SUFFIX) || isEncryptedRecoveryBundleName(fileName);
+}
+
+function deriveRecoveryEncryptionKey(secret: string, salt: Buffer) {
+  return crypto.scryptSync(secret, salt, 32);
+}
+
+async function encryptRecoveryBundleFile(plainPath: string, encryptedPath: string) {
+  const secret = getRecoveryEncryptionSecret();
+  if (!secret) {
+    throw new Error('BACKUP_ENCRYPTION_KEY ou DATABASE_ENCRYPTION_KEY est requis pour chiffrer les bundles.');
+  }
+
+  const salt = crypto.randomBytes(16);
+  const iv = crypto.randomBytes(12);
+  const key = deriveRecoveryEncryptionKey(secret, salt);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const plaintext = await fs.readFile(plainPath);
+  const ciphertext = Buffer.concat([cipher.update(plaintext), cipher.final()]);
+  const tag = cipher.getAuthTag();
+  const header: EncryptedRecoveryHeader = {
+    magic: ENCRYPTED_RECOVERY_MAGIC,
+    algorithm: 'aes-256-gcm',
+    kdf: 'scrypt',
+    salt: salt.toString('base64'),
+    iv: iv.toString('base64'),
+  };
+
+  await fs.writeFile(
+    encryptedPath,
+    Buffer.concat([
+      Buffer.from(`${JSON.stringify(header)}\n`, 'utf8'),
+      ciphertext,
+      tag,
+    ])
+  );
+}
+
+async function decryptRecoveryBundleFile(encryptedPath: string, plainPath: string) {
+  const secret = getRecoveryEncryptionSecret();
+  if (!secret) {
+    throw new Error('Clé de chiffrement des bundles absente. Définissez BACKUP_ENCRYPTION_KEY ou DATABASE_ENCRYPTION_KEY.');
+  }
+
+  const file = await fs.readFile(encryptedPath);
+  const newlineIndex = file.indexOf(10);
+  if (newlineIndex <= 0) {
+    throw new Error('Format de bundle chiffré invalide.');
+  }
+
+  const header = JSON.parse(file.subarray(0, newlineIndex).toString('utf8')) as EncryptedRecoveryHeader;
+  if (
+    header.magic !== ENCRYPTED_RECOVERY_MAGIC ||
+    header.algorithm !== 'aes-256-gcm' ||
+    header.kdf !== 'scrypt'
+  ) {
+    throw new Error('Format de bundle chiffré non supporté.');
+  }
+
+  const payload = file.subarray(newlineIndex + 1);
+  if (payload.length <= 16) {
+    throw new Error('Bundle chiffré incomplet.');
+  }
+
+  const ciphertext = payload.subarray(0, payload.length - 16);
+  const tag = payload.subarray(payload.length - 16);
+  const key = deriveRecoveryEncryptionKey(secret, Buffer.from(header.salt, 'base64'));
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, Buffer.from(header.iv, 'base64'));
+  decipher.setAuthTag(tag);
+  const plaintext = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+  await fs.writeFile(plainPath, plaintext);
+}
+
 export function getRecoveryBundleDirectory() {
   return RECOVERY_DIR;
 }
@@ -67,9 +171,11 @@ export async function createRecoveryBundle() {
   await ensureRecoveryBundleDirectory();
 
   const timestamp = new Date().toISOString().replaceAll(':', '-');
-  const fileName = `nexlab-recovery-${timestamp}.tar.gz`;
+  const encrypted = isRecoveryEncryptionConfigured();
+  const fileName = `nexlab-recovery-${timestamp}${encrypted ? ENCRYPTED_RECOVERY_SUFFIX : PLAIN_RECOVERY_SUFFIX}`;
   const destinationPath = path.join(RECOVERY_DIR, fileName);
   const stagingPath = await fs.mkdtemp(path.join(os.tmpdir(), 'nexlab-recovery-'));
+  const plainArchivePath = encrypted ? path.join(stagingPath, 'nexlab-recovery.tar.gz') : destinationPath;
   const dbSourcePath = getDatabaseFilePath();
   const bundleRoot = path.join(stagingPath, 'nexlab-recovery');
   const dataDir = path.join(bundleRoot, 'data');
@@ -79,13 +185,7 @@ export async function createRecoveryBundle() {
   await fs.mkdir(appDir, { recursive: true });
 
   const dbDestination = path.join(dataDir, 'database.sqlite');
-  const db = new Database(dbSourcePath, { fileMustExist: true, readonly: true });
-
-  try {
-    await db.backup(dbDestination);
-  } finally {
-    db.close();
-  }
+  await createPlainDatabaseSnapshot(dbDestination);
 
   const copiedUploads = await copyIfExists(path.join(process.cwd(), 'public', 'uploads'), path.join(appDir, 'uploads'));
   const copiedDockerCompose = await copyIfExists(path.join(process.cwd(), 'docker-compose.yml'), path.join(bundleRoot, 'docker-compose.yml'));
@@ -136,7 +236,10 @@ export async function createRecoveryBundle() {
   );
 
   try {
-    await execFileAsync('tar', ['-czf', destinationPath, '-C', stagingPath, 'nexlab-recovery']);
+    await execFileAsync('tar', ['-czf', plainArchivePath, '-C', stagingPath, 'nexlab-recovery']);
+    if (encrypted) {
+      await encryptRecoveryBundleFile(plainArchivePath, destinationPath);
+    }
   } finally {
     await removeDirectorySafe(stagingPath);
   }
@@ -154,10 +257,11 @@ export async function createRecoveryBundle() {
     absolutePath: destinationPath,
     size: stat.size,
     createdAt: stat.birthtime.toISOString(),
+    encrypted,
   } satisfies RecoveryBundleFile;
 }
 
-export async function validateRecoveryBundleFile(absolutePath: string): Promise<RecoveryBundleValidation> {
+async function validatePlainRecoveryBundleFile(absolutePath: string): Promise<RecoveryBundleValidation> {
   try {
     const { stdout } = await execFileAsync('tar', ['-tzf', absolutePath]);
     const entries = stdout
@@ -177,14 +281,53 @@ export async function validateRecoveryBundleFile(absolutePath: string): Promise<
       valid: missingEntries.length === 0,
       issues: missingEntries.map((entry) => `Manquant: ${entry}`),
       entries,
+      encrypted: false,
     };
   } catch (error) {
     return {
       valid: false,
       issues: [error instanceof Error ? error.message : 'Archive invalide ou illisible'],
       entries: [],
+      encrypted: false,
     };
   }
+}
+
+export async function validateRecoveryBundleFile(absolutePath: string): Promise<RecoveryBundleValidation> {
+  if (!absolutePath.endsWith(ENCRYPTED_RECOVERY_SUFFIX)) {
+    return validatePlainRecoveryBundleFile(absolutePath);
+  }
+
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'nexlab-recovery-validate-'));
+  const plainPath = path.join(tempDir, 'bundle.tar.gz');
+
+  try {
+    await decryptRecoveryBundleFile(absolutePath, plainPath);
+    const validation = await validatePlainRecoveryBundleFile(plainPath);
+    return {
+      ...validation,
+      encrypted: true,
+    };
+  } catch (error) {
+    return {
+      valid: false,
+      issues: [error instanceof Error ? error.message : 'Déchiffrement du bundle impossible'],
+      entries: [],
+      encrypted: true,
+    };
+  } finally {
+    await removeDirectorySafe(tempDir);
+  }
+}
+
+async function getReadableRecoveryBundlePath(absolutePath: string, tempDir: string) {
+  if (!absolutePath.endsWith(ENCRYPTED_RECOVERY_SUFFIX)) {
+    return absolutePath;
+  }
+
+  const plainPath = path.join(tempDir, 'bundle.tar.gz');
+  await decryptRecoveryBundleFile(absolutePath, plainPath);
+  return plainPath;
 }
 
 export async function testRecoveryBundleRestore(fileName: string): Promise<RecoveryBundleRestoreTest> {
@@ -209,7 +352,8 @@ export async function testRecoveryBundleRestore(fileName: string): Promise<Recov
       };
     }
 
-    await execFileAsync('tar', ['-xzf', bundle.absolutePath, '-C', stagingPath]);
+    const readableBundlePath = await getReadableRecoveryBundlePath(bundle.absolutePath, stagingPath);
+    await execFileAsync('tar', ['-xzf', readableBundlePath, '-C', stagingPath]);
 
     const bundleRoot = path.join(stagingPath, 'nexlab-recovery');
     const restoredDbPath = path.join(bundleRoot, 'data', 'database.sqlite');
@@ -259,7 +403,7 @@ export async function listRecoveryBundles() {
   const entries = await fs.readdir(RECOVERY_DIR, { withFileTypes: true });
   const files = await Promise.all(
     entries
-      .filter((entry) => entry.isFile() && entry.name.endsWith('.tar.gz'))
+      .filter((entry) => entry.isFile() && isRecoveryBundleName(entry.name))
       .map(async (entry) => {
         const absolutePath = path.join(RECOVERY_DIR, entry.name);
         const stat = await fs.stat(absolutePath);
@@ -269,6 +413,7 @@ export async function listRecoveryBundles() {
           absolutePath,
           size: stat.size,
           createdAt: stat.birthtime.toISOString(),
+          encrypted: isEncryptedRecoveryBundleName(entry.name),
         } satisfies RecoveryBundleFile;
       })
   );
@@ -278,8 +423,8 @@ export async function listRecoveryBundles() {
 
 function normalizeImportedBundleName(fileName: string) {
   const safeBaseName = path.basename(fileName).replace(/[^a-zA-Z0-9._-]/g, '-');
-  if (!safeBaseName.endsWith('.tar.gz')) {
-    throw new Error('Le fichier doit être un bundle .tar.gz.');
+  if (!isRecoveryBundleName(safeBaseName)) {
+    throw new Error('Le fichier doit être un bundle .tar.gz ou .tar.gz.enc.');
   }
 
   return safeBaseName;
@@ -289,13 +434,16 @@ export async function importRecoveryBundle(fileName: string, source: Buffer | Ui
   await ensureRecoveryBundleDirectory();
 
   const normalizedName = normalizeImportedBundleName(fileName);
-  const destinationBaseName = normalizedName.replace(/\.tar\.gz$/, '');
+  const destinationBaseName = normalizedName.replace(/\.tar\.gz(\.enc)?$/, '');
   let destinationPath = path.join(RECOVERY_DIR, normalizedName);
 
   try {
     await fs.access(destinationPath);
     const timestamp = new Date().toISOString().replaceAll(':', '-');
-    destinationPath = path.join(RECOVERY_DIR, `${destinationBaseName}-import-${timestamp}.tar.gz`);
+    destinationPath = path.join(
+      RECOVERY_DIR,
+      `${destinationBaseName}-import-${timestamp}${isEncryptedRecoveryBundleName(normalizedName) ? ENCRYPTED_RECOVERY_SUFFIX : PLAIN_RECOVERY_SUFFIX}`
+    );
   } catch {
     // File does not exist yet, keep original name.
   }
@@ -315,11 +463,12 @@ export async function importRecoveryBundle(fileName: string, source: Buffer | Ui
     absolutePath: destinationPath,
     size: stat.size,
     createdAt: stat.birthtime.toISOString(),
+    encrypted: isEncryptedRecoveryBundleName(destinationPath),
   } satisfies RecoveryBundleFile;
 }
 
 export async function getRecoveryBundleByName(fileName: string) {
-  if (!/^[a-zA-Z0-9._-]+\.tar\.gz$/.test(fileName)) {
+  if (!/^[a-zA-Z0-9._-]+\.tar\.gz(\.enc)?$/.test(fileName)) {
     return null;
   }
 
@@ -334,6 +483,7 @@ export async function getRecoveryBundleByName(fileName: string) {
       absolutePath,
       size: stat.size,
       createdAt: stat.birthtime.toISOString(),
+      encrypted: isEncryptedRecoveryBundleName(fileName),
     } satisfies RecoveryBundleFile;
   } catch {
     return null;
@@ -354,7 +504,8 @@ export async function restoreRecoveryBundle(fileName: string) {
   const stagingPath = await fs.mkdtemp(path.join(os.tmpdir(), 'nexlab-recovery-restore-'));
 
   try {
-    await execFileAsync('tar', ['-xzf', bundle.absolutePath, '-C', stagingPath]);
+    const readableBundlePath = await getReadableRecoveryBundlePath(bundle.absolutePath, stagingPath);
+    await execFileAsync('tar', ['-xzf', readableBundlePath, '-C', stagingPath]);
 
     const bundleRoot = path.join(stagingPath, 'nexlab-recovery');
     const restoredDbPath = path.join(bundleRoot, 'data', 'database.sqlite');

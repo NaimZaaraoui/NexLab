@@ -1,5 +1,5 @@
 import type { Analysis, Result } from '@/lib/types';
-import { formatReferenceRange, getTestReferenceValues } from '@/lib/utils';
+import { formatReferenceRange, getTestReferenceValues, getResultReferenceValues } from '@/lib/utils';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import type {
@@ -184,7 +184,7 @@ export function buildReportReferenceMap(
 
   results?.forEach((result) => {
     if (!result.test) return;
-    const refVals = getTestReferenceValues(result.test, patientGender);
+    const refVals = getResultReferenceValues(result, patientGender);
     references.set(result.testId, {
       min: refVals.min,
       max: refVals.max,

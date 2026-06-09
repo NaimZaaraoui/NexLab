@@ -55,23 +55,29 @@ export function GlobalSearchBox({
         />
       </div>
 
-      {showSearchResults && searchResults.length > 0 && (
+      {showSearchResults && (
         <div className="absolute left-0 right-0 top-full z-50 mt-2 rounded-lg border bg-[var(--color-surface)] shadow-[0_10px_24px_rgba(15,31,51,0.08)]">
-          <div className="max-h-[420px] overflow-y-auto">
-            {searchResults.map((result) => (
-              <button
-                key={result.id}
-                onClick={() => onSelectResult(result)}
-                className="flex w-full items-start gap-3 border-b px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-[var(--color-accent-soft)]/50"
-              >
-                <div className="mt-0.5 flex-shrink-0 text-[var(--color-text-soft)]">{getIconByType(result.type)}</div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-medium text-[var(--color-text)]">{result.title}</div>
-                  {result.description && <div className="truncate text-xs text-[var(--color-text-soft)]">{result.description}</div>}
-                </div>
-              </button>
-            ))}
-          </div>
+          {searchResults.length > 0 ? (
+            <div className="max-h-[420px] overflow-y-auto">
+              {searchResults.map((result) => (
+                <button
+                  key={result.id}
+                  onClick={() => onSelectResult(result)}
+                  className="flex w-full items-start gap-3 border-b px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-[var(--color-accent-soft)]/50"
+                >
+                  <div className="mt-0.5 flex-shrink-0 text-[var(--color-text-soft)]">{getIconByType(result.type)}</div>
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-sm font-medium text-[var(--color-text)]">{result.title}</div>
+                    {result.description && <div className="truncate text-xs text-[var(--color-text-soft)]">{result.description}</div>}
+                  </div>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="px-4 py-5 text-center text-sm text-[var(--color-text-soft)]">
+              Aucun résultat pour &laquo;&nbsp;{searchQuery}&nbsp;&raquo;
+            </div>
+          )}
         </div>
       )}
     </div>

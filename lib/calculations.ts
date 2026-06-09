@@ -11,7 +11,7 @@
  */
 
 import type { Analysis, Result, Test } from '@/lib/types';
-import { getTestReferenceValues } from '@/lib/utils';
+import { getTestReferenceValues, getResultReferenceValues } from '@/lib/utils';
 import { HEMATOLOGY_THRESHOLDS as H_THRESH } from '@/lib/lab-rules';
 
 export type EGFRFormula = 'CKD_EPI_2021' | 'EKFC_2021';
@@ -349,10 +349,10 @@ interface HematologyIndices {
  * // → { vgm: 84.0, tcmh: 28.0, ccmh: 33.3, rdwAnisocytosis: false }
  */
 export function calculateHematologyIndices(values: Record<string, number>): HematologyIndices {
-  const rbc = values.RBC ?? values.GR;
-  const hgb = values.HGB ?? values.HB;
-  const hct = values.HCT ?? values.HT;
-  const rdw = values.RDW ?? values.IDW;
+  const rbc = values.RBC ?? values.GR ?? null;
+  const hgb = values.HGB ?? values.HB ?? null;
+  const hct = values.HCT ?? values.HT ?? null;
+  const rdw = values.RDW ?? values.IDW ?? null;
 
   const indices: HematologyIndices = {};
 
@@ -623,19 +623,20 @@ export function calculateCbcIndices(analysis: Analysis, values: Record<string, s
  * @returns true if value exceeds defined reference ranges
  * @example
  * const test = { minValue: 4.0, maxValue: 10.0, resultType: 'numeric' };
- * isResultAbnormal("11,5", test, "M") // → true (exceeds max)
- * isResultAbnormal("8,0", test, "M") // → false (within range)
+ * const result = { test, value: "11,5" };
+ * isResultAbnormal("11,5", result, "M") // → true (exceeds max)
+ * isResultAbnormal("8,0", result, "M") // → false (within range)
  */
 export function isResultAbnormal(
   value: string,
-  test: Test,
+  result: Result,
   patientGender?: string | null
 ): boolean {
   if (!value) return false;
 
-  const refVals = getTestReferenceValues(test, patientGender);
-  const min = refVals?.min ?? test.minValue;
-  const max = refVals?.max ?? test.maxValue;
+  const refVals = getResultReferenceValues(result, patientGender);
+  const min = refVals?.min ?? result.test?.minValue ?? null;
+  const max = refVals?.max ?? result.test?.maxValue ?? null;
 
   if (min === null && max === null) return false;
 

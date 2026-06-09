@@ -30,7 +30,7 @@ export function TestCatalogToolbar({
           value={searchTerm}
           onChange={(event) => onSearchTermChange(event.target.value)}
           aria-label="Rechercher un test"
-          className="h-full w-full border-0 bg-transparent text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
+          className="h-full w-full border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
         />
       </div>
 

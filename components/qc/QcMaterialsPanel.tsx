@@ -1,7 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { Plus, Trash2, ArrowRight } from 'lucide-react';
+import { Plus, Trash2, ArrowRight, Power } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { LEVELS, type Material, type MaterialFormState } from '@/components/qc/config-types';
 
@@ -9,9 +9,13 @@ interface QcMaterialsPanelProps {
   materialForm: MaterialFormState;
   materialQuery: string;
   filteredMaterials: Material[];
+  inactiveCount?: number;
+  showInactive?: boolean;
+  onToggleShowInactive?: () => void;
   onMaterialFormChange: React.Dispatch<React.SetStateAction<MaterialFormState>>;
   onMaterialQueryChange: (value: string) => void;
   onSubmit: (event: React.FormEvent) => void | Promise<void>;
+  onToggle?: (id: string) => void | Promise<void>;
   onDelete?: (id: string, name: string) => void | Promise<void>;
 }
 
@@ -19,9 +23,13 @@ export function QcMaterialsPanel({
   materialForm,
   materialQuery,
   filteredMaterials,
+  inactiveCount = 0,
+  showInactive = false,
+  onToggleShowInactive,
   onMaterialFormChange,
   onMaterialQueryChange,
   onSubmit,
+  onToggle,
   onDelete,
 }: QcMaterialsPanelProps) {
   const router = useRouter();
@@ -59,20 +67,34 @@ export function QcMaterialsPanel({
         </button>
       </form>
 
-      <div className="mt-5">
+      <div className="mt-5 space-y-2">
         <input
           className="input-premium h-11 bg-[var(--color-surface)]"
           value={materialQuery}
           onChange={(event) => onMaterialQueryChange(event.target.value)}
           placeholder="Rechercher un matériel, un lot ou un test QC"
         />
+        {inactiveCount > 0 && onToggleShowInactive && (
+          <button
+            type="button"
+            onClick={onToggleShowInactive}
+            className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-text-soft)] hover:text-[var(--color-accent)] transition-colors"
+          >
+            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-surface-muted)] px-1.5 text-[10px] font-bold text-[var(--color-text-soft)]">
+              {inactiveCount}
+            </span>
+            {showInactive ? 'Masquer les inactifs' : 'Afficher les inactifs'}
+          </button>
+        )}
       </div>
 
-      <div className="mt-5 space-y-3">
+      <div className="mt-4 space-y-3">
         {filteredMaterials.map((material) => (
           <div 
             key={material.id} 
-            className="group relative rounded-2xl border bg-[var(--color-surface-muted)] px-4 py-3 hover:bg-[var(--color-surface)] hover:shadow-md transition-all cursor-pointer border-transparent hover:border-[var(--color-accent-soft)]"
+            className={`group relative rounded-2xl border bg-[var(--color-surface-muted)] px-4 py-3 hover:bg-[var(--color-surface)] hover:shadow-md transition-all cursor-pointer border-transparent hover:border-[var(--color-accent-soft)] ${
+              !material.isActive ? 'opacity-50 hover:opacity-80' : ''
+            }`}
             onClick={() => router.push(`/dashboard/qc/config/lots?materialId=${material.id}`)}
           >
             <div className="flex items-start justify-between gap-3">
@@ -86,9 +108,30 @@ export function QcMaterialsPanel({
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                {!material.isActive && (
+                  <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-soft)]">
+                    Inactif
+                  </span>
+                )}
                 <div className="rounded-full bg-[var(--color-surface)]/80 px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-soft)]">
                   {material.lots.length} lot{material.lots.length > 1 ? 's' : ''}
                 </div>
+                {onToggle && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggle(material.id);
+                    }}
+                    className={`p-1.5 rounded-lg transition-all relative z-10 ${
+                      material.isActive
+                        ? 'text-slate-400 hover:text-amber-500 hover:bg-[var(--color-surface)]'
+                        : 'text-emerald-500 hover:text-emerald-600 hover:bg-[var(--color-surface)]'
+                    }`}
+                    title={material.isActive ? 'Désactiver le matériel' : 'Réactiver le matériel'}
+                  >
+                    <Power size={14} />
+                  </button>
+                )}
                 {onDelete && material.lots.length === 0 && (
                   <button
                     onClick={(e) => {

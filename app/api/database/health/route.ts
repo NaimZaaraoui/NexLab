@@ -1,21 +1,40 @@
 import fs from 'node:fs/promises';
+import { createClient } from '@libsql/client';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAnyRole } from '@/lib/authz';
-import { getDatabaseBackupDirectory, getDatabaseFilePath, listDatabaseBackups, validateDatabaseBackupFile } from '@/lib/database-backups';
+import {
+  getDatabaseBackupDirectory,
+  getDatabaseFilePath,
+  isBackupEncryptionConfigured,
+  listDatabaseBackups,
+  validateStoredDatabaseBackupFile,
+} from '@/lib/database-backups';
 import { listRecoveryBundles, validateRecoveryBundleFile } from '@/lib/recovery-bundles';
+import { checkAuditImmutabilityTriggers } from '@/lib/audit-trail-setup';
+import { checkDatabaseOpsRateLimit } from '@/lib/rate-limit';
+import { verifyValidationHash } from '@/lib/validation-seal';
 
 export const runtime = 'nodejs';
 
-export async function GET() {
+export async function GET(request: Request) {
   const guard = await requireAnyRole(['ADMIN']);
   if (!guard.ok) return guard.error;
+
+  const ip = (request.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0].trim();
+  const allowed = await checkDatabaseOpsRateLimit(`health:${ip}`);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Trop de requêtes. Réessayez dans quelques minutes.' },
+      { status: 429 }
+    );
+  }
 
   try {
     const databasePath = getDatabaseFilePath();
     const backupDirectory = getDatabaseBackupDirectory();
 
-    const [dbPing, dbStat, backupStat, backups, recoveryBundles, maintenanceSetting, externalTargetSetting, criticalLogs, latestBackupTestLog, latestRecoveryTestLog] = await Promise.all([
+    const [dbPing, dbStat, backupStat, backups, recoveryBundles, maintenanceSetting, externalTargetSetting, criticalLogs, latestBackupTestLog, latestRecoveryTestLog, recentValidatedAnalyses] = await Promise.all([
       prisma.$queryRaw`SELECT 1`,
       fs.stat(databasePath).catch(() => null),
       fs.statfs(backupDirectory).catch(() => null),
@@ -51,13 +70,48 @@ export async function GET() {
         orderBy: { createdAt: 'desc' },
         select: { createdAt: true, severity: true },
       }),
+      prisma.analysis.findMany({
+        where: { status: 'validated_bio', validationHash: { not: null } },
+        orderBy: { validatedBioAt: 'desc' },
+        take: 20,
+        include: { results: true }
+      }),
     ]);
+
+    const auditTrailIntegrity = await checkAuditImmutabilityTriggers();
+
+    let sealCompromisedCount = 0;
+    for (const a of recentValidatedAnalyses) {
+      if (!verifyValidationHash(a, a.results)) {
+        sealCompromisedCount++;
+      }
+    }
+
+    let pragmaIntegrity: { ok: boolean; details: string } = { ok: false, details: 'Non vérifié' };
+    const integrityClient = createClient({
+      url: process.env.DATABASE_URL || `file:${getDatabaseFilePath()}`,
+      authToken: process.env.DATABASE_AUTH_TOKEN,
+      encryptionKey: process.env.DATABASE_ENCRYPTION_KEY,
+    });
+    try {
+      const result = await integrityClient.execute('PRAGMA integrity_check');
+      const details = result.rows.map((row) => String((row as Record<string, unknown>).integrity_check));
+      const isOk = details.length === 1 && details[0] === 'ok';
+      pragmaIntegrity = {
+        ok: isOk,
+        details: isOk ? 'ok' : details.join('; '),
+      };
+    } catch (err) {
+      pragmaIntegrity = { ok: false, details: String(err) };
+    } finally {
+      integrityClient.close();
+    }
 
     const latestBackupCreatedAt = backups[0]?.createdAt ?? null;
     const latestBackupAgeDays = latestBackupCreatedAt
       ? (Date.now() - new Date(latestBackupCreatedAt).getTime()) / (1000 * 60 * 60 * 24)
       : null;
-    const latestBackupValidation = backups[0] ? validateDatabaseBackupFile(backups[0].absolutePath) : null;
+    const latestBackupValidation = backups[0] ? await validateStoredDatabaseBackupFile(backups[0].absolutePath) : null;
     const latestRecoveryValidation = recoveryBundles[0]
       ? await validateRecoveryBundleFile(recoveryBundles[0].absolutePath)
       : null;
@@ -68,12 +122,18 @@ export async function GET() {
         fileExists: Boolean(dbStat?.isFile()),
         path: databasePath,
         size: dbStat?.size ?? null,
+        encryptionKey: {
+          configured: Boolean(process.env.DATABASE_ENCRYPTION_KEY),
+          keyLength: process.env.DATABASE_ENCRYPTION_KEY?.length ?? 0,
+        },
       },
       backups: {
         count: backups.length,
         latestCreatedAt: latestBackupCreatedAt,
         isFresh: latestBackupAgeDays !== null ? latestBackupAgeDays < 7 : false,
         latestValidation: latestBackupValidation,
+        encryptedCount: backups.filter((backup) => backup.encrypted).length,
+        encryptionConfigured: isBackupEncryptionConfigured(),
         freeSpaceBytes:
           backupStat && typeof backupStat.bavail === 'number' && typeof backupStat.bsize === 'number'
             ? Number(backupStat.bavail) * Number(backupStat.bsize)
@@ -103,6 +163,19 @@ export async function GET() {
         ...log,
         createdAt: log.createdAt.toISOString(),
       })),
+      auditTrail: {
+        immutable: auditTrailIntegrity.ok,
+        missingTriggers: auditTrailIntegrity.missingTriggers,
+      },
+      integrity: {
+        ok: pragmaIntegrity.ok,
+        details: pragmaIntegrity.details,
+      },
+      validationSeal: {
+        checkedCount: recentValidatedAnalyses.length,
+        compromisedCount: sealCompromisedCount,
+        ok: sealCompromisedCount === 0,
+      },
     });
   } catch (error) {
     console.error('Error computing database health:', error);

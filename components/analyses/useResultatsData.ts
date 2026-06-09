@@ -21,6 +21,7 @@ export function useResultatsData({
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<AnalysisResultValues>({});
+  const [resultMetadata, setResultMetadata] = useState<Record<string, string>>({});
   const [history, setHistory] = useState<AnalysisResultHistory>({});
   const [emailConfigured, setEmailConfigured] = useState(true);
   const [availableTests, setAvailableTests] = useState<AvailableTestOption[]>([]);
@@ -60,7 +61,9 @@ export function useResultatsData({
         loadHistory(data.patientId, result.testId, result.id);
       });
 
-      setResults(performAnalysisCalculations(data, initialResults));
+      const { updatedResults, resultMetadata: metadata } = performAnalysisCalculations(data, initialResults);
+      setResults(updatedResults);
+      setResultMetadata(metadata);
       setInitialResultNotes(initialNotes);
       setGlobalNote(data.globalNote || '');
       setGlobalNotePlacement(data.globalNotePlacement || 'all');
@@ -156,6 +159,8 @@ export function useResultatsData({
     loading,
     results,
     setResults,
+    resultMetadata,
+    setResultMetadata,
     history,
     emailConfigured,
     availableTests,

@@ -37,7 +37,7 @@ export function AnalysesFiltersBar({
             placeholder="Rechercher patient, ID ou n° commande..."
             aria-label="Rechercher une analyse"
             autoFocus
-            className="h-full w-full border-0 bg-transparent text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
+            className="h-full w-full border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
           />
         </div>
 
@@ -47,7 +47,7 @@ export function AnalysesFiltersBar({
             value={dateFilter}
             onChange={(event) => setDateFilter(event.target.value as DateFilter)}
             aria-label="Filtrer par date"
-            className="h-full w-full appearance-none border-0 bg-transparent pr-2 text-sm text-[var(--color-text)] outline-none"
+            className="h-full w-full appearance-none border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none"
           >
             {DATE_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -63,7 +63,7 @@ export function AnalysesFiltersBar({
             value={statusFilter}
             onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}
             aria-label="Filtrer par statut"
-            className="h-full w-full appearance-none border-0 bg-transparent pr-2 text-sm text-[var(--color-text)] outline-none"
+            className="h-full w-full appearance-none border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none"
           >
             {STATUS_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>

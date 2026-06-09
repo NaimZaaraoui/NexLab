@@ -8,7 +8,7 @@ import {
   getDatabaseFilePath,
   listDatabaseBackups,
   pruneDatabaseBackups,
-  validateDatabaseBackupFile,
+  validateStoredDatabaseBackupFile,
 } from '@/lib/database-backups';
 
 export const runtime = 'nodejs';
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
 
   try {
     const backup = await createDatabaseBackup();
-    const validation = validateDatabaseBackupFile(backup.absolutePath);
+    const validation = await validateStoredDatabaseBackupFile(backup.absolutePath);
     const retentionSetting = await prisma.setting.findUnique({
       where: { key: 'database_backup_retention_count' },
       select: { value: true },

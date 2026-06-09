@@ -5,6 +5,7 @@ export type BackupItem = {
   size: number;
   createdAt: string;
   absolutePath: string;
+  encrypted?: boolean;
 };
 
 export type DatabaseFileValidationStatus = {
@@ -37,7 +38,10 @@ export type HealthResponse = {
     latestValidation: {
       valid: boolean;
       issues: string[];
+      encrypted?: boolean;
     } | null;
+    encryptedCount?: number;
+    encryptionConfigured?: boolean;
     freeSpaceBytes: number | null;
   };
   recoveryBundles: {
@@ -55,12 +59,20 @@ export type HealthResponse = {
     lastRecoveryTestAt: string | null;
     lastRecoveryTestOk: boolean | null;
   };
+  integrity: {
+    ok: boolean;
+    details: string;
+  };
   externalTarget: {
     configuredPath: string;
     available: boolean;
   };
   maintenance: {
     enabled: boolean;
+  };
+  auditTrail: {
+    immutable: boolean;
+    missingTriggers: string[];
   };
   criticalLogs: Array<{
     id: string;

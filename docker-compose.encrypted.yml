@@ -1,0 +1,300 @@
+# NexLab LIMS — Docker Compose Configuration for Encrypted Deployment
+# 
+# This docker-compose file includes encryption at rest configuration
+# with best practices for secure medical data handling.
+#
+# Usage:
+#   1. Copy .env.production.encrypted.template to .env
+#   2. Generate and fill in encryption keys
+#   3. Start: docker compose up -d
+#   4. Verify: docker compose logs | grep -i "encryption"
+
+version: '3.9'
+
+services:
+  nexlab:
+    image: nexlab-lims:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: production
+    
+    container_name: nexlab-lims
+    restart: unless-stopped
+    
+    # Environment variables from .env file
+    # Includes: DATABASE_ENCRYPTION_KEY, BACKUP_ENCRYPTION_KEY, etc.
+    env_file:
+      - .env
+    
+    environment:
+      # Ensure production mode
+      NODE_ENV: production
+      
+      # Database encryption (from .env: DATABASE_ENCRYPTION_KEY)
+      # Recommended: 32-byte hex key (64 characters)
+      # DATABASE_ENCRYPTION_KEY: "${DATABASE_ENCRYPTION_KEY}"
+      
+      # Backup encryption (from .env: BACKUP_ENCRYPTION_KEY)
+      # If not set, DATABASE_ENCRYPTION_KEY is used as fallback
+      # BACKUP_ENCRYPTION_KEY: "${BACKUP_ENCRYPTION_KEY}"
+      
+      # Performance tuning for encrypted operations
+      # Increase if database has > 1M records
+      SQLITE_TEMP_STORE: "MEMORY"
+      SQLITE_JOURNAL_MODE: "WAL"
+    
+    # Volume mounts for persistent data
+    volumes:
+      # Encrypted database files
+      - nexlab_data:/app/data
+      
+      # Encrypted backups
+      - nexlab_backups:/app/backups
+      
+      # Uploaded files (optional)
+      - nexlab_uploads:/app/public/uploads
+      
+      # Logs for audit trail
+      - nexlab_logs:/app/logs
+    
+    ports:
+      - "3000:3000"
+    
+    # Resource limits for security & stability
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    
+    # Health check - verifies encryption is working
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -f
+        - -H
+        - "Authorization: Bearer ${HEALTH_CHECK_TOKEN:-nexlab}"
+        - http://localhost:3000/api/database/health
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        labels: "nexlab=lims,encryption=enabled"
+    
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    
+    # Read-only root filesystem (optional, advanced)
+    # read_only: true
+    # tmpfs:
+    #   - /app/.next
+    #   - /tmp
+
+  # Optional: pgAdmin for database monitoring (PostgreSQL only)
+  # Uncomment if using PostgreSQL instead of SQLite
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@nexlab.local
+  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+  #   volumes:
+  #     - pgadmin_data:/var/lib/pgadmin
+  #   ports:
+  #     - "5050:80"
+  #   depends_on:
+  #     - nexlab
+
+  # Optional: Backup service (runs scheduled backups)
+  # This is included in the main nexlab container via npm run backup:run
+  # You can also use a separate cron container if needed
+
+volumes:
+  # Encrypted database files
+  nexlab_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH:-./data}
+  
+  # Encrypted backups with rotation
+  nexlab_backups:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${BACKUPS_PATH:-./backups}
+  
+  # Application uploads
+  nexlab_uploads:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${UPLOADS_PATH:-./public/uploads}
+  
+  # Application logs
+  nexlab_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${LOGS_PATH:-./logs}
+
+  # Optional: pgAdmin data (PostgreSQL only)
+  # pgadmin_data:
+  #   driver: local
+
+# Network configuration
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+
+# ============================================================================
+# ENCRYPTION DEPLOYMENT GUIDE
+# ============================================================================
+#
+# BEFORE DEPLOYING:
+#
+# 1. Generate encryption keys:
+#    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+#
+# 2. Create .env file with encryption keys:
+#    cp .env.production.encrypted.template .env
+#    # Edit .env and fill in all REPLACE_WITH_... values
+#
+# 3. Set appropriate permissions:
+#    chmod 600 .env
+#    chmod 700 data/ backups/ logs/
+#
+# 4. Verify environment:
+#    docker compose config | grep -i encryption
+#
+# 5. Start services:
+#    docker compose up -d
+#
+# 6. Monitor startup:
+#    docker compose logs -f nexlab
+#    # Should see: "Database encryption: OK" or similar
+#
+# 7. Verify encryption:
+#    curl -H "Authorization: Bearer YOUR_TOKEN" \
+#      http://localhost:3000/api/database/health | jq '.database.encryptionKey'
+#    # Expected: { "configured": true, "keyLength": 64 }
+#
+# ============================================================================
+# KEY MANAGEMENT BEST PRACTICES
+# ============================================================================
+#
+# 1. SEPARATE KEYS FOR DIFFERENT ENVIRONMENTS:
+#    - Development: test-key (can be simple)
+#    - Staging: separate 64-char key
+#    - Production: separate 64-char key (stored in vault)
+#
+# 2. SECURE KEY STORAGE:
+#    - Use Docker secrets (Swarm) or Kubernetes secrets
+#    - Use AWS Secrets Manager / Parameter Store
+#    - Use HashiCorp Vault
+#    - Use Bitwarden / 1Password Teams
+#    - Do NOT store in .git or environment files
+#
+# 3. KEY ROTATION:
+#    - Document key IDs with timestamps
+#    - Rotate annually minimum
+#    - After staff changes or key compromise
+#    - See docs/ENCRYPTION_AT_REST_GUIDE.md for detailed procedure
+#
+# 4. BACKUP ENCRYPTION KEYS:
+#    - Store separately from application keys
+#    - Keep offline backup of old keys (7-year retention)
+#    - Document location of backup key storage
+#    - Test recovery procedures quarterly
+#
+# ============================================================================
+# MONITORING & ALERTS
+# ============================================================================
+#
+# Add these to your monitoring system (Prometheus, Datadog, etc.):
+#
+# 1. Encryption status:
+#    curl http://localhost:3000/api/database/health | jq '.database.encryptionKey.configured'
+#
+# 2. Backup encryption count:
+#    curl http://localhost:3000/api/database/health | jq '.backups.encryptedCount'
+#
+# 3. Latest backup validation:
+#    curl http://localhost:3000/api/database/health | jq '.backups.latestValidation.valid'
+#
+# 4. Database integrity:
+#    curl http://localhost:3000/api/database/health | jq '.integrity.ok'
+#
+# Set alerts:
+#    - Encryption unconfigured
+#    - Backup encryption count = 0
+#    - Database integrity check fails
+#    - Backup older than 7 days
+#
+# ============================================================================
+# DISASTER RECOVERY
+# ============================================================================
+#
+# If database is lost but encryption key exists:
+#
+#   1. Stop container: docker compose down
+#   2. Delete corrupted data: rm -rf data/nexlab.db*
+#   3. Restore from backup: docker compose exec nexlab npm run backup:restore
+#   4. Verify: docker compose logs | grep -i "restored"
+#   5. Restart: docker compose up -d
+#
+# If encryption key is lost:
+#
+#   1. Retrieve key from secure vault (e.g., IT Manager, vault system)
+#   2. Update .env with recovered key
+#   3. Restart: docker compose restart
+#   4. Create new backup immediately with new key
+#   5. Document incident and rotate to new key
+#
+# ============================================================================
+# SECURITY CHECKLIST
+# ============================================================================
+#
+# [ ] Encryption keys generated with cryptographic randomness
+# [ ] Keys stored in secure vault (not .git, not environment)
+# [ ] Separate keys for database and backups
+# [ ] .env file permissions: 600 (owner read/write only)
+# [ ] Data directories permissions: 700 (owner read/write/execute only)
+# [ ] Docker compose config verified: docker compose config
+# [ ] Health check endpoint working
+# [ ] At least one encrypted backup exists
+# [ ] Backup restoration tested
+# [ ] Audit trail shows encryption events
+# [ ] Staff trained on key recovery
+# [ ] Recovery procedure documented
+# [ ] Off-site backup configured with separate key
+# [ ] Insurance/compliance documentation updated
+#
+# ============================================================================
+# SUPPORT
+# ============================================================================
+#
+# Full documentation: docs/ENCRYPTION_AT_REST_GUIDE.md
+# Troubleshooting: docs/ENCRYPTION_AT_REST_GUIDE.md#recovery--troubleshooting
+# Support: support@nexlab.io
+#

@@ -2,11 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAnyRole } from '@/lib/authz';
 import { Prisma } from '@/app/generated/prisma';
+import { checkExportRateLimit } from '@/lib/rate-limit';
 
 export async function GET(request: NextRequest) {
   try {
     const guard = await requireAnyRole(['ADMIN', 'MEDECIN', 'TECHNICIEN']);
     if (!guard.ok) return guard.error;
+
+    const ip = (request.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0].trim();
+    const allowed = await checkExportRateLimit(`cnam-export:${ip}`);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Limite atteinte. Vous pouvez effectuer au maximum 10 exports toutes les 10 minutes.' },
+        { status: 429 }
+      );
+    }
 
     const { searchParams } = new URL(request.url);
     const start = searchParams.get('start');

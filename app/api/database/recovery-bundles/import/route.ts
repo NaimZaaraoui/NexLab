@@ -20,8 +20,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Aucun fichier de bundle fourni.' }, { status: 400 });
     }
 
-    if (!file.name.endsWith('.tar.gz')) {
-      return NextResponse.json({ error: 'Le fichier doit être au format .tar.gz.' }, { status: 400 });
+    if (!file.name.endsWith('.tar.gz') && !file.name.endsWith('.tar.gz.enc')) {
+      return NextResponse.json({ error: 'Le fichier doit être au format .tar.gz ou .tar.gz.enc.' }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();

@@ -1,7 +1,7 @@
 import { createElement } from 'react';
 import { format } from 'date-fns';
 import { AlertCircle, Calculator, CheckCircle, History, MessageSquare, NotepadTextIcon } from 'lucide-react';
-import { formatReferenceRange, getTestReferenceValues } from '@/lib/utils';
+import { formatReferenceRange, getTestReferenceValues, getResultReferenceValues } from '@/lib/utils';
 import { getCategoryIcon } from '@/lib/category-icons';
 import { isResultAbnormal } from '@/lib/calculations';
 import { isCalculatedFormulaTest } from '@/lib/calculated-tests';
@@ -47,7 +47,7 @@ export function AnalysisResultRow({
   if (!test) return null;
 
   const value = results[result.id];
-  const abnormal = isResultAbnormal(value, test, analysis.patientGender);
+  const abnormal = isResultAbnormal(value, result, analysis.patientGender);
   const isNumeric = test.resultType === 'numeric' || test.resultType === 'calculated';
   const prevResult = history[result.id];
   const displayName = test.name;
@@ -100,7 +100,7 @@ export function AnalysisResultRow({
                 onChange={(event) => handleResultChange(result.id, event.target.value)}
                 onKeyDown={(event) => handleKeyDown(event, index, total)}
                 disabled={isFinalValidated || isFormula}
-                className={`h-10 w-full max-w-[200px] rounded-md border text-sm font-bold transition-all outline-none ${results[result.id] ? 'border-indigo-200 bg-indigo-50/50 text-indigo-700' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'}`}
+                className={`h-10 w-full max-w-[200px] rounded-md border px-3 text-sm font-bold transition-all outline-none ${results[result.id] ? 'border-indigo-200 bg-indigo-50/50 text-indigo-700' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'}`}
               >
                 <option value="">-- Sélectionner --</option>
                 {test.options?.split(',').map((option: string) => (
@@ -127,7 +127,7 @@ export function AnalysisResultRow({
                   onKeyDown={(event) => handleKeyDown(event, index, total)}
                   disabled={isFinalValidated || isFormula}
                   placeholder="--"
-                  className={`font-mono h-10 rounded-md border font-bold transition-all outline-none focus:ring-4 ${isNumeric ? 'w-28 text-center text-lg tracking-tight' : 'w-48 px-4 text-sm'} ${abnormal ? 'border-rose-300 bg-rose-50 text-rose-600 focus:border-rose-400 focus:ring-rose-500/10' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)] hover:border-slate-300 focus:border-indigo-500 focus:bg-[var(--color-surface)] focus:ring-indigo-500/10'} ${isFormula ? 'cursor-not-allowed border-transparent bg-[var(--color-surface-muted)] text-slate-400' : ''}`}
+                  className={`font-mono h-10 rounded-md border font-bold transition-all outline-none focus:ring-4 ${isNumeric ? 'w-28 px-2 text-center text-lg tracking-tight' : 'w-48 px-4 text-sm'} ${abnormal ? 'border-rose-300 bg-rose-50 text-rose-600 focus:border-rose-400 focus:ring-rose-500/10' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)] hover:border-slate-300 focus:border-indigo-500 focus:bg-[var(--color-surface)] focus:ring-indigo-500/10'} ${isFormula ? 'cursor-not-allowed border-transparent bg-[var(--color-surface-muted)] text-slate-400' : ''}`}
                 />
                 {abnormal && <AlertCircle className="absolute -right-7 top-1/2 -translate-y-1/2 text-rose-500" size={16} />}
               </div>
@@ -156,7 +156,7 @@ export function AnalysisResultRow({
             <span className="text-xs font-mono font-bold text-[var(--color-text)]">
               {(() => {
                 if (!isNumeric) return 'QUALIT.';
-                const refVals = getTestReferenceValues(test, analysis.patientGender);
+                const refVals = getResultReferenceValues(result, analysis.patientGender);
                 return formatReferenceRange(refVals.min, refVals.max);
               })()}
             </span>

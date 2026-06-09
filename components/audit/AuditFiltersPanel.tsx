@@ -54,7 +54,7 @@ export function AuditFiltersPanel(props: AuditFiltersPanelProps) {
           <span className="form-label mb-1.5">Recherche</span>
           <div className="input-premium flex h-11 items-center gap-2">
             <Search size={16} className="text-[var(--color-text-soft)]" />
-            <input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Utilisateur, action, ID..." className="w-full border-none bg-transparent outline-none" />
+            <input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Utilisateur, action, ID..." className="w-full border-none bg-transparent px-2 outline-none" />
           </div>
         </label>
         <label>

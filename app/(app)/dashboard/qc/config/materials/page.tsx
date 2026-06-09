@@ -14,6 +14,7 @@ export default function QcMaterialsConfigPage() {
 
   const [materials, setMaterials] = useState<Material[]>([]);
   const [materialQuery, setMaterialQuery] = useState('');
+  const [showInactive, setShowInactive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [materialForm, setMaterialForm] = useState<MaterialFormState>({ name: '', level: LEVELS[0], manufacturer: '' });
@@ -44,10 +45,18 @@ export default function QcMaterialsConfigPage() {
     loadData();
   }, [loadData]);
 
-  const filteredMaterials = materials.filter((m) => {
-    const q = materialQuery.toLowerCase();
-    return m.name.toLowerCase().includes(q) || m.level.toLowerCase().includes(q) || (m.manufacturer || '').toLowerCase().includes(q);
-  });
+  const inactiveCount = materials.filter((m) => !m.isActive).length;
+
+  const filteredMaterials = materials
+    .filter((m) => {
+      const q = materialQuery.toLowerCase();
+      const matchesQuery = m.name.toLowerCase().includes(q) || m.level.toLowerCase().includes(q) || (m.manufacturer || '').toLowerCase().includes(q);
+      return matchesQuery && (showInactive || m.isActive);
+    })
+    .sort((a, b) => {
+      if (a.isActive === b.isActive) return 0;
+      return a.isActive ? -1 : 1;
+    });
 
   if (status === 'loading') return <div className="p-10 text-center">Chargement de la session...</div>;
   if (!isAdmin) return <div className="p-10 text-center text-rose-600 font-semibold">Accès réservé aux administrateurs.</div>;
@@ -66,6 +75,9 @@ export default function QcMaterialsConfigPage() {
           materialForm={materialForm}
           materialQuery={materialQuery}
           filteredMaterials={filteredMaterials}
+          inactiveCount={inactiveCount}
+          showInactive={showInactive}
+          onToggleShowInactive={() => setShowInactive((v) => !v)}
           onMaterialFormChange={setMaterialForm}
           onMaterialQueryChange={setMaterialQuery}
           onSubmit={async (event) => {
@@ -85,6 +97,21 @@ export default function QcMaterialsConfigPage() {
             }
           }}
           onDelete={(id, name) => setDeleteMaterialState({ id, name })}
+          onToggle={async (id) => {
+            const res = await fetch(`/api/qc/materials/${id}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'toggle-active' }),
+            });
+            if (res.ok) {
+              const updated = await res.json();
+              showNotification('success', updated.isActive ? 'Matériel réactivé' : 'Matériel désactivé');
+              await loadData();
+            } else {
+              const data = await res.json();
+              showNotification('error', data.error || 'Erreur lors de la mise à jour');
+            }
+          }}
         />
       </div>
 

@@ -57,7 +57,7 @@ export function PatientsToolbar({
             value={searchTerm}
             onChange={(event) => onSearchTermChange(event.target.value)}
             placeholder="Rechercher par nom, prénom ou téléphone..."
-            className="h-full w-full border-0 bg-transparent text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
+            className="h-full w-full border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
           />
           {isSearching && (
             <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs text-[var(--color-text-soft)]">

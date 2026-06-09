@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { Test } from "./types"
+import { Test, Result } from "./types"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -22,6 +22,26 @@ export function getTestReferenceValues(test: Test, gender: string | null | undef
   
   // Fall back to general values
   return { min: test.minValue, max: test.maxValue };
+}
+
+export function getResultReferenceValues(result: Result, gender: string | null | undefined) {
+  if (result.metadata && typeof result.metadata === 'object' && result.metadata.reference) {
+    const reference = result.metadata.reference as any;
+    if (typeof reference === 'object') {
+      const min = typeof reference.min === 'number' ? reference.min : null;
+      const max = typeof reference.max === 'number' ? reference.max : null;
+      // S'il y a des valeurs min/max figées, on les utilise en priorité
+      if (min !== null || max !== null || reference.text) {
+        return { min, max };
+      }
+    }
+  }
+
+  // Fallback au catalogue des tests (comportement d'origine)
+  if (!result.test) {
+    return { min: null, max: null };
+  }
+  return getTestReferenceValues(result.test, gender);
 }
 
 export function formatReferenceRange(min: number | null, max: number | null): string {

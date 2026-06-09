@@ -93,7 +93,7 @@ export function BilanEditorModal({
                   value={searchQuery}
                   onChange={(event) => onSearchQueryChange(event.target.value)}
                   placeholder="Chercher une analyse..."
-                  className="input-premium h-11 bg-[var(--color-surface)] pl-12"
+                  className="input-premium h-11 bg-[var(--color-surface)] pl-12 pr-4"
                 />
               </div>
             </div>

@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
       details: {
         retentionDays,
         archived: result.archived,
-        deleted: result.deleted,
         cutoff: result.cutoff,
       },
       ipAddress: meta.ipAddress,

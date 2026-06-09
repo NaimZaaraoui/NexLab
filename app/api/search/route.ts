@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     if (!guard.ok) return guard.error;
 
     const { searchParams } = new URL(req.url);
-    const query = searchParams.get('q');
+    const query = searchParams.get('q')?.trim();
 
     if (!query || query.length < 2) {
       return NextResponse.json({ results: [] });
@@ -20,22 +20,42 @@ export async function GET(req: NextRequest) {
           OR: [
             { firstName: { contains: query } },
             { lastName: { contains: query } },
+            { phoneNumber: { contains: query } },
+            { insuranceNumber: { contains: query } },
           ],
         },
         take: 5,
         orderBy: { updatedAt: 'desc' },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          gender: true,
+          phoneNumber: true,
+        },
       }),
       prisma.analysis.findMany({
         where: {
           OR: [
+            { orderNumber: { contains: query } },
             { dailyId: { contains: query } },
             { receiptNumber: { contains: query } },
             { patientFirstName: { contains: query } },
             { patientLastName: { contains: query } },
+            { medecinPrescripteur: { contains: query } },
           ],
         },
         take: 5,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { creationDate: 'desc' },
+        select: {
+          id: true,
+          dailyId: true,
+          orderNumber: true,
+          patientFirstName: true,
+          patientLastName: true,
+          receiptNumber: true,
+          status: true,
+        },
       }),
       prisma.test.findMany({
         where: {
@@ -43,9 +63,11 @@ export async function GET(req: NextRequest) {
             { name: { contains: query } },
             { code: { contains: query } },
           ],
+          isGroup: false,
         },
         take: 5,
         include: { categoryRel: true },
+        orderBy: { rank: 'asc' },
       }),
     ]);
 
@@ -54,19 +76,19 @@ export async function GET(req: NextRequest) {
         id: p.id,
         title: `${p.lastName} ${p.firstName}`,
         type: 'patient' as const,
-        description: `Patient • ${p.gender === 'M' ? 'Homme' : 'Femme'}`,
+        description: `Patient · ${p.gender === 'M' ? 'Homme' : 'Femme'}${p.phoneNumber ? ` · ${p.phoneNumber}` : ''}`,
       })),
       ...analyses.map((a) => ({
         id: a.id,
         title: `Analyse #${a.dailyId || a.orderNumber.slice(0, 8)}`,
         type: 'analysis' as const,
-        description: `Dossier • ${a.patientLastName} ${a.patientFirstName} • ${a.receiptNumber || 'Sans quittance'}`,
+        description: `${a.patientLastName || ''} ${a.patientFirstName || ''} · ${a.receiptNumber || 'Sans quittance'}`.trim(),
       })),
       ...tests.map((t) => ({
         id: t.id,
         title: `${t.name} (${t.code})`,
         type: 'result' as const,
-        description: `Paramètre • ${t.categoryRel?.name || 'Test'}`,
+        description: `Paramètre · ${t.categoryRel?.name || 'Test'}`,
       })),
     ];
 

@@ -6,6 +6,8 @@ import { createAuditLog, getRequestMeta } from '@/lib/audit';
 import { applyAutomaticConsumptionForAnalysis } from '@/lib/inventory';
 import { getAnalysisQcReadiness } from '@/lib/qc-readiness';
 import { formatSpecimenBlocker, getSpecimenReadiness } from '@/lib/specimen-readiness';
+import { backgroundGenerateAndCachePdf } from '@/lib/pdf-storage';
+import { generateValidationHash } from '@/lib/validation-seal';
 
 export async function PATCH(
   request: NextRequest,
@@ -191,6 +193,20 @@ export async function PATCH(
       );
     }
 
+    const analysisWithResults = await prisma.analysis.findUnique({
+      where: { id },
+      include: { results: true }
+    });
+
+    if (!analysisWithResults) {
+      return NextResponse.json({ error: 'Analyse non trouvée pour validation' }, { status: 404 });
+    }
+
+    const validationHash = generateValidationHash(
+      { id: analysisWithResults.id, patientId: analysisWithResults.patientId, orderNumber: analysisWithResults.orderNumber },
+      analysisWithResults.results
+    );
+
     const updated = await prisma.analysis.update({
       where: { id },
       data: {
@@ -198,6 +214,7 @@ export async function PATCH(
         validatedBioAt: new Date(),
         validatedBioBy: userId,
         validatedBioName: userName,
+        validationHash: validationHash,
         updatedAt: new Date()
       },
       include: {
@@ -205,6 +222,10 @@ export async function PATCH(
         patient: true
       }
     });
+
+    // 🚀 Lancement de la génération PDF en arrière-plan (Fire-and-forget)
+    const origin = request.headers.get('origin') || `http://${request.headers.get('host')}` || 'http://localhost:3000';
+    Promise.resolve().then(() => backgroundGenerateAndCachePdf(id, origin));
 
     // Notifications
     try {

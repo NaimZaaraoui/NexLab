@@ -4,7 +4,8 @@ import {
   formatLocaleNumber,
   calculateHematologyIndices,
   calculateAbsoluteFromPercentage,
-  calculateSmartEGFR
+  calculateSmartEGFR,
+  isResultAbnormal
 } from '@/lib/calculations';
 import { applyCalculatedTestFormulas } from '@/lib/calculated-tests';
 import type { Analysis, Result, Test } from '@/lib/types';
@@ -21,34 +22,14 @@ export interface ResultMetrics {
   progressPct: number;
 }
 
-export function isResultAbnormal(
-  value: string,
-  test: Test,
-  patientGender?: string | null
-) {
-  if (!value) return false;
-
-  const refVals = getTestReferenceValues(test, patientGender);
-  const min = refVals?.min ?? test.minValue;
-  const max = refVals?.max ?? test.maxValue;
-
-  if (min === null && max === null) return false;
-
-  const num = parseFloat(value.replace(',', '.'));
-  if (Number.isNaN(num)) return false;
-
-  if (max !== null && num > max) return true;
-  if (min !== null && num < min) return true;
-  return false;
-}
-
 export function performAnalysisCalculations(
   analysis: Analysis | null,
   currentResults: Record<string, string>
-) {
-  if (!analysis) return currentResults;
+): { updatedResults: Record<string, string>; resultMetadata: Record<string, string> } {
+  if (!analysis) return { updatedResults: currentResults, resultMetadata: {} };
 
   const updatedResults = { ...currentResults };
+  const resultMetadata: Record<string, string> = {};
 
   const normalizeCode = (code?: string | null) => (code || '').trim().toUpperCase();
 
@@ -68,12 +49,15 @@ export function performAnalysisCalculations(
     return val ? parseLocaleNumber(val) : null;
   };
 
-  const setVal = (code: string, value: number | null, overrideDecimals?: number) => {
+  const setVal = (code: string, value: number | null, overrideDecimals?: number, metadata?: string) => {
     if (value === null) return;
     const res = getResByAliases([code]);
     if (res) {
       const decimals = overrideDecimals ?? res.test?.decimals ?? 1;
       updatedResults[res.id] = formatLocaleNumber(value, decimals);
+      if (metadata) {
+        resultMetadata[res.id] = metadata;
+      }
     }
   };
 
@@ -120,12 +104,18 @@ export function performAnalysisCalculations(
     
     const egfr = calculateSmartEGFR(creat, patientAge, patientGender, unit);
     if (egfr !== null) {
-      setVal('DFG', egfr.value, 0); 
-      setVal('eGFR', egfr.value, 0);
+      const meta = JSON.stringify({ formula: egfr.formula });
+      setVal('DFG', egfr.value, 0, meta); 
+      setVal('eGFR', egfr.value, 0, meta);
     }
   }
 
-  return applyCalculatedTestFormulas(analysis, updatedResults);
+  const calculatedFormulas = applyCalculatedTestFormulas(analysis, updatedResults);
+  // Pour l'instant on ne gère pas de metadata complexe pour les formules basiques
+  // mais on merge les résultats
+  Object.assign(updatedResults, calculatedFormulas);
+
+  return { updatedResults, resultMetadata };
 }
 
 function calculateAgeFromBirthDate(birthDate?: Date | string | null): number | null {
@@ -157,7 +147,7 @@ export function calculateResultMetrics(
   const abnormalCount = leafResults.filter((result: Result) => {
     const test = result.test;
     if (!test) return false;
-    return isResultAbnormal(results[result.id], test, analysis.patientGender);
+    return isResultAbnormal(results[result.id], result, analysis.patientGender);
   }).length;
 
   return {

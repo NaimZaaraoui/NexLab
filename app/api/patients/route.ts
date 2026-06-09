@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     if (!guard.ok) return guard.error;
 
     const { searchParams } = new URL(request.url);
-    const query = searchParams.get('query');
+    const query = searchParams.get('query')?.trim();
     const start = searchParams.get('start');
     const end = searchParams.get('end');
     const skip = parseInt(searchParams.get('skip') || '0', 10);
@@ -20,10 +20,14 @@ export async function GET(request: Request) {
     const whereClause: Prisma.PatientWhereInput = {};
 
     if (query) {
+      if (query.length < 2) {
+        return NextResponse.json([]);
+      }
       whereClause.OR = [
         { firstName: { contains: query } },
         { lastName: { contains: query } },
         { phoneNumber: { contains: query } },
+        { insuranceNumber: { contains: query } },
       ];
     }
 
@@ -43,10 +47,8 @@ export async function GET(request: Request) {
       where: whereClause,
       skip,
       take: limit,
-      orderBy: { createdAt: 'desc' },
+      orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
     });
-
-    console.log(`[API] Patient search for "${query}" returned ${patients.length} results`);
 
     return NextResponse.json(patients);
   } catch (error) {

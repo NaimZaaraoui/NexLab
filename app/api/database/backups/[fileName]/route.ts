@@ -42,7 +42,7 @@ export async function GET(request: Request, context: RouteContext) {
     return new NextResponse(new Uint8Array(fileBuffer), {
       status: 200,
       headers: {
-        'Content-Type': 'application/vnd.sqlite3',
+        'Content-Type': backup.encrypted ? 'application/octet-stream' : 'application/vnd.sqlite3',
         'Content-Disposition': `attachment; filename="${backup.fileName}"`,
         'Content-Length': String(backup.size),
       },

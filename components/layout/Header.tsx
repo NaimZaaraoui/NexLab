@@ -171,8 +171,15 @@ export function Header({ onMobileMenuToggle }: HeaderProps) {
             onSearchQueryChange={setSearchQuery}
             onFocus={() => searchQuery.length >= 2 && setShowSearchResults(true)}
             onSelectResult={(result) => {
-              const baseUrl = result.type === 'patient' ? '/dashboard/patients' : result.type === 'analysis' ? '/analyses' : '/tests';
-              router.push(`${baseUrl}/${result.id}`);
+              let url: string;
+              if (result.type === 'patient') {
+                url = `/dashboard/patients/${result.id}`;
+              } else if (result.type === 'analysis') {
+                url = `/analyses/${result.id}`;
+              } else {
+                url = `/tests?highlight=${result.id}`;
+              }
+              router.push(url);
               setShowSearchResults(false);
               setSearchQuery('');
             }}

@@ -31,7 +31,7 @@ export function DatabaseRecoverySection({
         <div className="rounded-2xl border bg-[var(--color-surface)] p-4">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Import depuis un autre poste</p>
           <p className="mt-2 text-sm text-[var(--color-text-soft)]">
-            Après réinstallation de NexLab, l’admin peut importer un bundle `.tar.gz`, puis utiliser le bouton <span className="font-semibold text-[var(--color-text)]">Restaurer</span> pour relancer le laboratoire sans passer par une commande terminal.
+            Après réinstallation de NexLab, l’admin peut importer un bundle `.tar.gz` ou `.tar.gz.enc`, puis utiliser le bouton <span className="font-semibold text-[var(--color-text)]">Restaurer</span> pour relancer le laboratoire sans passer par une commande terminal.
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export function DatabaseRecoverySection({
             <span className="form-label mb-1.5">Bundle de reprise à importer</span>
             <input
               type="file"
-              accept=".tar.gz"
+              accept=".tar.gz,.enc,.gz"
               onChange={(event) => onRecoveryImportFileChange(event.target.files?.[0] || null)}
               className="input-premium h-11 w-full file:mr-3 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white"
             />

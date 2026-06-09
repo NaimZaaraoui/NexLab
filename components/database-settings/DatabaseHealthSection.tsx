@@ -35,6 +35,16 @@ export function DatabaseHealthSection({ health }: Props) {
           }
         />
         <DatabaseHealthCard
+          title="Chiffrement backups"
+          status={health?.backups.encryptionConfigured && health.backups.encryptedCount === health.backups.count ? 'ok' : 'alert'}
+          value={health?.backups.encryptionConfigured ? 'Clé configurée' : 'Clé absente'}
+          meta={
+            health?.backups.count
+              ? `${health.backups.encryptedCount ?? 0}/${health.backups.count} sauvegarde(s) chiffrée(s)`
+              : 'Les prochaines sauvegardes seront chiffrées si une clé est configurée'
+          }
+        />
+        <DatabaseHealthCard
           title="Bundles reprise"
           status={health?.recoveryBundles.count && health?.recoveryBundles.latestValidation?.valid !== false ? 'ok' : 'alert'}
           value={health?.recoveryBundles.count ? `${health.recoveryBundles.count} archive(s)` : 'Aucune'}
@@ -61,6 +71,28 @@ export function DatabaseHealthSection({ health }: Props) {
               : 'Non configurée'
           }
           meta={health?.externalTarget.configuredPath || 'Aucun dossier distant ou externe défini'}
+        />
+        <DatabaseHealthCard
+          title="Piste d'audit"
+          status={health?.auditTrail.immutable ? 'ok' : 'alert'}
+          value={health?.auditTrail.immutable ? 'Sécurisée (ISO 15189)' : 'Vulnérable'}
+          meta={
+            health?.auditTrail.immutable
+              ? 'Immutabilité garantie par triggers DB'
+              : `Triggers manquants: ${health?.auditTrail.missingTriggers.length || 0}`
+          }
+        />
+        <DatabaseHealthCard
+          title="Intégrité SQLite"
+          status={health === null ? 'alert' : health.integrity.ok ? 'ok' : 'alert'}
+          value={health === null ? '...' : health.integrity.ok ? 'Structure OK' : 'Anomalie détectée'}
+          meta={
+            health === null
+              ? 'Chargement...'
+              : health.integrity.ok
+                ? 'PRAGMA integrity_check : OK'
+                : `Anomalie : ${health.integrity.details.slice(0, 60)}`
+          }
         />
         <DatabaseHealthCard
           title="Derniers tests"

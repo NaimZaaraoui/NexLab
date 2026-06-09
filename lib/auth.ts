@@ -49,7 +49,19 @@ export const ROUTE_PERMISSIONS: Record<string, string[]> = {
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
   trustHost: true,
+  useSecureCookies: process.env.NODE_ENV === 'production',
   session: { strategy: 'jwt' },
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production' ? '__Secure-auth.session-token' : 'auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax', // Bloque les requêtes POST cross-origin (CSRF protection)
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+  },
   pages: {
     signIn: '/login',
   },

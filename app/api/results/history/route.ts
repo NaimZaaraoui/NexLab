@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
         analysis: {
           patientId,
           id: { not: currentAnalysisId || '' },
-          status: 'completed',
+          status: { in: ['completed', 'validated_bio'] },
         },
       },
       orderBy: {

@@ -26,6 +26,7 @@ export default function QcLotsConfigPage() {
 
   const [materials, setMaterials] = useState<Material[]>([]);
   const [tests, setTests] = useState<TestOption[]>([]);
+  const [showInactive, setShowInactive] = useState(false);
   const [selectedLotId, setSelectedLotId] = useState('');
   const [expandedMaterialIds, setExpandedMaterialIds] = useState<string[]>([]);
   const [globalRangeBasis, setGlobalRangeBasis] = useState<RangeBasis>('2sd');
@@ -101,6 +102,15 @@ export default function QcLotsConfigPage() {
   const toggleMaterial = (id: string) => {
     setExpandedMaterialIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
   };
+
+  const inactiveCount = materials.filter((m) => !m.isActive).length;
+
+  const filteredMaterials = materials
+    .filter((m) => showInactive || m.isActive)
+    .sort((a, b) => {
+      if (a.isActive === b.isActive) return 0;
+      return a.isActive ? -1 : 1;
+    });
 
   const handleSelectLot = useCallback((lotId: string, matId: string) => {
     const isDeselect = selectedLotId === lotId;
@@ -230,7 +240,10 @@ export default function QcLotsConfigPage() {
 
       <QcLotsTargetsPanel
         materials={materials}
-        filteredMaterials={materials}
+        filteredMaterials={filteredMaterials}
+        inactiveCount={inactiveCount}
+        showInactive={showInactive}
+        onToggleShowInactive={() => setShowInactive((v) => !v)}
         tests={tests}
         lotForm={lotForm}
         targetRows={targetRows}

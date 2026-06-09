@@ -55,7 +55,7 @@ export function AnalysisResultsPanel() {
 
             const isGroup = test.isGroup;
             const displayName = test.name;
-            const abnormal = isResultAbnormal(results[result.id], test, analysis.patientGender);
+            const abnormal = isResultAbnormal(results[result.id], result, analysis.patientGender);
 
             if (activeTab === 'urgent' && !abnormal) return null;
 

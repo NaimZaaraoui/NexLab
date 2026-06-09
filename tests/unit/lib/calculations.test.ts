@@ -294,29 +294,32 @@ describe('Calculations Module', () => {
   describe('isResultAbnormal', () => {
     const normalTest = { minValue: 4.0, maxValue: 10.0 } as any;
     const noRangeTest = { minValue: null, maxValue: null } as any;
+    
+    const normalResult = { test: normalTest } as any;
+    const noRangeResult = { test: noRangeTest } as any;
 
     it('should detect values exceeding max', () => {
-      expect(isResultAbnormal('11,0', normalTest)).toBe(true);
-      expect(isResultAbnormal('10,0', normalTest)).toBe(false);
+      expect(isResultAbnormal('11,0', normalResult)).toBe(true);
+      expect(isResultAbnormal('10,0', normalResult)).toBe(false);
     });
 
     it('should detect values below min', () => {
-      expect(isResultAbnormal('3,9', normalTest)).toBe(true);
-      expect(isResultAbnormal('4,0', normalTest)).toBe(false);
+      expect(isResultAbnormal('3,9', normalResult)).toBe(true);
+      expect(isResultAbnormal('4,0', normalResult)).toBe(false);
     });
 
     it('should handle locale number formatting', () => {
-      expect(isResultAbnormal('11,5', normalTest)).toBe(true);
-      expect(isResultAbnormal('9,5', normalTest)).toBe(false);
+      expect(isResultAbnormal('11,5', normalResult)).toBe(true);
+      expect(isResultAbnormal('9,5', normalResult)).toBe(false);
     });
 
     it('should return false when no reference range', () => {
-      expect(isResultAbnormal('100', noRangeTest)).toBe(false);
+      expect(isResultAbnormal('100', noRangeResult)).toBe(false);
     });
 
     it('should return false for empty values', () => {
-      expect(isResultAbnormal('', normalTest)).toBe(false);
-      expect(isResultAbnormal(null as any, normalTest)).toBe(false);
+      expect(isResultAbnormal('', normalResult)).toBe(false);
+      expect(isResultAbnormal(null as any, normalResult)).toBe(false);
     });
   });
 

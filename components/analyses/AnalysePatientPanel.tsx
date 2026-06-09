@@ -65,7 +65,7 @@ export function AnalysePatientPanel({
             placeholder="Chercher un patient existant ..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="h-full w-full bg-[var(--color-surface-muted)] pr-4 text-sm font-medium outline-none"
+            className="h-full w-full bg-[var(--color-surface-muted)] px-2 pr-4 text-sm font-medium outline-none"
             disabled={!!selectedPatientId}
           />
           {selectedPatientId && (
@@ -157,14 +157,39 @@ export function AnalysePatientPanel({
             </div>
           </div>
           <div className="space-y-1.5">
-            <label className="section-label">Date naissance</label>
-            <input
-              type="date"
-              value={patient.patientBirthDate}
-              onChange={(e) => setPatient((prev) => ({ ...prev, patientBirthDate: e.target.value }))}
-              className={`input-premium h-11 rounded-md text-sm ${selectedPatientId ? 'bg-[var(--color-surface-muted)]/50' : ''}`}
-              readOnly={!!selectedPatientId}
-            />
+            <label className="section-label">Âge / Date naissance</label>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                placeholder="Âge"
+                min="0"
+                max="130"
+                value={
+                  patient.patientBirthDate
+                    ? new Date().getFullYear() - new Date(patient.patientBirthDate).getFullYear()
+                    : ''
+                }
+                onChange={(e) => {
+                  const age = parseInt(e.target.value);
+                  if (!isNaN(age) && age >= 0 && age <= 130) {
+                    const year = new Date().getFullYear() - age;
+                    setPatient((prev) => ({ ...prev, patientBirthDate: `${year}-01-01` }));
+                  } else if (e.target.value === '') {
+                    setPatient((prev) => ({ ...prev, patientBirthDate: '' }));
+                  }
+                }}
+                className={`input-premium h-11 w-20 rounded-md text-sm text-center ${selectedPatientId ? 'bg-[var(--color-surface-muted)]/50 cursor-not-allowed' : ''}`}
+                readOnly={!!selectedPatientId}
+                title="Âge approximatif"
+              />
+              <input
+                type="date"
+                value={patient.patientBirthDate}
+                onChange={(e) => setPatient((prev) => ({ ...prev, patientBirthDate: e.target.value }))}
+                className={`input-premium h-11 flex-1 rounded-md text-sm ${selectedPatientId ? 'bg-[var(--color-surface-muted)]/50 cursor-not-allowed' : ''}`}
+                readOnly={!!selectedPatientId}
+              />
+            </div>
           </div>
         </div>
 

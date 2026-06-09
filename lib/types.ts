@@ -108,6 +108,7 @@ export interface Result {
   value: string | null;
   unit: string | null;
   notes: string | null;
+  metadata?: Record<string, any> | null;
   abnormal: boolean;
   createdAt: Date;
   updatedAt: Date;

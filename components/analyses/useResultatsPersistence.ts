@@ -6,6 +6,7 @@ interface UseResultatsPersistenceOptions {
   analysisId: string;
   analysis: Analysis | null;
   results: Record<string, string>;
+  resultMetadata: Record<string, string>;
   notes: Record<string, string>;
   globalNote: string;
   globalNotePlacement: 'all' | 'first' | 'last';
@@ -31,6 +32,7 @@ export function useResultatsPersistence({
   analysisId,
   analysis,
   results,
+  resultMetadata,
   notes,
   globalNote,
   globalNotePlacement,
@@ -68,7 +70,7 @@ export function useResultatsPersistence({
       const response = await fetch(`/api/analyses/${analysisId}/results`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ results, notes }),
+        body: JSON.stringify({ results, notes, metadata: resultMetadata }),
       });
       if (!response.ok) {
         let errorMessage = 'Erreur serveur';
@@ -88,7 +90,7 @@ export function useResultatsPersistence({
     } finally {
       setSaving(false);
     }
-  }, [analysis, analysisId, getErrorMessage, loadAnalysis, notes, results, setSaving, showNotification]);
+  }, [analysis, analysisId, getErrorMessage, loadAnalysis, notes, results, resultMetadata, setSaving, showNotification]);
 
   const saveGlobalNote = useCallback(async () => {
     setSaveGlobalNoteBusy(true);

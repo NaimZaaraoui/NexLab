@@ -6,7 +6,7 @@ import { createAuditLog, getRequestMeta } from '@/lib/audit';
 import {
   ensureBackupDirectory,
   getDatabaseBackupDirectory,
-  validateDatabaseBackupFile,
+  validateStoredDatabaseBackupFile,
 } from '@/lib/database-backups';
 
 export const runtime = 'nodejs';
@@ -20,9 +20,9 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const file = formData.get('file') as File | null;
 
-  if (!file || !file.name.endsWith('.sqlite')) {
+  if (!file || (!file.name.endsWith('.sqlite') && !file.name.endsWith('.sqlite.enc'))) {
     return NextResponse.json(
-      { error: 'Fichier invalide. Seuls les fichiers .sqlite sont acceptés.' },
+      { error: 'Fichier invalide. Seuls les fichiers .sqlite et .sqlite.enc sont acceptés.' },
       { status: 400 }
     );
   }
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
   const buffer = Buffer.from(await file.arrayBuffer());
   await fs.writeFile(destPath, buffer);
 
-  const validation = validateDatabaseBackupFile(destPath);
+  const validation = await validateStoredDatabaseBackupFile(destPath);
   if (!validation.valid) {
     await fs.unlink(destPath);
     return NextResponse.json(

@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma';
 import { resend } from '@/lib/resend';
 import { generateAnalysisPDF } from '@/lib/pdf-server';
 import { getInternalPrintToken, requireAnyRole } from '@/lib/authz';
+import { getAnalysisPdf, backgroundGenerateAndCachePdf } from '@/lib/pdf-storage';
+import { isTerminalStatus } from '@/lib/status-flow';
+import type { AnalysisStatus } from '@/lib/status-flow';
 
 export async function POST(
   request: NextRequest,
@@ -32,7 +35,8 @@ export async function POST(
 
     const analysis = await prisma.analysis.findUnique({
       where: { id },
-      include: { patient: true }
+      include: { patient: true },
+      // Also fetch PDF cache fields
     });
 
     if (!analysis) {
@@ -42,10 +46,28 @@ export async function POST(
       );
     }
 
-    console.log(`Generating PDF for analysis ${id}...`);
     const origin = request.nextUrl.origin;
-    const printToken = getInternalPrintToken();
-    const pdfBuffer = await generateAnalysisPDF(id, origin, printToken);
+    const status = (analysis.status ?? 'pending') as AnalysisStatus;
+    let pdfBuffer: Buffer;
+
+    // ✅ Cas 1 : PDF en cache (analyse validée) → lecture disque instantanée
+    if (isTerminalStatus(status) && analysis.pdfReportPath) {
+      const cached = await getAnalysisPdf(analysis.pdfReportPath);
+      if (cached) {
+        pdfBuffer = cached;
+      } else {
+        // Cache invalide : régénère en arrière-plan et génère pour cet email maintenant
+        Promise.resolve().then(() => backgroundGenerateAndCachePdf(id, origin));
+        const printToken = getInternalPrintToken();
+        const raw = await generateAnalysisPDF(id, origin, printToken);
+        pdfBuffer = Buffer.from(raw);
+      }
+    } else {
+      // Cas 2 : Analyse non validée → génération Puppeteer normale
+      const printToken = getInternalPrintToken();
+      const raw = await generateAnalysisPDF(id, origin, printToken);
+      pdfBuffer = Buffer.from(raw);
+    }
 
     const patientName = `${analysis.patientLastName} ${analysis.patientFirstName}`.trim();
     const formattedDate = new Date(analysis.creationDate).toLocaleDateString('fr-FR', {

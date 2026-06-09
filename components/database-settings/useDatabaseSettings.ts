@@ -149,7 +149,7 @@ export function useDatabaseSettings() {
 
   const handleImportRecoveryBundle = useCallback(async () => {
     if (!recoveryImportFile) {
-      showNotification('error', 'Choisissez d\'abord un fichier de bundle .tar.gz');
+      showNotification('error', 'Choisissez d\'abord un fichier de bundle .tar.gz ou .tar.gz.enc');
       return;
     }
     setImportingRecovery(true);

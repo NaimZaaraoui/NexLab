@@ -94,6 +94,8 @@ describe('test catalog validation', () => {
         options: null,
         isGroup: false,
         sampleType: null,
+        sampleContainer: null,
+        isOptional: false,
         price: 0,
       })
     ).toThrow(/tests calculés dépendants/i);
@@ -119,6 +121,9 @@ describe('test catalog validation', () => {
         options: 'A,B',
         isGroup: true,
         sampleType: 'Sérum',
+        sampleContainer: null,
+        isOptional: false,
+        id: 'panel-a',
         price: 10,
       },
       null

@@ -264,6 +264,24 @@ export function useInventoryItem(itemId?: string) {
     router.push('/dashboard/inventory');
   };
 
+  const handleToggleActive = async () => {
+    if (!item) return;
+    const res = await fetch(`/api/inventory/${item.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'toggle-active' }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      showNotification('error', data.error || 'Erreur lors du changement de statut');
+      return;
+    }
+
+    showNotification('success', data.isActive ? 'Article réactivé' : 'Article désactivé');
+    await loadItem();
+  };
+
   const handleEdit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!item) return;
@@ -322,6 +340,7 @@ export function useInventoryItem(itemId?: string) {
     handleRuleSave,
     handleRuleDelete,
     handleDelete,
+    handleToggleActive,
     handleEdit,
   };
 }

@@ -10,6 +10,9 @@ import { useState } from 'react';
 interface QcLotsTargetsPanelProps {
   materials: Material[];
   filteredMaterials: Material[];
+  inactiveCount?: number;
+  showInactive?: boolean;
+  onToggleShowInactive?: () => void;
   tests: TestOption[];
   lotForm: LotFormState;
   targetRows: TargetRow[];
@@ -33,6 +36,9 @@ interface QcLotsTargetsPanelProps {
 export function QcLotsTargetsPanel({
   materials,
   filteredMaterials,
+  inactiveCount = 0,
+  showInactive = false,
+  onToggleShowInactive,
   tests,
   lotForm,
   targetRows,
@@ -150,13 +156,30 @@ export function QcLotsTargetsPanel({
         </div>
       </form>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6">
+        {inactiveCount > 0 && onToggleShowInactive && (
+          <div className="mb-3 flex justify-end">
+            <button
+              type="button"
+              onClick={onToggleShowInactive}
+              className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-text-soft)] hover:text-[var(--color-accent)] transition-colors"
+            >
+              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-surface-muted)] px-1.5 text-[10px] font-bold text-[var(--color-text-soft)]">
+                {inactiveCount}
+              </span>
+              {showInactive ? 'Masquer les inactifs' : 'Afficher les inactifs'}
+            </button>
+          </div>
+        )}
+        <div className="space-y-3">
         {filteredMaterials.map((material) => {
           const isExpanded = expandedMaterialIds.includes(material.id);
           const hasSelectedLot = material.lots.some((lot) => lot.id === selectedLotId);
 
           return (
-            <div key={material.id} id={`material-${material.id}`} className="overflow-hidden rounded-2xl border bg-[var(--color-surface)]">
+            <div key={material.id} id={`material-${material.id}`} className={`overflow-hidden rounded-2xl border bg-[var(--color-surface)] transition-opacity ${
+              !material.isActive ? 'opacity-50 hover:opacity-80' : ''
+            }`}>
               <button
                 type="button"
                 onClick={() => onToggleMaterial(material.id)}
@@ -394,6 +417,7 @@ export function QcLotsTargetsPanel({
             Aucun lot QC trouvé pour ce filtre.
           </div>
         )}
+        </div>
       </div>
       <QcTestSelectorModal
         open={isTestModalOpen}

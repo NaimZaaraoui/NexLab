@@ -167,7 +167,9 @@ export function AnalysisProvider({ analysisId, prevId, nextId, children }: Analy
   const handleResultChange = (resultId: string, value: string) => {
     setResults((prev: Record<string, string>) => {
       const newResults = { ...prev, [resultId]: value };
-      return performAnalysisCalculations(analysis, newResults);
+      const { updatedResults, resultMetadata } = performAnalysisCalculations(analysis, newResults);
+      resultatsData.setResultMetadata(resultMetadata);
+      return updatedResults;
     });
   };
 
@@ -194,6 +196,7 @@ export function AnalysisProvider({ analysisId, prevId, nextId, children }: Analy
     analysisId,
     analysis,
     results,
+    resultMetadata: resultatsData.resultMetadata,
     notes: interactionsData.notes,
     globalNote,
     globalNotePlacement,

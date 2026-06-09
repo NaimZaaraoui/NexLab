@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft, Edit3, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit3, Trash2, PowerOff, Power } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { NotificationToast } from '@/components/ui/notification-toast';
@@ -51,9 +51,14 @@ export default function InventoryDetailPage() {
     handleRuleSave,
     handleRuleDelete,
     handleDelete,
+    handleToggleActive,
     handleEdit,
     receiveForm, setReceiveForm,
   } = useInventoryItem(itemId);
+
+  const hasHistory = item
+    ? (item.movements?.length ?? 0) > 0
+    : false;
 
   if (loading) {
     return (
@@ -86,6 +91,12 @@ export default function InventoryDetailPage() {
 
   return (
     <div className="mx-auto max-w-[1500px] space-y-5 pb-16">
+      {item && !item.isActive && (
+        <div className="flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <PowerOff className="h-4 w-4 shrink-0 text-amber-500" />
+          <span>Cet article est <strong>désactivé</strong>. Il n&apos;apparaît plus dans les sélecteurs et ne peut plus être consommé. L&apos;historique est conservé.</span>
+        </div>
+      )}
       <section className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
@@ -103,30 +114,48 @@ export default function InventoryDetailPage() {
                   <Edit3 className="h-4 w-4" />
                   Modifier
                 </button>
-                {showDeleteConfirm ? (
-                  <div className="flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs">
-                    <span className="font-medium text-rose-700">Supprimer définitivement ?</span>
-                    <button
-                      onClick={handleDelete}
-                      className="rounded bg-rose-600 px-2 py-0.5 font-semibold text-white hover:bg-rose-700"
-                    >
-                      Confirmer
-                    </button>
-                    <button
-                      onClick={() => setShowDeleteConfirm(false)}
-                      className="text-rose-600 hover:text-rose-800"
-                    >
-                      Annuler
-                    </button>
-                  </div>
-                ) : (
+
+                {hasHistory ? (
                   <button
-                    onClick={() => setShowDeleteConfirm(true)}
-                    className="btn-secondary-sm text-rose-600 hover:border-rose-300 hover:bg-rose-50"
+                    onClick={handleToggleActive}
+                    className={`btn-secondary-sm ${
+                      item.isActive
+                        ? 'text-amber-600 hover:border-amber-300 hover:bg-amber-50'
+                        : 'text-emerald-600 hover:border-emerald-300 hover:bg-emerald-50'
+                    }`}
                   >
-                    <Trash2 className="h-4 w-4" />
-                    Supprimer
+                    {item.isActive ? (
+                      <><PowerOff className="h-4 w-4" />Désactiver</>
+                    ) : (
+                      <><Power className="h-4 w-4" />Réactiver</>
+                    )}
                   </button>
+                ) : (
+                  showDeleteConfirm ? (
+                    <div className="flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs">
+                      <span className="font-medium text-rose-700">Supprimer définitivement ?</span>
+                      <button
+                        onClick={handleDelete}
+                        className="rounded bg-rose-600 px-2 py-0.5 font-semibold text-white hover:bg-rose-700"
+                      >
+                        Confirmer
+                      </button>
+                      <button
+                        onClick={() => setShowDeleteConfirm(false)}
+                        className="text-rose-600 hover:text-rose-800"
+                      >
+                        Annuler
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setShowDeleteConfirm(true)}
+                      className="btn-secondary-sm text-rose-600 hover:border-rose-300 hover:bg-rose-50"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Supprimer
+                    </button>
+                  )
                 )}
               </>
             )}

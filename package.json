@@ -24,6 +24,8 @@
     "prisma:status": "prisma migrate status",
     "prisma:rollback": "node --import tsx scripts/rollback-migration.ts",
     "prisma:migrate": "prisma migrate dev",
+    "db:encrypt": "node --import tsx scripts/encrypt-database.ts",
+    "db:migrate:deploy": "node --import tsx scripts/migrate-encrypted.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {

@@ -2,6 +2,7 @@
 
 import type { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
+import { CsrfFetchProvider } from './CsrfFetchProvider';
 
 export function Providers({ 
   children, 
@@ -12,7 +13,9 @@ export function Providers({
 }) {
   return (
     <SessionProvider session={session}>
-      {children}
+      <CsrfFetchProvider>
+        {children}
+      </CsrfFetchProvider>
     </SessionProvider>
   );
 }

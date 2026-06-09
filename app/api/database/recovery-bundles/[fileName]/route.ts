@@ -41,7 +41,7 @@ export async function GET(request: Request, context: RouteContext) {
     return new NextResponse(new Uint8Array(fileBuffer), {
       status: 200,
       headers: {
-        'Content-Type': 'application/gzip',
+        'Content-Type': bundle.encrypted ? 'application/octet-stream' : 'application/gzip',
         'Content-Disposition': `attachment; filename="${bundle.fileName}"`,
         'Content-Length': String(bundle.size),
       },

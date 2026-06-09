@@ -2,13 +2,18 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { format, subDays, startOfYear, startOfDay, subMonths } from 'date-fns';
+import { format, subDays, startOfYear } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { LucideMicroscope, Printer, TrendingUp, Activity, Banknote, Clock, ShieldCheck, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
+import { LucideMicroscope, Printer, Activity, Banknote, Clock, ShieldCheck, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, Cell,
 } from 'recharts';
+import { AnalysesPrintSection } from '../sections/AnalysesPrintSection';
+import { PatientsPrintSection } from '../sections/PatientsPrintSection';
+import { FinancialPrintSection } from '../sections/FinancialPrintSection';
+import { InventoryPrintSection } from '../sections/InventoryPrintSection';
+import type { AnalysesData, PatientsData, FinancialData, InventoryData } from '@/components/statistics/types';
 
 interface StatsData {
   kpis: {
@@ -89,10 +94,14 @@ function generateConclusions(data: StatsData, currencyUnit: string): Array<{ typ
 export default function StatisticsReportPage() {
   const searchParams = useSearchParams();
   const range = searchParams.get('range') || '30d';
+  const tab = searchParams.get('tab') || 'overview';
   const notes = searchParams.get('notes') || '';
   const autoPrint = searchParams.get('autoprint') === '1';
+  const customFrom = searchParams.get('from') || '';
+  const customTo = searchParams.get('to') || '';
 
   const [data, setData] = useState<StatsData | null>(null);
+  const [tabData, setTabData] = useState<AnalysesData | PatientsData | FinancialData | InventoryData | null>(null);
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [ready, setReady] = useState(false);
@@ -101,13 +110,26 @@ export default function StatisticsReportPage() {
     let mounted = true;
     const load = async () => {
       try {
-        const [statsRes, settingsRes] = await Promise.all([
+        const params = new URLSearchParams({ range });
+        if (customFrom) params.set('from', customFrom);
+        if (customTo) params.set('to', customTo);
+
+        const tabApiMap: Record<string, string> = {
+          analyses: 'analyses', patients: 'patients', financial: 'financial', inventory: 'inventory',
+        };
+        const tabEndpoint = tabApiMap[tab];
+
+        const requests: Promise<Response>[] = [
           fetch(`/api/statistics?range=${range}`),
           fetch('/api/settings'),
-        ]);
+        ];
+        if (tabEndpoint) requests.push(fetch(`/api/statistics/${tabEndpoint}?${params}`));
+
+        const results = await Promise.all(requests);
         if (!mounted) return;
-        if (statsRes.ok) setData(await statsRes.json());
-        if (settingsRes.ok) setSettings(await settingsRes.json());
+        if (results[0].ok) setData(await results[0].json());
+        if (results[1].ok) setSettings(await results[1].json());
+        if (tabEndpoint && results[2]?.ok) setTabData(await results[2].json());
       } finally {
         if (mounted) {
           setLoading(false);
@@ -117,7 +139,7 @@ export default function StatisticsReportPage() {
     };
     load();
     return () => { mounted = false; };
-  }, [range]);
+  }, [range, tab, customFrom, customTo]);
 
   useEffect(() => {
     if (!ready || !autoPrint) return;
@@ -269,8 +291,38 @@ export default function StatisticsReportPage() {
           )}
         </div>
 
-        {/* ── REVENUE CHART ── */}
-        {data.timeline.length > 0 && (
+        {/* ── TAB-SPECIFIC SECTIONS ── */}
+        {tab === 'analyses' && tabData && (
+          <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Activité Analytique</p>
+            <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Rapport des Analyses</h3>
+            <AnalysesPrintSection data={tabData as import('@/components/statistics/types').AnalysesData} />
+          </div>
+        )}
+        {tab === 'patients' && tabData && (
+          <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Démographie</p>
+            <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Rapport Patients</h3>
+            <PatientsPrintSection data={tabData as import('@/components/statistics/types').PatientsData} />
+          </div>
+        )}
+        {tab === 'financial' && tabData && (
+          <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Finance</p>
+            <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Rapport Financier</h3>
+            <FinancialPrintSection data={tabData as import('@/components/statistics/types').FinancialData} formatCurrency={formatCurrency} />
+          </div>
+        )}
+        {tab === 'inventory' && tabData && (
+          <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Inventaire</p>
+            <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Rapport Consommation Réactifs</h3>
+            <InventoryPrintSection data={tabData as import('@/components/statistics/types').InventoryData} />
+          </div>
+        )}
+
+        {/* ── REVENUE CHART (overview only) ── */}
+        {tab === 'overview' && data.timeline.length > 0 && (
           <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Évolution du Chiffre d&apos;Affaires</p>
             <div className="flex items-end gap-3 mb-6">
@@ -316,8 +368,8 @@ export default function StatisticsReportPage() {
           </div>
         )}
 
-        {/* ── TOP TESTS TABLE ── */}
-        {data.topTests.length > 0 && (
+        {/* ── TOP TESTS TABLE (overview only) ── */}
+        {tab === 'overview' && data.topTests.length > 0 && (
           <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10 print:break-before-page">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Activité par Examen</p>
             <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Top {data.topTests.length} Examens Prescrits</h3>
@@ -364,7 +416,8 @@ export default function StatisticsReportPage() {
           </div>
         )}
 
-        {/* ── PAGE 3 WRAPPER ── */}
+        {/* ── PAGE 3 WRAPPER (overview only) ── */}
+        {tab === 'overview' && (
         <div className="print:break-before-page">
           
           {/* ── CNAM TABLE ── */}
@@ -395,8 +448,11 @@ export default function StatisticsReportPage() {
             </div>
           </div>
         )}
+        </div>
+        )}
 
-        {/* ── CONCLUSIONS ── */}
+        {/* ── CONCLUSIONS (overview only) ── */}
+        {tab === 'overview' && (
         <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Analyse Qualitative</p>
           <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Conclusions et Observations</h3>
@@ -419,6 +475,7 @@ export default function StatisticsReportPage() {
             })}
           </div>
         </div>
+        )}
 
         {/* ── BIOLOGISTE NOTES ── */}
         {notes && (
@@ -493,7 +550,6 @@ export default function StatisticsReportPage() {
             <span>{labName}{labPhone ? ` · Tél: ${labPhone}` : ''}</span>
             <span>Rapport Statistique · {format(new Date(), 'yyyy')}</span>
             <span>NexLab LIMS</span>
-          </div>
           </div>
         </div>
 

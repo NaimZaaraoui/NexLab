@@ -4,10 +4,12 @@ import { requireAnyRole } from '@/lib/authz';
 import { createAuditLog, getRequestMeta } from '@/lib/audit';
 import { resolveAnalysisTestIds } from '@/lib/analysis-tests';
 import { isAnalysisFinalValidated } from '@/lib/status-flow';
+import { getTestReferenceValues } from '@/lib/utils';
 
 interface SaveResultsPayload {
   results?: Record<string, unknown>;
   notes?: Record<string, string>;
+  metadata?: Record<string, string>;
 }
 
 interface UpdateTestsPayload {
@@ -25,7 +27,7 @@ export async function PUT(
 
     const { id } = await params;
     const body = (await request.json()) as SaveResultsPayload;
-    const { results, notes } = body;
+    const { results, notes, metadata } = body;
 
     if (!results || typeof results !== 'object') {
       return NextResponse.json(
@@ -60,16 +62,43 @@ export async function PUT(
 
     // Utilisation d'une transaction pour garantir l'intégrité des données
     const updates = Object.entries(results)
-      .map(([resultId, value]) =>
-        prisma.result.update({
+      .map(([resultId, value]) => {
+        const existingResult = analysis.results.find(r => r.id === resultId);
+        let finalMetadata: any = undefined;
+
+        if (existingResult && existingResult.test) {
+          const valStr = value !== undefined && value !== null ? String(value).trim() : '';
+          
+          let clientMeta: any = {};
+          if (metadata && metadata[resultId]) {
+            try {
+              clientMeta = typeof metadata[resultId] === 'string' ? JSON.parse(metadata[resultId] as any) : metadata[resultId];
+            } catch (e) {
+              // Ignore invalid JSON
+            }
+          }
+
+          // Si une valeur est saisie, on "fige" les valeurs de référence actuelles
+          if (valStr) {
+            const refVals = getTestReferenceValues(existingResult.test, analysis.patientGender);
+            clientMeta.reference = refVals;
+          }
+
+          if (Object.keys(clientMeta).length > 0) {
+            finalMetadata = clientMeta;
+          }
+        }
+
+        return prisma.result.update({
           where: { id: resultId },
           data: { 
             value: value !== undefined && value !== null ? String(value).trim() || null : undefined,
             notes: notes && notes[resultId] !== undefined ? notes[resultId] : undefined,
+            metadata: finalMetadata,
             updatedAt: new Date()
           }
-        })
-      );
+        });
+      });
 
     await prisma.$transaction(updates);
 

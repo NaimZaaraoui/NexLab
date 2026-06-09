@@ -15,7 +15,31 @@ function resolveChromiumPath() {
   return { existing, candidates };
 }
 
-export async function generateAnalysisPDF(analysisId: string, origin?: string, printToken?: string) {
+// Simple concurrency limiter to prevent crashing the server with Puppeteer
+const MAX_CONCURRENT_PDF_JOBS = 2; // Keep this low, Puppeteer is heavy
+let currentRunningPdfJobs = 0;
+const pdfJobQueue: (() => void)[] = [];
+
+async function acquirePdfToken(): Promise<void> {
+  if (currentRunningPdfJobs < MAX_CONCURRENT_PDF_JOBS) {
+    currentRunningPdfJobs++;
+    return Promise.resolve();
+  }
+  return new Promise((resolve) => {
+    pdfJobQueue.push(resolve);
+  });
+}
+
+function releasePdfToken() {
+  if (pdfJobQueue.length > 0) {
+    const next = pdfJobQueue.shift();
+    if (next) next();
+  } else {
+    currentRunningPdfJobs--;
+  }
+}
+
+async function _generateAnalysisPDF(analysisId: string, origin?: string, printToken?: string) {
   const { existing: executablePath, candidates } = resolveChromiumPath();
   if (!executablePath) {
     throw new Error(
@@ -125,4 +149,13 @@ export async function generateAnalysisPDF(analysisId: string, origin?: string, p
   throw lastError instanceof Error
     ? lastError
     : new Error('Erreur inconnue lors de la génération du PDF');
+}
+
+export async function generateAnalysisPDF(analysisId: string, origin?: string, printToken?: string) {
+  await acquirePdfToken();
+  try {
+    return await _generateAnalysisPDF(analysisId, origin, printToken);
+  } finally {
+    releasePdfToken();
+  }
 }
