@@ -1,20 +1,16 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@/app/generated/prisma';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
-
-async function createInstallerPrisma() {
-  const connectionString = process.env.DATABASE_URL || 'file:./dev.db';
-  const adapter = new PrismaBetterSqlite3({ url: connectionString });
-  return new PrismaClient({ adapter });
-}
+import { prisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  // In demo mode the database is pre-seeded — skip the check entirely
+  if (process.env.DEMO_MODE === 'true') {
+    return NextResponse.json({ initialized: true });
+  }
+
   try {
-    const prisma = await createInstallerPrisma();
     const userCount = await prisma.user.count();
-    await prisma.$disconnect();
     return NextResponse.json({ initialized: userCount > 0 });
   } catch {
     return NextResponse.json({ initialized: false });
