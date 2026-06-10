@@ -39,6 +39,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env*.example
 
 # local databases and runtime data
 *.db
@@ -56,7 +57,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/app/generated/prisma
+# generated prisma client output (regenerated on install via postinstall)
+/app/generated/prisma/*.js
+/app/generated/prisma/*.ts
+/app/generated/prisma/*.d.ts
+/app/generated/prisma/libquery_engine*
+/app/generated/prisma/query_engine*
+/app/generated/prisma/schema.prisma
 
 # uploads
 /public/uploads/

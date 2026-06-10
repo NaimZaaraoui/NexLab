@@ -1,0 +1,559 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  rank      Int        @default(0)
+  icon      String?
+  parentId  String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  parent    Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Category[] @relation("CategoryHierarchy")
+  tests     Test[]
+
+  @@map("categories")
+}
+
+model Test {
+  id              String                @id @default(uuid())
+  name            String
+  code            String                @unique
+  unit            String?
+  minValue        Float?
+  maxValue        Float?
+  minValueM       Float?
+  maxValueM       Float?
+  minValueF       Float?
+  maxValueF       Float?
+  decimals        Int?                  @default(1)
+  resultType      String                @default("numeric")
+  categoryId      String?
+  rank            Int                   @default(0)
+  options         String?
+  isGroup         Boolean               @default(false)
+  isOptional      Boolean               @default(false)
+  parentId        String?
+  sampleType      String?
+  sampleContainer String?
+  price           Float                 @default(0)
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  results         Result[]
+  parent          Test?                 @relation("TestHierarchy", fields: [parentId], references: [id])
+  children        Test[]                @relation("TestHierarchy")
+  categoryRel     Category?             @relation(fields: [categoryId], references: [id])
+  bilans          Bilan[]               @relation("BilanToTest")
+  inventoryRules  ItemTestRule[]
+  consumptions    AnalysisConsumption[]
+  qcTargets       QcTarget[]
+  qcValues        QcValue[]
+
+  @@map("tests")
+}
+
+model Analysis {
+  id                  String                @id @default(uuid())
+  orderNumber         String                @unique
+  patientId           String?
+  patientFirstName    String?
+  patientLastName     String?
+  patientAge          Int?
+  patientGender       String?
+  receiptNumber       String?
+  dailyId             String?
+  provenance          String?
+  medecinPrescripteur String?
+  isUrgent            Boolean               @default(false)
+  creationDate        DateTime              @default(now())
+  drawingDate         DateTime?
+  status              String?               @default("pending")
+  printedAt           DateTime?
+  emailedAt           DateTime?
+  histogramData       String?
+  totalPrice          Float                 @default(0)
+  amountPaid          Float                 @default(0)
+  paymentStatus       String                @default("UNPAID")
+  paymentMethod       String?
+  paidAt              DateTime?
+  insuranceProvider   String?
+  insuranceCoverage   Float?
+  pdfReportPath       String?
+  pdfReportHash       String?
+  pdfGeneratedAt      DateTime?
+  validationHash      String?
+  insuranceShare      Float                 @default(0)
+  patientShare        Float                 @default(0)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  globalNote          String?
+  globalNotePlacement String                @default("all")
+  validatedBioAt      DateTime?
+  validatedBioBy      String?
+  validatedBioName    String?
+  validatedTechAt     DateTime?
+  validatedTechBy     String?
+  validatedTechName   String?
+  patient             Patient?              @relation(fields: [patientId], references: [id])
+  results             Result[]
+  specimens           Specimen[]
+  notifications       Notification[]
+  consumptions        AnalysisConsumption[]
+  qualityEvents       QualityEvent[]
+
+  @@index([patientId, creationDate])
+  @@index([dailyId, creationDate])
+  @@index([status])
+  @@map("analyses")
+}
+
+model Specimen {
+  id              String         @id @default(cuid())
+  analysisId      String
+  sampleType      String
+  containerType   String?
+  barcode         String?        @unique
+  status          String         @default("expected")
+  condition       String?
+  collectedAt     DateTime?
+  receivedAt      DateTime?
+  acceptedAt      DateTime?
+  rejectedAt      DateTime?
+  rejectionReason String?
+  notes           String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  analysis        Analysis       @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  qualityEvents   QualityEvent[]
+
+  @@index([analysisId])
+  @@index([analysisId, status])
+  @@index([sampleType])
+  @@map("specimens")
+}
+
+model Result {
+  id         String   @id @default(uuid())
+  analysisId String
+  testId     String
+  value      String?
+  unit       String?
+  notes      String?
+  metadata   String?
+  abnormal   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  test       Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+  analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@unique([analysisId, testId])
+  @@map("results")
+}
+
+model Bilan {
+  id        String   @id @default(uuid())
+  name      String
+  code      String?
+  price     Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tests     Test[]   @relation("BilanToTest")
+
+  @@map("bilans")
+}
+
+model Patient {
+  id                String     @id @default(uuid())
+  firstName         String
+  lastName          String
+  birthDate         DateTime?
+  gender            String     @default("M")
+  phoneNumber       String?
+  email             String?
+  address           String?
+  insuranceProvider String?
+  insuranceNumber   String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  analyses          Analysis[]
+
+  @@index([lastName, firstName])
+  @@index([phoneNumber])
+  @@map("patients")
+}
+
+model User {
+  id                 String         @id @default(cuid())
+  name               String
+  email              String         @unique
+  password           String
+  role               String         @default("TECHNICIEN")
+  isActive           Boolean        @default(true)
+  mustChangePassword Boolean        @default(true)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  notifications      Notification[]
+  auditLogs          AuditLog[]
+
+  @@map("users")
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @default("")
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+
+  @@map("settings")
+}
+
+model Notification {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       String
+  title      String
+  message    String
+  analysisId String?
+  analysis   Analysis? @relation(fields: [analysisId], references: [id], onDelete: SetNull)
+  isRead     Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+
+  @@map("notifications")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userName  String?
+  userEmail String?
+  userRole  String?
+  action    String
+  severity  String   @default("INFO")
+  entity    String
+  entityId  String?
+  details   String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([action])
+  @@index([severity])
+  @@index([entity])
+  @@index([userId])
+  @@map("audit_logs")
+}
+
+model AuditLogArchive {
+  id         String   @id
+  userId     String?
+  userName   String?
+  userEmail  String?
+  userRole   String?
+  action     String
+  severity   String
+  entity     String
+  entityId   String?
+  details    String?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime
+  archivedAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([archivedAt])
+  @@index([severity])
+  @@map("audit_logs_archive")
+}
+
+model QualityEvent {
+  id                String    @id @default(cuid())
+  sourceKey         String    @unique
+  type              String    @default("PRE_ANALYTICAL")
+  source            String    @default("SPECIMEN")
+  severity          String    @default("WARN")
+  status            String    @default("OPEN")
+  title             String
+  description       String?
+  analysisId        String?
+  specimenId        String?
+  orderNumber       String?
+  patientName       String?
+  detectedAt        DateTime  @default(now())
+  detectedById      String?
+  detectedByName    String?
+  resolvedAt        DateTime?
+  resolution        String?
+  rootCause         String?
+  correctiveAction  String?
+  preventiveAction  String?
+  actionOwner       String?
+  actionDueDate     DateTime?
+  actionStatus      String    @default("PENDING")
+  actionCompletedAt DateTime?
+  verifiedAt        DateTime?
+  verificationNote  String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  analysis          Analysis? @relation(fields: [analysisId], references: [id], onDelete: SetNull)
+  specimen          Specimen? @relation(fields: [specimenId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([type])
+  @@index([severity])
+  @@index([analysisId])
+  @@index([specimenId])
+  @@index([detectedAt])
+  @@map("quality_events")
+}
+
+model InventoryItem {
+  id           String                @id @default(cuid())
+  name         String
+  reference    String?
+  category     String
+  kind         String                @default("REAGENT")
+  unit         String
+  currentStock Float                 @default(0)
+  minThreshold Float
+  storage      String?
+  supplier     String?
+  notes        String?
+  isActive     Boolean               @default(true)
+  lots         InventoryLot[]
+  movements    StockMovement[]
+  rules        ItemTestRule[]
+  consumptions AnalysisConsumption[]
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+
+  @@index([name])
+  @@index([category])
+  @@index([kind])
+  @@index([isActive])
+  @@map("inventory_items")
+}
+
+model InventoryLot {
+  id         String        @id @default(cuid())
+  itemId     String
+  item       InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  lotNumber  String
+  expiryDate DateTime
+  quantity   Float
+  remaining  Float
+  receivedAt DateTime      @default(now())
+  isActive   Boolean       @default(true)
+
+  @@index([itemId, expiryDate])
+  @@index([itemId, isActive])
+  @@map("inventory_lots")
+}
+
+model StockMovement {
+  id          String        @id @default(cuid())
+  itemId      String
+  item        InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  type        String
+  quantity    Float
+  lotNumber   String?
+  reason      String?
+  performedBy String
+  performedAt DateTime      @default(now())
+
+  @@index([itemId, performedAt])
+  @@index([type])
+  @@map("stock_movements")
+}
+
+model ItemTestRule {
+  id              String        @id @default(cuid())
+  itemId          String
+  testId          String
+  quantityPerTest Float
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  item            InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  test            Test          @relation(fields: [testId], references: [id], onDelete: Cascade)
+
+  @@unique([itemId, testId])
+  @@index([testId, isActive])
+  @@index([itemId, isActive])
+  @@map("item_test_rules")
+}
+
+model AnalysisConsumption {
+  id         String        @id @default(cuid())
+  analysisId String
+  testId     String
+  itemId     String
+  quantity   Float
+  createdAt  DateTime      @default(now())
+  analysis   Analysis      @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  test       Test          @relation(fields: [testId], references: [id], onDelete: Cascade)
+  item       InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([analysisId, testId, itemId])
+  @@index([analysisId])
+  @@index([itemId])
+  @@map("analysis_consumptions")
+}
+
+model QcMaterial {
+  id           String   @id @default(cuid())
+  name         String
+  level        String
+  manufacturer String?
+  isActive     Boolean  @default(true)
+  lots         QcLot[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([name])
+  @@map("qc_materials")
+}
+
+model QcLot {
+  id         String     @id @default(cuid())
+  materialId String
+  material   QcMaterial @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  lotNumber  String
+  expiryDate DateTime
+  isActive   Boolean    @default(true)
+  targets    QcTarget[]
+  results    QcResult[]
+  receivedAt DateTime   @default(now())
+  openedAt   DateTime?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@unique([materialId, lotNumber])
+  @@index([materialId, isActive])
+  @@index([expiryDate])
+  @@map("qc_lots")
+}
+
+model QcTarget {
+  id            String   @id @default(cuid())
+  lotId         String
+  lot           QcLot    @relation(fields: [lotId], references: [id], onDelete: Cascade)
+  testId        String?
+  test          Test?    @relation(fields: [testId], references: [id], onDelete: SetNull)
+  testCode      String
+  testName      String
+  controlMode   String   @default("STATISTICAL")
+  mean          Float
+  sd            Float?
+  minAcceptable Float?
+  maxAcceptable Float?
+  unit          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([lotId, testCode])
+  @@index([lotId])
+  @@index([testCode])
+  @@map("qc_targets")
+}
+
+model QcResult {
+  id              String    @id @default(cuid())
+  lotId           String
+  lot             QcLot     @relation(fields: [lotId], references: [id], onDelete: Cascade)
+  values          QcValue[]
+  performedBy     String
+  performedByName String?
+  performedAt     DateTime  @default(now())
+  instrumentName  String?
+  comment         String?
+  status          String
+  createdAt       DateTime  @default(now())
+
+  @@index([lotId, performedAt])
+  @@index([status])
+  @@map("qc_results")
+}
+
+model QcValue {
+  id                String   @id @default(cuid())
+  resultId          String
+  result            QcResult @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  testId            String?
+  test              Test?    @relation(fields: [testId], references: [id], onDelete: SetNull)
+  testCode          String
+  testName          String
+  controlMode       String   @default("STATISTICAL")
+  measured          Float
+  mean              Float
+  sd                Float?
+  minAcceptable     Float?
+  maxAcceptable     Float?
+  zScore            Float?
+  inAcceptanceRange Boolean?
+  flag              String
+  rule              String?
+  unit              String?
+
+  @@index([resultId])
+  @@index([testCode])
+  @@map("qc_values")
+}
+
+model Instrument {
+  id        String               @id @default(cuid())
+  name      String
+  type      String
+  targetMin Float
+  targetMax Float
+  unit      String               @default("°C")
+  location  String?
+  isActive  Boolean              @default(true)
+  readings  TemperatureReading[]
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@index([name])
+  @@index([type])
+  @@index([isActive])
+  @@map("instruments")
+}
+
+model TemperatureReading {
+  id               String     @id @default(cuid())
+  instrumentId     String
+  instrument       Instrument @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  value            Float
+  period           String
+  recordedDate     DateTime
+  measuredAt       DateTime   @default(now())
+  recordedAt       DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  isOutOfRange     Boolean    @default(false)
+  correctiveAction String?
+  isInvalid        Boolean    @default(false)
+  invalidReason    String?
+  invalidatedAt    DateTime?
+  invalidatedBy    String?
+  invalidatedById  String?
+  recordedBy       String
+  recordedById     String?
+
+  @@unique([instrumentId, recordedDate, period])
+  @@index([instrumentId, recordedDate])
+  @@index([recordedAt])
+  @@index([isInvalid])
+  @@index([isOutOfRange])
+  @@map("temperature_readings")
+}
