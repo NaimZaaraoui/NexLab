@@ -21,6 +21,7 @@ export function DemoBanner() {
     await signIn('credentials', { email, password: DEMO_PASSWORD, redirect: false });
     router.push('/');
     router.refresh();
+    setLoading(null);
   };
 
   return (
