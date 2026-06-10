@@ -21,6 +21,7 @@ import { Providers } from "@/components/Providers";
 import { auth } from "@/lib/auth";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SessionManager } from "@/components/SessionManager";
+import { DemoBannerWrapper } from "@/components/DemoBanner";
 
 export default async function RootLayout({
   children,
@@ -33,6 +34,7 @@ export default async function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <body className="bg-[var(--color-page)] font-sans antialiased text-[var(--color-text-secondary)]">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem storageKey="nexlab-theme" disableTransitionOnChange>
+          <DemoBannerWrapper />
           <ErrorBoundary>
             <Providers session={session}>
               <SessionManager>

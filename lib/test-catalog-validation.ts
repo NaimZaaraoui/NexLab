@@ -51,12 +51,8 @@ export function buildTestPersistenceData(
     maxValueF: numericLike ? payload.maxValueF ?? null : null,
     decimals: numericLike ? payload.decimals ?? 1 : 1,
     resultType,
-    categoryRel: categoryId
-      ? { connect: { id: categoryId } }
-      : { disconnect: true },
-    parent: payload.parentId
-      ? { connect: { id: payload.parentId } }
-      : { disconnect: true },
+    categoryId: categoryId ?? null,
+    parentId: payload.parentId ?? null,
     options:
       resultType === 'dropdown'
         ? normalizeDropdownOptions(payload.options)

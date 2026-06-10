@@ -13,6 +13,14 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+
+  useEffect(() => {
+    if (isDemo) {
+      setEmail('admin.demo@nexlab.dz');
+      setPassword('DemoLab2026!');
+    }
+  }, [isDemo]);
 
   useEffect(() => {
     fetch('/api/setup/status')
@@ -97,6 +105,29 @@ export default function LoginPage() {
             <h1 className="text-2xl font-bold text-slate-800">Bon retour</h1>
             <p className="mt-1 text-sm text-slate-500">Connectez-vous à votre espace laboratoire.</p>
           </div>
+
+          {isDemo && (
+            <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-amber-700">🔑 Accès démonstration</p>
+              <div className="space-y-2">
+                {[
+                  { role: 'Admin', email: 'admin.demo@nexlab.dz' },
+                  { role: 'Technicien', email: 'tech.demo@nexlab.dz' },
+                ].map(({ role, email: demoEmail }) => (
+                  <button
+                    key={role}
+                    type="button"
+                    onClick={() => { setEmail(demoEmail); setPassword('DemoLab2026!'); }}
+                    className="flex w-full items-center justify-between rounded-lg bg-white border border-amber-200 px-3 py-2 text-left text-xs hover:bg-amber-50 transition-colors"
+                  >
+                    <span className="font-medium text-slate-700">{role}</span>
+                    <span className="text-slate-400 font-mono">{demoEmail}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-amber-600">Mot de passe : <span className="font-mono font-semibold">DemoLab2026!</span></p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email */}

@@ -19,6 +19,7 @@
     "backup:bundle": "node --import tsx scripts/create-recovery-bundle.ts",
     "backup:run": "node --import tsx scripts/run-scheduled-backups.ts",
     "demo:prepare-db": "node --import tsx scripts/prepare-demo-db.ts",
+    "demo:seed-turso": "node --import tsx scripts/seed-demo-turso.ts",
     "users:reset": "node --import tsx scripts/reset-users.ts",
     "seed:e2e": "node --import tsx prisma/seed-e2e.ts",
     "prisma:status": "prisma migrate status",
