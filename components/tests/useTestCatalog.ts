@@ -21,6 +21,7 @@ export function useTestCatalog() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showForm, setShowForm] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
   const [editingTestId, setEditingTestId] = useState<string | null>(null);
   const [isSexBased, setIsSexBased] = useState(false);
   
@@ -369,12 +370,15 @@ export function useTestCatalog() {
     setSelectedCategory,
     showForm,
     setShowForm,
+    showImportModal,
+    setShowImportModal,
     editingTestId,
     isSexBased,
     setIsSexBased,
     confirmModal,
     setConfirmModal,
     notification,
+    setNotification,
     showInventoryModal,
     inventoryLoading,
     inventoryTest,

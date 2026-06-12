@@ -7,10 +7,41 @@ import { TestCatalogToolbar } from '@/components/tests/TestCatalogToolbar';
 import { TestCatalogTable } from '@/components/tests/TestCatalogTable';
 import { TestEditorModal } from '@/components/tests/TestEditorModal';
 import { TestInventoryRulesModal } from '@/components/tests/TestInventoryRulesModal';
+import { ImportTestsModal } from '@/components/tests/ImportTestsModal';
 import { useTestCatalog } from '@/components/tests/useTestCatalog';
+import { exportTestsAction } from '@/app/actions/export-tests';
+import * as XLSX from 'xlsx';
+import { useState } from 'react';
 
 export function TestsList() {
   const catalog = useTestCatalog();
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = async () => {
+    try {
+      setIsExporting(true);
+      const data = await exportTestsAction();
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const cols = Object.keys(data[0] || {}).map(key => ({ wch: Math.max(key.length, 15) }));
+      worksheet['!cols'] = cols;
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Analyses');
+      XLSX.writeFile(workbook, 'Export_Analyses_NexLab.xlsx');
+      
+      if (catalog.setNotification) {
+        catalog.setNotification({ type: 'success', message: 'Exportation réussie.' });
+        setTimeout(() => catalog.setNotification(null), 3000);
+      }
+    } catch (error) {
+      console.error(error);
+      if (catalog.setNotification) {
+        catalog.setNotification({ type: 'error', message: 'Erreur lors de l\'exportation.' });
+        setTimeout(() => catalog.setNotification(null), 3000);
+      }
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   if (catalog.loading) {
     return (
@@ -30,6 +61,9 @@ export function TestsList() {
         onSearchTermChange={catalog.setSearchTerm}
         onSelectedCategoryChange={catalog.setSelectedCategory}
         onCreateTest={() => catalog.setShowForm(true)}
+        onImportTests={() => catalog.setShowImportModal(true)}
+        onExportTests={handleExport}
+        isExporting={isExporting}
       />
 
       <TestCatalogTable
@@ -54,6 +88,14 @@ export function TestsList() {
         onSubmit={catalog.handleSubmit}
         onFormChange={catalog.setNewTest}
         onSexBasedChange={catalog.setIsSexBased}
+      />
+
+      <ImportTestsModal
+        open={catalog.showImportModal}
+        onClose={() => catalog.setShowImportModal(false)}
+        onSuccess={() => {
+          window.location.reload();
+        }}
       />
 
       <TestInventoryRulesModal
