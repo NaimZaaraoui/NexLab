@@ -2,21 +2,21 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma } from '@/app/generated/prisma';
-import {prisma} from '@/lib/prisma';
-import { auth } from '@/lib/auth';
-import { notifyUsers, getUserIdsByRoles } from '@/lib/notifications';
-import { requireAnyRole, requireAuthUser } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { resolveAnalysisTestIds } from '@/lib/analysis-tests';
-import { analysisCreateSchema } from '@/lib/validators';
-import { getLicenseStatus } from '@/lib/license';
+import {prisma} from '@/lib/db/prisma';
+import { auth } from '@/lib/security/auth';
+import { notifyUsers, getUserIdsByRoles } from '@/lib/communications/notifications';
+import { requireAnyRole, requireAuthUser } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { resolveAnalysisTestIds } from '@/lib/analysis/analysis-tests';
+import { analysisCreateSchema } from '@/lib/clinical/validators';
+import { getLicenseStatus } from '@/lib/security/license';
 import {
   buildDailyIdConflictMessage,
   findDailyIdConflict,
   isDailyIdConflictError,
   normalizeDailyId,
-} from '@/lib/analysis-daily-id';
-import { prepareLearnedSettingUpdate } from '@/lib/settings-learning';
+} from '@/lib/analysis/analysis-daily-id';
+import { prepareLearnedSettingUpdate } from '@/lib/settings/settings-learning';
 
 export async function GET(request: NextRequest) {
   try {

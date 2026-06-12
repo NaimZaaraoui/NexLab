@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { Analysis } from '@/lib/types';
+import type { Analysis } from '@/lib/core/types';
 import type { EditAnalysisForm } from './types';
 
 interface UseResultatsPersistenceOptions {

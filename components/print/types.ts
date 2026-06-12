@@ -1,5 +1,5 @@
-import type { Analysis, Result } from '@/lib/types';
-import type { LabSettingsMap } from '@/lib/settings-schema';
+import type { Analysis, Result } from '@/lib/core/types';
+import type { LabSettingsMap } from '@/lib/settings/settings-schema';
 
 export type PrintSettings = Partial<LabSettingsMap>;
 

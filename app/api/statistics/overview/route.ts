@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db/prisma';
 import { differenceInMinutes, startOfDay, subDays, startOfYear, startOfMonth, subMonths } from 'date-fns';
-import { requireAuthUser } from '@/lib/authz';
-import { checkStatisticsRateLimit } from '@/lib/rate-limit';
+import { requireAuthUser } from '@/lib/security/authz';
+import { checkStatisticsRateLimit } from '@/lib/security/rate-limit';
 
 function buildDateRange(range: string): { startDate: Date; endDate: Date; prevStart: Date; prevEnd: Date } {
   const endDate = new Date();

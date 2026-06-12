@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises';
 import { NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { getBackupFileByName } from '@/lib/database-backups';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { getBackupFileByName } from '@/lib/db/database-backups';
 
 export const runtime = 'nodejs';
 

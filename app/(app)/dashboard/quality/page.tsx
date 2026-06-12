@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { AlertTriangle, CheckCircle2, ClipboardList, ShieldAlert, TimerReset } from 'lucide-react';
 import { QualityEventCapaForm } from '@/components/quality/QualityEventCapaForm';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db/prisma';
 
 function statusLabel(status: string) {
   if (status === 'RESOLVED') return 'Résolu';

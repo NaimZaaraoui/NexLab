@@ -7,7 +7,7 @@ import {
   DialogTitle 
 } from "@/components/ui/dialog";
 import { Plus, Trash2 } from 'lucide-react';
-import type { InventoryCategoryConfig } from '@/lib/inventory-categories';
+import type { InventoryCategoryConfig } from '@/lib/inventory/inventory-categories';
 
 interface InventoryCategoryManagerModalProps {
   open: boolean;

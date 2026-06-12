@@ -1,5 +1,5 @@
 import { Calculator, Info } from 'lucide-react';
-import type { CbcIndexResult } from '@/lib/calculations';
+import type { CbcIndexResult } from '@/lib/clinical/calculations';
 
 interface Props {
   indices: CbcIndexResult[];

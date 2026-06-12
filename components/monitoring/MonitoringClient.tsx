@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Activity, Server, Database, HardDrive, Shield, RefreshCw } from 'lucide-react';
-import { type LogEntry } from '@/lib/logger';
+import { type LogEntry } from '@/lib/core/logger';
 
 export function MonitoringClient() {
   const [diagnostic, setDiagnostic] = useState<any>(null);

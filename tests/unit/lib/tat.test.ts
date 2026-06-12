@@ -5,7 +5,7 @@ import {
   getTatTextClass,
   normalizeTatThresholds,
   DEFAULT_TAT_THRESHOLDS,
-} from '@/lib/tat';
+} from '@/lib/analysis/tat';
 
 describe('TAT (Turnaround Time) Utilities', () => {
   let now: Date;

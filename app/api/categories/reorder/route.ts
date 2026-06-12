@@ -1,7 +1,7 @@
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db/prisma';
 import { NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
 
 export async function PUT(request: Request) {
   try {

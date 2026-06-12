@@ -5,7 +5,7 @@ import {
   assertValidParentAssignment,
   buildTestPersistenceData,
   normalizeDropdownOptions,
-} from '@/lib/test-catalog-validation';
+} from '@/lib/clinical/test-catalog-validation';
 
 const baseTests = [
   {

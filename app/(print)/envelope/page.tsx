@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { EnvelopeImpression } from '@/components/print/EnvelopeImpression';
-import { Analysis } from '@/lib/types';
+import { Analysis } from '@/lib/core/types';
 
 export default function EnvelopePrintPage() {
   const searchParams = useSearchParams();

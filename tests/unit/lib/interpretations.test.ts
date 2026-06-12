@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
-import { getHematologyInterpretations } from '@/lib/interpretations';
-import { HEMATOLOGY_THRESHOLDS } from '@/lib/lab-rules';
-import { Analysis } from '@/lib/types';
+import { getHematologyInterpretations } from '@/lib/clinical/interpretations';
+import { HEMATOLOGY_THRESHOLDS } from '@/lib/clinical/lab-rules';
+import { Analysis } from '@/lib/core/types';
 
 describe('Hematology Interpretations', () => {
   const createMockAnalysis = (overrides: Partial<Analysis> = {}): Analysis => ({

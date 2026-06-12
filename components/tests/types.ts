@@ -1,5 +1,5 @@
-import type { Test } from '@/lib/types';
-import type { LabDisplaySettings } from '@/lib/settings-schema';
+import type { Test } from '@/lib/core/types';
+import type { LabDisplaySettings } from '@/lib/settings/settings-schema';
 
 export type CategoryOption = {
   id: string;

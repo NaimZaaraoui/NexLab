@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole } from '@/lib/authz';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole } from '@/lib/security/authz';
 import { Prisma } from '@/app/generated/prisma';
-import { checkExportRateLimit } from '@/lib/rate-limit';
+import { checkExportRateLimit } from '@/lib/security/rate-limit';
 
 export async function GET(request: NextRequest) {
   try {

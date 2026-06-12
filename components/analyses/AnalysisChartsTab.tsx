@@ -2,8 +2,8 @@
 import React from 'react';
 import { Sparkles, Activity } from 'lucide-react';
 import { HistogramView } from './HistogramView';
-import { getHematologyFlags } from '@/lib/calculations';
-import type { Analysis } from '@/lib/types';
+import { getHematologyFlags } from '@/lib/clinical/calculations';
+import type { Analysis } from '@/lib/core/types';
 
 interface AnalysisChartsTabProps {
   analysis: Analysis;

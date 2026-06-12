@@ -6,7 +6,7 @@ import {
   DialogHeader, 
   DialogTitle 
 } from "@/components/ui/dialog";
-import { getQcZone } from '@/lib/qc';
+import { getQcZone } from '@/lib/clinical/qc';
 import type { QcLot } from '@/components/qc/types';
 
 interface QcEntryModalProps {

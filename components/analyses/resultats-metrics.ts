@@ -1,4 +1,4 @@
-import { getTestReferenceValues } from '@/lib/utils';
+import { getTestReferenceValues } from '@/lib/core/utils';
 import { 
   parseLocaleNumber, 
   formatLocaleNumber,
@@ -6,9 +6,9 @@ import {
   calculateAbsoluteFromPercentage,
   calculateSmartEGFR,
   isResultAbnormal
-} from '@/lib/calculations';
-import { applyCalculatedTestFormulas } from '@/lib/calculated-tests';
-import type { Analysis, Result, Test } from '@/lib/types';
+} from '@/lib/clinical/calculations';
+import { applyCalculatedTestFormulas } from '@/lib/clinical/calculated-tests';
+import type { Analysis, Result, Test } from '@/lib/core/types';
 
 export interface PaymentStatusDisplay {
   label: string;

@@ -1,27 +1,27 @@
 // src/app/api/analyses/[id]/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { auth } from '@/lib/auth';
-import { notifyUsers, getUserIdsByRoles } from '@/lib/notifications';
-import { hasValidInternalPrintToken, requireAuthUser } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { getPreviousResultsMapForAnalysis } from '@/lib/analysis-history';
+import { prisma } from '@/lib/db/prisma';
+import { auth } from '@/lib/security/auth';
+import { notifyUsers, getUserIdsByRoles } from '@/lib/communications/notifications';
+import { hasValidInternalPrintToken, requireAuthUser } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { getPreviousResultsMapForAnalysis } from '@/lib/analysis/analysis-history';
 import {
   buildAnalysisPatchData,
   buildPaymentState,
   isPaymentOnlyAnalysisUpdate,
   isPrintOnlyAnalysisUpdate,
   type AnalysisPatchPayload,
-} from '@/lib/analysis-updates';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
+} from '@/lib/analysis/analysis-updates';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
 import {
   buildDailyIdConflictMessage,
   findDailyIdConflict,
   isDailyIdConflictError,
   normalizeDailyId,
-} from '@/lib/analysis-daily-id';
-import { prepareLearnedSettingUpdate } from '@/lib/settings-learning';
+} from '@/lib/analysis/analysis-daily-id';
+import { prepareLearnedSettingUpdate } from '@/lib/settings/settings-learning';
 
 export async function GET(
   request: NextRequest,

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAuthUser } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
+import { prisma } from '@/lib/db/prisma';
+import { requireAuthUser } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
 
 const ACTION_STATUSES = new Set(['PENDING', 'IN_PROGRESS', 'DONE', 'VERIFIED']);
 const EVENT_STATUSES = new Set(['OPEN', 'IN_REVIEW', 'RESOLVED']);

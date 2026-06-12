@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { Analysis, Result } from '@/lib/types';
+import type { Analysis, Result } from '@/lib/core/types';
 import { performAnalysisCalculations } from './resultats-metrics';
 import type {
   AnalysisNotePlacement,

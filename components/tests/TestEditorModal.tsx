@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Layers, Plus, Save, Settings2 } from 'lucide-react';
 import { RESULT_TYPES, type CategoryOption, type TestFormState, type TestWithInventory, type TestsLabSettings } from '@/components/tests/types';
-import { validateFormula } from '@/lib/calculated-tests';
+import { validateFormula } from '@/lib/clinical/calculated-tests';
 
 interface TestEditorModalProps {
   open: boolean;

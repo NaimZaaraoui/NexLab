@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuthUser } from '@/lib/authz';
-import { getAnalysisQcReadiness } from '@/lib/qc-readiness';
+import { requireAuthUser } from '@/lib/security/authz';
+import { getAnalysisQcReadiness } from '@/lib/clinical/qc-readiness';
 
 export async function GET(
   _request: NextRequest,

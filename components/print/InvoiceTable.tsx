@@ -2,8 +2,8 @@
 
 import React from 'react';
 import type { PrintSettings } from '@/components/print/types';
-import { buildInvoiceItems } from '@/lib/report-generation';
-import type { Result } from '@/lib/types';
+import { buildInvoiceItems } from '@/lib/documents/report-generation';
+import type { Result } from '@/lib/core/types';
 
 interface InvoiceTableProps {
   results?: Result[];

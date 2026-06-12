@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/Header';
 import { Navigation } from '@/components/layout/Navigation';
 import type { ReactNode } from 'react';
 import { Command, FlaskConical, ShieldAlert } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/core/utils';
 
 function RightContentPane() {
   return (

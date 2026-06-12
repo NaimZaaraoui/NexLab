@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAuthUser, requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { computeInventoryDerived } from '@/lib/inventory';
+import { prisma } from '@/lib/db/prisma';
+import { requireAuthUser, requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { computeInventoryDerived } from '@/lib/inventory/inventory';
 
 export async function GET(
   _request: NextRequest,

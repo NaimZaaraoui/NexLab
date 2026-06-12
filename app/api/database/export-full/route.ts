@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { checkExportRateLimit } from '@/lib/rate-limit';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { checkExportRateLimit } from '@/lib/security/rate-limit';
 
 export const runtime = 'nodejs';
 

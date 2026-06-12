@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/security/auth';
+import { prisma } from '@/lib/db/prisma';
 import fs from 'fs/promises';
 import path from 'path';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
 
 const UPLOAD_DIR = path.join(process.cwd(), 'public/uploads/signatures');
 

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
-import { getBackupFileByName } from '@/lib/database-backups';
+import { requireAnyRole } from '@/lib/security/authz';
+import { getBackupFileByName } from '@/lib/db/database-backups';
 
 export const runtime = 'nodejs';
 

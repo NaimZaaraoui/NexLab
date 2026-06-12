@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole } from '@/lib/authz';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole } from '@/lib/security/authz';
 
 export async function DELETE(
   request: Request,

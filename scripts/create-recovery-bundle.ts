@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { createRecoveryBundle } from '@/lib/recovery-bundles';
+import { createRecoveryBundle } from '@/lib/db/recovery-bundles';
 
 async function main() {
   const bundle = await createRecoveryBundle();

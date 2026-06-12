@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { DEFAULT_INVENTORY_CATEGORIES, type InventoryCategoryConfig } from '@/lib/inventory-categories';
+import { DEFAULT_INVENTORY_CATEGORIES, type InventoryCategoryConfig } from '@/lib/inventory/inventory-categories';
 import type { InventoryDetailItem, InventoryItemFormValues, TestOption } from '@/components/inventory/types';
 
 export function useInventoryItem(itemId?: string) {

@@ -2,7 +2,7 @@
 
 import { AlertCircle, Calendar, CheckCircle2, CircleCheckBig, Filter } from 'lucide-react';
 import type { ExportConfigItem, ExportType, Category } from '@/components/exports/types';
-import { ANALYSIS_STATUSES, AnalysisStatus } from '@/lib/analysis-status';
+import { ANALYSIS_STATUSES, AnalysisStatus } from '@/lib/analysis/analysis-status';
 
 interface ExportFiltersPanelProps {
   exportType: ExportType;

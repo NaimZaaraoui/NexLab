@@ -1,8 +1,8 @@
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/security/auth';
+import { prisma } from '@/lib/db/prisma';
 import bcrypt from 'bcryptjs';
 import { NextResponse } from 'next/server';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
 
 export async function GET() {
   try {

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAuthUser } from '@/lib/authz';
-import { normalizeTatThresholds } from '@/lib/tat';
+import { prisma } from '@/lib/db/prisma';
+import { requireAuthUser } from '@/lib/security/authz';
+import { normalizeTatThresholds } from '@/lib/analysis/tat';
 
 export async function GET() {
   const guard = await requireAuthUser();

@@ -5,7 +5,7 @@ vi.mock('next/navigation', () => ({
   redirect: vi.fn(),
 }));
 
-import { APP_ROLES, hasValidInternalPrintToken, getInternalPrintToken } from '@/lib/authz';
+import { APP_ROLES, hasValidInternalPrintToken, getInternalPrintToken } from '@/lib/security/authz';
 
 describe('Authorization & Roles', () => {
   describe('APP_ROLES', () => {

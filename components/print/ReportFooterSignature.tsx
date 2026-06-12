@@ -1,11 +1,11 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { resolvePrintBranding } from '@/lib/report-generation';
-import { isAnalysisValidated } from '@/lib/status-flow';
-import type { Analysis } from '@/lib/types';
+import { resolvePrintBranding } from '@/lib/documents/report-generation';
+import { isAnalysisValidated } from '@/lib/analysis/status-flow';
+import type { Analysis } from '@/lib/core/types';
 import type { PrintSettings } from '@/components/print/types';
-import type { AnalysisStatus } from '@/lib/status-flow';
+import type { AnalysisStatus } from '@/lib/analysis/status-flow';
 
 interface Props {
   analysis: Analysis;

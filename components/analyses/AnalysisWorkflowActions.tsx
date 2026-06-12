@@ -1,5 +1,5 @@
 import { Mail, PencilLine, Printer, ReceiptText, Tags } from 'lucide-react';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
 import { useDirectPrint } from '@/lib/hooks/useDirectPrint';
 import { LabelQuantityModal } from './LabelQuantityModal';
 import { useAnalysisContext } from './AnalysisContext';

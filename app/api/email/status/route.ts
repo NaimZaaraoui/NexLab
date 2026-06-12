@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
+import { requireAnyRole } from '@/lib/security/authz';
 
 export async function GET() {
   const guard = await requireAnyRole(['ADMIN', 'TECHNICIEN', 'MEDECIN', 'RECEPTIONNISTE']);

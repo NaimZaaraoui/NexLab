@@ -1,4 +1,4 @@
-import type { Result } from '@/lib/types';
+import type { Result } from '@/lib/core/types';
 import type { ResultWithRenderCategory } from './types';
 
 export function sortAnalysisResults(results: Result[]): ResultWithRenderCategory[] {

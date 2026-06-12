@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Test } from '@/lib/types';
+import { Test } from '@/lib/core/types';
 import { usePatientSelection } from './usePatientSelection';
 import type { BilanOption } from './analyse-form-types';
-import { applyRenalAutoSelection } from '@/lib/renal-tests';
+import { applyRenalAutoSelection } from '@/lib/clinical/renal-tests';
 
 export function useAnalyseForm() {
   const router = useRouter();

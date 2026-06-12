@@ -10,7 +10,7 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import type { HeaderNotification, HeaderQcSummary, HeaderSearchResult } from '@/components/layout/types';
 import { useMobileMenu } from '@/contexts/MobileMenuContext';
 import { useSession } from 'next-auth/react';
-import { ROLE_LABELS } from '@/lib/constants';
+import { ROLE_LABELS } from '@/lib/core/constants';
 
 interface HeaderProps {
   onMobileMenuToggle?: () => void;

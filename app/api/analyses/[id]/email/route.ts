@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { resend } from '@/lib/resend';
-import { generateAnalysisPDF } from '@/lib/pdf-server';
-import { getInternalPrintToken, requireAnyRole } from '@/lib/authz';
-import { getAnalysisPdf, backgroundGenerateAndCachePdf } from '@/lib/pdf-storage';
-import { isTerminalStatus } from '@/lib/status-flow';
-import type { AnalysisStatus } from '@/lib/status-flow';
+import { prisma } from '@/lib/db/prisma';
+import { resend } from '@/lib/communications/resend';
+import { generateAnalysisPDF } from '@/lib/documents/pdf-server';
+import { getInternalPrintToken, requireAnyRole } from '@/lib/security/authz';
+import { getAnalysisPdf, backgroundGenerateAndCachePdf } from '@/lib/documents/pdf-storage';
+import { isTerminalStatus } from '@/lib/analysis/status-flow';
+import type { AnalysisStatus } from '@/lib/analysis/status-flow';
 
 export async function POST(
   request: NextRequest,

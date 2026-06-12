@@ -3,9 +3,9 @@
 import { Activity, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { isAnalysisValidated } from '@/lib/status-flow';
+import { isAnalysisValidated } from '@/lib/analysis/status-flow';
 import type { PatientAnalysis } from '@/components/patients/types';
-import type { AnalysisStatus } from '@/lib/status-flow';
+import type { AnalysisStatus } from '@/lib/analysis/status-flow';
 
 interface PatientHistoryTabProps {
   analyses: PatientAnalysis[];

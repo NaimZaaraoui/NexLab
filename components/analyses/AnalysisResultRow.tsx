@@ -1,12 +1,12 @@
 import { createElement } from 'react';
 import { format } from 'date-fns';
 import { AlertCircle, Calculator, CheckCircle, History, MessageSquare, NotepadTextIcon } from 'lucide-react';
-import { formatReferenceRange, getTestReferenceValues, getResultReferenceValues } from '@/lib/utils';
-import { getCategoryIcon } from '@/lib/category-icons';
-import { isResultAbnormal } from '@/lib/calculations';
-import { isCalculatedFormulaTest } from '@/lib/calculated-tests';
-import { isCalculatedTest } from '@/lib/test-classification';
-import type { Analysis } from '@/lib/types';
+import { formatReferenceRange, getTestReferenceValues, getResultReferenceValues } from '@/lib/core/utils';
+import { getCategoryIcon } from '@/lib/core/category-icons';
+import { isResultAbnormal } from '@/lib/clinical/calculations';
+import { isCalculatedFormulaTest } from '@/lib/clinical/calculated-tests';
+import { isCalculatedTest } from '@/lib/clinical/test-classification';
+import type { Analysis } from '@/lib/core/types';
 import type { ResultWithRenderCategory } from './types';
 
 import { useAnalysisContext } from './AnalysisContext';

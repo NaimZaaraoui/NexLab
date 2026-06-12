@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { subDays, startOfDay } from 'date-fns';
-import { prisma } from '@/lib/prisma';
-import { requireAuthUser } from '@/lib/authz';
+import { prisma } from '@/lib/db/prisma';
+import { requireAuthUser } from '@/lib/security/authz';
 
 const WINDOW_DAYS = 30;
 

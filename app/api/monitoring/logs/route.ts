@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
-import { logger } from '@/lib/logger';
+import { requireAnyRole } from '@/lib/security/authz';
+import { logger } from '@/lib/core/logger';
 
 export async function GET(request: Request) {
   try {

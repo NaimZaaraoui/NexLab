@@ -4,8 +4,8 @@ import { CbcIndicesPanel } from './CbcIndicesPanel';
 import { AnalysisResultRow } from './AnalysisResultRow';
 import { AnalysisResultsToolbar } from './AnalysisResultsToolbar';
 import { AnalysisValidationFooter } from './AnalysisValidationFooter';
-import { calculateCbcIndices, isResultAbnormal } from '@/lib/calculations';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
+import { calculateCbcIndices, isResultAbnormal } from '@/lib/clinical/calculations';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
 
 import { useAnalysisContext } from './AnalysisContext';
 

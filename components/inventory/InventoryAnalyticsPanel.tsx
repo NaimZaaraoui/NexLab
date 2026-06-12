@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import type { InventoryAnalytics } from '@/components/inventory/types';
-import type { InventoryCategoryConfig } from '@/lib/inventory-categories';
+import type { InventoryCategoryConfig } from '@/lib/inventory/inventory-categories';
 
 interface InventoryAnalyticsPanelProps {
   analytics: InventoryAnalytics;

@@ -1,6 +1,6 @@
 import ClientLayout from "@/components/layout/ClientLayout";
-import { auth } from "@/lib/auth";
-import { getSettings } from "@/lib/settings";
+import { auth } from "@/lib/security/auth";
+import { getSettings } from "@/lib/settings/settings";
 import { MaintenanceScreen } from "@/components/system/MaintenanceScreen";
 import { LicenseProvider } from "@/components/providers/LicenseProvider";
 

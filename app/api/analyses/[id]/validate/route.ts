@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { auth } from '@/lib/auth';
-import { notifyUsers, getUserIdsByRoles } from '@/lib/notifications';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { applyAutomaticConsumptionForAnalysis } from '@/lib/inventory';
-import { getAnalysisQcReadiness } from '@/lib/qc-readiness';
-import { formatSpecimenBlocker, getSpecimenReadiness } from '@/lib/specimen-readiness';
-import { backgroundGenerateAndCachePdf } from '@/lib/pdf-storage';
-import { generateValidationHash } from '@/lib/validation-seal';
+import { prisma } from '@/lib/db/prisma';
+import { auth } from '@/lib/security/auth';
+import { notifyUsers, getUserIdsByRoles } from '@/lib/communications/notifications';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { applyAutomaticConsumptionForAnalysis } from '@/lib/inventory/inventory';
+import { getAnalysisQcReadiness } from '@/lib/clinical/qc-readiness';
+import { formatSpecimenBlocker, getSpecimenReadiness } from '@/lib/analysis/specimen-readiness';
+import { backgroundGenerateAndCachePdf } from '@/lib/documents/pdf-storage';
+import { generateValidationHash } from '@/lib/security/validation-seal';
 
 export async function PATCH(
   request: NextRequest,

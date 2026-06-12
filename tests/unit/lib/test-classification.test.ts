@@ -12,8 +12,8 @@ import {
   TEST_CATEGORIES,
   CATEGORY_DISPLAY_ORDER,
   NFS_TEST_CODES,
-} from '@/lib/test-classification';
-import type { Test } from '@/lib/types';
+} from '@/lib/clinical/test-classification';
+import type { Test } from '@/lib/core/types';
 
 describe('Test Classification Module', () => {
   describe('normalizeTestCode', () => {

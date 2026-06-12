@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import type { Analysis, Result } from '@/lib/types';
+import type { Analysis, Result } from '@/lib/core/types';
 
 interface UseResultInteractionsOptions {
   analysis: Analysis | null;

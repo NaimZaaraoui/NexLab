@@ -10,10 +10,10 @@ import { useResultatsUi } from './useResultatsUi';
 import { useResultatsPersistence } from './useResultatsPersistence';
 import { sortAnalysisResults } from './resultats-sorting';
 import { calculateResultMetrics, performAnalysisCalculations } from './resultats-metrics';
-import { NFS_SORT_ORDER } from '@/lib/test-classification';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
+import { NFS_SORT_ORDER } from '@/lib/clinical/test-classification';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
 import type { AnalysisInputsMap, AnalysisNotification } from './types';
-import type { Result } from '@/lib/types';
+import type { Result } from '@/lib/core/types';
 
 // Extract the return types from the hooks to build our Context interface
 type ResultatsDataRet = ReturnType<typeof useResultatsData>;

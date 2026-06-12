@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { createRecoveryBundle, restoreRecoveryBundle } from '@/lib/recovery-bundles';
-import { validateActiveDatabase } from '@/lib/database-backups';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { createRecoveryBundle, restoreRecoveryBundle } from '@/lib/db/recovery-bundles';
+import { validateActiveDatabase } from '@/lib/db/database-backups';
 
 export const runtime = 'nodejs';
 

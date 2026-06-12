@@ -1,8 +1,8 @@
 'use client';
 
 import { Beaker, Layers, Package, Pencil, Trash2 } from 'lucide-react';
-import { getCategoryIcon } from '@/lib/category-icons';
-import { isCalculatedFormulaTest } from '@/lib/calculated-tests';
+import { getCategoryIcon } from '@/lib/core/category-icons';
+import { isCalculatedFormulaTest } from '@/lib/clinical/calculated-tests';
 import type { CategoryOption, TestWithInventory, TestsLabSettings } from '@/components/tests/types';
 
 type VisibleCategory = CategoryOption & {

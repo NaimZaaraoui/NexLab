@@ -12,8 +12,8 @@ import { InventoryItemFormModal } from '@/components/inventory/InventoryItemForm
 import { InventoryItemsTable } from '@/components/inventory/InventoryItemsTable';
 import { InventoryReorderPanel, type InventoryReorderItem } from '@/components/inventory/InventoryReorderPanel';
 import { InventorySummaryStats } from '@/components/inventory/InventorySummaryStats';
-import { computeReorderSuggestion } from '@/lib/inventory-shared';
-import { DEFAULT_INVENTORY_CATEGORIES, type InventoryCategoryConfig } from '@/lib/inventory-categories';
+import { computeReorderSuggestion } from '@/lib/inventory/inventory-shared';
+import { DEFAULT_INVENTORY_CATEGORIES, type InventoryCategoryConfig } from '@/lib/inventory/inventory-categories';
 import {
   type InventoryAnalytics,
   type InventoryItemFormValues,

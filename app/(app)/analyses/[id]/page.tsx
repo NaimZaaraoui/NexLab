@@ -1,6 +1,6 @@
 // src/app/analyses/[id]/page.tsx
 
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db/prisma';
 import { ResultatsForm } from '@/components/analyses/ResultatsForm';
 
 export default async function AnalysisDetailPage({

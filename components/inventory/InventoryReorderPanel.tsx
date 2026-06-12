@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { computeReorderSuggestion } from '@/lib/inventory-shared';
+import { computeReorderSuggestion } from '@/lib/inventory/inventory-shared';
 import type { InventoryItemSummary } from '@/components/inventory/types';
 
 export type InventoryReorderItem = InventoryItemSummary & {

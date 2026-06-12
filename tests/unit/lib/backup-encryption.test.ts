@@ -8,12 +8,12 @@ import {
   deleteDatabaseBackup,
   testDatabaseBackupRestore,
   validateStoredDatabaseBackupFile,
-} from '@/lib/database-backups';
+} from '@/lib/db/database-backups';
 import {
   createRecoveryBundle,
   testRecoveryBundleRestore,
   validateRecoveryBundleFile,
-} from '@/lib/recovery-bundles';
+} from '@/lib/db/recovery-bundles';
 
 describe('Encrypted backup artifacts', () => {
   let tempDir: string;

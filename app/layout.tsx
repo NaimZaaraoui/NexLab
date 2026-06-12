@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Providers } from "@/components/Providers";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/security/auth";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SessionManager } from "@/components/SessionManager";
 import { DemoBannerWrapper } from "@/components/DemoBanner";

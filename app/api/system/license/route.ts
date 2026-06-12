@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { getLicenseStatus, getMachineId } from '@/lib/license';
+import { prisma } from '@/lib/db/prisma';
+import { getLicenseStatus, getMachineId } from '@/lib/security/license';
 
 export async function GET() {
   try {

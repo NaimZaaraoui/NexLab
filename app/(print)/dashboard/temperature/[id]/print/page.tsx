@@ -1,5 +1,5 @@
-import { prisma } from '@/lib/prisma';
-import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/db/prisma';
+import { auth } from '@/lib/security/auth';
 import { TemperatureMonthlyReport } from '@/components/print/TemperatureMonthlyReport';
 import type { TemperatureReading } from '@/components/temperature/types';
 

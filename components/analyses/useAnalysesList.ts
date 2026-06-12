@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { isThisWeek } from 'date-fns';
-import { Analysis } from '@/lib/types';
+import { Analysis } from '@/lib/core/types';
 import { useLocalStorageState } from '@/hooks/useLocalStorageState';
 
-import { ANALYSIS_STATUSES, AnalysisStatus } from '@/lib/analysis-status';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
+import { ANALYSIS_STATUSES, AnalysisStatus } from '@/lib/analysis/analysis-status';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
 
 export type StatusFilter = 'all' | AnalysisStatus;
 export type DateFilter = 'today' | 'yesterday' | 'week' | 'custom' | 'all';

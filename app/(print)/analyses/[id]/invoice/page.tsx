@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { FactureImpression } from '@/components/print/FactureImpression';
-import { Analysis } from '@/lib/types';
+import { Analysis } from '@/lib/core/types';
 
 export default function InvoicePrintPage() {
   const { id } = useParams<{ id: string }>();

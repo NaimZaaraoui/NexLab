@@ -1,6 +1,6 @@
 import React from 'react';
 import { Activity, Server, Database, HardDrive, Shield } from 'lucide-react';
-import { requireAnyRole } from '@/lib/authz';
+import { requireAnyRole } from '@/lib/security/authz';
 import { redirect } from 'next/navigation';
 import { MonitoringClient } from '@/components/monitoring/MonitoringClient';
 

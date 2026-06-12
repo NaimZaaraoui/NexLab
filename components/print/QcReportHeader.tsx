@@ -2,7 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { LucideMicroscope } from 'lucide-react';
-import { resolvePrintBranding } from '@/lib/report-generation';
+import { resolvePrintBranding } from '@/lib/documents/report-generation';
 import type { PrintSettings } from '@/components/print/types';
 
 interface QcReportHeaderProps {

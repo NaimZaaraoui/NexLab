@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { resolveAnalysisTestIds } from '@/lib/analysis-tests';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
-import { getTestReferenceValues } from '@/lib/utils';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { resolveAnalysisTestIds } from '@/lib/analysis/analysis-tests';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
+import { getTestReferenceValues } from '@/lib/core/utils';
 
 interface SaveResultsPayload {
   results?: Record<string, unknown>;

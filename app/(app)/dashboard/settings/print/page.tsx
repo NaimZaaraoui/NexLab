@@ -1,4 +1,4 @@
-import { getSettings } from '@/lib/settings';
+import { getSettings } from '@/lib/settings/settings';
 import { PrintSettingsForm } from './PrintSettingsForm';
 import { PageBackLink } from '@/components/ui/PageBackLink';
 

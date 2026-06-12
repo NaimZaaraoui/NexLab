@@ -1,9 +1,9 @@
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { CheckCircle, Save } from 'lucide-react';
-import { getAnalysisStatusMeta } from '@/lib/analysis-status';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
-import { formatSpecimenBlocker, getSpecimenReadiness } from '@/lib/specimen-readiness';
+import { getAnalysisStatusMeta } from '@/lib/analysis/analysis-status';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
+import { formatSpecimenBlocker, getSpecimenReadiness } from '@/lib/analysis/specimen-readiness';
 import { useAnalysisContext } from './AnalysisContext';
 
 export function AnalysisValidationFooter() {

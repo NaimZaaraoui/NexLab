@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { PrinterCheck, Trash2, MailCheck } from 'lucide-react';
-import type { Analysis } from '@/lib/types';
-import { formatTatLabel, getTatMinutes, getTatTextClass } from '@/lib/tat';
-import { getAnalysisStatusMeta } from '@/lib/analysis-status';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
+import type { Analysis } from '@/lib/core/types';
+import { formatTatLabel, getTatMinutes, getTatTextClass } from '@/lib/analysis/tat';
+import { getAnalysisStatusMeta } from '@/lib/analysis/analysis-status';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
 
 const PAYMENT_STATUS_MAP: Record<string, { label: string; classes: string }> = {
   UNPAID: { label: 'Non payé', classes: 'bg-rose-50 text-rose-700 border border-rose-200/70' },

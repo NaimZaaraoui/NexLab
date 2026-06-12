@@ -26,7 +26,7 @@ export interface DiatronResult {
   };
 }
 
-import { MACHINE_ALIASES } from '@/lib/lab-rules';
+import { MACHINE_ALIASES } from '@/lib/clinical/lab-rules';
 
 type RawDiatronRecord = Record<string, string>;
 

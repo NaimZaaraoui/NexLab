@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma } from '@/app/generated/prisma';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db/prisma';
 import { parseDiatronFile } from '@/lib/parsers/diatron';
 
 interface ImportDiatronPayload {

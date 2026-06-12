@@ -2,7 +2,7 @@ import React, { forwardRef, useMemo } from 'react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { LeveyJenningsChart } from '../qc/LeveyJenningsChart';
-import { resolvePrintBranding } from '@/lib/report-generation';
+import { resolvePrintBranding } from '@/lib/documents/report-generation';
 import type { PrintSettings } from '@/components/print/types';
 import { LucideMicroscope } from 'lucide-react';
 

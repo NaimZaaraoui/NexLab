@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CheckCircle, FlaskConical, RefreshCw, Save, TimerReset, XCircle } from 'lucide-react';
 import { useAnalysisContext } from './AnalysisContext';
-import type { Specimen } from '@/lib/types';
+import type { Specimen } from '@/lib/core/types';
 
 type SpecimenDraft = {
   id?: string | null;

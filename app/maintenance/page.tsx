@@ -1,5 +1,5 @@
-import { getSettings } from '@/lib/settings';
-import { auth } from '@/lib/auth';
+import { getSettings } from '@/lib/settings/settings';
+import { auth } from '@/lib/security/auth';
 import { MaintenanceScreen } from '@/components/system/MaintenanceScreen';
 
 export default async function MaintenancePage() {

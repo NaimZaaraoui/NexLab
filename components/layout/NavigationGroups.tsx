@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { NAVIGATION_GROUPS } from '@/lib/constants';
+import { NAVIGATION_GROUPS } from '@/lib/core/constants';
 
 interface NavigationGroupsProps {
   role: string;

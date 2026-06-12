@@ -14,7 +14,7 @@ import {
   getWorkflowProgress,
   getWorkflowStep,
   normalizeStatus,
-} from '@/lib/status-flow';
+} from '@/lib/analysis/status-flow';
 
 describe('Status Flow Module', () => {
   // =========================================================================

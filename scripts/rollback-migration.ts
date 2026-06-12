@@ -5,7 +5,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { MigrationSafetyManager } from '@/lib/migration-safety';
+import { MigrationSafetyManager } from '@/lib/db/migration-safety';
 
 async function rollbackMigration() {
   const args = process.argv.slice(2);

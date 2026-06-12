@@ -22,7 +22,7 @@ import {
   formatMonthlySummaryForExcel,
   formatCategorySummaryForExcel,
   formatPatientAnalysesForExcel
-} from '@/lib/excel-utils';
+} from '@/lib/documents/excel-utils';
 import { ExportFiltersPanel } from '@/components/exports/ExportFiltersPanel';
 import { ExportSidebar } from '@/components/exports/ExportSidebar';
 import { ExportTypeSelector } from '@/components/exports/ExportTypeSelector';

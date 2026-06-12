@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { prisma } from '@/lib/prisma';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { prisma } from '@/lib/db/prisma';
 import {
   createDatabaseBackup,
   getDatabaseBackupDirectory,
@@ -9,7 +9,7 @@ import {
   listDatabaseBackups,
   pruneDatabaseBackups,
   validateStoredDatabaseBackupFile,
-} from '@/lib/database-backups';
+} from '@/lib/db/database-backups';
 
 export const runtime = 'nodejs';
 

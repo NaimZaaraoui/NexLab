@@ -30,12 +30,12 @@ vi.mock('next/server', () => ({
 }));
 
 // Mock next-auth and @/lib/auth to avoid next-auth deep import issues in unit tests
-vi.mock('@/lib/auth', () => ({
+vi.mock('@/lib/security/auth', () => ({
   auth: vi.fn(() => Promise.resolve(null)),
 }));
 
 // Mock Prisma client
-vi.mock('@/lib/prisma', () => ({
+vi.mock('@/lib/db/prisma', () => ({
   prisma: {
     user: {
       findUnique: vi.fn(),

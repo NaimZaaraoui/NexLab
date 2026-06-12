@@ -1,19 +1,19 @@
 import fs from 'node:fs/promises';
 import { createClient } from '@libsql/client';
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole } from '@/lib/authz';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole } from '@/lib/security/authz';
 import {
   getDatabaseBackupDirectory,
   getDatabaseFilePath,
   isBackupEncryptionConfigured,
   listDatabaseBackups,
   validateStoredDatabaseBackupFile,
-} from '@/lib/database-backups';
-import { listRecoveryBundles, validateRecoveryBundleFile } from '@/lib/recovery-bundles';
-import { checkAuditImmutabilityTriggers } from '@/lib/audit-trail-setup';
-import { checkDatabaseOpsRateLimit } from '@/lib/rate-limit';
-import { verifyValidationHash } from '@/lib/validation-seal';
+} from '@/lib/db/database-backups';
+import { listRecoveryBundles, validateRecoveryBundleFile } from '@/lib/db/recovery-bundles';
+import { checkAuditImmutabilityTriggers } from '@/lib/security/audit-trail-setup';
+import { checkDatabaseOpsRateLimit } from '@/lib/security/rate-limit';
+import { verifyValidationHash } from '@/lib/security/validation-seal';
 
 export const runtime = 'nodejs';
 

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { Printer } from 'lucide-react';
-import { Analysis, Specimen } from '@/lib/types';
+import { Analysis, Specimen } from '@/lib/core/types';
 import { Code39Barcode } from '@/components/print/Code39Barcode';
 import { PageBackLink } from '@/components/ui/PageBackLink';
 

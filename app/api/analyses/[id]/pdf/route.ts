@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAuthUser } from '@/lib/authz';
-import { getAnalysisPdf, backgroundGenerateAndCachePdf } from '@/lib/pdf-storage';
-import type { AnalysisStatus } from '@/lib/status-flow';
-import { isTerminalStatus } from '@/lib/status-flow';
-import { generateAnalysisPDF } from '@/lib/pdf-server';
+import { prisma } from '@/lib/db/prisma';
+import { requireAuthUser } from '@/lib/security/authz';
+import { getAnalysisPdf, backgroundGenerateAndCachePdf } from '@/lib/documents/pdf-storage';
+import type { AnalysisStatus } from '@/lib/analysis/status-flow';
+import { isTerminalStatus } from '@/lib/analysis/status-flow';
+import { generateAnalysisPDF } from '@/lib/documents/pdf-server';
 
 function toPdfResponse(data: Buffer | Uint8Array, filename: string, source: 'cache' | 'dynamic') {
   const bytes = new Uint8Array(data);

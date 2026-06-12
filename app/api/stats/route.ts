@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { notifyUsers, getUserIdsByRoles } from '@/lib/notifications';
-import { requireAuthUser } from '@/lib/authz';
-import { getTatMinutes, normalizeTatThresholds } from '@/lib/tat';
+import { prisma } from '@/lib/db/prisma';
+import { notifyUsers, getUserIdsByRoles } from '@/lib/communications/notifications';
+import { requireAuthUser } from '@/lib/security/authz';
+import { getTatMinutes, normalizeTatThresholds } from '@/lib/analysis/tat';
 
 export async function GET() {
   try {

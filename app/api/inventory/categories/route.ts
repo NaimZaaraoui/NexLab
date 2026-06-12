@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole, requireAuthUser } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole, requireAuthUser } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
 import {
   DEFAULT_INVENTORY_CATEGORIES,
   parseInventoryCategories,
   stringifyInventoryCategories,
-} from '@/lib/inventory-categories';
+} from '@/lib/inventory/inventory-categories';
 
 const INVENTORY_CATEGORIES_KEY = 'inventory_categories';
 

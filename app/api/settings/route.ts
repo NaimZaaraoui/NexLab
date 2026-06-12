@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-import { hasValidInternalPrintToken } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { ALLOWED_SETTINGS_KEYS, normalizeSettingsRecord, type LabSettingsMap } from '@/lib/settings-schema';
+import { auth } from '@/lib/security/auth';
+import { prisma } from '@/lib/db/prisma';
+import { hasValidInternalPrintToken } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { ALLOWED_SETTINGS_KEYS, normalizeSettingsRecord, type LabSettingsMap } from '@/lib/settings/settings-schema';
 
 type SettingRow = { key: string; value: string };
 

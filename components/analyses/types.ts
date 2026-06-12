@@ -1,4 +1,4 @@
-import type { Result } from '@/lib/types';
+import type { Result } from '@/lib/core/types';
 
 export type AnalysisNotePlacement = 'all' | 'first' | 'last';
 export type AnalysisResultValues = Record<string, string>;

@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
 import {
   createNamedDatabaseBackup,
   restoreDatabaseBackup,
   validateActiveDatabase,
-} from '@/lib/database-backups';
+} from '@/lib/db/database-backups';
 
 export const runtime = 'nodejs';
 

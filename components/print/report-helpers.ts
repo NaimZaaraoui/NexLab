@@ -7,4 +7,4 @@ export {
   resolveEnvelopeRecipient,
   resolvePrintBranding,
   sortReportResults,
-} from '@/lib/report-generation';
+} from '@/lib/documents/report-generation';

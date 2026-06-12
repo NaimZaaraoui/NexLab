@@ -7,7 +7,7 @@ import {
   DialogTitle 
 } from "@/components/ui/dialog";
 import { Package, Pencil, Save, Trash2 } from 'lucide-react';
-import type { Test } from '@/lib/types';
+import type { Test } from '@/lib/core/types';
 import type { InventoryFormState, InventoryItemOption, InventoryRule } from '@/components/tests/types';
 
 interface TestInventoryRulesModalProps {

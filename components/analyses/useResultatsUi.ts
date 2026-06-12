@@ -1,5 +1,5 @@
 import { useCallback, useState, type Dispatch, type MutableRefObject, type SetStateAction } from 'react';
-import { applyRenalAutoSelection, type RenalTestOption } from '@/lib/renal-tests';
+import { applyRenalAutoSelection, type RenalTestOption } from '@/lib/clinical/renal-tests';
 import type { ResultWithRenderCategory, AnalysisInputsMap } from './types';
 
 interface UseResultatsUiOptions {

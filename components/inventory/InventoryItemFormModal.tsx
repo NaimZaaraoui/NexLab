@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { ClipboardList, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { type InventoryCategoryConfig } from '@/lib/inventory-categories';
+import { type InventoryCategoryConfig } from '@/lib/inventory/inventory-categories';
 import { type InventoryItemFormValues } from '@/components/inventory/types';
 
 interface InventoryItemFormModalProps {

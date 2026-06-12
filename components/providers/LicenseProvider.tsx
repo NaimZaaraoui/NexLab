@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ShieldAlert } from 'lucide-react';
-import type { LicenseStatus } from '@/lib/license';
+import type { LicenseStatus } from '@/lib/security/license';
 
 // We share the status globally so any "Create" button can disable itself if needed,
 // though the banner is usually enough to signal the user.

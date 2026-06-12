@@ -1,9 +1,9 @@
 import React from 'react';
-import { sortReportResults } from '@/lib/report-generation';
-import { isEgfrTestCode } from '@/lib/renal-tests';
-import type { Analysis, Result } from '@/lib/types';
+import { sortReportResults } from '@/lib/documents/report-generation';
+import { isEgfrTestCode } from '@/lib/clinical/renal-tests';
+import type { Analysis, Result } from '@/lib/core/types';
 import type { ReferenceDisplay, PrintSettings } from '@/components/print/types';
-import { resolvePrintBranding } from '@/lib/report-generation';
+import { resolvePrintBranding } from '@/lib/documents/report-generation';
 
 interface Props {
   categories: string[];

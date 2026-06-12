@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { RapportImpression } from '@/components/print/RapportImpression';
-import { Analysis } from '@/lib/types';
+import { Analysis } from '@/lib/core/types';
 
 export default function ExportPage() {
   const { id } = useParams<{ id: string }>();

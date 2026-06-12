@@ -1,5 +1,5 @@
 import { Activity, Calculator, CheckCircle, Download, Microscope } from 'lucide-react';
-import { calculateCbcIndices } from '@/lib/calculations';
+import { calculateCbcIndices } from '@/lib/clinical/calculations';
 
 import { useAnalysisContext } from './AnalysisContext';
 

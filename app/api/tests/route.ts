@@ -1,17 +1,17 @@
 // src/app/api/tests/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole, requireAuthUser } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { validateFormula } from '@/lib/calculated-tests';
-import { testCreateSchema, testUpdateSchema } from '@/lib/validators';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole, requireAuthUser } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { validateFormula } from '@/lib/clinical/calculated-tests';
+import { testCreateSchema, testUpdateSchema } from '@/lib/clinical/validators';
 import {
   assertCalculatedDependentsRemainValid,
   assertGroupCanBeConverted,
   assertValidParentAssignment,
   buildTestPersistenceData,
-} from '@/lib/test-catalog-validation';
+} from '@/lib/clinical/test-catalog-validation';
 
 export async function GET(request: NextRequest) {
   try {

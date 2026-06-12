@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
-import { MigrationSafetyManager } from '@/lib/migration-safety';
+import { MigrationSafetyManager } from '@/lib/db/migration-safety';
 
 describe('Migration Safety System', () => {
   let manager: MigrationSafetyManager;

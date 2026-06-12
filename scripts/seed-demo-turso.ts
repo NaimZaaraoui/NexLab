@@ -1,14 +1,12 @@
 /**
  * Demo Seed Script — Turso / libSQL
- * Run: node --import tsx scripts/seed-demo-turso.ts
+ * Run: npm run demo:seed-turso
  *
- * Requires env:
- *   DATABASE_URL=libsql://your-db.turso.io
- *   DATABASE_AUTH_TOKEN=your-token
+ * Credentials are loaded from .env.turso automatically.
  */
 
 import bcrypt from 'bcryptjs';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db/prisma';
 
 const DEMO_PASSWORD = 'DemoLab2026!';
 

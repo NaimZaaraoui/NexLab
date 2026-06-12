@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { evaluateAcceptanceRange, evaluateRunStatus, evaluateWestgard, type QcValueFlag } from '@/lib/qc';
-import { getUserIdsByRoles, notifyUsers } from '@/lib/notifications';
+import { prisma } from '@/lib/db/prisma';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { evaluateAcceptanceRange, evaluateRunStatus, evaluateWestgard, type QcValueFlag } from '@/lib/clinical/qc';
+import { getUserIdsByRoles, notifyUsers } from '@/lib/communications/notifications';
 
 type QcEntryValue = {
   testCode?: string;

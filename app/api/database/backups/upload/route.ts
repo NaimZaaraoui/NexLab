@@ -1,13 +1,13 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
 import {
   ensureBackupDirectory,
   getDatabaseBackupDirectory,
   validateStoredDatabaseBackupFile,
-} from '@/lib/database-backups';
+} from '@/lib/db/database-backups';
 
 export const runtime = 'nodejs';
 

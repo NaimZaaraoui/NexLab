@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAuthUser } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
-import { prepareLearnedSettingUpdate } from '@/lib/settings-learning';
-import { syncSpecimenQualityEvents } from '@/lib/quality-events';
+import { prisma } from '@/lib/db/prisma';
+import { requireAuthUser } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
+import { prepareLearnedSettingUpdate } from '@/lib/settings/settings-learning';
+import { syncSpecimenQualityEvents } from '@/lib/communications/quality-events';
 
 type SpecimenPayload = {
   id?: string | null;

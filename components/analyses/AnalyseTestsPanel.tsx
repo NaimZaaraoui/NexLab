@@ -1,5 +1,5 @@
 import { Check, Search } from 'lucide-react';
-import type { Test } from '@/lib/types';
+import type { Test } from '@/lib/core/types';
 import type { BilanOption } from './analyse-form-types';
 
 interface AnalyseTestsPanelProps {

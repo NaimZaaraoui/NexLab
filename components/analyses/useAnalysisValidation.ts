@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import type { Analysis } from '@/lib/types';
+import type { Analysis } from '@/lib/core/types';
 import type { AnalysisQcReadiness } from './types';
 
 interface UseAnalysisValidationOptions {

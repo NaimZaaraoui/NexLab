@@ -1,7 +1,7 @@
 // components/analyses/GlobalNotePanel.tsx
 import React from 'react';
 import { Save } from 'lucide-react';
-import { isAnalysisFinalValidated } from '@/lib/status-flow';
+import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
 import { useAnalysisContext } from './AnalysisContext';
 
 export function GlobalNotePanel() {

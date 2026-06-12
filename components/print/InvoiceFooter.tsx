@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import type { Analysis } from '@/lib/types';
+import type { Analysis } from '@/lib/core/types';
 import type { PrintSettings } from '@/components/print/types';
-import { resolvePrintBranding } from '@/lib/report-generation';
+import { resolvePrintBranding } from '@/lib/documents/report-generation';
 
 interface InvoiceFooterProps {
   analysis: Analysis;

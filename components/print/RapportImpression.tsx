@@ -1,5 +1,5 @@
 import React, { forwardRef, useMemo } from 'react';
-import { isAnalysisValidated } from '@/lib/status-flow';
+import { isAnalysisValidated } from '@/lib/analysis/status-flow';
 import { ReportPrintProps } from '@/components/print/types';
 import {
   buildReportReferenceMap,
@@ -7,15 +7,15 @@ import {
   groupReportResultsByCategory,
   parseReportHistograms,
   resolvePrintBranding,
-} from '@/lib/report-generation';
+} from '@/lib/documents/report-generation';
 import { ReportHeader } from '@/components/print/ReportHeader';
 import { ReportFooterSignature } from '@/components/print/ReportFooterSignature';
 import { ReportResultsTable } from '@/components/print/ReportResultsTable';
 import { ReportPageFrame } from '@/components/print/ReportPageFrame';
 import { ReportMorphologySection } from '@/components/print/ReportMorphologySection';
 import { CbcIndicesPanel } from '@/components/analyses/CbcIndicesPanel';
-import { calculateCbcIndices } from '@/lib/calculations';
-import type { AnalysisStatus } from '@/lib/status-flow';
+import { calculateCbcIndices } from '@/lib/clinical/calculations';
+import type { AnalysisStatus } from '@/lib/analysis/status-flow';
 
 export const RapportImpression = forwardRef<HTMLDivElement, ReportPrintProps>(
   ({ analysis, results, selectedResultIds = [], settings }, ref) => {

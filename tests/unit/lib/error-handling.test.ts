@@ -9,7 +9,7 @@ import {
   ERROR_MESSAGES,
   ERROR_RECOVERY_ACTIONS,
   ERROR_STATUS_CODES,
-} from '@/lib/error-handling';
+} from '@/lib/core/error-handling';
 
 describe('Error Handling System', () => {
   describe('ErrorCode Enum', () => {

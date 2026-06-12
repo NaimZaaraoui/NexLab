@@ -1,7 +1,7 @@
 import React from 'react';
 import { HistogramView } from '../analyses/HistogramView';
-import { getHematologyFlags } from '@/lib/calculations';
-import type { Analysis } from '@/lib/types';
+import { getHematologyFlags } from '@/lib/clinical/calculations';
+import type { Analysis } from '@/lib/core/types';
 import type { HistogramSeries, ParsedHistogramPayload } from '@/components/print/types';
 
 interface ReportMorphologySectionProps {

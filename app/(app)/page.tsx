@@ -15,8 +15,8 @@ import {
 import Link from 'next/link';
 import { differenceInMinutes } from 'date-fns';
 import { useSession } from 'next-auth/react';
-import { Analysis as SharedAnalysis } from '@/lib/types';
-import { formatTatLabel, getTatMinutes, getTatTextClass } from '@/lib/tat';
+import { Analysis as SharedAnalysis } from '@/lib/core/types';
+import { formatTatLabel, getTatMinutes, getTatTextClass } from '@/lib/analysis/tat';
 
 type Analysis = SharedAnalysis & { isUrgent?: boolean };
 

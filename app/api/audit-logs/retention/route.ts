@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
-import { archiveAndPurgeAuditLogs } from '@/lib/audit-retention';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
+import { requireAnyRole } from '@/lib/security/authz';
+import { archiveAndPurgeAuditLogs } from '@/lib/security/audit-retention';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
 
 export async function POST(request: NextRequest) {
   try {

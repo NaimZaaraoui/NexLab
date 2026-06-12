@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import { prisma } from '@/lib/prisma';
-import { createDatabaseBackup, pruneDatabaseBackups } from '@/lib/database-backups';
-import { createRecoveryBundle, pruneRecoveryBundles } from '@/lib/recovery-bundles';
-import { syncBackupsToExternalTarget } from '@/lib/backup-sync';
+import { prisma } from '@/lib/db/prisma';
+import { createDatabaseBackup, pruneDatabaseBackups } from '@/lib/db/database-backups';
+import { createRecoveryBundle, pruneRecoveryBundles } from '@/lib/db/recovery-bundles';
+import { syncBackupsToExternalTarget } from '@/lib/db/backup-sync';
 
 async function main() {
   const [retentionSetting, recoveryRetentionSetting, targetSetting] = await Promise.all([

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Test } from '@/lib/types';
-import { toLabDisplaySettings } from '@/lib/settings-schema';
-import { validateFormula } from '@/lib/calculated-tests';
+import { Test } from '@/lib/core/types';
+import { toLabDisplaySettings } from '@/lib/settings/settings-schema';
+import { validateFormula } from '@/lib/clinical/calculated-tests';
 import {
   DEFAULT_TESTS_LAB_SETTINGS,
   EMPTY_INVENTORY_FORM,

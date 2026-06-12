@@ -5,8 +5,8 @@ import {
   extractFormulaDependencies,
   isCalculatedFormulaTest,
   validateFormula,
-} from '@/lib/calculated-tests';
-import type { Analysis } from '@/lib/types';
+} from '@/lib/clinical/calculated-tests';
+import type { Analysis } from '@/lib/core/types';
 
 describe('Calculated Tests', () => {
   describe('validateFormula', () => {

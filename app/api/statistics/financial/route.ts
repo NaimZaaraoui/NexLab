@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db/prisma';
 import { subDays, startOfYear, startOfMonth, startOfDay, subMonths, format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { requireAuthUser } from '@/lib/authz';
-import { checkStatisticsRateLimit } from '@/lib/rate-limit';
+import { requireAuthUser } from '@/lib/security/authz';
+import { checkStatisticsRateLimit } from '@/lib/security/rate-limit';
 
 function buildRange(range: string, from?: string | null, to?: string | null) {
   const endDate = new Date();

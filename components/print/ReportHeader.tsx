@@ -3,8 +3,8 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { LucideMicroscope, Phone, Mail } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { resolvePrintBranding } from '@/lib/report-generation';
-import type { Analysis } from '@/lib/types';
+import { resolvePrintBranding } from '@/lib/documents/report-generation';
+import type { Analysis } from '@/lib/core/types';
 import type { PrintSettings } from '@/components/print/types';
 
 interface Props {

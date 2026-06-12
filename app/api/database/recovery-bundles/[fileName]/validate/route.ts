@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { getRecoveryBundleByName, testRecoveryBundleRestore, validateRecoveryBundleFile } from '@/lib/recovery-bundles';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { getRecoveryBundleByName, testRecoveryBundleRestore, validateRecoveryBundleFile } from '@/lib/db/recovery-bundles';
 
 export const runtime = 'nodejs';
 

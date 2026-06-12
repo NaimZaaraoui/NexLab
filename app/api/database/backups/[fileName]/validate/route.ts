@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { requireAnyRole } from '@/lib/authz';
-import { createAuditLog, getRequestMeta } from '@/lib/audit';
-import { getBackupFileByName, testDatabaseBackupRestore, validateStoredDatabaseBackupFile } from '@/lib/database-backups';
+import { requireAnyRole } from '@/lib/security/authz';
+import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { getBackupFileByName, testDatabaseBackupRestore, validateStoredDatabaseBackupFile } from '@/lib/db/database-backups';
 
 export const runtime = 'nodejs';
 

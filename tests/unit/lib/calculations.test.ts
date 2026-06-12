@@ -15,7 +15,7 @@ import {
   calculateEGFR,
   calculateEKFC,
   calculateSmartEGFR,
-} from '@/lib/calculations';
+} from '@/lib/clinical/calculations';
 
 describe('Calculations Module', () => {
   // =========================================================================
