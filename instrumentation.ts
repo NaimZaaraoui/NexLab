@@ -1,9 +1,11 @@
-import { checkDatabaseIntegrity } from './lib/db/database-integrity';
-import { installAuditImmutabilityTriggers } from './lib/security/audit-trail-setup';
+
 
 export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
+    const { checkDatabaseIntegrity } = await import('./lib/db/database-integrity');
     await checkDatabaseIntegrity();
+    
+    const { installAuditImmutabilityTriggers } = await import('./lib/security/audit-trail-setup');
     await installAuditImmutabilityTriggers();
 
     // Verify encryption configuration on startup
