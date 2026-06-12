@@ -1,6 +1,6 @@
 'use client';
 
-import { MobileMenuProvider, useMobileMenu } from '@/contexts/MobileMenuContext';
+import { MobileMenuProvider, useMobileMenu } from '@/components/providers/MobileMenuContext';
 import { Header } from '@/components/layout/Header';
 import { Navigation } from '@/components/layout/Navigation';
 import type { ReactNode } from 'react';

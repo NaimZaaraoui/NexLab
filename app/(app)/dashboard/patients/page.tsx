@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLocalStorageState } from '@/hooks/useLocalStorageState';
+import { useLocalStorageState } from '@/lib/hooks/useLocalStorageState';
 import { NotificationToast } from '@/components/ui/notification-toast';
 import { PatientEditModal } from '@/components/patients/PatientEditModal';
 import { PatientsGrid } from '@/components/patients/PatientsGrid';

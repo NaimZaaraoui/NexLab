@@ -7,7 +7,7 @@ import { NavigationBrand } from '@/components/layout/NavigationBrand';
 import { NavigationFooter } from '@/components/layout/NavigationFooter';
 import { NavigationGroups } from '@/components/layout/NavigationGroups';
 import { isNavigationLinkActive, isNavigationLinkVisible } from '@/components/layout/navigation-helpers';
-import { useMobileMenu } from '@/contexts/MobileMenuContext';
+import { useMobileMenu } from '@/components/providers/MobileMenuContext';
 
 import { useSession, signOut } from 'next-auth/react';
 import { ConfirmationModal } from '@/components/ui/ConfirmationModal';

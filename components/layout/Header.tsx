@@ -8,7 +8,7 @@ import { NotificationsMenu } from '@/components/layout/NotificationsMenu';
 import { QcStatusChip } from '@/components/layout/QcStatusChip';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import type { HeaderNotification, HeaderQcSummary, HeaderSearchResult } from '@/components/layout/types';
-import { useMobileMenu } from '@/contexts/MobileMenuContext';
+import { useMobileMenu } from '@/components/providers/MobileMenuContext';
 import { useSession } from 'next-auth/react';
 import { ROLE_LABELS } from '@/lib/core/constants';
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { isThisWeek } from 'date-fns';
 import { Analysis } from '@/lib/core/types';
-import { useLocalStorageState } from '@/hooks/useLocalStorageState';
+import { useLocalStorageState } from '@/lib/hooks/useLocalStorageState';
 
 import { ANALYSIS_STATUSES, AnalysisStatus } from '@/lib/analysis/analysis-status';
 import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';

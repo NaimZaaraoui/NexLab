@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLocalStorageState } from '@/hooks/useLocalStorageState';
+import { useLocalStorageState } from '@/lib/hooks/useLocalStorageState';
 import { useSession } from 'next-auth/react';
 import { ShieldCheck, Archive } from 'lucide-react';
 import { AuditFiltersPanel } from '@/components/audit/AuditFiltersPanel';

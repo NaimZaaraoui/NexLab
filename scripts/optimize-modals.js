@@ -27,7 +27,7 @@ files.forEach(relPath => {
   if (!content.includes('import { useScrollLock }')) {
     const importMatch = content.match(/import.*;/);
     if (importMatch) {
-      content = content.replace(/(import.*;\n)/, `$1import { useScrollLock } from '@/hooks/useScrollLock';\n`);
+      content = content.replace(/(import.*;\n)/, `$1import { useScrollLock } from '@/lib/hooks/useScrollLock';\n`);
     }
   }
 
