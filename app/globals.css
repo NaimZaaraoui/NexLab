@@ -82,7 +82,9 @@ body {
 
 body {
   background: var(--color-page);
-  color: var(--color-text-secondary);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background-image: 
     radial-gradient(at 0% 0%, hsla(215, 60%, 80%, 0.1) 0px, transparent 50%),
     radial-gradient(at 100% 100%, hsla(215, 60%, 80%, 0.1) 0px, transparent 50%);
