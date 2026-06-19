@@ -16,6 +16,7 @@ nexlab-install/
 ├── restore-backup.sh  ← Restauration d'une sauvegarde (Linux)
 ├── update.ps1         ← Mise à jour de NexLab (Windows)
 ├── update.sh          ← Mise à jour de NexLab (Linux)
+├── cleanup-data.ps1   ← Effacement des données de démo (Windows)
 ├── cleanup-data.sh    ← Effacement des données de démo (Linux)
 ├── docker-compose.yml ← Configuration du conteneur
 ├── nexlab-image.tar   ← L'application NexLab (~800 Mo)
@@ -149,8 +150,12 @@ Le script crée un `.env` minimal avec un `AUTH_SECRET` généré aléatoirement
 - Les paramètres du laboratoire (logo, signature, etc.).
 
 **Usage :**
+```powershell
+# Windows
+.\cleanup-data.ps1
+```
 ```bash
-# Linux uniquement (nécessite sqlite3 sur le serveur)
+# Linux
 ./cleanup-data.sh
 ```
 

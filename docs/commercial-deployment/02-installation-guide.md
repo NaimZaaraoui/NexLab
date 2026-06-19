@@ -200,8 +200,13 @@ docker compose restart
 
 Si le fichier `nexlab.db` fourni contient des données de démonstration, nettoyez-les avant de livrer :
 
+```powershell
+# Windows
+.\cleanup-data.ps1
+```
+
 ```bash
-# Linux uniquement (nécessite sqlite3 installé)
+# Linux
 ./cleanup-data.sh
 ```
 
