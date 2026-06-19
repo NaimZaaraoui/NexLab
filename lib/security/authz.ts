@@ -5,11 +5,12 @@ export const APP_ROLES = Object.freeze(['ADMIN', 'TECHNICIEN', 'RECEPTIONNISTE',
 export type AppRole = (typeof APP_ROLES)[number];
 
 export function getInternalPrintToken() {
-  return process.env.INTERNAL_PRINT_TOKEN || process.env.AUTH_SECRET || '';
+  return process.env.INTERNAL_PRINT_TOKEN || '';
 }
 
 export function hasValidInternalPrintToken(request: Request) {
   const expectedToken = getInternalPrintToken();
+  // If no token is configured at all, deny all internal print requests for safety.
   if (!expectedToken) return false;
 
   const headerToken = request.headers.get('x-internal-print-token');

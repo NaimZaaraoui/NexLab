@@ -38,7 +38,16 @@ export function generateValidationHash(analysis: SealAnalysis, results: SealResu
   const dataString = JSON.stringify(payload);
   // Utilisation du AUTH_SECRET comme clé de HMAC. S'il change, les anciens sceaux seront invalidés.
   // C'est pourquoi en production on pourrait avoir une clé spécifique "SEAL_SECRET".
-  const secret = process.env.SEAL_SECRET || process.env.AUTH_SECRET || 'fallback-seal-secret-do-not-use-in-prod';
+  const secret = process.env.SEAL_SECRET;
+  if (!secret) {
+    console.error(
+      '[NexLab] CRITICAL: SEAL_SECRET environment variable is not set. ' +
+      'Validation hashes cannot be trusted. Set SEAL_SECRET in your .env file.'
+    );
+    // Return a clearly invalid hash so verifyValidationHash() will always fail
+    // until the environment is properly configured.
+    return 'INVALID_NO_SEAL_SECRET_CONFIGURED';
+  }
   
   return crypto.createHmac('sha256', secret).update(dataString).digest('hex');
 }
