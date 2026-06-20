@@ -124,7 +124,7 @@ On first launch, navigate to `/setup` to initialize the database and create the 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/naim/nexlab.git
+git clone https://github.com/NaimZaaraoui/NexLab.git
 cd nexlab
 
 # 2. Install dependencies
@@ -201,7 +201,7 @@ docker compose up -d
 
 | Layer | Technology |
 |---|---|
-| Framework | Next.js 16 (App Router) |
+| Framework | Next.js 16.1 (App Router) |
 | Language | TypeScript 5 (strict) |
 | Database | SQLite via Prisma ORM 7 |
 | Styling | Tailwind CSS 4 |
@@ -215,15 +215,26 @@ docker compose up -d
 
 ## 📜 License
 
-This project is licensed under the **MIT License** — free to use, modify, and deploy.
+**NexLab LIMS is proprietary software.**
+
+The source code in this repository is made available for **transparency and evaluation purposes only**. You may not copy, redistribute, sublicense, or deploy NexLab commercially without a valid licence key issued by the author.
+
+Commercial deployment requires a per-installation licence. Each licence is cryptographically bound to the target machine (Machine ID).
+
+For licensing inquiries: **contact the author directly.**
 
 ---
 
-## 🙏 Contributing
+## 🔑 Commercial Licensing
 
-NexLab is built and maintained by a single medical laboratory technologist. Contributions, bug reports, and feature suggestions are welcome.
+NexLab uses an offline, machine-bound licensing system.
 
-If you work in a medical lab and want to try NexLab, or if you're a developer who wants to help, please open an issue or reach out.
+- After installation, each instance receives a unique **Machine ID** (visible in Settings → Licence).
+- A licence key (JWT) is issued by the author, tied to that Machine ID and a validity period.
+- Without a valid licence, the application enters **read-only mode** — existing data is accessible but new analyses cannot be created.
+- Licences are available for trial (30 days), annual, and lifetime durations.
+
+To request a licence or discuss pricing, open an issue or reach out via LinkedIn.
 
 ---
 

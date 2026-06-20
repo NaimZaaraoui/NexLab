@@ -1,0 +1,61 @@
+NEXLAB LIMS — PROPRIETARY SOFTWARE LICENSE
+
+Copyright (c) 2024-2025 Zaaraoui Naim. All rights reserved.
+
+TERMS AND CONDITIONS
+
+1. GRANT OF RIGHTS
+   Subject to the terms of this License and payment of applicable fees,
+   the Author grants you a non-exclusive, non-transferable, non-sublicensable
+   right to install and use NexLab LIMS solely for your internal laboratory
+   operations at a single physical location, as identified by the Machine ID
+   issued at installation time.
+
+2. RESTRICTIONS
+   You may NOT, without prior written permission from the Author:
+   a) Copy, modify, merge, adapt, translate, or create derivative works
+      based on the Software or its source code.
+   b) Distribute, sublicense, rent, lease, lend, sell, or otherwise transfer
+      the Software or access to it to any third party.
+   c) Reverse engineer, disassemble, decompile, or attempt to derive the
+      source code of the compiled portions of the Software.
+   d) Remove or alter any proprietary notices, labels, or marks on the Software.
+   e) Use the Software at more than one installation site without a separate
+      licence for each site.
+
+3. SOURCE CODE VISIBILITY
+   Portions of the source code are made available in this repository for
+   transparency and evaluation purposes only. Visibility of source code does
+   NOT constitute a grant of any rights under open-source or free software
+   licenses. All rights not expressly granted herein are reserved by the Author.
+
+4. LICENCE KEY REQUIREMENT
+   Commercial use of the Software requires a valid, machine-bound licence key
+   issued by the Author. Using the Software without a valid licence key, beyond
+   any permitted evaluation period, constitutes a breach of this License.
+
+5. DATA OWNERSHIP
+   All clinical data (patient records, analysis results) stored by the Software
+   belongs exclusively to the licensed laboratory. The Author makes no claim
+   to, and has no access to, any data generated through use of the Software.
+
+6. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED. THE AUTHOR SHALL NOT BE LIABLE FOR ANY DAMAGES ARISING FROM THE USE
+   OR INABILITY TO USE THE SOFTWARE, INCLUDING BUT NOT LIMITED TO LOSS OF DATA,
+   BUSINESS INTERRUPTION, OR ANY OTHER COMMERCIAL DAMAGES.
+
+7. TERMINATION
+   This License is effective until terminated. It terminates automatically if
+   you fail to comply with any term herein. Upon termination, you must destroy
+   all copies of the Software in your possession.
+
+8. GOVERNING LAW
+   This License shall be governed by the laws of the Republic of Tunisia.
+
+---
+
+For licensing inquiries, pricing, and support:
+  Author : Zaaraoui Naim
+  GitHub : https://github.com/NaimZaaraoui
+  Product: NexLab LIMS — Système de Gestion de Laboratoire d'Analyses Médicales
