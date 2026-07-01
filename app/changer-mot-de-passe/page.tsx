@@ -50,8 +50,9 @@ export default function ChangePasswordPage() {
         mustChangePassword: false
       });
 
-      router.push('/');
-      router.refresh();
+      // Force a hard reload to bypass Next.js client-side router cache
+      // This ensures the middleware sees the updated session cookie
+      window.location.href = '/';
 
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Une erreur est survenue.');

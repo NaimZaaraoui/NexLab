@@ -85,7 +85,7 @@ export async function PUT(
           }
 
           if (Object.keys(clientMeta).length > 0) {
-            finalMetadata = clientMeta;
+            finalMetadata = JSON.stringify(clientMeta);
           }
         }
 

@@ -64,6 +64,9 @@ async function encryptDatabase() {
     console.log('5. Détachement de la base en clair et réactivation des FK...');
     await encryptedClient.execute(`DETACH DATABASE plain`);
     await encryptedClient.execute(`PRAGMA foreign_keys = ON`);
+    
+    // Fermer la connexion pour libérer les fichiers sous Windows
+    encryptedClient.close();
 
     console.log('6. Remplacement des fichiers...');
     fs.renameSync(plainDbPath, backupDbPath);

@@ -35,7 +35,7 @@ export function NavigationGroups({
       {filteredGroups.map((group, groupIndex) => (
         <div key={groupIndex} className="space-y-2">
           {(sidebarOpen || mobile) && (
-            <div className="mb-1 px-2 text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--color-text-soft)]">
+            <div className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
               {group.title}
             </div>
           )}
@@ -48,7 +48,7 @@ export function NavigationGroups({
                   href={item.href}
                   onClick={onNavClick}
                   title={!sidebarOpen && !mobile ? item.name : undefined}
-                  className={`group flex items-center gap-3 rounded-md py-2.5 font-medium transition-all ${
+                  className={`group flex items-center gap-3 rounded-xl py-2.5 font-medium transition-all ${
                     active
                       ? 'border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]'
                       : 'border border-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]'
@@ -61,7 +61,7 @@ export function NavigationGroups({
                         : 'text-[var(--color-text-soft)] group-hover:text-[var(--color-text-secondary)]'
                     }`}
                   />
-                  {(sidebarOpen || mobile) && <span className="flex-1 text-[13px]">{item.name}</span>}
+                  {(sidebarOpen || mobile) && <span className="flex-1 text-sm">{item.name}</span>}
                 </Link>
               );
             })}

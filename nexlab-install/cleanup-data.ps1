@@ -1,5 +1,5 @@
 # =============================================================================
-# NexLab LIMS — Database Cleanup Script for Windows
+# NexLab LIMS - Database Cleanup Script for Windows
 # Usage: .\cleanup-data.ps1
 # This script removes all test configurations and clinical data to allow
 # starting with a fresh configuration. Users and settings are preserved.
@@ -11,20 +11,20 @@ $VOLUME_NAME = "nexlab-db"
 $CONTAINER_NAME = "nexlab-app"
 
 Write-Host ""
-Write-Host "╔═════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║   🧹 NexLab Database Cleanup (Windows)                           ║" -ForegroundColor Cyan
-Write-Host "╚═════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "=================================================================" -ForegroundColor Cyan
+Write-Host "   NexLab Database Cleanup (Windows)                             " -ForegroundColor Cyan
+Write-Host "=================================================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Check if DB file exists
 if (-not (Test-Path $DB_FILE)) {
-    Write-Host "❌ Error: $DB_FILE not found in the current directory." -ForegroundColor Red
+    Write-Host "[ERROR] $DB_FILE not found in the current directory." -ForegroundColor Red
     Write-Host "   Ensure you are in the nexlab-install folder." -ForegroundColor Gray
     exit 1
 }
 
 # Warning
-Write-Host "⚠️  This will delete all tests, categories, patients, and results." -ForegroundColor Yellow
+Write-Host "[WARN] This will delete all tests, categories, patients, and results." -ForegroundColor Yellow
 Write-Host "   Users and system settings will be preserved." -ForegroundColor Gray
 Write-Host ""
 Write-Host "Are you sure you want to proceed? (Y/N): " -NoNewline -ForegroundColor Yellow
@@ -35,11 +35,11 @@ if ($answer -notmatch "^[Yy]") {
 }
 
 # Stop Docker services
-Write-Host "🛑 Stopping Docker services..." -ForegroundColor Cyan
+Write-Host "[>>] Stopping Docker services..." -ForegroundColor Cyan
 docker compose stop
 
 # Prepare SQL commands
-Write-Host "🧼 Cleaning up database tables using Docker (Alpine)..." -ForegroundColor Cyan
+Write-Host "[>>] Cleaning up database tables using Docker (Alpine)..." -ForegroundColor Cyan
 
 $sqlCommands = @"
 PRAGMA foreign_keys = OFF;
@@ -94,9 +94,9 @@ $currentPath = (Get-Location).Path
 # Run sqlite3 inside a temporary alpine container so we don't need sqlite installed on Windows host
 try {
     docker run --rm -v "${currentPath}:/workdir" -w /workdir alpine sh -c "apk add --no-cache sqlite && sqlite3 $DB_FILE < cleanup.sql"
-    Write-Host "✅ Database cleaned locally." -ForegroundColor Green
+    Write-Host "[OK] Database cleaned locally." -ForegroundColor Green
 } catch {
-    Write-Host "❌ Failed to clean database. Ensure Docker is running." -ForegroundColor Red
+    Write-Host "[ERROR] Failed to clean database. Ensure Docker is running." -ForegroundColor Red
     Remove-Item "cleanup.sql" -ErrorAction SilentlyContinue
     exit 1
 }
@@ -105,19 +105,19 @@ try {
 Remove-Item "cleanup.sql" -ErrorAction SilentlyContinue
 
 # Update Docker volume
-Write-Host "🔗 Updating Docker volume '$VOLUME_NAME'..." -ForegroundColor Cyan
+Write-Host "[>>] Updating Docker volume '$VOLUME_NAME'..." -ForegroundColor Cyan
 docker run --rm `
   -v "${VOLUME_NAME}:/app/data" `
   -v "${currentPath}:/backup" `
   alpine sh -c "cp /backup/$DB_FILE /app/data/$DB_FILE && chmod 644 /app/data/$DB_FILE"
 
-Write-Host "✅ Docker volume updated." -ForegroundColor Green
+Write-Host "[OK] Docker volume updated." -ForegroundColor Green
 
 # Restart services
-Write-Host "🚀 Restarting Docker services..." -ForegroundColor Cyan
+Write-Host "[>>] Restarting Docker services..." -ForegroundColor Cyan
 docker compose start
 
 Write-Host ""
-Write-Host "✨ Cleanup complete! You can now access NexLab to enter your own tests." -ForegroundColor Green
-Write-Host "🌐 URL: http://localhost" -ForegroundColor Cyan
+Write-Host "[OK] Cleanup complete! You can now access NexLab to enter your own tests." -ForegroundColor Green
+Write-Host "     URL: http://localhost" -ForegroundColor Cyan
 Write-Host ""

@@ -173,7 +173,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-5 pb-8">
-      <section className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
+      <section className="bento-panel px-5 py-4 sm:px-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h1 className="text-lg font-semibold text-[var(--color-text)]">
@@ -190,7 +190,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard title="Dossiers du jour" value={totalToday} icon={ClipboardList} tone="default" loading={loading} />
         <KpiCard title="En attente" value={state.stats.pending} icon={Clock} tone="warning" loading={loading} />
         <KpiCard title="Résultats anormaux" value={state.stats.urgent} icon={AlertCircle} tone="critical" loading={loading} />
@@ -198,14 +198,14 @@ export default function DashboardPage() {
       </section>
 
       {qcToday && (qcToday.fail > 0 || qcToday.missing > 0) && (
-        <section className={`rounded-xl px-5 py-4 ${
+        <section className={`rounded-[28px] px-5 py-4 shadow-[0_14px_35px_rgba(15,31,51,0.045)] ${
           qcToday.fail > 0
             ? 'border border-rose-200/70 bg-rose-50/85'
             : 'border border-amber-200/70 bg-amber-50/85'
         }`}>
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className={`text-sm font-semibold uppercase tracking-[0.12em] ${
+              <h2 className={`text-sm font-semibold uppercase tracking-[0.08em] ${
                 qcToday.fail > 0 ? 'text-rose-800' : 'text-amber-800'
               }`}>
                 Contrôle qualité prioritaire
@@ -227,10 +227,10 @@ export default function DashboardPage() {
       )}
 
       {inventoryAlerts.length > 0 && (
-        <section className="rounded-xl border border-amber-200/70 bg-amber-50/80 px-5 py-4">
+        <section className="rounded-[28px] border border-amber-200/70 bg-amber-50/80 px-5 py-4 shadow-[0_14px_35px_rgba(120,80,0,0.06)]">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-amber-800">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-amber-800">
                 Inventaire à surveiller
               </h2>
               <p className="mt-1 text-sm text-amber-900">
@@ -246,7 +246,7 @@ export default function DashboardPage() {
             {inventoryAlerts.slice(0, 3).map((item) => (
               <div
                 key={item.id}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-amber-200/60 bg-[var(--color-surface)]/80 px-3 py-2"
+                className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-amber-200/60 bg-[var(--color-surface)]/82 px-3 py-2 shadow-[0_6px_16px_rgba(120,80,0,0.035)]"
               >
                 <span className="text-sm font-medium text-[var(--color-text)]">{item.name}</span>
                 <span className="text-xs text-[var(--color-text-soft)]">
@@ -260,10 +260,10 @@ export default function DashboardPage() {
 
       {temperatureToday &&
         (temperatureToday.alertCount > 0 || temperatureToday.missingCount > 0) && (
-          <section className="rounded-xl border border-sky-200/70 bg-sky-50/80 px-5 py-4">
+          <section className="rounded-[28px] border border-sky-200/70 bg-sky-50/80 px-5 py-4 shadow-[0_14px_35px_rgba(14,116,144,0.06)]">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-sky-800">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-sky-800">
                   Suivi des températures
                 </h2>
                 <p className="mt-1 text-sm text-sky-900">
@@ -280,10 +280,10 @@ export default function DashboardPage() {
         )}
 
       {role === 'ADMIN' && backupAlert && (backupAlert.isStale || !backupAlert.hasBackups) && (
-        <section className="rounded-xl border border-rose-200/70 bg-rose-50/85 px-5 py-4">
+        <section className="rounded-[28px] border border-rose-200/70 bg-rose-50/85 px-5 py-4 shadow-[0_14px_35px_rgba(190,18,60,0.06)]">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-rose-800">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-rose-800">
                 Sauvegarde a verifier
               </h2>
               <p className="mt-1 text-sm text-rose-900">
@@ -309,9 +309,9 @@ export default function DashboardPage() {
       </section>
 
       <section className="grid grid-cols-1 gap-4 2xl:grid-cols-[1fr_340px]">
-        <div className="overflow-hidden rounded-xl border bg-[var(--color-surface)] shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-          <div className="flex items-center justify-between border-b px-5 py-4">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
+        <div className="overflow-hidden rounded-[28px] border border-[var(--color-border)] bg-[var(--color-surface)]/86 shadow-[0_14px_38px_rgba(15,31,51,0.055)]">
+          <div className="flex items-center justify-between border-b bg-[var(--color-surface)]/78 px-5 py-4 backdrop-blur">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
               Dossiers récents
             </h2>
             <Link href="/analyses" className="inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)]">
@@ -320,7 +320,7 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-12 border-b bg-[var(--color-surface-muted)] px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">
+          <div className="grid grid-cols-12 border-b bg-[var(--color-surface-muted)]/86 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--color-text-secondary)]">
             <div className="col-span-1 text-center">#</div>
             <div className="col-span-5">Patient</div>
             <div className="col-span-2 text-center">Commande</div>
@@ -350,7 +350,7 @@ export default function DashboardPage() {
                   <Link
                     key={analysis.id}
                     href={`/analyses/${analysis.id}`}
-                    className="grid grid-cols-12 items-center px-5 py-3 transition-colors hover:bg-[var(--color-surface-muted)]"
+                    className="grid grid-cols-12 items-center px-5 py-3 transition-colors hover:bg-[var(--color-surface-muted)]/86"
                   >
                     <div className="col-span-1 text-center text-xs font-medium text-[var(--color-text-soft)]">{index + 1}</div>
                     <div className="col-span-5 min-w-0">
@@ -382,7 +382,7 @@ export default function DashboardPage() {
         </div>
 
         <aside className="space-y-4">
-          <div className="rounded-xl border bg-[var(--color-surface)] p-5 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
+          <div className="bento-panel p-5">
             <h3 className="text-sm font-semibold text-[var(--color-text)]">Flux opérationnel</h3>
             <div className="mt-4 space-y-3 text-sm">
               <StatRow label="Total en attente" value={state.stats.pending} />
@@ -392,7 +392,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="rounded-xl border bg-[var(--color-surface)] p-5 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
+          <div className="bento-panel p-5">
             <h3 className="text-sm font-semibold text-[var(--color-text)]">Actions rapides</h3>
             <div className="mt-4 space-y-2">
               <QuickLink href="/dashboard/patients">Rechercher patient</QuickLink>
@@ -421,24 +421,24 @@ function formatInventoryAlertReason(item: InventoryAlertItem) {
 
 function KpiCard({ title, value, icon: Icon, tone, loading }: KpiCardProps) {
   const toneClasses: Record<KpiCardProps['tone'], string> = {
-    default: 'bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)]',
-    warning: 'bg-amber-50 text-amber-700',
-    critical: 'bg-rose-50 text-rose-700',
-    success: 'bg-emerald-50 text-emerald-700',
+    default: 'bg-blue-50 text-blue-700 ring-blue-100',
+    warning: 'bg-amber-50 text-amber-700 ring-amber-100',
+    critical: 'bg-rose-50 text-rose-700 ring-rose-100',
+    success: 'bg-emerald-50 text-emerald-700 ring-emerald-100',
   };
 
   return (
-    <article className="rounded-xl border bg-[var(--color-surface)] px-4 py-3 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
+    <article className="rounded-[26px] border border-[var(--color-border)] bg-[var(--color-surface)]/84 px-4 py-3 shadow-[0_14px_34px_rgba(15,31,51,0.055)] backdrop-blur transition-colors hover:bg-[var(--color-surface)]">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">{title}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.06em] text-[var(--color-text-secondary)]">{title}</p>
           {loading ? (
             <div className="mt-1.5 h-7 w-12 animate-pulse rounded-md bg-[var(--color-surface-muted)]" />
           ) : (
             <p className="mt-1.5 text-2xl font-semibold tracking-tight text-[var(--color-text)]">{value}</p>
           )}
         </div>
-        <div className={`flex h-9 w-9 items-center justify-center rounded-md ${toneClasses[tone]}`}>
+        <div className={`flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ${toneClasses[tone]}`}>
           <Icon className="h-4.5 w-4.5" />
         </div>
       </div>
@@ -450,16 +450,16 @@ function ActionCard({ label, href, icon: Icon, primary = false }: ActionCardProp
   return (
     <Link
       href={href}
-      className={`group flex items-center justify-between rounded-xl border px-4 py-3 transition-colors ${
+      className={`group flex items-center justify-between rounded-[26px] border px-4 py-3 shadow-[0_12px_28px_rgba(15,31,51,0.045)] transition-all hover:-translate-y-0.5 ${
         primary
           ? 'border-blue-700/20 bg-[var(--color-accent)] text-white'
-          : 'bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-surface-muted)]'
+          : 'border-[var(--color-border)] bg-[var(--color-surface)]/84 text-[var(--color-text)] hover:bg-[var(--color-surface)]'
       }`}
     >
       <span className="inline-flex items-center gap-2.5 text-sm font-medium">
         <span
-          className={`flex h-8 w-8 items-center justify-center rounded-md ${
-            primary ? 'bg-[var(--color-surface)]/15' : 'bg-[var(--color-surface-muted)]'
+          className={`flex h-9 w-9 items-center justify-center rounded-2xl ${
+            primary ? 'bg-[var(--color-surface)]/15' : 'bg-[var(--color-surface-muted)] text-[var(--color-accent)]'
           }`}
         >
           <Icon className="h-4 w-4" />
@@ -473,7 +473,7 @@ function ActionCard({ label, href, icon: Icon, primary = false }: ActionCardProp
 
 function StatRow({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="flex items-center justify-between rounded-lg border bg-[var(--color-surface-muted)] px-3 py-2">
+    <div className="flex items-center justify-between rounded-2xl border bg-[var(--color-surface-muted)]/86 px-3 py-2">
       <span className="text-[13px] text-[var(--color-text-secondary)]">{label}</span>
       <span className="text-sm font-semibold text-[var(--color-text)]">{value}</span>
     </div>
@@ -484,7 +484,7 @@ function QuickLink({ href, children }: { href: string; children: string }) {
   return (
     <Link
       href={href}
-      className="flex items-center justify-between rounded-lg border bg-[var(--color-surface-muted)] px-3 py-2 text-[13px] font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)]"
+      className="flex items-center justify-between rounded-2xl border bg-[var(--color-surface-muted)]/86 px-3 py-2 text-[13px] font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface)]"
     >
       {children}
       <ArrowRight className="h-4 w-4 text-[var(--color-text-soft)]" />

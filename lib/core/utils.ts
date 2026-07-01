@@ -25,8 +25,18 @@ export function getTestReferenceValues(test: Test, gender: string | null | undef
 }
 
 export function getResultReferenceValues(result: Result, gender: string | null | undefined) {
-  if (result.metadata && typeof result.metadata === 'object' && result.metadata.reference) {
-    const reference = result.metadata.reference as any;
+  let metadata: unknown = result.metadata;
+
+  if (typeof metadata === 'string') {
+    try {
+      metadata = JSON.parse(metadata);
+    } catch {
+      metadata = undefined;
+    }
+  }
+
+  if (metadata && typeof metadata === 'object' && 'reference' in metadata) {
+    const reference = (metadata as any).reference;
     if (typeof reference === 'object') {
       const min = typeof reference.min === 'number' ? reference.min : null;
       const max = typeof reference.max === 'number' ? reference.max : null;

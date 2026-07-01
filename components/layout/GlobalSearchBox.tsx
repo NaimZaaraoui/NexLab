@@ -51,12 +51,12 @@ export function GlobalSearchBox({
           onChange={(event) => onSearchQueryChange(event.target.value)}
           onFocus={onFocus}
           placeholder="Rechercher patient, analyse (Ctrl+K)..."
-          className="h-11 w-full rounded-lg border bg-[var(--color-surface)] pl-11 pr-4 text-sm font-medium text-[var(--color-text)] outline-none transition-all placeholder:text-[var(--color-text-soft)] focus:border-[var(--color-accent)] focus:ring-4 focus:ring-blue-500/10"
+          className="h-11 w-full rounded-2xl border bg-[var(--color-surface)] pl-11 pr-4 text-sm font-medium text-[var(--color-text)] outline-none transition-all placeholder:text-[var(--color-text-soft)] focus:border-[var(--color-accent)] focus:ring-4 focus:ring-blue-500/10"
         />
       </div>
 
       {showSearchResults && (
-        <div className="absolute left-0 right-0 top-full z-50 mt-2 rounded-lg border bg-[var(--color-surface)] shadow-[0_10px_24px_rgba(15,31,51,0.08)]">
+        <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border bg-[var(--color-surface)] shadow-[0_18px_38px_rgba(15,31,51,0.10)]">
           {searchResults.length > 0 ? (
             <div className="max-h-[420px] overflow-y-auto">
               {searchResults.map((result) => (

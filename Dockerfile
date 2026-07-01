@@ -3,6 +3,11 @@
 FROM node:20-slim AS deps
 WORKDIR /app
 
+# Force apt-get to use IPv4 and disable date/validity checks to avoid mirror synchronization issues
+RUN echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99apt-tricks && \
+    echo 'Acquire::Check-Valid-Until "false";' >> /etc/apt/apt.conf.d/99apt-tricks && \
+    echo 'Acquire::Check-Date "false";' >> /etc/apt/apt.conf.d/99apt-tricks
+
 # Install build dependencies for better-sqlite3
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -29,6 +34,11 @@ RUN --mount=type=cache,target=/root/.npm npm ci
 FROM node:20-slim AS builder
 WORKDIR /app
 
+# Force apt-get to use IPv4 and disable date/validity checks to avoid mirror synchronization issues
+RUN echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99apt-tricks && \
+    echo 'Acquire::Check-Valid-Until "false";' >> /etc/apt/apt.conf.d/99apt-tricks && \
+    echo 'Acquire::Check-Date "false";' >> /etc/apt/apt.conf.d/99apt-tricks
+
 # Install OpenSSL in builder stage for prisma generate
 RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
@@ -51,6 +61,11 @@ RUN npm prune --production
 # Stage 3: Runner
 FROM node:20-slim AS runner
 WORKDIR /app
+
+# Force apt-get to use IPv4 and disable date/validity checks to avoid mirror synchronization issues
+RUN echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99apt-tricks && \
+    echo 'Acquire::Check-Valid-Until "false";' >> /etc/apt/apt.conf.d/99apt-tricks && \
+    echo 'Acquire::Check-Date "false";' >> /etc/apt/apt.conf.d/99apt-tricks
 
 ENV NODE_ENV="production"
 ENV NEXT_TELEMETRY_DISABLED="1"
