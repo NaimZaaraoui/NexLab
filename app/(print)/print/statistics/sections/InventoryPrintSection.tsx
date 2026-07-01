@@ -19,16 +19,16 @@ export function InventoryPrintSection({ data }: Props) {
           { label: 'Articles Critiques', value: data.kpis.criticalItemsCount, color: 'text-amber-700' },
         ].map(k => (
           <div key={k.label} className="rounded-xl border p-4 bg-slate-50">
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{k.label}</p>
+            <p className="text-xs font-black uppercase tracking-[0.08em] text-slate-500">{k.label}</p>
             <p className={`text-2xl font-black mt-1 ${k.color} print:text-black`}>{k.value}</p>
           </div>
         ))}
       </div>
 
       <div>
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-3">Répartition des Mouvements</p>
+        <p className="text-xs font-black uppercase tracking-[0.1em] text-slate-500 mb-3">Répartition des Mouvements</p>
         <div className="overflow-hidden rounded-xl border">
-          <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+          <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-slate-500">
             <div className="col-span-2">Type</div><div className="text-right">Quantité</div>
           </div>
           {data.movementTypeBreakdown.map(m => (
@@ -41,16 +41,16 @@ export function InventoryPrintSection({ data }: Props) {
       </div>
 
       <div>
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-3">Top Réactifs Consommés</p>
+        <p className="text-xs font-black uppercase tracking-[0.1em] text-slate-500 mb-3">Top Réactifs Consommés</p>
         <div className="overflow-hidden rounded-xl border">
-          <div className="grid grid-cols-12 bg-slate-50 border-b px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+          <div className="grid grid-cols-12 bg-slate-50 border-b px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-slate-500">
             <div className="col-span-1">#</div><div className="col-span-5">Réactif</div>
             <div className="col-span-3">Catégorie</div>
             <div className="col-span-2 text-right">Quantité</div><div className="col-span-1 text-right">N</div>
           </div>
           {data.consumptionRanking.map((item, i) => (
             <div key={item.id} className={`grid grid-cols-12 items-center px-4 py-2.5 border-b text-sm ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/40'}`}>
-              <div className="col-span-1 text-slate-400 font-bold">{i + 1}</div>
+              <div className="col-span-1 text-slate-500 font-bold">{i + 1}</div>
               <div className="col-span-5 font-medium truncate">{item.name}</div>
               <div className="col-span-3 text-slate-500 text-xs truncate">{item.category}</div>
               <div className="col-span-2 text-right font-bold text-indigo-700 print:text-black">{item.totalQty} {item.unit}</div>
@@ -62,9 +62,9 @@ export function InventoryPrintSection({ data }: Props) {
 
       {data.criticalItems.length > 0 && (
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-500 mb-3">⚠ Articles en Stock Critique</p>
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-amber-500 mb-3">⚠ Articles en Stock Critique</p>
           <div className="overflow-hidden rounded-xl border border-amber-200">
-            <div className="grid grid-cols-12 bg-amber-50 border-b border-amber-100 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-amber-700">
+            <div className="grid grid-cols-12 bg-amber-50 border-b border-amber-100 px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-amber-700">
               <div className="col-span-5">Réactif</div><div className="col-span-3">Catégorie</div>
               <div className="col-span-2 text-right">Stock</div><div className="col-span-2 text-right">Seuil</div>
             </div>

@@ -76,7 +76,7 @@ export function InstrumentFormModal({
       <DialogContent className="flex max-h-[90vh] max-w-2xl flex-col p-0 overflow-hidden">
         <DialogHeader className="px-6 py-5 border-b">
           <DialogTitle className="text-lg font-semibold text-[var(--color-text)]">{title}</DialogTitle>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">{subtitle}</p>
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{subtitle}</p>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">

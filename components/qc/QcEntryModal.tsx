@@ -43,10 +43,19 @@ export function QcEntryModal({
       <DialogContent className="flex max-h-[90vh] w-[90%] bg-white flex-col p-0 overflow-hidden">
         <DialogHeader className="px-6 py-5 border-b border-[var(--color-border)]">
           <DialogTitle className="text-lg font-semibold text-[var(--color-text)]">Saisie QC</DialogTitle>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
             Lot {selectedLot.lotNumber} · {selectedLot.targets.length} paramètre(s)
           </p>
         </DialogHeader>
+
+        {selectedLot.targets.some((t) => t.phase === 'ACCUMULATION') && (
+          <div className="bg-amber-50 px-6 py-3 border-b border-amber-200">
+            <div className="flex gap-3 text-sm text-amber-800">
+              <span className="font-semibold">⚠️ Phase d'accumulation</span>
+              <span>Certains paramètres sont en phase d'accumulation (20 premiers points). Les règles Westgard ne s'appliquent pas encore pour ces paramètres.</span>
+            </div>
+          </div>
+        )}
 
         <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
           <div className="custom-scrollbar flex-1 space-y-4 overflow-y-auto px-6 py-5">
@@ -105,10 +114,19 @@ export function QcEntryModal({
                   <div key={target.id} className="grid gap-3 rounded-xl border bg-[var(--color-surface-muted)] px-4 py-4 lg:grid-cols-[1.1fr_0.8fr_0.8fr_auto] lg:items-center">
                     <div>
                       <div className="text-sm font-semibold text-[var(--color-text)]">{target.testName}</div>
-                      <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+                      <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
                         {target.testCode} · Cible {formatQcNumber(target.mean)} {target.unit || ''}
                       </div>
                       <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+                        {target.phase === 'ACCUMULATION' ? (
+                          <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 font-medium text-amber-800">
+                            Accumulation {target.validPoints ?? 0}/20
+                          </span>
+                        ) : (
+                          <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 font-medium text-emerald-700">
+                            Routine
+                          </span>
+                        )}
                         <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 font-medium text-slate-700">
                           Mode: {target.controlMode === 'STATISTICAL' ? 'Statistique' : 'Plage'}
                         </span>
@@ -152,11 +170,11 @@ export function QcEntryModal({
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`inline-flex h-3 w-3 rounded-full ${tone}`} />
-                      <span className="text-xs font-medium text-[var(--color-text-soft)]">
+                      <span className="text-xs font-medium text-[var(--color-text-secondary)]">
                         {target.controlMode === 'STATISTICAL'
                           ? zScore === null
                             ? 'En attente'
-                            : getQcZone(zScore).label
+                            : getQcZone(zScore, target.phase === 'ACCUMULATION').label
                           : acceptanceOk === null
                             ? 'En attente'
                             : acceptanceOk

@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "NexLab Sans";
+  src: url("/fonts/geist/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NexLab Mono";
+  src: url("/fonts/geist/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-sans: var(--font-ui);
   --font-mono: var(--font-data);
@@ -19,8 +35,8 @@
 }
 
 :root {
-  --font-ui: "Inter", "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
-  --font-data: "JetBrains Mono", "Cascadia Code", "Cascadia Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --font-ui: "NexLab Sans", "Inter", "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-data: "NexLab Mono", "JetBrains Mono", "Cascadia Code", "Cascadia Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
   --color-page: #f3f6f9;
   --color-surface: #ffffff;
   --color-surface-muted: #f8fafc;

@@ -67,7 +67,7 @@ export const QcReportHeader: React.FC<QcReportHeaderProps> = ({
                 <h1 className="text-4xl font-black text-[var(--color-text)] tracking-tight uppercase print:text-black leading-none">
                   {LAB_NAME}
                 </h1>
-                <div className="text-[10px] font-black text-[var(--color-text-secondary)] uppercase tracking-widest mt-2 flex items-center gap-2">
+                <div className="text-xs font-black text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mt-2 flex items-center gap-2">
                   <span className="w-6 h-[2px] bg-indigo-600 print:bg-black"></span>
                   {LAB_SUBTITLE}
                 </div>
@@ -79,10 +79,10 @@ export const QcReportHeader: React.FC<QcReportHeaderProps> = ({
                 RAPPORT QC
               </h2>
               <div className="flex flex-col items-end">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:text-black/60">
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                   Période: {targetMonth}
                 </p>
-                <p className="text-[10px] font-bold text-[var(--color-accent)] uppercase tracking-widest print:text-black">
+                <p className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
                   {testCode} · {testName}
                 </p>
               </div>
@@ -92,12 +92,12 @@ export const QcReportHeader: React.FC<QcReportHeaderProps> = ({
           <div className="grid grid-cols-12 gap-4 mb-8 relative z-10 px-4">
             <div className="col-span-12 h-px bg-[var(--color-surface-muted)] print:bg-black/10"></div>
             <div className="col-span-4">
-              <span className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-widest print:text-black">
+              <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
                 Lot QC
               </span>
               <div className="flex flex-col mt-2">
                 <h3 className="text-2xl font-black text-[var(--color-text)] mb-2 print:text-black">{materialName}</h3>
-                <div className="flex gap-4 text-sm font-medium text-[var(--color-text-soft)] print:text-black">
+                <div className="flex gap-4 text-sm font-medium text-[var(--color-text-secondary)] print:text-black">
                   <span>Lot {lotNumber}</span>
                   <span className="text-slate-200 print:text-black/30">|</span>
                   <span>Niveau {materialLevel}</span>
@@ -107,7 +107,7 @@ export const QcReportHeader: React.FC<QcReportHeaderProps> = ({
 
             <div className="col-span-8 grid grid-cols-2 gap-4 pl-8 border-l border-[var(--color-border)] print:border-black/10">
               <div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">
+                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                   Test surveillé
                 </span>
                 <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">
@@ -115,7 +115,7 @@ export const QcReportHeader: React.FC<QcReportHeaderProps> = ({
                 </p>
               </div>
               <div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">
+                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                   Cible
                 </span>
                 <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">
@@ -123,7 +123,7 @@ export const QcReportHeader: React.FC<QcReportHeaderProps> = ({
                 </p>
               </div>
               <div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">
+                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                   Écart-type (SD)
                 </span>
                 <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">

@@ -126,7 +126,7 @@ export function Code39Barcode({
         })}
       </svg>
       {showLabel && (
-        <div className={labelClassName || 'mt-1 text-center font-mono text-[10px] font-bold tracking-[0.28em] text-slate-700'}>
+        <div className={labelClassName || 'mt-1 text-center font-mono text-xs font-bold tracking-[0.28em] text-slate-700'}>
           {safeValue}
         </div>
       )}

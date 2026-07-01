@@ -70,7 +70,7 @@ export function CategoryListPanel({
                     e.stopPropagation();
                     onToggleExpanded(cat.id);
                   }}
-                  className="text-slate-400 hover:text-slate-600 transition-transform"
+                  className="text-slate-500 hover:text-slate-600 transition-transform"
                   style={{ transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)' }}
                 >
                   <ChevronRight size={16} />
@@ -82,7 +82,7 @@ export function CategoryListPanel({
                 <div className="flex flex-col min-w-0 truncate">
                   <span className="font-bold text-slate-700 truncate">{cat.name}</span>
                   {depth > 0 && (
-                    <span className="text-[10px] text-slate-400 uppercase font-black truncate">Sous-catégorie</span>
+                    <span className="text-xs text-slate-500 uppercase font-black truncate">Sous-catégorie</span>
                   )}
                 </div>
               </div>
@@ -93,7 +93,7 @@ export function CategoryListPanel({
                   e.stopPropagation();
                   onOpenEditModal(cat);
                 }}
-                className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                className="p-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                 title="Modifier"
               >
                 <Edit2 size={14} />
@@ -103,7 +103,7 @@ export function CategoryListPanel({
                   e.stopPropagation();
                   onDeleteRequest(cat);
                 }}
-                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                 title="Supprimer"
               >
                 <Trash2 size={14} />

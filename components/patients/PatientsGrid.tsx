@@ -47,7 +47,7 @@ export function PatientsGrid({ patients, loading, role, onEdit, onNewAnalysis }:
                 </h3>
                 <div className="mt-1 flex items-center gap-2">
                   <span
-                    className={`rounded-sm border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                    className={`rounded-sm border px-2 py-0.5 text-xs font-semibold uppercase tracking-wide ${
                       patient.gender === 'M'
                         ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)]'
                         : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)]'
@@ -55,7 +55,7 @@ export function PatientsGrid({ patients, loading, role, onEdit, onNewAnalysis }:
                   >
                     {patient.gender === 'M' ? 'Homme' : 'Femme'}
                   </span>
-                  <span className="rounded-sm bg-[var(--color-surface-muted)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--color-text-soft)]">
+                  <span className="rounded-sm bg-[var(--color-surface-muted)] px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-secondary)]">
                     {calculatePatientAge(patient.birthDate)} ans
                   </span>
                 </div>
@@ -74,7 +74,7 @@ export function PatientsGrid({ patients, loading, role, onEdit, onNewAnalysis }:
 
               <button
                 onClick={() => onEdit(patient)}
-                className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]"
+                className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]"
               >
                 <Edit2 size={16} />
               </button>
@@ -84,13 +84,13 @@ export function PatientsGrid({ patients, loading, role, onEdit, onNewAnalysis }:
           <div className="flex-1 space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                <div className="mb-1 flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-slate-500">
                   <Phone size={10} /> Téléphone
                 </div>
                 <div className="truncate text-xs font-semibold text-slate-700">{patient.phoneNumber || '—'}</div>
               </div>
               <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                <div className="mb-1 flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-slate-500">
                   <Calendar size={10} /> Naissance
                 </div>
                 <div className="text-xs font-semibold text-slate-700">
@@ -107,7 +107,7 @@ export function PatientsGrid({ patients, loading, role, onEdit, onNewAnalysis }:
 
             {patient.email && (
               <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                <div className="mb-1 flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-slate-500">
                   <Mail size={10} /> Email
                 </div>
                 <div className="truncate text-xs font-medium text-[var(--color-text-secondary)]">{patient.email}</div>

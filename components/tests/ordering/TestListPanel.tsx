@@ -58,7 +58,7 @@ export function TestListPanel({
                     {({ attributes, listeners }) => (
                       <div className="p-3 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl flex items-center justify-between hover:border-blue-200 hover:shadow-md transition-all group">
                         <div className="flex items-center gap-4">
-                          <div className="w-8 h-8 rounded-lg bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] font-mono text-[10px] flex items-center justify-center font-semibold group-hover:bg-[var(--color-accent-soft)] group-hover:text-[var(--color-accent)] transition-colors">
+                          <div className="w-8 h-8 rounded-lg bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] font-mono text-xs flex items-center justify-center font-semibold group-hover:bg-[var(--color-accent-soft)] group-hover:text-[var(--color-accent)] transition-colors">
                             {test.code}
                           </div>
                           <span className="font-medium text-[var(--color-text)]">{test.name}</span>
@@ -75,7 +75,7 @@ export function TestListPanel({
                   </SortableItem>
                 ))}
                 {filteredTests.length === 0 && (
-                  <div className="p-8 text-center text-slate-400 italic">
+                  <div className="p-8 text-center text-slate-500 italic">
                     {searchQuery ? 'Aucun test trouvé' : 'Aucun test dans cette catégorie'}
                   </div>
                 )}
@@ -92,7 +92,7 @@ export function TestListPanel({
                         style={{ width: activeDragWidth ? `${activeDragWidth}px` : 'auto' }}
                       >
                         <div className="flex items-center gap-4">
-                          <div className="w-8 h-8 rounded-lg bg-indigo-100 text-[var(--color-accent)] font-mono text-[10px] flex items-center justify-center font-bold">
+                          <div className="w-8 h-8 rounded-lg bg-indigo-100 text-[var(--color-accent)] font-mono text-xs flex items-center justify-center font-bold">
                             {test.code}
                           </div>
                           <span className="font-bold text-slate-700">{test.name}</span>
@@ -105,7 +105,7 @@ export function TestListPanel({
             </DragOverlayPortal>
           </DndContext>
         ) : (
-          <div className="flex flex-col items-center justify-center h-64 text-slate-400">
+          <div className="flex flex-col items-center justify-center h-64 text-slate-500">
             <Layers size={48} className="mb-4 opacity-20" />
             <p>Sélectionnez une catégorie pour ordonner ses tests</p>
           </div>

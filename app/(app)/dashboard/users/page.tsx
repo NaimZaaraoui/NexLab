@@ -30,11 +30,11 @@ export default function UsersManagementPage() {
           <div>
             <PageBackLink href="/" />
             <h1 className="text-xl font-semibold text-[var(--color-text)]">Gestion des utilisateurs</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">Gérer les accès et rôles du personnel du laboratoire.</p>
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Gérer les accès et rôles du personnel du laboratoire.</p>
           </div>
-          <div className="hidden lg:flex items-center gap-2 rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-4 py-2 text-[var(--color-text-soft)]">
+          <div className="hidden lg:flex items-center gap-2 rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-4 py-2 text-[var(--color-text-secondary)]">
             <Settings className="w-4 h-4" />
-            <span className="text-xs font-semibold uppercase tracking-[0.12em]">Mode administrateur</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.08em]">Mode administrateur</span>
           </div>
         </div>
       </section>
@@ -45,12 +45,12 @@ export default function UsersManagementPage() {
           <div className="overflow-hidden rounded-xl border bg-[var(--color-surface)] shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
             <div className="flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface-muted)]/40 p-5">
               <h3 className="font-semibold text-[var(--color-text)] flex items-center gap-2">
-                <UserIcon size={18} className="text-[var(--color-text-soft)]" />
+                <UserIcon size={18} className="text-[var(--color-text-secondary)]" />
                 Liste du Personnel
               </h3>
               <button 
                 onClick={state.fetchUsers}
-                className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]"
+                className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]"
               >
                 <RefreshCw size={16} className={state.loading ? 'animate-spin' : ''} />
               </button>
@@ -58,18 +58,18 @@ export default function UsersManagementPage() {
 
             <div className="overflow-x-auto">
               {state.loading ? (
-                <div className="p-20 flex flex-col items-center justify-center text-slate-400 gap-4">
+                <div className="p-20 flex flex-col items-center justify-center text-slate-500 gap-4">
                   <RefreshCw size={40} className="animate-spin text-indigo-500" />
-                  <p className="font-bold uppercase tracking-widest text-xs">Chargement des données...</p>
+                  <p className="font-bold uppercase tracking-[0.08em] text-xs">Chargement des données...</p>
                 </div>
               ) : (
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-[var(--color-border)] text-left">
-                      <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.12em]">Utilisateur</th>
-                      <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.12em]">Rôle</th>
-                      <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.12em]">Statut</th>
-                      <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.12em] text-right">Actions</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">Utilisateur</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">Rôle</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">Statut</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-[0.08em] text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--color-border)]">
@@ -77,12 +77,12 @@ export default function UsersManagementPage() {
                       <tr key={user.id} className={`group transition-colors ${!user.isActive ? 'bg-[var(--color-surface-muted)]/55 opacity-70' : 'hover:bg-[var(--color-surface-muted)]/35'}`}>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className={`flex h-10 w-10 items-center justify-center rounded-md border text-sm font-bold ${user.isActive ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-slate-400'}`}>
+                            <div className={`flex h-10 w-10 items-center justify-center rounded-md border text-sm font-bold ${user.isActive ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-slate-500'}`}>
                               {user.name.charAt(0)}
                             </div>
                             <div>
                               <p className="text-sm font-semibold text-[var(--color-text)]">{user.name}</p>
-                              <p className="text-xs text-slate-400 font-medium">{user.email}</p>
+                              <p className="text-xs text-slate-500 font-medium">{user.email}</p>
                             </div>
                           </div>
                         </td>
@@ -98,7 +98,7 @@ export default function UsersManagementPage() {
                               Actif
                             </span>
                           ) : (
-                            <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-400">
+                            <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
                               <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
                               Désactivé
                             </span>
@@ -109,7 +109,7 @@ export default function UsersManagementPage() {
                             <button 
                               onClick={() => state.handleResetPassword(user)}
                               title="Réinitialiser MDP"
-                              className="rounded-md border border-[var(--color-border)] p-2 text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]"
+                              className="rounded-md border border-[var(--color-border)] p-2 text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]"
                             >
                               <Key size={16} />
                             </button>
@@ -119,7 +119,7 @@ export default function UsersManagementPage() {
                               <button 
                                 onClick={() => state.handleToggleActive(user)}
                                 title={user.isActive ? "Désactiver" : "Activer"}
-                                className="rounded-md border border-[var(--color-border)] p-2 text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]"
+                                className="rounded-md border border-[var(--color-border)] p-2 text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]"
                               >
                                 {user.isActive ? <UserX size={16} /> : <UserCheck size={16} />}
                               </button>

@@ -18,10 +18,10 @@ export function InventoryReorderPanel({ items }: InventoryReorderPanelProps) {
   return (
     <section className="rounded-[2rem] border border-[var(--color-border)]/50 bg-[var(--color-surface)] p-6 shadow-sm ring-1 ring-slate-900/5">
       <div className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
+        <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
           Réapprovisionnement conseillé
         </h2>
-        <p className="text-sm text-[var(--color-text-soft)]">
+        <p className="text-sm text-[var(--color-text-secondary)]">
           Suggestions calculées à partir du seuil minimum, du stock courant et des expirations proches. Les usages récents sur 30 jours sont pris en compte pour mieux estimer la cible.
         </p>
       </div>
@@ -35,7 +35,7 @@ export function InventoryReorderPanel({ items }: InventoryReorderPanelProps) {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="text-sm font-semibold text-[var(--color-text)]">{item.name}</div>
-                <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+                <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
                   {item.category} · {item.kind === 'CONSUMABLE' ? 'Consommable' : 'Réactif'}
                 </div>
               </div>
@@ -53,19 +53,19 @@ export function InventoryReorderPanel({ items }: InventoryReorderPanelProps) {
             </div>
             <div className="mt-4 grid grid-cols-3 gap-3 text-center">
               <div className="rounded-xl border border-[var(--color-border)]/50 bg-[var(--color-surface)] px-3 py-2 shadow-sm ring-1 ring-slate-900/5">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Stock</div>
+                <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Stock</div>
                 <div className="mt-1 text-sm font-semibold text-[var(--color-text)]">{item.currentStock}</div>
               </div>
               <div className="rounded-xl border bg-[var(--color-surface)] px-3 py-2">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Commander</div>
+                <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Commander</div>
                 <div className="mt-1 text-sm font-semibold text-[var(--color-accent)]">+{item.reorder.suggestedQuantity}</div>
               </div>
               <div className="rounded-xl border bg-[var(--color-surface)] px-3 py-2">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Cible</div>
+                <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Cible</div>
                 <div className="mt-1 text-sm font-semibold text-[var(--color-text)]">{item.reorder.targetStock}</div>
               </div>
             </div>
-            <div className="mt-3 text-xs text-[var(--color-text-soft)]">
+            <div className="mt-3 text-xs text-[var(--color-text-secondary)]">
               {item.reorder.reason} · Usage moyen: {item.avgDailyConsumption30d || 0} / jour · Unité: {item.unit}
             </div>
           </Link>

@@ -11,6 +11,10 @@ export interface QcTarget {
   minAcceptable: number | null;
   maxAcceptable: number | null;
   unit: string | null;
+  phase?: string;
+  validPoints?: number;
+  meanLoc?: number | null;
+  sdLoc?: number | null;
 }
 
 export interface QcValue {
@@ -28,6 +32,8 @@ export interface QcValue {
   maxAcceptable?: number | null;
   inAcceptanceRange?: boolean | null;
   rule?: string | null;
+  isExcluded?: boolean;
+  excludeReason?: string | null;
 }
 
 export interface QcResult {

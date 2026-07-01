@@ -26,11 +26,11 @@ export function TemperatureHistoryHeader({
         <div>
           <PageBackLink href="/dashboard/temperature" />
           <h1 className="text-xl font-semibold text-[var(--color-text)]">Historique des températures</h1>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">{instrumentName || 'Instrument'}</p>
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{instrumentName || 'Instrument'}</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <div className="input-premium flex h-11 items-center gap-2 rounded-md px-3">
-            <Calendar className="h-4 w-4 text-[var(--color-text-soft)]" />
+            <Calendar className="h-4 w-4 text-[var(--color-text-secondary)]" />
             <input
               type="month"
               value={month}

@@ -58,19 +58,19 @@ export function AnalysisPaymentPanel() {
             {hasTierPayant ? (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <span className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 font-medium text-[var(--color-text-secondary)] flex flex-col">
-                  <span className="text-[10px] opacity-60 uppercase tracking-wide mb-0.5">Total analyse</span>
+                  <span className="text-xs opacity-60 uppercase tracking-wide mb-0.5">Total analyse</span>
                   <span className="font-bold text-slate-700">{paymentTotal.toFixed(2)} {currencyUnit}</span>
                 </span>
                 <span className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 font-medium flex flex-col">
-                  <span className="text-[10px] opacity-70 uppercase tracking-wide mb-0.5 text-emerald-700">Prise en charge ({insuranceProvider})</span>
+                  <span className="text-xs opacity-70 uppercase tracking-wide mb-0.5 text-emerald-700">Prise en charge ({insuranceProvider})</span>
                   <span className="font-bold text-emerald-700">{insuranceShare.toFixed(2)} {currencyUnit}</span>
                 </span>
                 <span className="rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2 font-medium flex flex-col">
-                  <span className="text-[10px] opacity-70 uppercase tracking-wide mb-0.5 text-indigo-700">Part patient (Ticket modérateur)</span>
+                  <span className="text-xs opacity-70 uppercase tracking-wide mb-0.5 text-indigo-700">Part patient (Ticket modérateur)</span>
                   <span className="font-bold text-indigo-700">{effectivePatientShare.toFixed(2)} {currencyUnit}</span>
                 </span>
                 <span className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 font-medium text-[var(--color-text-secondary)] flex flex-col">
-                  <span className="text-[10px] opacity-60 uppercase tracking-wide mb-0.5">Payé / Reste</span>
+                  <span className="text-xs opacity-60 uppercase tracking-wide mb-0.5">Payé / Reste</span>
                   <span className="font-bold text-slate-700">{paymentPaid.toFixed(2)} / <span className={patientRemaining > 0 ? 'text-rose-600' : 'text-emerald-600'}>{patientRemaining.toFixed(2)}</span> {currencyUnit}</span>
                 </span>
               </div>

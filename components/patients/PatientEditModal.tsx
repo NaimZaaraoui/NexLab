@@ -52,7 +52,7 @@ export function PatientEditModal({
             <div className="custom-scrollbar flex-1 space-y-6 overflow-y-auto p-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Prénom</label>
+                  <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Prénom</label>
                   <input
                     value={patient.firstName}
                     onChange={(event) => onPatientChange({ ...patient, firstName: event.target.value })}
@@ -61,7 +61,7 @@ export function PatientEditModal({
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Nom</label>
+                  <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Nom</label>
                   <input
                     value={patient.lastName}
                     onChange={(event) => onPatientChange({ ...patient, lastName: event.target.value })}
@@ -72,7 +72,7 @@ export function PatientEditModal({
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Date de naissance</label>
+                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Date de naissance</label>
                 <input
                   type="date"
                   value={patient.birthDate ? new Date(patient.birthDate).toISOString().split('T')[0] : ''}
@@ -83,13 +83,13 @@ export function PatientEditModal({
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Sexe</label>
+                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Sexe</label>
                 <div className="flex gap-4">
                   <button
                     type="button"
                     onClick={() => onPatientChange({ ...patient, gender: 'M' })}
                     className={`flex-1 rounded-md border py-3 font-medium transition-all ${
-                      patient.gender === 'M' ? 'border-indigo-200 bg-indigo-50 text-[var(--color-accent)]' : 'border-[var(--color-border)] text-[var(--color-text-soft)]'
+                      patient.gender === 'M' ? 'border-indigo-200 bg-indigo-50 text-[var(--color-accent)]' : 'border-[var(--color-border)] text-[var(--color-text-secondary)]'
                     }`}
                   >
                     Homme
@@ -98,7 +98,7 @@ export function PatientEditModal({
                     type="button"
                     onClick={() => onPatientChange({ ...patient, gender: 'F' })}
                     className={`flex-1 rounded-md border py-3 font-medium transition-all ${
-                      patient.gender === 'F' ? 'border-rose-200 bg-rose-50 text-rose-600' : 'border-[var(--color-border)] text-[var(--color-text-soft)]'
+                      patient.gender === 'F' ? 'border-rose-200 bg-rose-50 text-rose-600' : 'border-[var(--color-border)] text-[var(--color-text-secondary)]'
                     }`}
                   >
                     Femme
@@ -107,7 +107,7 @@ export function PatientEditModal({
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Téléphone</label>
+                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Téléphone</label>
                 <input
                   value={patient.phoneNumber || ''}
                   onChange={(event) => onPatientChange({ ...patient, phoneNumber: event.target.value })}
@@ -116,7 +116,7 @@ export function PatientEditModal({
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Email</label>
+                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Email</label>
                 <input
                   value={patient.email || ''}
                   onChange={(event) => onPatientChange({ ...patient, email: event.target.value })}
@@ -125,7 +125,7 @@ export function PatientEditModal({
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Adresse</label>
+                <label className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Adresse</label>
                 <input
                   value={patient.address || ''}
                   onChange={(event) => onPatientChange({ ...patient, address: event.target.value })}

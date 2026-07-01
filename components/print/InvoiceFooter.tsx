@@ -31,10 +31,10 @@ export const InvoiceFooter: React.FC<InvoiceFooterProps> = ({ analysis, settings
     <div className="pt-6 border-t-2 border-slate-900 print:border-black footer-content">
       <div className="grid grid-cols-3 gap-12">
         <div className="col-span-2">
-          <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] mb-4 print:text-black">Informations</h4>
-          <p className="text-xs text-[var(--color-text-soft)] leading-relaxed max-w-md print:text-black">
+          <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-[0.1em] mb-4 print:text-black">Informations</h4>
+          <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed max-w-md print:text-black">
             Document financier généré électriquement.<br />
-            <span className="text-[8px] font-semibold text-slate-300 uppercase print:text-black/40">
+            <span className="text-xs font-semibold text-slate-300 uppercase print:text-black/40">
               ID Document: {analysis.id.substring(0, 8).toUpperCase()}
             </span>
           </p>
@@ -42,7 +42,7 @@ export const InvoiceFooter: React.FC<InvoiceFooterProps> = ({ analysis, settings
 
         <div className="flex flex-col items-center">
           <div className="w-full border-b border-slate-900 pb-2 mb-4 text-center print:border-black">
-            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] print:text-black">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-[0.1em] print:text-black">
               Signature & Cachet
             </span>
           </div>
@@ -192,11 +192,11 @@ export const InvoiceFooter: React.FC<InvoiceFooterProps> = ({ analysis, settings
             </div>
 
             <div className="text-center">
-              <p className="text-[10px] font-semibold text-[var(--color-accent)] uppercase tracking-wide print:text-black">
+              <p className="text-xs font-semibold text-[var(--color-accent)] uppercase tracking-wide print:text-black">
                 {BIO_TITLE && BIO_NAME ? `${BIO_TITLE} ${BIO_NAME}` : 'Biologiste Responsable'}
               </p>
               {BIO_ONMPT && (
-                <p className="text-[8px] font-bold text-slate-400 print:text-black/60 mt-0.5">
+                <p className="text-xs font-bold text-slate-500 print:text-black/60 mt-0.5">
                   ONMPT: {BIO_ONMPT}
                 </p>
               )}
@@ -218,7 +218,7 @@ export const InvoiceFooter: React.FC<InvoiceFooterProps> = ({ analysis, settings
         </div>
       )}
       
-      <div className="mt-6 flex justify-between items-center text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
+      <div className="mt-6 flex justify-between items-center text-[11px] font-bold text-slate-300 uppercase tracking-[0.1em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
         <span>{LAB_NAME}</span>
         <div className="flex gap-4">
           {LAB_PHONE && <span>Tél: {LAB_PHONE}</span>}

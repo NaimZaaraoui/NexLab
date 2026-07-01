@@ -139,7 +139,7 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
                   <h1 className="text-4xl font-black text-[var(--color-text)] tracking-tight uppercase print:text-black leading-none">
                     {LAB_NAME}
                   </h1>
-                  <div className="text-[10px] font-black text-[var(--color-text-secondary)] uppercase tracking-widest mt-2 flex items-center gap-2">
+                  <div className="text-xs font-black text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mt-2 flex items-center gap-2">
                     <span className="w-6 h-[2px] bg-indigo-600 print:bg-black"></span>
                     {LAB_SUBTITLE}
                   </div>
@@ -151,10 +151,10 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
                   RAPPORT QC
                 </h2>
                 <div className="flex flex-col items-end">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:text-black/60">
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                     Période: {targetMonth}
                   </p>
-                  <p className="text-[10px] font-bold text-[var(--color-accent)] uppercase tracking-widest print:text-black">
+                  <p className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
                     {selectedTarget.testCode} · {selectedTarget.testName}
                   </p>
                 </div>
@@ -164,12 +164,12 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
             <div className="grid grid-cols-12 gap-4 mb-8 relative z-10 px-4">
               <div className="col-span-12 h-px bg-[var(--color-surface-muted)] print:bg-black/10"></div>
               <div className="col-span-4">
-                <span className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-widest print:text-black">
+                <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
                   Lot QC
                 </span>
                 <div className="flex flex-col mt-2">
                   <h3 className="text-2xl font-black text-[var(--color-text)] mb-2 print:text-black">{lot.material.name}</h3>
-                  <div className="flex gap-4 text-sm font-medium text-[var(--color-text-soft)] print:text-black">
+                  <div className="flex gap-4 text-sm font-medium text-[var(--color-text-secondary)] print:text-black">
                     <span>Lot {lot.lotNumber}</span>
                     <span className="text-slate-200 print:text-black/30">|</span>
                     <span>Niveau {lot.material.level}</span>
@@ -179,7 +179,7 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
 
               <div className="col-span-8 grid grid-cols-2 gap-4 pl-8 border-l border-[var(--color-border)] print:border-black/10">
                 <div>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                     Test surveillé
                   </span>
                   <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">
@@ -187,13 +187,13 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
                   </p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                     Édition
                   </span>
                   <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{printDate}</p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                     Cible
                   </span>
                   <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">
@@ -201,7 +201,7 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
                   </p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                     Laboratoire
                   </span>
                   <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">
@@ -224,20 +224,20 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
             <div className="pt-6 border-t-2 border-slate-900 print:border-black footer-content px-4">
               <div className="grid grid-cols-3 gap-12">
                 <div className="col-span-2">
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 print:text-black">
+                  <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] mb-4 print:text-black">
                     Validation qualité
                   </h4>
-                  <p className="text-xs text-[var(--color-text-soft)] leading-relaxed max-w-md print:text-black">
+                  <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed max-w-md print:text-black">
                     Revue mensuelle du contrôle qualité interne pour {lotDescriptor}. Ce rapport doit être
                     interprété avec les procédures QC du laboratoire et les règles internes de validation.
                   </p>
                   <div className="mt-6 flex gap-8">
                     <div className="flex flex-col">
-                      <span className="text-[9px] font-black text-slate-300 uppercase print:text-black/40">Lot</span>
+                      <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/40">Lot</span>
                       <span className="text-[11px] font-bold text-[var(--color-text)] print:text-black">{lot.lotNumber}</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[9px] font-black text-slate-300 uppercase print:text-black/40">Test</span>
+                      <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/40">Test</span>
                       <span className="text-[11px] font-bold text-[var(--color-text)] print:text-black">{selectedTarget.testCode}</span>
                     </div>
                   </div>
@@ -245,7 +245,7 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
 
                 <div className="flex flex-col items-center">
                   <div className="w-full border-b border-slate-900 pb-2 mb-4 text-center print:border-black">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] print:text-black">
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] print:text-black">
                       Signature & Cachet
                     </span>
                   </div>
@@ -295,11 +295,11 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
                     </div>
 
                     <div className="text-center">
-                      <p className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-widest print:text-black">
+                      <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
                         {BIO_TITLE && BIO_NAME ? `${BIO_TITLE} ${BIO_NAME}` : 'Biologiste Responsable'}
                       </p>
                       {BIO_ONMPT && (
-                        <p className="text-[8px] font-bold text-slate-400 print:text-black/60 mt-0.5">
+                        <p className="text-xs font-bold text-slate-500 print:text-black/60 mt-0.5">
                           ONMPT: {BIO_ONMPT}
                         </p>
                       )}
@@ -313,7 +313,7 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
                   {FOOTER_TEXT}
                 </div>
               )}
-              <div className="mt-6 flex justify-between items-center text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
+              <div className="mt-6 flex justify-between items-center text-[11px] font-bold text-slate-300 uppercase tracking-[0.1em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
                 <span>{LAB_NAME}</span>
                 <div className="flex gap-4">
                   {LAB_PHONE && <span>Tél: {LAB_PHONE}</span>}
@@ -372,12 +372,12 @@ export const QcMonthlyReport = forwardRef<HTMLDivElement, QcMonthlyReportProps>(
                 <tr>
                   <td>
                     <div className="px-8 pb-4 pt-4">
-                      <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--color-text)] mb-4 print:text-black">
+                      <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-text)] mb-4 print:text-black">
                         Registre des mesures ({selectedPoints.length} derniers points)
                       </h3>
                       <table className="w-full text-left text-[11px] border-collapse relative z-10">
                         <thead>
-                          <tr className="border-b border-slate-900 print:border-black text-[9px] uppercase tracking-widest text-slate-400 print:text-black/60">
+                          <tr className="border-b border-slate-900 print:border-black text-[11px] uppercase tracking-[0.08em] text-slate-500 print:text-black/60">
                             <th className="py-2 pr-4 font-black">Date</th>
                             <th className="py-2 pr-4 font-black">Valeur</th>
                             <th className="py-2 pr-4 font-black">Statut</th>

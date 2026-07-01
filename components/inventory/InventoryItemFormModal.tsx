@@ -74,7 +74,7 @@ export function InventoryItemFormModal({
         <DialogHeader className="flex items-start justify-between border-b border-[var(--color-border)] px-6 py-5">
           <div>
             <DialogTitle className="text-lg font-semibold text-[var(--color-text)]">{title}</DialogTitle>
-            <p className="text-sm text-[var(--color-text-soft)]">{subtitle}</p>
+            <p className="text-sm text-[var(--color-text-secondary)]">{subtitle}</p>
           </div>
         </DialogHeader>
 
@@ -187,7 +187,7 @@ export function InventoryItemFormModal({
             </div>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-3 border-t px-6 py-4">
-            <div className="flex items-center gap-2 text-xs text-[var(--color-text-soft)]">
+            <div className="flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
               <ClipboardList className="h-4 w-4" />
               Les mouvements seront historisés automatiquement.
             </div>

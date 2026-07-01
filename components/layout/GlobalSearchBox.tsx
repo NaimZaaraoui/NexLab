@@ -42,7 +42,7 @@ export function GlobalSearchBox({
         {isSearching ? (
           <Loader2 className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-[var(--color-accent)]" />
         ) : (
-          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--color-text-soft)] transition-colors group-focus-within:text-[var(--color-accent)]" />
+          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--color-text-secondary)] transition-colors group-focus-within:text-[var(--color-accent)]" />
         )}
         <input
           ref={searchInputRef}
@@ -51,7 +51,7 @@ export function GlobalSearchBox({
           onChange={(event) => onSearchQueryChange(event.target.value)}
           onFocus={onFocus}
           placeholder="Rechercher patient, analyse (Ctrl+K)..."
-          className="h-11 w-full rounded-2xl border bg-[var(--color-surface)] pl-11 pr-4 text-sm font-medium text-[var(--color-text)] outline-none transition-all placeholder:text-[var(--color-text-soft)] focus:border-[var(--color-accent)] focus:ring-4 focus:ring-blue-500/10"
+          className="h-11 w-full rounded-2xl border bg-[var(--color-surface)] pl-11 pr-4 text-sm font-medium text-[var(--color-text)] outline-none transition-all placeholder:text-[var(--color-text-secondary)] focus:border-[var(--color-accent)] focus:ring-4 focus:ring-blue-500/10"
         />
       </div>
 
@@ -65,16 +65,16 @@ export function GlobalSearchBox({
                   onClick={() => onSelectResult(result)}
                   className="flex w-full items-start gap-3 border-b px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-[var(--color-accent-soft)]/50"
                 >
-                  <div className="mt-0.5 flex-shrink-0 text-[var(--color-text-soft)]">{getIconByType(result.type)}</div>
+                  <div className="mt-0.5 flex-shrink-0 text-[var(--color-text-secondary)]">{getIconByType(result.type)}</div>
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm font-medium text-[var(--color-text)]">{result.title}</div>
-                    {result.description && <div className="truncate text-xs text-[var(--color-text-soft)]">{result.description}</div>}
+                    {result.description && <div className="truncate text-xs text-[var(--color-text-secondary)]">{result.description}</div>}
                   </div>
                 </button>
               ))}
             </div>
           ) : (
-            <div className="px-4 py-5 text-center text-sm text-[var(--color-text-soft)]">
+            <div className="px-4 py-5 text-center text-sm text-[var(--color-text-secondary)]">
               Aucun résultat pour &laquo;&nbsp;{searchQuery}&nbsp;&raquo;
             </div>
           )}

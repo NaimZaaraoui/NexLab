@@ -178,10 +178,10 @@ export default function TemperatureHistoryPage({ params }: { params: Promise<{ i
                 {data.instrument.targetMin}{data.instrument.unit} → {data.instrument.targetMax}{data.instrument.unit}
               </p>
               {data.instrument.location && (
-                <p className="mt-1 text-xs text-[var(--color-text-soft)]">Emplacement: {data.instrument.location}</p>
+                <p className="mt-1 text-xs text-[var(--color-text-secondary)]">Emplacement: {data.instrument.location}</p>
               )}
             </div>
-            <div className="rounded-md border bg-[var(--color-surface)] px-4 py-3 text-xs text-[var(--color-text-soft)]">
+            <div className="rounded-md border bg-[var(--color-surface)] px-4 py-3 text-xs text-[var(--color-text-secondary)]">
               {readings.length} relevé(s) sur la période
             </div>
           </div>

@@ -31,15 +31,15 @@ export function NavigationGroups({
   void pathname;
 
   return (
-    <nav className={mobile ? 'flex-1 space-y-5 overflow-y-auto p-4 pb-2' : 'flex-1 space-y-4 overflow-y-auto px-2 py-3'}>
+    <nav className={mobile ? 'flex-1 space-y-5 overflow-y-auto p-4 pb-2' : 'flex-1 space-y-6 overflow-y-auto px-2 py-3'}>
       {filteredGroups.map((group, groupIndex) => (
         <div key={groupIndex} className="space-y-2">
           {(sidebarOpen || mobile) && (
-            <div className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
+            <div className="mb-1 px-2 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
               {group.title}
             </div>
           )}
-          <div className="space-y-1">
+          <div className="space-y-2">
             {group.links.map((item) => {
               const active = isActive(item.href);
               return (
@@ -48,18 +48,16 @@ export function NavigationGroups({
                   href={item.href}
                   onClick={onNavClick}
                   title={!sidebarOpen && !mobile ? item.name : undefined}
-                  className={`group flex items-center gap-3 rounded-xl py-2.5 font-medium transition-all ${
-                    active
-                      ? 'border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]'
-                      : 'border border-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]'
-                  } ${mobile ? 'px-3' : sidebarOpen ? 'px-3' : 'justify-center px-0'}`}
+                  className={`group flex items-center gap-3 rounded-xl py-2.5 font-medium transition-all ${active
+                    ? 'border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]'
+                    : 'border border-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]'
+                    } ${mobile ? 'px-3' : sidebarOpen ? 'px-3' : 'justify-center px-0'}`}
                 >
                   <item.icon
-                    className={`h-[18px] w-[18px] flex-shrink-0 ${
-                      active
-                        ? 'text-[var(--color-accent)]'
-                        : 'text-[var(--color-text-soft)] group-hover:text-[var(--color-text-secondary)]'
-                    }`}
+                    className={`h-[18px] w-[18px] flex-shrink-0 ${active
+                      ? 'text-[var(--color-accent)]'
+                      : 'text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-secondary)]'
+                      }`}
                   />
                   {(sidebarOpen || mobile) && <span className="flex-1 text-sm">{item.name}</span>}
                 </Link>

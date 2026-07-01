@@ -52,13 +52,13 @@ export function QcTestSelectorModal({ open, onClose, tests, onSelect }: QcTestSe
         <div className="flex items-start justify-between border-b border-[var(--color-border)] px-6 py-5">
           <DialogHeader className="p-0 border-none">
             <DialogTitle className="text-lg font-semibold text-[var(--color-text)]">Importer des paramètres</DialogTitle>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">Sélectionnez les tests à ajouter au lot actuel.</p>
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Sélectionnez les tests à ajouter au lot actuel.</p>
           </DialogHeader>
         </div>
 
         <div className="flex flex-col flex-1 overflow-hidden p-6 space-y-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--color-text-soft)]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--color-text-secondary)]" />
             <input
               autoFocus
               className="input-premium h-11 border-[var(--color-border)] bg-[var(--color-surface-muted)] pl-10"
@@ -68,7 +68,7 @@ export function QcTestSelectorModal({ open, onClose, tests, onSelect }: QcTestSe
             />
           </div>
 
-          <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[var(--color-text-soft)] px-2">
+          <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.06em] text-[var(--color-text-secondary)] px-2">
             <span>Tests disponibles ({filteredTests.length})</span>
             <button type="button" onClick={toggleAll} className="text-[var(--color-accent)] hover:underline">
               {selectedIds.size === filteredTests.length ? 'Désélectionner tout' : 'Tout sélectionner'}
@@ -91,11 +91,11 @@ export function QcTestSelectorModal({ open, onClose, tests, onSelect }: QcTestSe
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-[var(--color-text)]">{test.code}</span>
-                    <span className="text-[var(--color-text-soft)] truncate">— {test.name}</span>
+                    <span className="text-[var(--color-text-secondary)] truncate">— {test.name}</span>
                   </div>
                   {test.unit && (
                     <div 
-                      className="mt-1 text-xs text-[var(--color-text-soft)] opacity-80"
+                      className="mt-1 text-xs text-[var(--color-text-secondary)] opacity-80"
                       dangerouslySetInnerHTML={{ __html: test.unit }}
                     />
                   )}
@@ -103,7 +103,7 @@ export function QcTestSelectorModal({ open, onClose, tests, onSelect }: QcTestSe
               </button>
             ))}
             {filteredTests.length === 0 && (
-              <div className="p-12 text-center text-sm text-[var(--color-text-soft)]">
+              <div className="p-12 text-center text-sm text-[var(--color-text-secondary)]">
                 Aucun test trouvé pour votre recherche.
               </div>
             )}

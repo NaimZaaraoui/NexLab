@@ -12,11 +12,11 @@ export function InventoryLotsPanel({ item }: InventoryLotsPanelProps) {
   return (
     <article className="bento-panel overflow-hidden">
       <div className="flex items-center justify-between border-b px-5 py-4">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">Lots en cours</h2>
-        <span className="text-xs text-[var(--color-text-soft)]">{item.lots.length} lot(s)</span>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Lots en cours</h2>
+        <span className="text-xs text-[var(--color-text-secondary)]">{item.lots.length} lot(s)</span>
       </div>
       {item.lots.length === 0 ? (
-        <div className="px-5 py-10 text-center text-sm text-[var(--color-text-soft)]">Aucun lot actif.</div>
+        <div className="px-5 py-10 text-center text-sm text-[var(--color-text-secondary)]">Aucun lot actif.</div>
       ) : (
         <div className="divide-y">
           {item.lots.map((lot) => {

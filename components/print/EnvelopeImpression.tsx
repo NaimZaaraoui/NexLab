@@ -58,11 +58,11 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
              <div className="border-2 rounded-full w-24 h-24 flex flex-col items-center justify-center p-2 relative border-black/20">
                 <div className="absolute inset-1 border rounded-full border-black" />
                 <LucideMicroscope size={16} className="text-slate-300 mb-1 print:text-black" />
-                <p className="text-[6px] font-black text-slate-400 uppercase tracking-widest text-center leading-tight print:text-black">
+                <p className="text-[6px] font-black text-slate-500 uppercase tracking-[0.08em] text-center leading-tight print:text-black">
                   Prenez soin<br/>de vous
                 </p>
                 <div className="w-4 h-px bg-slate-200 my-1 print:bg-black" />
-                <p className="text-[5px] font-medium text-slate-400 uppercase tracking-widest print:text-black">
+                <p className="text-[5px] font-medium text-slate-500 uppercase tracking-[0.08em] print:text-black">
                   Bon rétablissement
                 </p>
              </div>
@@ -86,7 +86,7 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
           >
             {/* ── Background Watermark: CONFIDENTIEL diagonal sur toute la longueur ── */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-               <span className="text-[4.5rem] font-black text-[var(--color-text)] opacity-[0.04] print:opacity-[0.1] print:text-black tracking-[0.3em] whitespace-nowrap -rotate-12 select-none">
+               <span className="text-[4.5rem] font-black text-[var(--color-text)] opacity-[0.04] print:opacity-[0.1] print:text-black tracking-[0.1em] whitespace-nowrap -rotate-12 select-none">
                  CONFIDENTIEL • CONFIDENTIEL • CONFIDENTIEL
                </span>
             </div>
@@ -105,22 +105,22 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
                         {LAB_NAME}
                         <span className='flex-1 h-1 bg-slate-900'/>
                       </h1>
-                      <div className="text-[9px] font-extrabold text-[var(--color-accent)] uppercase tracking-widest mt-0.5 print:text-black">
+                      <div className="text-[11px] font-extrabold text-[var(--color-accent)] uppercase tracking-[0.08em] mt-0.5 print:text-black">
                         {LAB_SUBTITLE.toUpperCase()}
                       </div>
                     </div>
                     
                     {/* Adresse avec icônes fines */}
                     <div className="flex flex-col gap-0.5 mt-1">
-                      <div className="flex items-center gap-1.5 text-[var(--color-text-soft)] print:text-black">
-                         <MapPin size={10} className="text-slate-400 print:text-black" />
-                         <span className="text-[8px] font-bold uppercase tracking-wide">
+                      <div className="flex items-center gap-1.5 text-[var(--color-text-secondary)] print:text-black">
+                         <MapPin size={10} className="text-slate-500 print:text-black" />
+                         <span className="text-xs font-bold uppercase tracking-wide">
                            {LAB_ADDRESS || 'El Gallel, Menzel Bouzaïene, Sidi Bouzid'}
                          </span>
                        </div>
-                       <div className="flex items-center gap-1.5 text-[var(--color-text-soft)] print:text-black">
-                         <Phone size={10} className="text-slate-400 print:text-black" />
-                         <span className="text-[8px] font-bold tracking-wide">
+                       <div className="flex items-center gap-1.5 text-[var(--color-text-secondary)] print:text-black">
+                         <Phone size={10} className="text-slate-500 print:text-black" />
+                         <span className="text-xs font-bold tracking-wide">
                            {LAB_PHONE || ''}
                          </span>
                        </div>
@@ -142,7 +142,7 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
                         {patientName}
                       </p>
                       
-                      <div className="flex items-center gap-4 text-[9px] text-[var(--color-text-soft)] print:text-black font-medium">
+                      <div className="flex items-center gap-4 text-[11px] text-[var(--color-text-secondary)] print:text-black font-medium">
                         <span className="flex items-center gap-1">
                           ID: <span className="font-mono font-bold text-[var(--color-text)] print:text-black">{dailyId}</span>
                         </span>
@@ -154,15 +154,15 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
                     <div className="space-y-3 mt-2">
                          {/* Zone de saisie manuelle */}
                          <div className="flex gap-3">
-                          <span className="text-[8px] font-bold">NOM:</span>
+                          <span className="text-xs font-bold">NOM:</span>
                           <div className="h-5 border-b border-[var(--color-border)] print:border-black/20 w-48" />
                          </div>
                          <div className="flex gap-3">
-                            <span className="text-[8px] font-bold">ID:</span>
+                            <span className="text-xs font-bold">ID:</span>
                             <div className="h-5 border-b border-[var(--color-border)] print:border-black/20 w-24" />
                          </div>
                          <div className="flex gap-4">
-                            <span className="text-[8px] font-bold">DATE:</span>
+                            <span className="text-xs font-bold">DATE:</span>
                             <div className="h-5 border-b border-[var(--color-border)] print:border-black/20 w-32" />
                          </div>
                     </div>

@@ -220,7 +220,7 @@ export default function InventoryPage() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h1 className="text-xl font-semibold text-[var(--color-text)]">Inventaire des réactifs</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Vue d’ensemble des stocks, lots et seuils critiques.
             </p>
           </div>
@@ -240,7 +240,7 @@ export default function InventoryPage() {
               Export réappro.
             </Link>
             <div className="rounded-md border bg-[var(--color-surface-muted)] px-3 py-2 text-right">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Total</div>
+              <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Total</div>
               <div className="text-lg font-semibold text-[var(--color-text)]">{items.length}</div>
             </div>
             {role === 'ADMIN' && (
@@ -261,12 +261,12 @@ export default function InventoryPage() {
 
       <section className="grid gap-3 lg:grid-cols-[1fr_auto]">
         <div className="input-premium h-11 flex items-center gap-2 px-3">
-          <Search className="h-4 w-4 shrink-0 text-[var(--color-text-soft)]" />
+          <Search className="h-4 w-4 shrink-0 text-[var(--color-text-secondary)]" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher par nom ou catégorie"
-            className="h-full w-full border-0 bg-transparent text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
+            className="h-full w-full border-0 bg-transparent text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-secondary)]"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -279,14 +279,14 @@ export default function InventoryPage() {
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
-              className={`rounded-2xl border px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
+              className={`rounded-2xl border px-4 py-2 text-xs font-semibold uppercase tracking-[0.08em] transition-colors ${
                 filter === tab.key
                   ? 'border-blue-600/30 bg-[var(--color-accent-soft)] text-[var(--color-accent)]'
-                  : 'bg-[var(--color-surface)] text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)]'
+                  : 'bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)]'
               }`}
             >
               {tab.label}
-              <span className="ml-2 rounded-full bg-[var(--color-surface-muted)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-text-secondary)]">
+              <span className="ml-2 rounded-full bg-[var(--color-surface-muted)] px-2 py-0.5 text-xs font-semibold text-[var(--color-text-secondary)]">
                 {tab.count}
               </span>
             </button>

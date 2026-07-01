@@ -37,16 +37,16 @@ export function InstrumentCard({
             {instrument.todayStatus === 'alert' && <div className="h-2 w-2 animate-pulse rounded-full bg-rose-500" />}
           </div>
           <div className="mt-1.5 flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
+            <span className="inline-flex items-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.06em] text-[var(--color-text-secondary)]">
               {instrument.type}
             </span>
             {instrument.isActive === false && (
-              <span className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-soft)]">
+              <span className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.06em] text-[var(--color-text-secondary)]">
                 Inactif
               </span>
             )}
             {instrument.location && (
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{instrument.location}</span>
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-slate-500">{instrument.location}</span>
             )}
           </div>
         </div>
@@ -65,7 +65,7 @@ export function InstrumentCard({
 
       <div className="mt-6 space-y-4">
         <div className="flex items-center justify-between rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-soft)]">Plage de sécurité</span>
+          <span className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Plage de sécurité</span>
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-[var(--color-text)]">
               {instrument.targetMin}
@@ -104,7 +104,7 @@ export function InstrumentCard({
         </button>
         {canManage && (
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]"
+            className="flex h-10 w-10 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]"
             onClick={() => onOpenEdit(instrument)}
             title="Modifier"
           >
@@ -112,7 +112,7 @@ export function InstrumentCard({
           </button>
         )}
         <button
-          className="flex h-10 w-10 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]"
+          className="flex h-10 w-10 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]"
           onClick={() => onPrint(instrument.id)}
           title="Imprimer rapport mensuel"
         >

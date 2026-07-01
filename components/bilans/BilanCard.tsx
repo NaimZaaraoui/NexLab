@@ -19,15 +19,15 @@ export function BilanCard({ bilan, onEdit, onDelete }: BilanCardProps) {
           </div>
           <div>
             <h3 className="text-base font-semibold tracking-tight text-[var(--color-text)]">{bilan.name}</h3>
-            {bilan.code && <span className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">{bilan.code}</span>}
+            {bilan.code && <span className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">{bilan.code}</span>}
           </div>
         </div>
 
         <div className="flex gap-1">
-          <button onClick={() => onEdit(bilan)} className="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--color-text-soft)] transition-all hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]">
+          <button onClick={() => onEdit(bilan)} className="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]">
             <Edit2 size={16} />
           </button>
-          <button onClick={() => onDelete(bilan)} className="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--color-text-soft)] transition-all hover:bg-[var(--color-surface-muted)] hover:text-rose-600">
+          <button onClick={() => onDelete(bilan)} className="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-surface-muted)] hover:text-rose-600">
             <Trash2 size={16} />
           </button>
         </div>
@@ -35,7 +35,7 @@ export function BilanCard({ bilan, onEdit, onDelete }: BilanCardProps) {
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">{bilan.tests.length} Analyses</p>
+          <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">{bilan.tests.length} Analyses</p>
           <div className="mx-4 h-px flex-1 bg-[var(--color-border)]" />
         </div>
 

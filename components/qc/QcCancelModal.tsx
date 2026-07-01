@@ -32,7 +32,7 @@ export function QcCancelModal({
         </DialogHeader>
         
         <div className="flex flex-col">
-          <p className="text-sm text-[var(--color-text-soft)] mb-4 leading-relaxed">
+          <p className="text-sm text-[var(--color-text-secondary)] mb-4 leading-relaxed">
             Un point invalidé ne sera plus pris en compte dans les calculs de Levey-Jennings ni dans la moyenne mensuelle.
           </p>
           <textarea

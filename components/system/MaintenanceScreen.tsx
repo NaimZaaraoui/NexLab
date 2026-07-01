@@ -17,7 +17,7 @@ export function MaintenanceScreen({
           </div>
           <div className="space-y-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                 Maintenance systeme
               </p>
               <h1 className="mt-1 text-2xl font-semibold text-[var(--color-text)]">

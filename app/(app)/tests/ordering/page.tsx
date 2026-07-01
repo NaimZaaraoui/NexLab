@@ -103,7 +103,7 @@ export default function OrderingPage() {
       </div>
 
       <div className="relative bento-panel p-4">
-        <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-[var(--color-text-soft)]" size={18} />
+        <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]" size={18} />
         <input
           type="text"
           placeholder="Rechercher une catégorie ou un test..."

@@ -302,7 +302,7 @@ export default function ExportsPage() {
             </div>
             <div>
               <h1 className="text-xl font-semibold text-[var(--color-text)]">Exports de données</h1>
-              <p className="mt-1 text-sm text-[var(--color-text-soft)]">Générer des rapports Excel personnalisés pour votre gestion.</p>
+              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Générer des rapports Excel personnalisés pour votre gestion.</p>
             </div>
           </div>
         </div>

@@ -52,7 +52,7 @@ export function DonutChart({ data, formatValue, innerRadius = 55, outerRadius = 
           <span className="text-xl font-bold text-[var(--color-text)]">
             {formatValue ? formatValue(total) : total}
           </span>
-          <span className="text-[10px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Total</span>
+          <span className="text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Total</span>
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-export type QcValueFlag = 'ok' | 'warn' | 'fail';
+export type QcValueFlag = 'ok' | 'warn' | 'fail' | 'accumulation';
 export type QcRunStatus = 'pass' | 'warn' | 'fail';
 export type QcControlMode = 'STATISTICAL' | 'ACCEPTANCE_RANGE';
 
@@ -71,13 +71,16 @@ export function evaluateAcceptanceRange(
   };
 }
 
-export function getQcZone(zScore: number | null) {
+export function getQcZone(zScore: number | null, isAccumulation?: boolean) {
+  if (isAccumulation) {
+    return { label: 'Accumulation', tone: 'status-pill-warning' };
+  }
   if (zScore === null || !Number.isFinite(zScore)) {
     return { label: 'Sans zone SD', tone: 'status-pill-info' };
   }
 
   const abs = Math.abs(zScore);
-  if (abs > 3) return { label: 'Au-dela de 3 SD', tone: 'status-pill-error' };
+  if (abs > 3) return { label: 'Au-delà de 3 SD', tone: 'status-pill-error' };
   if (abs > 2) return { label: 'Entre 2 et 3 SD', tone: 'status-pill-warning' };
   if (abs > 1) return { label: 'Entre 1 et 2 SD', tone: 'status-pill-info' };
   return { label: 'Dans 1 SD', tone: 'status-pill-success' };

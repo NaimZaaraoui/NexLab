@@ -213,14 +213,14 @@ export function ImportTestsModal({ open, onClose, onSuccess }: ImportTestsModalP
                   <Dialog.Title className="text-lg font-bold text-[var(--color-text)]">
                     Importer des analyses
                   </Dialog.Title>
-                  <p className="text-sm text-[var(--color-text-soft)]">
+                  <p className="text-sm text-[var(--color-text-secondary)]">
                     CSV ou Excel (code, nom, catégorie, prix, etc.)
                   </p>
                 </div>
               </div>
               <Dialog.Close asChild>
                 <button 
-                  className="rounded-full p-2 text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)] transition-colors"
+                  className="rounded-full p-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)] transition-colors"
                   disabled={isImporting}
                 >
                   <X size={20} />
@@ -234,11 +234,11 @@ export function ImportTestsModal({ open, onClose, onSuccess }: ImportTestsModalP
                   className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface-muted)]/30 py-12 px-4 transition-colors hover:bg-[var(--color-surface-muted)]/60 cursor-pointer"
                   onClick={() => fileInputRef.current?.click()}
                 >
-                  <FileSpreadsheet className="mb-4 h-12 w-12 text-[var(--color-text-soft)]" />
+                  <FileSpreadsheet className="mb-4 h-12 w-12 text-[var(--color-text-secondary)]" />
                   <p className="text-center font-medium text-[var(--color-text)]">
                     Cliquez pour sélectionner un fichier
                   </p>
-                  <p className="mt-1 text-center text-sm text-[var(--color-text-soft)]">
+                  <p className="mt-1 text-center text-sm text-[var(--color-text-secondary)]">
                     .csv, .xlsx, .xls
                   </p>
                   <input
@@ -256,7 +256,7 @@ export function ImportTestsModal({ open, onClose, onSuccess }: ImportTestsModalP
                       <FileSpreadsheet className="h-8 w-8 text-indigo-500" />
                       <div>
                         <p className="font-medium text-[var(--color-text)]">{file.name}</p>
-                        <p className="text-xs text-[var(--color-text-soft)]">
+                        <p className="text-xs text-[var(--color-text-secondary)]">
                           {(file.size / 1024).toFixed(1)} KB • {previewData.length} analyses valides trouvées
                         </p>
                       </div>
@@ -281,7 +281,7 @@ export function ImportTestsModal({ open, onClose, onSuccess }: ImportTestsModalP
                     <div className="rounded-2xl border border-[var(--color-border)] overflow-hidden">
                       <div className="max-h-[300px] overflow-y-auto">
                         <table className="w-full text-left text-sm">
-                          <thead className="sticky top-0 bg-[var(--color-surface-muted)] text-[var(--color-text-soft)] z-10 shadow-sm">
+                          <thead className="sticky top-0 bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] z-10 shadow-sm">
                             <tr>
                               <th className="px-4 py-3 font-medium">Code</th>
                               <th className="px-4 py-3 font-medium">Nom</th>
@@ -294,7 +294,7 @@ export function ImportTestsModal({ open, onClose, onSuccess }: ImportTestsModalP
                               <tr key={idx} className="hover:bg-[var(--color-surface-muted)]/30 transition-colors">
                                 <td className="px-4 py-2 font-mono text-xs">{row.code}</td>
                                 <td className="px-4 py-2 font-medium">{row.name}</td>
-                                <td className="px-4 py-2 text-[var(--color-text-soft)]">{row.categoryName || '-'}</td>
+                                <td className="px-4 py-2 text-[var(--color-text-secondary)]">{row.categoryName || '-'}</td>
                                 <td className="px-4 py-2 text-right">{row.price}</td>
                               </tr>
                             ))}
@@ -302,7 +302,7 @@ export function ImportTestsModal({ open, onClose, onSuccess }: ImportTestsModalP
                         </table>
                       </div>
                       {previewData.length > 50 && (
-                        <div className="bg-[var(--color-surface-muted)] p-2 text-center text-xs text-[var(--color-text-soft)] border-t border-[var(--color-border)]">
+                        <div className="bg-[var(--color-surface-muted)] p-2 text-center text-xs text-[var(--color-text-secondary)] border-t border-[var(--color-border)]">
                           Et {previewData.length - 50} autres lignes...
                         </div>
                       )}

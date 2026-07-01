@@ -33,7 +33,7 @@ export function InventoryCategoryManagerModal({
       <DialogContent className="flex max-h-[90vh] max-w-2xl flex-col p-0 overflow-hidden">
         <DialogHeader className="px-6 py-5 border-b">
           <DialogTitle className="text-lg font-semibold text-[var(--color-text)]">Catégories d’inventaire</DialogTitle>
-          <p className="text-sm text-[var(--color-text-soft)]">Ajoutez, masquez ou réorganisez les familles d’articles.</p>
+          <p className="text-sm text-[var(--color-text-secondary)]">Ajoutez, masquez ou réorganisez les familles d’articles.</p>
         </DialogHeader>
 
         <div className="custom-scrollbar flex-1 space-y-4 overflow-y-auto px-6 py-5">
@@ -61,7 +61,7 @@ export function InventoryCategoryManagerModal({
                 className={`rounded-xl border px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] ${
                   category.isActive
                     ? 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)]'
-                    : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)]'
+                    : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)]'
                 }`}
               >
                 {category.isActive ? 'Active' : 'Masquée'}
@@ -127,7 +127,7 @@ export function InventoryCategoryManagerModal({
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t px-6 py-4">
-          <div className="text-xs text-[var(--color-text-soft)]">
+          <div className="text-xs text-[var(--color-text-secondary)]">
             Ces catégories seront proposées dans la création et l’édition des articles.
           </div>
           <button className="btn-primary-md px-6" type="button" onClick={onSave}>

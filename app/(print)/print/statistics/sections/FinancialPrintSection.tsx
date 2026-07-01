@@ -18,7 +18,7 @@ export function FinancialPrintSection({ data, formatCurrency }: Props) {
           { label: 'Part CNAM', value: formatCurrency(data.kpis.totalInsuranceShare), sub: `${data.kpis.cnamAnalysesCount} dossiers`, color: 'text-teal-700' },
         ].map(k => (
           <div key={k.label} className="rounded-xl border p-4 bg-slate-50">
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{k.label}</p>
+            <p className="text-xs font-black uppercase tracking-[0.08em] text-slate-500">{k.label}</p>
             <p className={`text-xl font-black mt-1 ${k.color} print:text-black`}>{k.value}</p>
             {k.sub && <p className="text-xs text-slate-500 mt-0.5">{k.sub}</p>}
           </div>
@@ -27,9 +27,9 @@ export function FinancialPrintSection({ data, formatCurrency }: Props) {
 
       <div className="grid grid-cols-2 gap-6">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-3">Statut des Paiements</p>
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-slate-500 mb-3">Statut des Paiements</p>
           <div className="overflow-hidden rounded-xl border">
-            <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-slate-500">
               <div className="col-span-2">Statut</div><div className="text-right">Dossiers</div>
             </div>
             {data.paymentStatusBreakdown.map(s => (
@@ -41,9 +41,9 @@ export function FinancialPrintSection({ data, formatCurrency }: Props) {
           </div>
         </div>
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-3">Modes de Paiement</p>
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-slate-500 mb-3">Modes de Paiement</p>
           <div className="overflow-hidden rounded-xl border">
-            <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-slate-500">
               <div className="col-span-2">Mode</div><div className="text-right">Nombre</div>
             </div>
             {data.paymentMethodBreakdown.map(m => (
@@ -58,9 +58,9 @@ export function FinancialPrintSection({ data, formatCurrency }: Props) {
 
       {data.cnamByProvider.length > 0 && (
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-3">Ventilation par Assureur</p>
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-slate-500 mb-3">Ventilation par Assureur</p>
           <div className="overflow-hidden rounded-xl border">
-            <div className="grid grid-cols-12 bg-teal-50 border-b px-4 py-2 text-[10px] font-black uppercase tracking-widest text-teal-700 print:bg-slate-50 print:text-black/60">
+            <div className="grid grid-cols-12 bg-teal-50 border-b px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-teal-700 print:bg-slate-50 print:text-black/60">
               <div className="col-span-3">Assureur</div><div className="col-span-2 text-center">Dossiers</div>
               <div className="col-span-3 text-right">Total CA</div>
               <div className="col-span-2 text-right">Part CNAM</div><div className="col-span-2 text-right">Part Patient</div>
@@ -79,9 +79,9 @@ export function FinancialPrintSection({ data, formatCurrency }: Props) {
       )}
 
       <div>
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-3">Tendance CA Mensuel</p>
+        <p className="text-xs font-black uppercase tracking-[0.1em] text-slate-500 mb-3">Tendance CA Mensuel</p>
         <div className="overflow-hidden rounded-xl border">
-          <div className="grid grid-cols-12 bg-slate-50 border-b px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+          <div className="grid grid-cols-12 bg-slate-50 border-b px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-slate-500">
             <div className="col-span-3">Mois</div><div className="col-span-3 text-right">CA</div>
             <div className="col-span-3 text-right">Encaissé</div><div className="col-span-3 text-right">Analyses</div>
           </div>

@@ -49,7 +49,7 @@ export default function LicenseSettingsPage() {
     }
   };
 
-  if (loading) return <div className="p-8 text-sm text-[var(--color-text-soft)]">Chargement des paramètres de licence...</div>;
+  if (loading) return <div className="p-8 text-sm text-[var(--color-text-secondary)]">Chargement des paramètres de licence...</div>;
 
   return (
     <div className="max-w-4xl space-y-8 animate-fade-in">
@@ -67,7 +67,7 @@ export default function LicenseSettingsPage() {
             </div>
             <div>
               <h2 className="text-base font-bold text-[var(--color-text)]">Serveur d&apos;Installation</h2>
-              <p className="text-xs font-semibold text-[var(--color-text-soft)]">Identifiant unique de cette machine</p>
+              <p className="text-xs font-semibold text-[var(--color-text-secondary)]">Identifiant unique de cette machine</p>
             </div>
           </div>
 
@@ -76,7 +76,7 @@ export default function LicenseSettingsPage() {
           </p>
 
           <div className="flex flex-col gap-2">
-            <label className="text-xs font-black uppercase tracking-wider text-[var(--color-text-soft)]">Machine ID (Installation ID)</label>
+            <label className="text-xs font-black uppercase tracking-[0.06em] text-[var(--color-text-secondary)]">Machine ID (Installation ID)</label>
             <div className="flex items-center gap-2">
               <code className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-4 py-3 text-sm font-black text-[var(--color-text)] overflow-x-auto">
                 {status?.machineId || 'Erreur de génération'}
@@ -101,7 +101,7 @@ export default function LicenseSettingsPage() {
             </div>
             <div>
               <h2 className="text-base font-bold text-[var(--color-text)]">Statut de la Licence</h2>
-              <p className="text-xs font-semibold text-[var(--color-text-soft)]">Niveau d&apos;accès actuel</p>
+              <p className="text-xs font-semibold text-[var(--color-text-secondary)]">Niveau d&apos;accès actuel</p>
             </div>
           </div>
 
@@ -145,7 +145,7 @@ export default function LicenseSettingsPage() {
           </div>
           <div>
             <h2 className="text-base font-bold text-[var(--color-text)]">Activation (Hors-Ligne)</h2>
-            <p className="text-xs font-semibold text-[var(--color-text-soft)]">Saisie de la clé secrète JWT</p>
+            <p className="text-xs font-semibold text-[var(--color-text-secondary)]">Saisie de la clé secrète JWT</p>
           </div>
         </div>
 
@@ -163,7 +163,7 @@ export default function LicenseSettingsPage() {
             value={licenseInput}
             onChange={(e) => setLicenseInput(e.target.value)}
             placeholder="Collez ici le bloc de licence chiffré (JWT) fourni par votre revendeur..."
-            className="w-full h-32 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 text-sm font-mono text-[var(--color-text)] placeholder:text-slate-400 focus:border-[var(--color-accent)] focus:bg-white outline-none resize-none break-all shadow-inner"
+            className="w-full h-32 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 text-sm font-mono text-[var(--color-text)] placeholder:text-slate-500 focus:border-[var(--color-accent)] focus:bg-white outline-none resize-none break-all shadow-inner"
           />
           
           <div className="flex justify-end">

@@ -30,19 +30,19 @@ export function AnalysesFiltersBar({
     <section className="rounded-xl border bg-[var(--color-surface)] p-3 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(280px,1.4fr)_210px_210px_auto]">
         <div className="flex h-11 items-center gap-2 rounded-md border bg-[var(--color-surface)] px-3">
-          <Search className="h-4 w-4 shrink-0 text-[var(--color-text-soft)]" />
+          <Search className="h-4 w-4 shrink-0 text-[var(--color-text-secondary)]" />
           <input
             value={searchValue}
             onChange={(event) => setSearchValue(event.target.value)}
             placeholder="Rechercher patient, ID ou n° commande..."
             aria-label="Rechercher une analyse"
             autoFocus
-            className="h-full w-full border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
+            className="h-full w-full border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-secondary)]"
           />
         </div>
 
         <div className="flex h-11 items-center gap-2 rounded-md border bg-[var(--color-surface)] px-3">
-          <CalendarDays className="h-4 w-4 shrink-0 text-[var(--color-text-soft)]" />
+          <CalendarDays className="h-4 w-4 shrink-0 text-[var(--color-text-secondary)]" />
           <select
             value={dateFilter}
             onChange={(event) => setDateFilter(event.target.value as DateFilter)}
@@ -58,7 +58,7 @@ export function AnalysesFiltersBar({
         </div>
 
         <div className="flex h-11 items-center gap-2 rounded-md border bg-[var(--color-surface)] px-3">
-          <Activity className="h-4 w-4 shrink-0 text-[var(--color-text-soft)]" />
+          <Activity className="h-4 w-4 shrink-0 text-[var(--color-text-secondary)]" />
           <select
             value={statusFilter}
             onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}

@@ -31,10 +31,10 @@ export function InventorySidebar({
   return (
     <aside className="space-y-4">
       <article className="bento-panel p-5">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">Stock actuel</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Stock actuel</h2>
         <div className="mt-4 text-4xl font-semibold tracking-tight text-[var(--color-text)]">
           {item.currentStock}
-          <span className="ml-2 text-base font-medium text-[var(--color-text-soft)]">{item.unit}</span>
+          <span className="ml-2 text-base font-medium text-[var(--color-text-secondary)]">{item.unit}</span>
         </div>
         <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-[var(--color-surface-muted)]">
           <div
@@ -49,11 +49,11 @@ export function InventorySidebar({
           />
         </div>
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-sm text-[var(--color-text-soft)]">Seuil</span>
+          <span className="text-sm text-[var(--color-text-secondary)]">Seuil</span>
           <span className="text-sm font-medium text-[var(--color-text)]">{item.minThreshold} {item.unit}</span>
         </div>
         <div className="mt-3 flex items-center justify-between">
-          <span className="text-sm text-[var(--color-text-soft)]">Prochaine expiration</span>
+          <span className="text-sm text-[var(--color-text-secondary)]">Prochaine expiration</span>
           <span className="text-sm font-medium text-[var(--color-text)]">
             {item.nearestExpiry ? new Date(item.nearestExpiry).toLocaleDateString('fr-FR') : '—'}
           </span>
@@ -64,7 +64,7 @@ export function InventorySidebar({
       </article>
 
       <article className="bento-panel p-5">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">Actions</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Actions</h2>
         <div className="mt-4 grid gap-2">
           {canWrite && (
             <button onClick={onReceive} className="btn-secondary-md justify-start px-4">
@@ -94,8 +94,8 @@ export function InventorySidebar({
       </article>
 
       <article className="bento-panel p-5">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">Raccourci règle</h2>
-        <p className="mt-3 text-sm text-[var(--color-text-soft)]">
+        <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Raccourci règle</h2>
+        <p className="mt-3 text-sm text-[var(--color-text-secondary)]">
           Les règles configurées ici seront déduites automatiquement lors de la validation technique des analyses.
         </p>
       </article>

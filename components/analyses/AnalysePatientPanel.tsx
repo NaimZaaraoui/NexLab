@@ -51,15 +51,15 @@ export function AnalysePatientPanel({
         <div className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)]">
           <User size={16} />
         </div>
-        <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-700">Patient</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-700">Patient</h2>
       </div>
 
       <div className="relative z-50">
         <div className="input-premium relative flex h-11 w-full max-w-sm items-center gap-2 rounded-md bg-[var(--color-surface-muted)] pr-2">
           {isSearching ? (
-            <Loader2 className="h-4 w-4 animate-spin text-[var(--color-text-soft)]" />
+            <Loader2 className="h-4 w-4 animate-spin text-[var(--color-text-secondary)]" />
           ) : (
-            <Search className="h-4 w-4 text-slate-400 transition-colors" />
+            <Search className="h-4 w-4 text-slate-500 transition-colors" />
           )}
           <input
             placeholder="Chercher un patient existant ..."
@@ -71,7 +71,7 @@ export function AnalysePatientPanel({
           {selectedPatientId && (
             <button
               onClick={clearSelection}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-[var(--color-surface-muted)] rounded-md hover:bg-slate-200 text-[var(--color-text-soft)] transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-[var(--color-surface-muted)] rounded-md hover:bg-slate-200 text-[var(--color-text-secondary)] transition-colors"
               title="Effacer la sélection"
             >
               <X size={14} />
@@ -90,12 +90,12 @@ export function AnalysePatientPanel({
               >
                 <div>
                   <span className="block text-sm font-semibold text-slate-700">{item.lastName} {item.firstName}</span>
-                  <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium mt-0.5">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium mt-0.5">
                     <span>{item.birthDate ? new Date(item.birthDate).toLocaleDateString() : 'Age inconnu'}</span>
                     {item.phoneNumber && <span>• {item.phoneNumber}</span>}
                   </div>
                 </div>
-                <div className="flex h-6 w-6 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-slate-400 group-hover:border-slate-300 group-hover:text-slate-600">
+                <div className="flex h-6 w-6 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-slate-500 group-hover:border-slate-300 group-hover:text-slate-600">
                   <Plus size={14} />
                 </div>
               </button>

@@ -54,7 +54,7 @@ export function ExportFiltersPanel({
         </div>
         <div>
           <h3 className="text-lg font-bold text-[var(--color-text)]">{selectedConfig?.label}</h3>
-          <p className="text-xs text-[var(--color-text-soft)]">{selectedConfig?.description}</p>
+          <p className="text-xs text-[var(--color-text-secondary)]">{selectedConfig?.description}</p>
         </div>
       </div>
 
@@ -72,7 +72,7 @@ export function ExportFiltersPanel({
                 className={`rounded-xl px-2 py-2 text-[11px] font-semibold transition-all ${
                   quickPreset === 'today'
                     ? 'bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm'
-                    : 'text-[var(--color-text-soft)] hover:bg-[var(--color-surface)]/80'
+                    : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]/80'
                 }`}
               >
                 Aujourd&apos;hui
@@ -83,7 +83,7 @@ export function ExportFiltersPanel({
                 className={`rounded-xl px-2 py-2 text-[11px] font-semibold transition-all ${
                   quickPreset === 'month'
                     ? 'bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm'
-                    : 'text-[var(--color-text-soft)] hover:bg-[var(--color-surface)]/80'
+                    : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]/80'
                 }`}
               >
                 Mois
@@ -94,7 +94,7 @@ export function ExportFiltersPanel({
                 className={`rounded-xl px-2 py-2 text-[11px] font-semibold transition-all ${
                   quickPreset === 'year'
                     ? 'bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm'
-                    : 'text-[var(--color-text-soft)] hover:bg-[var(--color-surface)]/80'
+                    : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]/80'
                 }`}
               >
                 Année
@@ -142,7 +142,7 @@ export function ExportFiltersPanel({
                 </option>
               ))}
             </select>
-            <p className="text-[11px] italic text-slate-400">
+            <p className="text-[11px] italic text-slate-500">
               Sélectionnez une catégorie pour exporter uniquement les tests de celle-ci.
             </p>
           </div>
@@ -171,7 +171,7 @@ export function ExportFiltersPanel({
               <CheckCircle2 size={20} className="text-emerald-500" />
               <div>
                 <p className="text-sm font-bold text-slate-700">Aucune configuration requise</p>
-                <p className="text-xs text-slate-400">Ce type d&apos;export utilise toutes les données disponibles.</p>
+                <p className="text-xs text-slate-500">Ce type d&apos;export utilise toutes les données disponibles.</p>
               </div>
             </div>
           </div>
@@ -195,7 +195,7 @@ export function ExportFiltersPanel({
         onClick={onExport}
         disabled={loading}
         className={`btn-primary-md mt-6 h-14 w-full text-sm font-semibold ${
-          loading ? 'cursor-not-allowed border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-slate-400 shadow-none' : ''
+          loading ? 'cursor-not-allowed border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-slate-500 shadow-none' : ''
         }`}
       >
         {loading ? (

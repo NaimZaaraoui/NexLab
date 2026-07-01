@@ -24,7 +24,7 @@ export function ReportMorphologySection({
           <div className="mb-8">
             <div className="py-1.75">
               <div className="flex items-center gap-3 px-4">
-                <span className="text-xs font-black text-slate-400 uppercase tracking-[0.4em] print:text-black/60">
+                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                   Morphologie & Histogrammes
                 </span>
                 <div className="h-px flex-1 bg-slate-200/50 print:bg-black/10"></div>
@@ -89,7 +89,7 @@ function MorphologyInterpretations({
 
     if (interpretations.length === 0) {
       return (
-        <p className="my-8 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">
+        <p className="my-8 text-xs font-black text-slate-500 uppercase tracking-[0.08em] text-center">
           Conclusion Morphologique : Absence d&apos;anomalies majeures détectables
         </p>
       );
@@ -97,14 +97,14 @@ function MorphologyInterpretations({
 
     return (
       <div className="p-6">
-        <h4 className="text-[11px] font-black text-[var(--color-accent)] uppercase tracking-[0.2em] mb-4 print:text-black">
+        <h4 className="text-[11px] font-black text-[var(--color-accent)] uppercase tracking-[0.1em] mb-4 print:text-black">
           Interprétations Diagnostiques
         </h4>
         <div className="flex flex-wrap gap-2">
           {interpretations.map((flag) => (
             <span
               key={flag}
-              className="px-3 py-1.5 bg-[var(--color-surface)] border border-indigo-100 rounded-lg text-[10px] font-medium text-indigo-700 print:border-black/80 print:text-black"
+              className="px-3 py-1.5 bg-[var(--color-surface)] border border-indigo-100 rounded-lg text-xs font-medium text-indigo-700 print:border-black/80 print:text-black"
             >
               {flag}
             </span>

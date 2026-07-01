@@ -4,11 +4,18 @@ import fs from 'node:fs';
 function resolveChromiumPath() {
   const candidates = [
     process.env.CHROMIUM_PATH,
+    // Linux paths
     '/usr/bin/chromium',
     '/usr/bin/chromium-browser',
     '/snap/bin/chromium',
     '/usr/bin/google-chrome',
     '/usr/bin/google-chrome-stable',
+    // Windows paths
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+    `${process.env.LOCALAPPDATA}\\Google\\Chrome\\Application\\chrome.exe`,
+    'C:\\Program Files\\Chromium\\Application\\chrome.exe',
+    `${process.env.PROGRAMFILES}\\Google\\Chrome\\Application\\chrome.exe`,
   ].filter(Boolean) as string[];
 
   const existing = candidates.find((path) => fs.existsSync(path));
@@ -53,6 +60,7 @@ async function _generateAnalysisPDF(analysisId: string, origin?: string, printTo
     ? `${baseUrl}?printToken=${encodeURIComponent(printToken)}`
     : baseUrl;
 
+  const isWindows = process.platform === 'win32';
   const launchArgs = [
     '--no-sandbox',
     '--disable-setuid-sandbox',
@@ -60,7 +68,7 @@ async function _generateAnalysisPDF(analysisId: string, origin?: string, printTo
     '--disable-gpu',
     '--disable-extensions',
     '--disable-crash-reporter',
-    '--crash-dumps-dir=/tmp',
+    ...(isWindows ? [] : ['--crash-dumps-dir=/tmp']),
   ];
 
   const maxAttempts = 2;

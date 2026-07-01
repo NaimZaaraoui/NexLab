@@ -125,7 +125,7 @@ export default function TubeLabelsPage() {
   }, [analysis, barcodeValue, copies]);
 
   if (loading) {
-    return <div className="p-6 text-sm text-[var(--color-text-soft)]">Chargement des etiquettes...</div>;
+    return <div className="p-6 text-sm text-[var(--color-text-secondary)]">Chargement des etiquettes...</div>;
   }
 
   if (!analysis) {
@@ -139,14 +139,14 @@ export default function TubeLabelsPage() {
           <div>
             <PageBackLink href={`/analyses/${analysis.id}`} />
             <h1 className="text-xl font-semibold text-[var(--color-text)]">Etiquettes tubes</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Impression rapide des codes-barres échantillons pour {patientName}.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <label className="input-premium flex h-11 items-center gap-3 px-3">
-              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Nombre</span>
+              <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Nombre</span>
               <input
                 type="number"
                 min="1"
@@ -178,15 +178,15 @@ export default function TubeLabelsPage() {
           >
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-slate-400 print:text-[8px]">{label.subtitle}</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-500 print:text-xs">{label.subtitle}</p>
                 <h2 className="mt-0.5 truncate text-sm font-semibold uppercase tracking-tight text-[var(--color-text)] print:text-[11px] print:font-black">
                   {label.title}
                 </h2>
-                <p className="mt-0.5 truncate text-[10px] font-semibold text-[var(--color-text-secondary)] print:text-[8px] print:text-black">
+                <p className="mt-0.5 truncate text-xs font-semibold text-[var(--color-text-secondary)] print:text-xs print:text-black">
                   {patientName}
                 </p>
               </div>
-              <div className="shrink-0 rounded-full border border-[var(--color-border)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--color-text-secondary)] print:px-1.5 print:text-[8px] print:border-black">
+              <div className="shrink-0 rounded-full border border-[var(--color-border)] px-2 py-0.5 text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--color-text-secondary)] print:px-1.5 print:text-xs print:border-black">
                 {analysis.patientGender === 'F' ? 'F' : analysis.patientGender === 'M' ? 'M' : 'P'}
               </div>
             </div>
@@ -196,17 +196,17 @@ export default function TubeLabelsPage() {
                 value={label.barcode}
                 height={34}
                 className="print:[&_svg]:h-[12mm]"
-                labelClassName="mt-1 text-center font-mono text-[8px] font-black tracking-[0.16em] text-[var(--color-text)] print:mt-0.5 print:text-[8px] print:tracking-[0.12em] print:text-black"
+                labelClassName="mt-1 text-center font-mono text-xs font-black tracking-[0.08em] text-[var(--color-text)] print:mt-0.5 print:text-xs print:tracking-[0.08em] print:text-black"
               />
             </div>
 
-            <div className="mt-2 grid grid-cols-2 gap-2 text-[10px] print:mt-1 print:gap-2 print:text-[8px]">
+            <div className="mt-2 grid grid-cols-2 gap-2 text-xs print:mt-1 print:gap-2 print:text-xs">
               <div>
-                <p className="font-bold uppercase tracking-[0.12em] text-slate-400 print:text-black/60 print:text-[6px]">Ordre</p>
+                <p className="font-bold uppercase tracking-[0.08em] text-slate-500 print:text-black/60 print:text-[6px]">Ordre</p>
                 <p className="mt-0.5 truncate font-mono font-semibold text-[var(--color-text)] print:text-black">{analysis.orderNumber}</p>
               </div>
               <div>
-                <p className="font-bold uppercase tracking-[0.12em] text-slate-400 print:text-black/60 print:text-[6px]">Tube</p>
+                <p className="font-bold uppercase tracking-[0.08em] text-slate-500 print:text-black/60 print:text-[6px]">Tube</p>
                 <p className="mt-0.5 truncate font-mono font-semibold text-[var(--color-text)] print:text-black">{label.copy}/{copies}</p>
               </div>
             </div>

@@ -22,7 +22,7 @@ export function PatientHistoryTab({ analyses }: PatientHistoryTabProps) {
         >
           <div className="flex items-center gap-8">
             <div className="flex h-12 w-12 flex-col items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] transition-colors group-hover:border-indigo-100 group-hover:bg-indigo-50">
-              <span className="mb-1 text-[10px] font-semibold uppercase leading-none text-slate-400 group-hover:text-indigo-400">
+              <span className="mb-1 text-xs font-semibold uppercase leading-none text-slate-500 group-hover:text-indigo-400">
                 {new Date(analysis.creationDate).toLocaleString('fr-FR', { month: 'short' })}
               </span>
               <span className="text-lg font-semibold leading-none text-[var(--color-text)] group-hover:text-indigo-600">
@@ -33,7 +33,7 @@ export function PatientHistoryTab({ analyses }: PatientHistoryTabProps) {
               <div className="mb-1 flex items-center gap-4">
                 <h3 className="text-lg font-semibold tracking-tight text-[var(--color-text)]">{analysis.orderNumber}</h3>
                 <span
-                  className={`rounded-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] ${
+                  className={`rounded-md px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.1em] ${
                     isAnalysisValidated(analysis.status as AnalysisStatus)
                       ? 'bg-emerald-50 text-emerald-600'
                       : 'bg-amber-100/50 text-amber-600'
@@ -42,7 +42,7 @@ export function PatientHistoryTab({ analyses }: PatientHistoryTabProps) {
                   {isAnalysisValidated(analysis.status as AnalysisStatus) ? 'Dossier Validé' : 'En cours'}
                 </span>
               </div>
-              <div className="flex items-center gap-4 text-xs font-medium text-slate-400">
+              <div className="flex items-center gap-4 text-xs font-medium text-slate-500">
                 <span className="flex items-center gap-1.5">
                   <Activity size={12} /> {analysis.results.length} Paramètres
                 </span>

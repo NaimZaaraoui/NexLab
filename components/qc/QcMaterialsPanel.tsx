@@ -35,7 +35,7 @@ export function QcMaterialsPanel({
   const router = useRouter();
   return (
     <article className="bento-panel p-5">
-      <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">Matériels</h2>
+      <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Matériels</h2>
       <form className="mt-4 grid gap-4" onSubmit={onSubmit}>
         <input
           className="input-premium h-11 bg-[var(--color-surface)]"
@@ -78,9 +78,9 @@ export function QcMaterialsPanel({
           <button
             type="button"
             onClick={onToggleShowInactive}
-            className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-text-soft)] hover:text-[var(--color-accent)] transition-colors"
+            className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors"
           >
-            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-surface-muted)] px-1.5 text-[10px] font-bold text-[var(--color-text-soft)]">
+            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-surface-muted)] px-1.5 text-xs font-bold text-[var(--color-text-secondary)]">
               {inactiveCount}
             </span>
             {showInactive ? 'Masquer les inactifs' : 'Afficher les inactifs'}
@@ -103,17 +103,17 @@ export function QcMaterialsPanel({
                   <div className="text-sm font-semibold text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">{material.name}</div>
                   <ArrowRight size={12} className="text-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                 </div>
-                <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+                <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
                   {material.level} · {material.manufacturer || 'Sans fabricant'}
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 {!material.isActive && (
-                  <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-soft)]">
+                  <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-secondary)]">
                     Inactif
                   </span>
                 )}
-                <div className="rounded-full bg-[var(--color-surface)]/80 px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-soft)]">
+                <div className="rounded-full bg-[var(--color-surface)]/80 px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-secondary)]">
                   {material.lots.length} lot{material.lots.length > 1 ? 's' : ''}
                 </div>
                 {onToggle && (
@@ -124,7 +124,7 @@ export function QcMaterialsPanel({
                     }}
                     className={`p-1.5 rounded-lg transition-all relative z-10 ${
                       material.isActive
-                        ? 'text-slate-400 hover:text-amber-500 hover:bg-[var(--color-surface)]'
+                        ? 'text-slate-500 hover:text-amber-500 hover:bg-[var(--color-surface)]'
                         : 'text-emerald-500 hover:text-emerald-600 hover:bg-[var(--color-surface)]'
                     }`}
                     title={material.isActive ? 'Désactiver le matériel' : 'Réactiver le matériel'}
@@ -138,7 +138,7 @@ export function QcMaterialsPanel({
                       e.stopPropagation();
                       onDelete(material.id, material.name);
                     }}
-                    className="p-1.5 text-slate-400 hover:text-rose-500 hover:bg-[var(--color-surface)] rounded-lg transition-all relative z-10"
+                    className="p-1.5 text-slate-500 hover:text-rose-500 hover:bg-[var(--color-surface)] rounded-lg transition-all relative z-10"
                     title="Supprimer le matériel"
                   >
                     <Trash2 size={14} />
@@ -149,7 +149,7 @@ export function QcMaterialsPanel({
           </div>
         ))}
         {filteredMaterials.length === 0 && (
-          <div className="rounded-2xl border border-dashed px-4 py-4 text-sm text-[var(--color-text-soft)]">
+          <div className="rounded-2xl border border-dashed px-4 py-4 text-sm text-[var(--color-text-secondary)]">
             Aucun matériel ou lot QC ne correspond à cette recherche.
           </div>
         )}

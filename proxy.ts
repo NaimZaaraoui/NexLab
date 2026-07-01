@@ -17,6 +17,7 @@ const PUBLIC_PREFIXES = [
   '/favicon.ico',
   '/icon.png',
   '/apple-icon.png',
+  '/fonts',
   '/public',
   '/uploads',
   '/diagnostic',
@@ -161,5 +162,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|icon.png|apple-icon.png|branding|public|uploads).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|icon.png|apple-icon.png|branding|fonts|public|uploads).*)'],
 };

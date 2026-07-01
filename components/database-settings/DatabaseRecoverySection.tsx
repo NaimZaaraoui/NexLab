@@ -19,18 +19,18 @@ export function DatabaseRecoverySection({
     <section className="bento-panel p-5">
       <div className="flex flex-col gap-2">
         <h2 className="text-sm font-semibold text-[var(--color-text)]">Reprise après incident</h2>
-        <p className="text-sm text-[var(--color-text-soft)]">
+        <p className="text-sm text-[var(--color-text-secondary)]">
           Le bundle de reprise contient une copie propre de la base SQLite, le dossier `public/uploads`, un manifeste et un guide de restauration.
         </p>
-        <p className="text-xs text-[var(--color-text-soft)]">
+        <p className="text-xs text-[var(--color-text-secondary)]">
           Utilise-le pour une panne machine, un remplacement de poste ou un transfert complet vers un autre environnement.
         </p>
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="rounded-2xl border bg-[var(--color-surface)] p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Import depuis un autre poste</p>
-          <p className="mt-2 text-sm text-[var(--color-text-soft)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Import depuis un autre poste</p>
+          <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
             Après réinstallation de NexLab, l’admin peut importer un bundle `.tar.gz` ou `.tar.gz.enc`, puis utiliser le bouton <span className="font-semibold text-[var(--color-text)]">Restaurer</span> pour relancer le laboratoire sans passer par une commande terminal.
           </p>
         </div>
@@ -52,7 +52,7 @@ export function DatabaseRecoverySection({
               {importingRecovery ? 'Import en cours...' : 'Importer le bundle'}
             </button>
             {recoveryImportFile && (
-              <p className="text-xs text-[var(--color-text-soft)]">
+              <p className="text-xs text-[var(--color-text-secondary)]">
                 Fichier sélectionné: <span className="font-semibold text-[var(--color-text)]">{recoveryImportFile.name}</span>
               </p>
             )}

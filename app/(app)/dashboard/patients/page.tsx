@@ -156,7 +156,7 @@ export default function PatientsPage() {
       {!loading && patients.length > 0 && (
         <div className="flex flex-col gap-3 border-t border-[var(--color-border)] px-1 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
-            <label htmlFor="patients-items-per-page" className="text-sm text-[var(--color-text-soft)]">
+            <label htmlFor="patients-items-per-page" className="text-sm text-[var(--color-text-secondary)]">
               Lignes par page
             </label>
             <select

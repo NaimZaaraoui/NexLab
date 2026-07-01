@@ -62,7 +62,7 @@ export default async function QualityDashboardPage() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h1 className="text-xl font-semibold text-[var(--color-text)]">Événements Qualité</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Registre des non-conformités et incidents pré-analytiques détectés dans le workflow.
             </p>
           </div>
@@ -74,28 +74,28 @@ export default async function QualityDashboardPage() {
 
       <section className="grid gap-4 md:grid-cols-4">
         <div className="rounded-xl border bg-[var(--color-surface)] p-5 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">
             <ShieldAlert className="h-4 w-4 text-amber-600" />
             Ouverts
           </div>
           <div className="mt-3 text-3xl font-semibold tracking-tight text-[var(--color-text)]">{openCount}</div>
         </div>
         <div className="rounded-xl border bg-[var(--color-surface)] p-5 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">
             <AlertTriangle className="h-4 w-4 text-red-600" />
             Critiques actifs
           </div>
           <div className="mt-3 text-3xl font-semibold tracking-tight text-[var(--color-text)]">{criticalCount}</div>
         </div>
         <div className="rounded-xl border bg-[var(--color-surface)] p-5 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">
             <CheckCircle2 className="h-4 w-4 text-emerald-600" />
             Résolus
           </div>
           <div className="mt-3 text-3xl font-semibold tracking-tight text-[var(--color-text)]">{resolvedCount}</div>
         </div>
         <div className="rounded-xl border bg-[var(--color-surface)] p-5 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">
             <TimerReset className="h-4 w-4 text-indigo-600" />
             CAPA en retard
           </div>
@@ -112,7 +112,7 @@ export default async function QualityDashboardPage() {
         </div>
 
         {events.length === 0 ? (
-          <div className="px-5 py-12 text-center text-sm text-[var(--color-text-soft)]">
+          <div className="px-5 py-12 text-center text-sm text-[var(--color-text-secondary)]">
             Aucun événement qualité enregistré pour le moment.
           </div>
         ) : (
@@ -131,12 +131,12 @@ export default async function QualityDashboardPage() {
                       <span className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold ${actionStatusClass(event.actionStatus)}`}>
                         {actionStatusLabel(event.actionStatus)}
                       </span>
-                      <span className="text-xs font-medium text-[var(--color-text-soft)]">
+                      <span className="text-xs font-medium text-[var(--color-text-secondary)]">
                         {format(event.detectedAt, 'dd MMM yyyy HH:mm', { locale: fr })}
                       </span>
                     </div>
                     <h2 className="mt-2 text-sm font-semibold text-[var(--color-text)]">{event.title}</h2>
-                    <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-[var(--color-text-soft)]">
+                    <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-[var(--color-text-secondary)]">
                       {event.orderNumber && <span>Dossier {event.orderNumber}</span>}
                       {event.patientName && <span>{event.patientName}</span>}
                       {event.specimen?.barcode && <span>Code-barres {event.specimen.barcode}</span>}

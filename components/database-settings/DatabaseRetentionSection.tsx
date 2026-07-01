@@ -33,7 +33,7 @@ export function DatabaseRetentionSection({
             </span>
             <div>
               <h2 className="text-sm font-semibold text-[var(--color-text)]">Politique de retention</h2>
-              <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
                 Garde uniquement les N derniers backups SQLite et bundles de reprise. La regle s&apos;applique automatiquement apres chaque nouvelle creation.
               </p>
             </div>
@@ -67,7 +67,7 @@ export function DatabaseRetentionSection({
               />
             </label>
           </div>
-          <p className="text-xs text-[var(--color-text-soft)]">`0` desactive le nettoyage automatique. Valeur recommandee: `10` pour chaque type.</p>
+          <p className="text-xs text-[var(--color-text-secondary)]">`0` desactive le nettoyage automatique. Valeur recommandee: `10` pour chaque type.</p>
 
           <div className="flex flex-wrap gap-3">
             <button onClick={onSaveRetention} className="btn-primary-sm" disabled={savingRetention}>

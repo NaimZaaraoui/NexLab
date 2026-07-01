@@ -58,7 +58,7 @@ export function CategoryFormModal({
 
         <div className="space-y-5">
           <div className="space-y-2">
-            <label className="px-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">
+            <label className="px-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">
               Nom de la catégorie
             </label>
             <input
@@ -72,7 +72,7 @@ export function CategoryFormModal({
           </div>
 
           <div className="space-y-2">
-            <label className="px-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">
+            <label className="px-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">
               Icône
             </label>
             <div className="grid grid-cols-4 gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3">
@@ -83,7 +83,7 @@ export function CategoryFormModal({
                   className={`p-3 rounded-xl transition-all ${
                     newCategoryIcon === name
                     ? 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm'
-                    : 'border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)]'
+                    : 'border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)]'
                   }`}
                   title={name}
                 >
@@ -94,7 +94,7 @@ export function CategoryFormModal({
           </div>
 
           <div className="space-y-2">
-            <label className="px-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">
+            <label className="px-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">
               Hiérarchie (Parent)
             </label>
             <select

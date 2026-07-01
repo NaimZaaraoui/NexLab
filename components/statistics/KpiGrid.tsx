@@ -50,9 +50,9 @@ export function KpiCard({ title, value, icon: Icon, color, variation, subtitle }
         {variation != null && <VariationBadge variation={variation} />}
       </div>
       <div className="mt-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">{title}</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">{title}</p>
         <p className={`mt-1 text-2xl font-bold tracking-tight ${c.value}`}>{value}</p>
-        {subtitle && <p className="mt-0.5 text-xs text-[var(--color-text-soft)]">{subtitle}</p>}
+        {subtitle && <p className="mt-0.5 text-xs text-[var(--color-text-secondary)]">{subtitle}</p>}
       </div>
     </article>
   );

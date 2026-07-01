@@ -78,7 +78,7 @@ export function LabelQuantityModal({ open, onOpenChange, onConfirm, defaultCount
             <p className="text-sm font-medium text-[var(--color-text)]">
               L&apos;impression générera autant d&apos;étiquettes que nécessaire pour l&apos;identification des tubes.
             </p>
-            <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+            <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
               Vous pouvez ajuster la quantité avant de lancer l&apos;impression.
             </p>
           </div>
@@ -89,7 +89,7 @@ export function LabelQuantityModal({ open, onOpenChange, onConfirm, defaultCount
                 <p className="form-label">Quantité</p>
                 <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Entre 1 et 100 étiquettes</p>
               </div>
-              <span className="rounded-full border bg-[var(--color-surface)] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--color-text-soft)]">
+              <span className="rounded-full border bg-[var(--color-surface)] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--color-text-secondary)]">
                 {count} sélectionnée{count > 1 ? 's' : ''}
               </span>
             </div>

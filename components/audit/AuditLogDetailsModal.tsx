@@ -19,7 +19,7 @@ export function AuditLogDetailsModal({ selectedLog, detailsContent, onClose }: A
         <DialogHeader className="mb-4 flex items-start justify-between gap-3">
           <div>
             <DialogTitle className="text-base font-semibold text-[var(--color-text)]">Details du log</DialogTitle>
-            <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+            <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
               {selectedLog ? `${new Date(selectedLog.createdAt).toLocaleString('fr-FR')} • ${selectedLog.action}` : ''}
             </p>
           </div>

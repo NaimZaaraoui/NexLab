@@ -104,10 +104,10 @@ export default function AuditDashboard() {
             {tests.map(testCode => {
               const { oldValue, newValue } = parsed.deltas[testCode];
               return (
-                <div key={testCode} className="text-[10px] font-mono bg-[var(--color-surface-muted)] px-2 py-1 rounded inline-block mr-2 border">
+                <div key={testCode} className="text-xs font-mono bg-[var(--color-surface-muted)] px-2 py-1 rounded inline-block mr-2 border">
                   <span className="font-bold text-slate-700">{testCode}:</span>{' '}
                   <span className="text-rose-600 line-through mr-1">{oldValue || 'vide'}</span> 
-                  <span className="text-slate-400">→</span>{' '}
+                  <span className="text-slate-500">→</span>{' '}
                   <span className="text-emerald-600 font-bold ml-1">{newValue || 'vide'}</span>
                 </div>
               );
@@ -117,12 +117,12 @@ export default function AuditDashboard() {
       }
       
       return (
-        <pre className="text-[10px] bg-[var(--color-surface-muted)] p-1.5 rounded border text-[var(--color-text-secondary)] mt-1 max-w-full overflow-x-auto">
+        <pre className="text-xs bg-[var(--color-surface-muted)] p-1.5 rounded border text-[var(--color-text-secondary)] mt-1 max-w-full overflow-x-auto">
           {JSON.stringify(parsed, null, 2)}
         </pre>
       );
     } catch {
-      return <div className="text-[10px] text-[var(--color-text-soft)] mt-1">{detailsStr}</div>;
+      return <div className="text-xs text-[var(--color-text-secondary)] mt-1">{detailsStr}</div>;
     }
   };
 
@@ -135,7 +135,7 @@ export default function AuditDashboard() {
           <ShieldAlert className="text-[var(--color-accent)]" />
           Audit & Traçabilité
         </h1>
-        <p className="text-sm text-[var(--color-text-soft)]">
+        <p className="text-sm text-[var(--color-text-secondary)]">
           Historique immuable de toutes les actions, modifications et accès au système.
         </p>
       </div>
@@ -144,7 +144,7 @@ export default function AuditDashboard() {
         {/* Toolbar */}
         <div className="border-b border-[var(--color-border)] p-4 flex flex-col sm:flex-row gap-4 items-center justify-between bg-[var(--color-surface)]">
           <div className="relative w-full sm:w-80 shrink-0">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input 
               type="text" 
               placeholder="Chercher user, entité, action..." 
@@ -167,7 +167,7 @@ export default function AuditDashboard() {
             </select>
             
             <div className="relative shrink-0">
-               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                <input 
                  type="date"
                  value={dateFilter}
@@ -177,7 +177,7 @@ export default function AuditDashboard() {
                {dateFilter && (
                  <button 
                     onClick={() => setDateFilter('')}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 text-xs px-1"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 text-xs px-1"
                  >
                    x
                  </button>
@@ -189,7 +189,7 @@ export default function AuditDashboard() {
         {/* Table */}
         <div className="flex-1 overflow-auto bg-[var(--color-surface-muted)]/30">
           <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="sticky top-0 bg-[var(--color-surface-muted)]/80  text-xs uppercase tracking-wider text-[var(--color-text-soft)] shadow-sm z-10">
+            <thead className="sticky top-0 bg-[var(--color-surface-muted)]/80  text-xs uppercase tracking-[0.06em] text-[var(--color-text-secondary)] shadow-sm z-10">
               <tr>
                 <th className="px-6 py-4 font-semibold">Date & Heure</th>
                 <th className="px-6 py-4 font-semibold">Utilisateur</th>
@@ -225,14 +225,14 @@ export default function AuditDashboard() {
                       <div className="font-semibold text-slate-700">
                         {format(new Date(log.createdAt), 'dd MMM yyyy', { locale: fr })}
                       </div>
-                      <div className="text-xs text-slate-400 font-mono">
+                      <div className="text-xs text-slate-500 font-mono">
                         {format(new Date(log.createdAt), 'HH:mm:ss')}
                       </div>
                     </td>
                     <td className="px-6 py-3">
                       <div className="flex flex-col">
                         <span className="font-semibold text-[var(--color-text)]">{log.userName || 'Système'}</span>
-                        <span className="text-[10px] font-bold text-slate-400 tracking-wider">
+                        <span className="text-xs font-bold text-slate-500 tracking-[0.06em]">
                           {log.userRole || 'AUTO'}
                         </span>
                       </div>
@@ -242,11 +242,11 @@ export default function AuditDashboard() {
                         <Activity className="w-3.5 h-3.5 text-indigo-400" />
                         <span className="font-semibold">{formatAction(log.action)}</span>
                       </div>
-                      <span className="text-[10px] text-slate-400 font-mono">{log.action}</span>
+                      <span className="text-xs text-slate-500 font-mono">{log.action}</span>
                     </td>
                     <td className="px-6 py-3">
                       <div className="font-semibold capitalize text-slate-700">{log.entity}</div>
-                      <div className="text-[10px] text-slate-400 font-mono" title={log.entityId || ''}>
+                      <div className="text-xs text-slate-500 font-mono" title={log.entityId || ''}>
                         {log.entityId ? `${log.entityId.slice(-8)}` : '-'}
                       </div>
                     </td>
@@ -265,7 +265,7 @@ export default function AuditDashboard() {
 
         {/* Pagination footer */}
         <div className="border-t border-[var(--color-border)] p-4 flex items-center justify-between bg-[var(--color-surface)]">
-          <span className="text-sm font-medium text-[var(--color-text-soft)]">
+          <span className="text-sm font-medium text-[var(--color-text-secondary)]">
             Affichage de {logs.length} sur {totalCount} logs
           </span>
           <div className="flex gap-2">

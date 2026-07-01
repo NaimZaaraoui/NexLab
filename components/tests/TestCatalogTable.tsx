@@ -69,14 +69,14 @@ export function TestCatalogTable({
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-[var(--color-surface-muted)] border-b border-[var(--color-border)]">
-                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-soft)] uppercase tracking-wide w-24">Code</th>
-                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-soft)] uppercase tracking-wide">Analyse</th>
-                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-soft)] uppercase tracking-wide text-center">Echantillon</th>
-                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-soft)] uppercase tracking-wide text-center">Type</th>
-                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-soft)] uppercase tracking-wide text-center">Reference</th>
-                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-soft)] uppercase tracking-wide text-center">Montant</th>
-                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-soft)] uppercase tracking-wide text-center">Conso</th>
-                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-soft)] uppercase tracking-wide text-right w-24">Actions</th>
+                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide w-24">Code</th>
+                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide">Analyse</th>
+                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide text-center">Echantillon</th>
+                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide text-center">Type</th>
+                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide text-center">Reference</th>
+                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide text-center">Montant</th>
+                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide text-center">Conso</th>
+                      <th className="px-5 py-3 text-[11px] font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide text-right w-24">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--color-border)]/60">
@@ -98,7 +98,7 @@ export function TestCatalogTable({
                                 {test.name}
                               </span>
                               {test.isGroup && (
-                                <span className="text-[11px] font-medium text-[var(--color-text-soft)] mt-0.5">
+                                <span className="text-[11px] font-medium text-[var(--color-text-secondary)] mt-0.5">
                                   Panel ({allTests.filter((item) => item.parentId === test.id).length} parametres)
                                 </span>
                               )}
@@ -122,11 +122,11 @@ export function TestCatalogTable({
                                 {test.minValueM !== null || test.maxValueM !== null || test.minValueF !== null || test.maxValueF !== null ? (
                                   <div className="flex gap-4 text-[11px] font-bold">
                                     <div className="flex items-center gap-1.5">
-                                      <span className="w-3 h-3 rounded-[3px] bg-indigo-100 flex items-center justify-center text-[8px] text-[var(--color-accent)]">H</span>
+                                      <span className="w-3 h-3 rounded-[3px] bg-indigo-100 flex items-center justify-center text-xs text-[var(--color-accent)]">H</span>
                                       <span className="text-slate-700">{test.minValueM ?? '0'} — {test.maxValueM ?? '∞'}</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
-                                      <span className="w-3 h-3 rounded-[3px] bg-rose-100 flex items-center justify-center text-[8px] text-rose-600">F</span>
+                                      <span className="w-3 h-3 rounded-[3px] bg-rose-100 flex items-center justify-center text-xs text-rose-600">F</span>
                                       <span className="text-slate-700">{test.minValueF ?? '0'} — {test.maxValueF ?? '∞'}</span>
                                     </div>
                                   </div>
@@ -142,7 +142,7 @@ export function TestCatalogTable({
                           </td>
                           <td className="px-5 py-3.5 align-middle text-center">
                             <span className="text-sm font-semibold text-[var(--color-accent)]">
-                              {test.price?.toLocaleString()} <span className="text-[11px] font-medium text-[var(--color-text-soft)]">{labSettings.amount_unit}</span>
+                              {test.price?.toLocaleString()} <span className="text-[11px] font-medium text-[var(--color-text-secondary)]">{labSettings.amount_unit}</span>
                             </span>
                           </td>
                           <td className="px-5 py-3.5 align-middle text-center">
@@ -152,7 +152,7 @@ export function TestCatalogTable({
                                   {test._count?.inventoryRules} regle{(test._count?.inventoryRules || 0) > 1 ? 's' : ''}
                                 </span>
                               ) : (
-                                <span className="text-xs font-medium text-[var(--color-text-soft)]">Aucune</span>
+                                <span className="text-xs font-medium text-[var(--color-text-secondary)]">Aucune</span>
                               )}
                             </div>
                           </td>
@@ -160,21 +160,21 @@ export function TestCatalogTable({
                             <div className="flex items-center justify-end gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                               <button
                                 onClick={() => onOpenInventory(test)}
-                                className="p-2 text-slate-400 hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] rounded-lg transition-all shadow-sm border border-transparent hover:border-blue-100"
+                                className="p-2 text-slate-500 hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] rounded-lg transition-all shadow-sm border border-transparent hover:border-blue-100"
                                 title="Configurer consommation"
                               >
                                 <Package size={14} />
                               </button>
                               <button
                                 onClick={() => onEdit(test)}
-                                className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-[var(--color-surface)] rounded-lg transition-all shadow-sm border border-transparent hover:border-indigo-100"
+                                className="p-2 text-slate-500 hover:text-indigo-600 hover:bg-[var(--color-surface)] rounded-lg transition-all shadow-sm border border-transparent hover:border-indigo-100"
                                 title="Modifier"
                               >
                                 <Pencil size={14} />
                               </button>
                               <button
                                 onClick={() => onDelete(test)}
-                                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-[var(--color-surface)] rounded-lg transition-all shadow-sm border border-transparent hover:border-rose-100"
+                                className="p-2 text-slate-500 hover:text-rose-600 hover:bg-[var(--color-surface)] rounded-lg transition-all shadow-sm border border-transparent hover:border-rose-100"
                                 title="Supprimer"
                               >
                                 <Trash2 size={14} />

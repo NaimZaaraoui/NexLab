@@ -29,7 +29,7 @@ export default function QcConfigLayout({ children }: { children: React.ReactNode
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-xl font-semibold text-[var(--color-text)]">Configuration QC</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">Matériels, lots et cibles du contrôle qualité.</p>
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Matériels, lots et cibles du contrôle qualité.</p>
           </div>
           <div className="flex rounded-2xl bg-[var(--color-surface-muted)] p-1">
             {tabs.map((tab) => (
@@ -39,7 +39,7 @@ export default function QcConfigLayout({ children }: { children: React.ReactNode
                 className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all ${
                   tab.active
                     ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm'
-                    : 'text-[var(--color-text-soft)] hover:text-[var(--color-text)]'
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)]'
                 }`}
               >
                 <tab.icon className="h-4 w-4" />

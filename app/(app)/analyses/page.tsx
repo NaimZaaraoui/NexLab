@@ -10,7 +10,7 @@ export default function AnalysesPage() {
         <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
           <div>
             <h1 className="text-lg font-semibold text-[var(--color-text)]">Registre des analyses</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Registre opérationnel des dossiers patients, validations et suivi quotidien.
             </p>
           </div>
@@ -22,7 +22,7 @@ export default function AnalysesPage() {
       </section>
 
       <Suspense fallback={
-        <div className="rounded-xl border bg-[var(--color-surface)] p-8 text-center text-sm text-[var(--color-text-soft)]">
+        <div className="rounded-xl border bg-[var(--color-surface)] p-8 text-center text-sm text-[var(--color-text-secondary)]">
           Chargement des analyses...
         </div>
       }>

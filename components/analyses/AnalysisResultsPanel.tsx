@@ -45,7 +45,7 @@ export function AnalysisResultsPanel() {
               currentCategory = renderCategory;
               categoryHeader = (
                 <div key={`cat-${renderCategory}`} className="flex items-center gap-3 pt-6 pb-3 mt-4 first:mt-0 first:pt-0">
-                  <h3 className="text-[10px] font-semibold text-[var(--color-text-soft)] uppercase tracking-[0.14em]">
+                  <h3 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.08em]">
                     {renderCategory}
                   </h3>
                   <div className="h-px flex-1 bg-[var(--color-surface-muted)]" />
@@ -64,8 +64,8 @@ export function AnalysisResultsPanel() {
                 {categoryHeader}
                 {isGroup ? (
                    <div className="flex items-center gap-3 py-3 mt-4 mb-1">
-                     <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-[0.12em]">
-                       {displayName} <span className="ml-2 text-[10px] text-slate-400 font-normal">({test.code})</span>
+                     <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-[0.08em]">
+                       {displayName} <span className="ml-2 text-xs text-slate-500 font-normal">({test.code})</span>
                      </h3>
                      <div className="h-px flex-1 bg-[var(--color-surface-muted)]" />
                    </div>
@@ -90,7 +90,7 @@ export function AnalysisResultsPanel() {
             <Beaker size={32} />
           </div>
           <h3 className="text-lg font-bold text-slate-700">Aucun test configuré</h3>
-          <p className="text-sm text-slate-400 mt-1">Veuillez vérifier la configuration de cette analyse.</p>
+          <p className="text-sm text-slate-500 mt-1">Veuillez vérifier la configuration de cette analyse.</p>
         </div>
       )}
 

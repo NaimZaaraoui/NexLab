@@ -37,9 +37,9 @@ export function NotificationsMenu({
   return (
     <div className="relative" ref={notifRef}>
       <button onClick={onToggle} className="group relative rounded-lg border bg-[var(--color-surface)] p-2.5 transition-colors hover:bg-[var(--color-surface-muted)]">
-        <Bell className="h-[18px] w-[18px] text-[var(--color-text-soft)] transition-colors group-hover:text-[var(--color-accent)]" />
+        <Bell className="h-[18px] w-[18px] text-[var(--color-text-secondary)] transition-colors group-hover:text-[var(--color-accent)]" />
         {unreadCount > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-white bg-rose-500 px-1 text-[10px] font-bold text-white">
+          <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-white bg-rose-500 px-1 text-xs font-bold text-white">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -56,7 +56,7 @@ export function NotificationsMenu({
                 </span>
               )}
               {unreadCount > 0 && (
-                <button onClick={onReadAll} className="text-xs font-medium text-[var(--color-text-soft)] transition-colors hover:text-[var(--color-accent)]">
+                <button onClick={onReadAll} className="text-xs font-medium text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-accent)]">
                   Tout lu
                 </button>
               )}
@@ -76,7 +76,7 @@ export function NotificationsMenu({
                   <div className="min-w-0 flex-1">
                     <div className="text-sm font-medium text-[var(--color-text)]">{notification.title}</div>
                     <div className="text-xs text-[var(--color-text-secondary)]">{notification.message}</div>
-                    <div className="mt-1 flex items-center gap-1 text-[10px] text-[var(--color-text-soft)]">
+                    <div className="mt-1 flex items-center gap-1 text-xs text-[var(--color-text-secondary)]">
                       <Clock className="h-3 w-3" />
                       {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true, locale: fr })}
                     </div>
@@ -85,7 +85,7 @@ export function NotificationsMenu({
                 </button>
               ))
             ) : (
-              <div className="px-4 py-8 text-center text-sm text-[var(--color-text-soft)]">Aucune notification</div>
+              <div className="px-4 py-8 text-center text-sm text-[var(--color-text-secondary)]">Aucune notification</div>
             )}
           </div>
         </div>

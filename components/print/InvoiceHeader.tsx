@@ -40,7 +40,7 @@ export const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ analysis, settings
             <h1 className="text-4xl font-semibold text-[var(--color-text)] tracking-[-0.03em] uppercase print:text-black leading-none">
               {LAB_NAME}
             </h1>
-            <div className="text-[10px] font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.24em] mt-1.5 flex items-center gap-2">
+            <div className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.24em] mt-1.5 flex items-center gap-2">
               <span className="w-8 h-[1px] bg-indigo-600 print:bg-black"></span>
               {LAB_SUBTITLE.toUpperCase()}
             </div>
@@ -50,9 +50,9 @@ export const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ analysis, settings
         <div className="text-right border-r-4 border-indigo-600 pr-6 print:border-black">
           <h2 className="text-2xl font-semibold text-[var(--color-text)] uppercase tracking-tight mb-1 print:text-black">FACTURE</h2>
           <div className="flex flex-col items-end">
-            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide print:text-black">Référence: {analysis.orderNumber}</p>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide print:text-black">Référence: {analysis.orderNumber}</p>
             {analysis.receiptNumber && (
-              <p className="text-[10px] font-semibold text-[var(--color-accent)] uppercase tracking-wide print:text-black">Quittance: {analysis.receiptNumber}</p>
+              <p className="text-xs font-semibold text-[var(--color-accent)] uppercase tracking-wide print:text-black">Quittance: {analysis.receiptNumber}</p>
             )}
           </div>
         </div>

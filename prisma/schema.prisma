@@ -454,8 +454,12 @@ model QcTarget {
   testCode      String
   testName      String
   controlMode   String   @default("STATISTICAL")
+  phase         String   @default("ACCUMULATION")
+  validPoints   Int      @default(0)
   mean          Float
   sd            Float?
+  meanLoc       Float?
+  sdLoc         Float?
   minAcceptable Float?
   maxAcceptable Float?
   unit          String?
@@ -505,6 +509,8 @@ model QcValue {
   flag              String
   rule              String?
   unit              String?
+  isExcluded        Boolean  @default(false)
+  excludeReason     String?
 
   @@index([resultId])
   @@index([testCode])

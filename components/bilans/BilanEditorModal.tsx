@@ -57,7 +57,7 @@ export function BilanEditorModal({
         <div className="custom-scrollbar flex-1 space-y-6 overflow-y-auto bg-[var(--color-surface)] p-6">
           <div className="grid grid-cols-1 gap-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-5 md:grid-cols-2">
             <div className="space-y-3">
-              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Nom du bilan</label>
+              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Nom du bilan</label>
               <input
                 value={formData.name}
                 onChange={(event) => onFormDataChange({ ...formData, name: event.target.value })}
@@ -66,7 +66,7 @@ export function BilanEditorModal({
               />
             </div>
             <div className="space-y-3">
-              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Code raccourci</label>
+              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Code raccourci</label>
               <input
                 value={formData.code}
                 onChange={(event) => onFormDataChange({ ...formData, code: event.target.value })}
@@ -88,7 +88,7 @@ export function BilanEditorModal({
               </div>
 
               <div className="group relative w-full md:w-80">
-                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-soft)] transition-colors group-focus-within:text-[var(--color-text)]" />
+                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)] transition-colors group-focus-within:text-[var(--color-text)]" />
                 <input
                   value={searchQuery}
                   onChange={(event) => onSearchQueryChange(event.target.value)}
@@ -113,7 +113,7 @@ export function BilanEditorModal({
                   >
                     <div className="overflow-hidden">
                       <span className={`mb-1 block truncate text-sm font-semibold leading-none ${isSelected ? 'text-white' : 'text-[var(--color-text)]'}`}>{test.code}</span>
-                      <span className={`block truncate text-[10px] font-medium italic opacity-70 ${isSelected ? 'text-slate-200' : 'text-[var(--color-text-soft)]'}`}>{test.name}</span>
+                      <span className={`block truncate text-xs font-medium italic opacity-70 ${isSelected ? 'text-slate-200' : 'text-[var(--color-text-secondary)]'}`}>{test.name}</span>
                     </div>
 
                     <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md transition-all ${isSelected ? 'bg-white/15 text-white' : 'bg-[var(--color-surface-muted)] text-transparent'}`}>
@@ -127,7 +127,7 @@ export function BilanEditorModal({
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-surface-muted)] text-slate-200">
                     <Search size={32} />
                   </div>
-                  <p className="text-sm font-medium italic text-slate-400">Aucune analyse trouvee pour &quot;{searchQuery}&quot;</p>
+                  <p className="text-sm font-medium italic text-slate-500">Aucune analyse trouvee pour &quot;{searchQuery}&quot;</p>
                 </div>
               )}
             </div>

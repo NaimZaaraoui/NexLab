@@ -97,7 +97,7 @@ export default function DiagnosticPage() {
           </div>
           <div>
             <h1 className="text-2xl font-semibold text-[var(--color-text)]">Diagnostic Système</h1>
-            <p className="text-sm text-[var(--color-text-soft)]">Vérification de l&apos;état du système</p>
+            <p className="text-sm text-[var(--color-text-secondary)]">Vérification de l&apos;état du système</p>
           </div>
         </div>
         
@@ -112,7 +112,7 @@ export default function DiagnosticPage() {
       </div>
 
       {lastRefresh && (
-        <div className="flex items-center gap-2 text-sm text-[var(--color-text-soft)]">
+        <div className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]">
           <Clock className="w-4 h-4" />
           Dernière vérification: {lastRefresh.toLocaleTimeString('fr-FR')}
         </div>
@@ -155,7 +155,7 @@ export default function DiagnosticPage() {
           </div>
 
           {data?.timestamp && (
-            <p className="text-sm text-[var(--color-text-soft)] text-right">
+            <p className="text-sm text-[var(--color-text-secondary)] text-right">
               Vérifié le {formatTimestamp(data.timestamp)}
             </p>
           )}
@@ -183,56 +183,56 @@ export default function DiagnosticPage() {
                       )}
                       
                       {checkStatus === 'ok' && check.path && (
-                        <p className="text-sm text-[var(--color-text-soft)] mt-1 font-mono">{String(check.path)}</p>
+                        <p className="text-sm text-[var(--color-text-secondary)] mt-1 font-mono">{String(check.path)}</p>
                       )}
                       
                       {checkStatus === 'ok' && (
                         <div className="flex flex-wrap gap-4 mt-2">
                           {check.users != null && (
                             <div className="flex items-center gap-1.5 text-sm">
-                              <Shield className="w-4 h-4 text-slate-400" />
+                              <Shield className="w-4 h-4 text-slate-500" />
                               <span className="text-[var(--color-text-secondary)]">{String(check.users)} utilisateurs</span>
                             </div>
                           )}
                           {check.patients != null && (
                             <div className="flex items-center gap-1.5 text-sm">
-                              <Database className="w-4 h-4 text-slate-400" />
+                              <Database className="w-4 h-4 text-slate-500" />
                               <span className="text-[var(--color-text-secondary)]">{String(check.patients)} patients</span>
                             </div>
                           )}
                           {check.analyses != null && (
                             <div className="flex items-center gap-1.5 text-sm">
-                              <FileText className="w-4 h-4 text-slate-400" />
+                              <FileText className="w-4 h-4 text-slate-500" />
                               <span className="text-[var(--color-text-secondary)]">{String(check.analyses)} analyses</span>
                             </div>
                           )}
                           {check.tests != null && (
                             <div className="flex items-center gap-1.5 text-sm">
-                              <Activity className="w-4 h-4 text-slate-400" />
+                              <Activity className="w-4 h-4 text-slate-500" />
                               <span className="text-[var(--color-text-secondary)]">{String(check.tests)} analyses définies</span>
                             </div>
                           )}
                           {check.size_mb != null && (
                             <div className="flex items-center gap-1.5 text-sm">
-                              <HardDrive className="w-4 h-4 text-slate-400" />
+                              <HardDrive className="w-4 h-4 text-slate-500" />
                               <span className="text-[var(--color-text-secondary)]">{String(check.size_mb)} MB</span>
                             </div>
                           )}
                           {check.backup_count != null && (
                             <div className="flex items-center gap-1.5 text-sm">
-                              <FileText className="w-4 h-4 text-slate-400" />
+                              <FileText className="w-4 h-4 text-slate-500" />
                               <span className="text-[var(--color-text-secondary)]">{String(check.backup_count)} sauvegardes</span>
                             </div>
                           )}
                           {check.lab_name && (
                             <div className="flex items-center gap-1.5 text-sm">
-                              <Settings className="w-4 h-4 text-slate-400" />
+                              <Settings className="w-4 h-4 text-slate-500" />
                               <span className="text-[var(--color-text-secondary)]">{String(check.lab_name)}</span>
                             </div>
                           )}
                           {check.node_version && (
                             <div className="flex items-center gap-1.5 text-sm">
-                              <Server className="w-4 h-4 text-slate-400" />
+                              <Server className="w-4 h-4 text-slate-500" />
                               <span className="text-[var(--color-text-secondary)]">Node {String(check.node_version)}</span>
                             </div>
                           )}

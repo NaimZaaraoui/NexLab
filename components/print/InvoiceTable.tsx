@@ -42,7 +42,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
   const isHighVolume = invoiceItemsFinal.length >= 30;
   const isVeryHighVolume = invoiceItemsFinal.length >= 45;
   const rowPaddingClass = isVeryHighVolume ? 'py-1' : isHighVolume ? 'py-1.5' : 'py-2';
-  const rowNameClass = isVeryHighVolume ? 'text-[10px]' : 'text-[11px]';
+  const rowNameClass = isVeryHighVolume ? 'text-xs' : 'text-[11px]';
   const rowPriceClass = isVeryHighVolume ? 'text-[11px]' : 'text-[12px]';
 
   return (
@@ -50,10 +50,10 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
       <table className="w-full border-collapse table-fixed">
         <thead>
           <tr className="bg-[var(--color-surface-muted)]/50 print:bg-black/5">
-            <th className="py-2 pl-4 text-left text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 print:text-black w-[72%]">
+            <th className="py-2 pl-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500 print:text-black w-[72%]">
               Désignation de l&apos;Analyse
             </th>
-            <th className="py-2 pr-4 text-right text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 print:text-black w-[28%]">
+            <th className="py-2 pr-4 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500 print:text-black w-[28%]">
               Prix ({AMOUNT_UNIT})
             </th>
           </tr>
@@ -72,7 +72,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
         </tbody>
         <tfoot>
           <tr className="border-t-2 border-slate-900">
-            <td className="pt-4 pb-2 pl-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text)] print:text-black">
+            <td className="pt-4 pb-2 pl-4 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text)] print:text-black">
               Total Net à Payer
             </td>
             <td className="pt-4 pb-2 pr-4 text-right text-2xl font-semibold text-[var(--color-text)] print:text-2xl print:text-black">

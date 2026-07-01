@@ -21,7 +21,7 @@ export function DiatronImportDialog({ preview, onCancel, onSelect }: DiatronImpo
             </div>
             <div>
               <DialogTitle className="text-lg font-bold text-[var(--color-text)]">Sélectionner un Résultat</DialogTitle>
-              <p className="text-sm text-[var(--color-text-soft)]">Fichier importé : Diatron Abacus 380</p>
+              <p className="text-sm text-[var(--color-text-secondary)]">Fichier importé : Diatron Abacus 380</p>
             </div>
           </div>
         </DialogHeader>
@@ -41,7 +41,7 @@ export function DiatronImportDialog({ preview, onCancel, onSelect }: DiatronImpo
               >
                 <div className="flex items-center gap-4">
                   <div className="flex h-12 w-12 flex-col items-center justify-center rounded-xl border bg-[var(--color-surface-muted)] transition-colors group-hover:border-[var(--color-text-soft)]">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">ID</span>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-500">ID</span>
                     <span className="text-base font-bold text-slate-700">{record.sampleId || '?'}</span>
                   </div>
 
@@ -49,7 +49,7 @@ export function DiatronImportDialog({ preview, onCancel, onSelect }: DiatronImpo
                     <div className="font-semibold text-[var(--color-text)] transition-colors group-hover:text-[var(--color-text)]">
                       Analyse du {record.date}
                     </div>
-                    <div className="text-sm text-[var(--color-text-soft)] flex items-center gap-2 mt-0.5">
+                    <div className="text-sm text-[var(--color-text-secondary)] flex items-center gap-2 mt-0.5">
                       <span className="flex items-center gap-1 text-xs">
                         <History size={12} /> {record.time}
                       </span>

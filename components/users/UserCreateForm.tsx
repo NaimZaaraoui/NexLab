@@ -46,13 +46,13 @@ export function UserCreateForm({ onUserCreated }: Props) {
   return (
     <div className="rounded-xl border bg-[var(--color-surface)] p-6 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
       <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-[var(--color-text)]">
-        <UserPlus size={20} className="text-[var(--color-text-soft)]" />
+        <UserPlus size={20} className="text-[var(--color-text-secondary)]" />
         Nouveau Compte
       </h3>
 
       <form onSubmit={handleCreateUser} className="grid grid-cols-1 gap-5 xl:grid-cols-2">
         <div className="space-y-2">
-          <label className="block text-[10px] font-semibold text-slate-400 uppercase tracking-[0.12em] mb-2 ml-1">Nom complet</label>
+          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-[0.08em] mb-2 ml-1">Nom complet</label>
           <input 
             type="text" 
             value={formData.name}
@@ -64,7 +64,7 @@ export function UserCreateForm({ onUserCreated }: Props) {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-[10px] font-semibold text-slate-400 uppercase tracking-[0.12em] mb-2 ml-1">Email personnel</label>
+          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-[0.08em] mb-2 ml-1">Email personnel</label>
           <input 
             type="email" 
             value={formData.email}
@@ -76,7 +76,7 @@ export function UserCreateForm({ onUserCreated }: Props) {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-[10px] font-semibold text-slate-400 uppercase tracking-[0.12em] mb-2 ml-1">Rôle système</label>
+          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-[0.08em] mb-2 ml-1">Rôle système</label>
           <select 
             value={formData.role}
             onChange={(e) => setFormData({...formData, role: e.target.value})}
@@ -91,7 +91,7 @@ export function UserCreateForm({ onUserCreated }: Props) {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-[10px] font-semibold text-slate-400 uppercase tracking-[0.12em] mb-2 ml-1">Mot de passe initial</label>
+          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-[0.08em] mb-2 ml-1">Mot de passe initial</label>
           <input 
             type="password" 
             value={formData.password}
@@ -101,7 +101,7 @@ export function UserCreateForm({ onUserCreated }: Props) {
             required
             minLength={8}
           />
-          <p className="text-[10px] text-slate-400 mt-2 ml-1 flex items-center gap-1">
+          <p className="text-xs text-slate-500 mt-2 ml-1 flex items-center gap-1">
             <Shield size={10} />
             L&apos;utilisateur devra le changer au 1er accès
           </p>
@@ -109,7 +109,7 @@ export function UserCreateForm({ onUserCreated }: Props) {
 
         {error && (
           <div className="xl:col-span-2 flex items-center gap-3 rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4">
-            <XCircle size={16} className="shrink-0 text-[var(--color-text-soft)]" />
+            <XCircle size={16} className="shrink-0 text-[var(--color-text-secondary)]" />
             <p className="text-xs font-semibold text-[var(--color-text)]">{error}</p>
           </div>
         )}

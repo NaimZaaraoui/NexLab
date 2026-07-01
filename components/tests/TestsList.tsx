@@ -45,9 +45,9 @@ export function TestsList() {
 
   if (catalog.loading) {
     return (
-      <div className="flex flex-col items-center justify-center p-20 text-slate-400 gap-4">
+      <div className="flex flex-col items-center justify-center p-20 text-slate-500 gap-4">
         <RefreshCw size={48} className="animate-spin text-indigo-500" />
-        <p className="font-black uppercase tracking-widest text-xs">Chargement du catalogue...</p>
+        <p className="font-black uppercase tracking-[0.08em] text-xs">Chargement du catalogue...</p>
       </div>
     );
   }

@@ -111,7 +111,7 @@ export function LabSettingsForm() {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-[var(--color-text)]">Identité du laboratoire</h3>
-              <p className="text-sm text-[var(--color-text-soft)]">Informations principales sur l&apos;établissement.</p>
+              <p className="text-sm text-[var(--color-text-secondary)]">Informations principales sur l&apos;établissement.</p>
             </div>
           </div>
 
@@ -156,7 +156,7 @@ export function LabSettingsForm() {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-[var(--color-text)]">Coordonnées</h3>
-              <p className="text-sm text-[var(--color-text-soft)]">Adresse et moyens de contact.</p>
+              <p className="text-sm text-[var(--color-text-secondary)]">Adresse et moyens de contact.</p>
             </div>
           </div>
 
@@ -193,7 +193,7 @@ export function LabSettingsForm() {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-[var(--color-text)]">Listes configurables</h3>
-              <p className="text-sm text-[var(--color-text-soft)]">Définir les options disponibles pour vos formulaires et tests.</p>
+              <p className="text-sm text-[var(--color-text-secondary)]">Définir les options disponibles pour vos formulaires et tests.</p>
             </div>
           </div>
 
@@ -260,7 +260,7 @@ export function LabSettingsForm() {
             
             <div className="flex items-start gap-3 rounded-md border border-slate-200 bg-slate-50 p-4">
               <Info size={16} className="mt-0.5 shrink-0 text-slate-500" />
-              <p className="text-[10px] font-semibold uppercase tracking-tight text-slate-600 leading-relaxed">
+              <p className="text-xs font-semibold uppercase tracking-tight text-slate-600 leading-relaxed">
                 Ces options fourniront une auto-complétion intelligente lors de la configuration de votre catalogue technique (tests), de votre inventaire et de vos paramètres QC.
               </p>
             </div>
@@ -277,7 +277,7 @@ export function LabSettingsForm() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-[var(--color-text)]">Biologiste responsable</h3>
-                <p className="text-sm text-[var(--color-text-soft)]">Pour les rapports et l&apos;affichage global.</p>
+                <p className="text-sm text-[var(--color-text-secondary)]">Pour les rapports et l&apos;affichage global.</p>
               </div>
             </div>
 
@@ -317,17 +317,17 @@ export function LabSettingsForm() {
               
               <div className="space-y-4">
                 <div>
-                  <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">Avertissement</label>
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">Avertissement</label>
                   <div className="relative">
                     <input className={`${inputClass} pr-14`} type="number" min="1" max="480" value={settings.tat_warn} onChange={e => setSettings({ ...settings, tat_warn: e.target.value })} />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-slate-500">min</span>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500">min</span>
                   </div>
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">Dépassement</label>
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">Dépassement</label>
                   <div className="relative">
                     <input className={`${inputClass} pr-14`} type="number" min="1" max="480" value={settings.tat_alert} onChange={e => setSettings({ ...settings, tat_alert: e.target.value })} />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-slate-500">min</span>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500">min</span>
                   </div>
                 </div>
               </div>
@@ -370,7 +370,7 @@ export function LabSettingsForm() {
             </div>
             <div>
               <h3 className="text-base font-semibold text-[var(--color-text)]">Intégration automate Diatron</h3>
-              <p className="text-sm text-[var(--color-text-soft)]">
+              <p className="text-sm text-[var(--color-text-secondary)]">
                 Activez uniquement si votre laboratoire dispose d&apos;un automate Diatron Abacus 380. Affiche le bouton d&apos;import de fichier .txt dans le formulaire de saisie des résultats.
               </p>
             </div>
@@ -398,7 +398,7 @@ export function LabSettingsForm() {
           className="btn-primary flex h-12 items-center gap-2 px-8 transition-all active:scale-95"
         >
           {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
-          <span className="text-sm font-semibold uppercase tracking-[0.12em]">Enregistrer les réglages</span>
+          <span className="text-sm font-semibold uppercase tracking-[0.08em]">Enregistrer les réglages</span>
         </button>
       </div>
 

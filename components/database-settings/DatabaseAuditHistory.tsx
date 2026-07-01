@@ -42,7 +42,7 @@ export function DatabaseAuditHistory({ history }: Props) {
             <History className="h-4 w-4 text-[var(--color-accent)]" />
             <h2 className="text-sm font-semibold text-[var(--color-text)]">Historique visuel</h2>
           </div>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
             Dernières actions liées aux sauvegardes, restaurations, exports et nettoyages.
           </p>
         </div>
@@ -53,7 +53,7 @@ export function DatabaseAuditHistory({ history }: Props) {
 
       <div className="mt-4 space-y-3">
         {history.length === 0 ? (
-          <div className="rounded-2xl border bg-[var(--color-surface)] px-4 py-5 text-sm text-[var(--color-text-soft)]">
+          <div className="rounded-2xl border bg-[var(--color-surface)] px-4 py-5 text-sm text-[var(--color-text-secondary)]">
             Aucun événement base de données récent.
           </div>
         ) : (
@@ -67,12 +67,12 @@ export function DatabaseAuditHistory({ history }: Props) {
                   <span className={severityBadgeClass(item.severity)}>{item.severity}</span>
                   <p className="text-sm font-semibold text-[var(--color-text)]">{formatDatabaseAction(item.action)}</p>
                 </div>
-                <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+                <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
                   {item.userName || 'Système'} · {item.entity}
                   {item.entityId ? ` · ${item.entityId}` : ''}
                 </p>
               </div>
-              <p className="text-xs text-[var(--color-text-soft)]">
+              <p className="text-xs text-[var(--color-text-secondary)]">
                 {new Date(item.createdAt).toLocaleString('fr-FR')}
               </p>
             </div>

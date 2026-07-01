@@ -108,7 +108,7 @@ export default function LoginPage() {
 
           {isDemo && (
             <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-wider text-amber-700">🔑 Accès démonstration</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.06em] text-amber-700">🔑 Accès démonstration</p>
               <div className="space-y-2">
                 {[
                   { role: 'Admin', email: 'admin.demo@nexlab.dz' },
@@ -121,7 +121,7 @@ export default function LoginPage() {
                     className="flex w-full items-center justify-between rounded-lg bg-white border border-amber-200 px-3 py-2 text-left text-xs hover:bg-amber-50 transition-colors"
                   >
                     <span className="font-medium text-slate-700">{role}</span>
-                    <span className="text-slate-400 font-mono">{demoEmail}</span>
+                    <span className="text-slate-500 font-mono">{demoEmail}</span>
                   </button>
                 ))}
               </div>
@@ -132,11 +132,11 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email */}
             <div>
-              <label htmlFor="login-email" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <label htmlFor="login-email" className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.06em] text-slate-500">
                 Adresse email
               </label>
               <div className="relative">
-                <MailIcon className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <MailIcon className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
                 <input
                   id="login-email"
                   type="email"
@@ -152,11 +152,11 @@ export default function LoginPage() {
 
             {/* Password */}
             <div>
-              <label htmlFor="login-password" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <label htmlFor="login-password" className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.06em] text-slate-500">
                 Mot de passe
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
                 <input
                   id="login-password"
                   type={showPassword ? 'text' : 'password'}
@@ -169,7 +169,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition-colors"
                   aria-label={showPassword ? 'Masquer' : 'Afficher'}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -200,7 +200,7 @@ export default function LoginPage() {
           </form>
 
           {/* Footer */}
-          <div className="mt-8 flex items-center justify-center gap-2 text-xs text-slate-400">
+          <div className="mt-8 flex items-center justify-center gap-2 text-xs text-slate-500">
             <ShieldCheck className="h-3.5 w-3.5" />
             Connexion chiffrée de bout en bout
           </div>

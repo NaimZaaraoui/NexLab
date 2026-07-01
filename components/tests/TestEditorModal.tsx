@@ -84,14 +84,14 @@ export function TestEditorModal({
                 isGroup: false,
                 resultType: form.resultType === 'text' ? 'numeric' : form.resultType,
               })}
-              className={`rounded-xl border p-4 text-xs font-black uppercase tracking-widest transition-all ${!form.isGroup ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]' : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)]'}`}
+              className={`rounded-xl border p-4 text-xs font-black uppercase tracking-[0.08em] transition-all ${!form.isGroup ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]' : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)]'}`}
             >
               Individuel
             </button>
             <button
               type="button"
               onClick={() => onFormChange({ ...form, isGroup: true, resultType: 'text', unit: '', minValue: '', maxValue: '' })}
-              className={`rounded-xl border p-4 text-xs font-black uppercase tracking-widest transition-all ${form.isGroup ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]' : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)]'}`}
+              className={`rounded-xl border p-4 text-xs font-black uppercase tracking-[0.08em] transition-all ${form.isGroup ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]' : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)]'}`}
             >
               Panel / Bilan
             </button>
@@ -99,7 +99,7 @@ export function TestEditorModal({
 
           <div className="grid grid-cols-1 gap-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-5 md:grid-cols-2">
             <div className="space-y-2">
-              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Code</label>
+              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Code</label>
               <input
                 value={form.code}
                 onChange={(event) => onFormChange({ ...form, code: event.target.value.toUpperCase() })}
@@ -109,7 +109,7 @@ export function TestEditorModal({
               />
             </div>
             <div className="space-y-2">
-              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-soft)]">Nom complet</label>
+              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Nom complet</label>
               <input
                 value={form.name}
                 onChange={(event) => onFormChange({ ...form, name: event.target.value })}
@@ -119,7 +119,7 @@ export function TestEditorModal({
               />
             </div>
             <div className="space-y-2">
-              <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">Categorie</label>
+              <label className="ml-1 text-xs font-black uppercase tracking-[0.08em] text-slate-500">Categorie</label>
               <select
                 value={form.categoryId}
                 onChange={(event) => onFormChange({ ...form, categoryId: event.target.value })}
@@ -132,7 +132,7 @@ export function TestEditorModal({
               </select>
             </div>
             <div className="space-y-2">
-              <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">Panel Parent</label>
+              <label className="ml-1 text-xs font-black uppercase tracking-[0.08em] text-slate-500">Panel Parent</label>
               <select
                 value={form.parentId}
                 onChange={(event) => onFormChange({ ...form, parentId: event.target.value })}
@@ -148,7 +148,7 @@ export function TestEditorModal({
             </div>
             {!form.isGroup && (
               <div className="space-y-2">
-                <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">Type de Resultat</label>
+                <label className="ml-1 text-xs font-black uppercase tracking-[0.08em] text-slate-500">Type de Resultat</label>
                 <select
                   value={form.resultType}
                   onChange={(event) => onFormChange({ ...form, resultType: event.target.value })}
@@ -162,7 +162,7 @@ export function TestEditorModal({
             )}
             {form.resultType === 'dropdown' && !form.isGroup && (
               <div className="space-y-2">
-                <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">Options (separees par virgule)</label>
+                <label className="ml-1 text-xs font-black uppercase tracking-[0.08em] text-slate-500">Options (separees par virgule)</label>
                 <input
                   value={form.options}
                   onChange={(event) => onFormChange({ ...form, options: event.target.value })}
@@ -173,7 +173,7 @@ export function TestEditorModal({
             )}
             {form.resultType === 'calculated' && !form.isGroup && (
               <div className="space-y-2 md:col-span-2">
-                <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">Formule</label>
+                <label className="ml-1 text-xs font-black uppercase tracking-[0.08em] text-slate-500">Formule</label>
                 <textarea
                   value={form.formula}
                   onChange={(event) => onFormChange({ ...form, formula: event.target.value })}
@@ -193,7 +193,7 @@ export function TestEditorModal({
               </div>
             )}
             <div className="space-y-2">
-              <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">Echantillon</label>
+              <label className="ml-1 text-xs font-black uppercase tracking-[0.08em] text-slate-500">Echantillon</label>
               <select
                 value={form.sampleType}
                 onChange={(event) => onFormChange({ ...form, sampleType: event.target.value, sampleContainer: '' })}
@@ -208,7 +208,7 @@ export function TestEditorModal({
             </div>
             {['Sang total', 'Sérum', 'Plasma'].includes(form.sampleType) && (
               <div className="space-y-2">
-                <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                <label className="ml-1 text-xs font-black uppercase tracking-[0.08em] text-slate-500">
                   Tube / Contenant
                 </label>
                 <select
@@ -222,13 +222,13 @@ export function TestEditorModal({
                     return <option key={value} value={value}>{value}</option>;
                   })}
                 </select>
-                <p className="ml-1 text-[10px] text-[var(--color-text-soft)]">
+                <p className="ml-1 text-xs text-[var(--color-text-secondary)]">
                   Tube spécifique requis pour ce test (ex: EDTA pour NFS, Citrate pour coagulation)
                 </p>
               </div>
             )}
             <div className="space-y-2">
-              <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">Montant ({labSettings.amount_unit})</label>
+              <label className="ml-1 text-xs font-black uppercase tracking-[0.08em] text-slate-500">Montant ({labSettings.amount_unit})</label>
               <input
                 type="number"
                 value={form.price}
@@ -245,12 +245,12 @@ export function TestEditorModal({
                   className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 transition-all ${
                     form.isOptional
                       ? 'border-amber-200 bg-amber-50 text-amber-800'
-                      : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)]'
+                      : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)]'
                   }`}
                 >
                   <div className="text-left">
-                    <p className="text-[11px] font-black uppercase tracking-widest">Résultat optionnel</p>
-                    <p className="mt-0.5 text-[10px]">
+                    <p className="text-[11px] font-black uppercase tracking-[0.08em]">Résultat optionnel</p>
+                    <p className="mt-0.5 text-xs">
                       Si activé, ce test ne bloquera pas la validation même si son résultat est vide
                       (ex: DFG calculé par script, dépend de l&apos;âge du patient)
                     </p>
@@ -272,11 +272,11 @@ export function TestEditorModal({
           {!form.isGroup && (form.resultType === 'numeric' || form.resultType === 'calculated') && (
             <div className="space-y-6">
               <div className="flex items-center justify-between px-4">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Parametres Physico-chimiques</h4>
+                <h4 className="text-xs font-black uppercase tracking-[0.08em] text-slate-500">Parametres Physico-chimiques</h4>
                 <button
                   type="button"
                   onClick={() => onSexBasedChange(!isSexBased)}
-                  className={`flex items-center gap-2 rounded-lg border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wide transition-all ${isSexBased ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]' : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)]'}`}
+                  className={`flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition-all ${isSexBased ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)]' : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)]'}`}
                 >
                   <Layers size={12} />
                   Plages par sexe
@@ -285,7 +285,7 @@ export function TestEditorModal({
 
               <div className="grid grid-cols-2 items-end gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:grid-cols-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-widest ml-1 text-center block">Unite</label>
+                  <label className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] ml-1 text-center block">Unite</label>
                   <input list="clinical-units" value={form.unit} onChange={(event) => onFormChange({ ...form, unit: event.target.value })} placeholder="g/L" className="input-premium h-12 bg-[var(--color-surface)] text-center font-black" />
                   <datalist id="clinical-units">
                     {labSettings.clinical_units?.split(',').map((u) => {
@@ -295,15 +295,15 @@ export function TestEditorModal({
                   </datalist>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-emerald-600 uppercase tracking-widest ml-1 text-center block">Min Std</label>
+                  <label className="text-xs font-black text-emerald-600 uppercase tracking-[0.08em] ml-1 text-center block">Min Std</label>
                   <input step="0.01" type="number" value={form.minValue} onChange={(event) => onFormChange({ ...form, minValue: event.target.value })} placeholder="0.00" className="input-premium h-12 bg-[var(--color-surface)] text-center font-black" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-rose-600 uppercase tracking-widest ml-1 text-center block">Max Std</label>
+                  <label className="text-xs font-black text-rose-600 uppercase tracking-[0.08em] ml-1 text-center block">Max Std</label>
                   <input step="0.01" type="number" value={form.maxValue} onChange={(event) => onFormChange({ ...form, maxValue: event.target.value })} placeholder="∞" className="input-premium h-12 bg-[var(--color-surface)] text-center font-black" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 text-center block">Dec</label>
+                  <label className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] ml-1 text-center block">Dec</label>
                   <select value={form.decimals} onChange={(event) => onFormChange({ ...form, decimals: event.target.value })} className="input-premium h-12 bg-[var(--color-surface)] text-center font-black">
                     <option value="0">0</option>
                     <option value="1">1</option>
@@ -314,19 +314,19 @@ export function TestEditorModal({
                 {isSexBased && (
                   <div className="col-span-2 md:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-indigo-100/50">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest ml-1 text-center block">H Min</label>
+                      <label className="text-xs font-black text-indigo-400 uppercase tracking-[0.08em] ml-1 text-center block">H Min</label>
                       <input step="0.01" type="number" value={form.minValueM} onChange={(event) => onFormChange({ ...form, minValueM: event.target.value })} placeholder="Min H" className="input-premium h-12 bg-[var(--color-surface)] text-center font-black" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest ml-1 text-center block">H Max</label>
+                      <label className="text-xs font-black text-indigo-400 uppercase tracking-[0.08em] ml-1 text-center block">H Max</label>
                       <input step="0.01" type="number" value={form.maxValueM} onChange={(event) => onFormChange({ ...form, maxValueM: event.target.value })} placeholder="Max H" className="input-premium h-12 bg-[var(--color-surface)] text-center font-black" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-rose-400 uppercase tracking-widest ml-1 text-center block">F Min</label>
+                      <label className="text-xs font-black text-rose-400 uppercase tracking-[0.08em] ml-1 text-center block">F Min</label>
                       <input step="0.01" type="number" value={form.minValueF} onChange={(event) => onFormChange({ ...form, minValueF: event.target.value })} placeholder="Min F" className="input-premium h-12 bg-[var(--color-surface)] text-center font-black" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-rose-400 uppercase tracking-widest ml-1 text-center block">F Max</label>
+                      <label className="text-xs font-black text-rose-400 uppercase tracking-[0.08em] ml-1 text-center block">F Max</label>
                       <input step="0.01" type="number" value={form.maxValueF} onChange={(event) => onFormChange({ ...form, maxValueF: event.target.value })} placeholder="Max F" className="input-premium h-12 bg-[var(--color-surface)] text-center font-black" />
                     </div>
                   </div>

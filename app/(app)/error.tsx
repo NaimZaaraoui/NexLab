@@ -31,7 +31,7 @@ export default function AppError({ error, reset }: { error: Error & { digest?: s
           L'incident a été enregistré automatiquement. Vous pouvez réessayer ou contacter l'administrateur si le problème persiste.
         </p>
         {error.digest && (
-          <p className="text-xs text-[var(--color-text-soft)]">
+          <p className="text-xs text-[var(--color-text-secondary)]">
             Référence : <code className="font-mono">{error.digest}</code>
           </p>
         )}

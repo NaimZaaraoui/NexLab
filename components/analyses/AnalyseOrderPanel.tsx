@@ -35,7 +35,7 @@ export function AnalyseOrderPanel({
           <div className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)]">
             <FileDigit size={16} />
           </div>
-          <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-700">Dossier / Paillasse</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-700">Dossier / Paillasse</h2>
       </div>
       
       <div className="grid grid-cols-2 gap-4">

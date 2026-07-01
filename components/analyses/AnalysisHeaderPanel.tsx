@@ -53,8 +53,8 @@ export function AnalysisHeaderPanel() {
               title={prevId ? 'Dossier précédent (Alt + ←)' : 'Pas de dossier précédent'}
               className={`inline-flex items-center justify-center rounded-lg border p-1.5 transition-colors ${
                 prevId
-                  ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-soft)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]'
-                  : 'pointer-events-none border-transparent text-[var(--color-text-soft)] opacity-30'
+                  ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]'
+                  : 'pointer-events-none border-transparent text-[var(--color-text-secondary)] opacity-30'
               }`}
             >
               <ChevronLeft size={15} />
@@ -65,8 +65,8 @@ export function AnalysisHeaderPanel() {
               title={nextId ? 'Dossier suivant (Alt + →)' : 'Pas de dossier suivant'}
               className={`inline-flex items-center justify-center rounded-lg border p-1.5 transition-colors ${
                 nextId
-                  ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-soft)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]'
-                  : 'pointer-events-none border-transparent text-[var(--color-text-soft)] opacity-30'
+                  ? 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]'
+                  : 'pointer-events-none border-transparent text-[var(--color-text-secondary)] opacity-30'
               }`}
             >
               <ChevronRight size={15} />
@@ -77,9 +77,9 @@ export function AnalysisHeaderPanel() {
               <span className="inline-flex rounded-md border border-blue-200/70 bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700">
                 N° {analysis.orderNumber}
               </span>
-              <span className="text-xs text-[var(--color-text-soft)]">{format(new Date(analysis.creationDate), 'dd MMMM yyyy', { locale: fr })}</span>
+              <span className="text-xs text-[var(--color-text-secondary)]">{format(new Date(analysis.creationDate), 'dd MMMM yyyy', { locale: fr })}</span>
             </div>
-            <h1 className={`text-lg font-semibold tracking-tight text-[var(--color-text)] ${!analysis.patientFirstName && !analysis.patientLastName ? 'italic text-[var(--color-text-soft)]' : ''}`}>
+            <h1 className={`text-lg font-semibold tracking-tight text-[var(--color-text)] ${!analysis.patientFirstName && !analysis.patientLastName ? 'italic text-[var(--color-text-secondary)]' : ''}`}>
               {(analysis.patientFirstName || analysis.patientLastName) ? (
                 <>{analysis.patientFirstName} <span className="text-[var(--color-accent)]">{analysis.patientLastName}</span></>
               ) : 'Patient Sans Nom'}

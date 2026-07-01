@@ -25,18 +25,18 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
             <div className="pt-6 border-t-2 border-slate-900 print:border-black footer-content">
               <div className="grid grid-cols-3 gap-12">
                 <div className="col-span-2">
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 print:text-black">Notes du Biologiste</h4>
-                  <p className="text-xs text-[var(--color-text-soft)] leading-relaxed max-w-md print:text-black">
+                  <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] mb-4 print:text-black">Notes du Biologiste</h4>
+                  <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed max-w-md print:text-black">
                     {REPORT_DISCLAIMER}<br />
-                    <span className="text-[8px] font-black text-slate-300 uppercase print:text-black/60">↑ = Résultat élevé | ↓ = Résultat bas | Préc. = Dernier résultat validé dans notre laboratoire</span>
+                    <span className="text-[10px] font-black text-slate-300 uppercase print:text-black/60">↑ = Résultat élevé | ↓ = Résultat bas | Préc. = Dernier résultat validé dans notre laboratoire</span>
                   </p>
                   <div className="mt-6 flex gap-8">
                     <div className="flex flex-col">
-                      <span className="text-[9px] font-black text-slate-300 uppercase print:text-black/60">ID Document</span>
+                      <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/60">ID Document</span>
                       <span className="text-[11px] font-bold text-[var(--color-text)] print:text-black">{analysis.id.substring(0, 8).toUpperCase()}</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[9px] font-black text-slate-300 uppercase print:text-black/60">Statut</span>
+                      <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/60">Statut</span>
                       <span className={`text-[11px] font-black uppercase ${isValidated ? 'text-[var(--color-accent)]' : 'text-amber-600'} print:text-black`}>
                         {isValidated ? 'Validé' : 'En attente'}
                       </span>
@@ -46,15 +46,15 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
 
                 <div className="flex flex-col items-center">
                   <div className="w-full border-b border-slate-900 pb-2 mb-4 text-center print:border-black">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] print:text-black">Signature & Cachet</span>
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] print:text-black">Signature & Cachet</span>
                   </div>
                   <div className="flex flex-col items-center gap-2 w-full">
                     {analysis.validatedBioAt && (
-                      <div className="text-[9px] text-[var(--color-text-secondary)] font-medium text-center print:text-black">
+                      <div className="text-[11px] text-[var(--color-text-secondary)] font-medium text-center print:text-black">
                         Validé le {format(new Date(analysis.validatedBioAt), "dd/MM/yyyy 'à' HH:mm", { locale: fr })}
                       </div>
                     )}
-                    
+
                     <div style={{ position: 'relative', width: '120px', height: '90px', margin: '0 auto' }}>
                       {settings?.lab_stamp_image && settings?.lab_bio_signature && (
                         <>
@@ -100,10 +100,10 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
                     </div>
 
                     <div className="text-center">
-                      <p className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-widest print:text-black">
+                      <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
                         {BIO_TITLE && BIO_NAME ? `${BIO_TITLE} ${BIO_NAME}` : 'Biologiste Responsable'}
                       </p>
-                      {BIO_ONMPT && <p className="text-[8px] font-bold text-slate-400 print:text-black/60 mt-0.5">ONMPT: {BIO_ONMPT}</p>}
+                      {BIO_ONMPT && <p className="text-xs font-bold text-slate-500 print:text-black/60 mt-0.5">ONMPT: {BIO_ONMPT}</p>}
                     </div>
                   </div>
                 </div>
@@ -114,8 +114,8 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
                   {FOOTER_TEXT}
                 </div>
               )}
-              <div className="mt-6 flex justify-between items-center text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
-                 <span>{LAB_NAME}</span>
+              <div className="mt-6 flex justify-between items-center text-[11px] font-bold text-slate-300 uppercase tracking-[0.1em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
+                <span>{LAB_NAME}</span>
                 <div className="flex gap-4">
                   {LAB_PHONE && <span>Tél: {LAB_PHONE}</span>}
                 </div>
@@ -126,7 +126,7 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
             </div>
           ) : (
             <div className="mt-4 pt-4 border-t border-[var(--color-border)] print:border-black/10 footer-content">
-              <div className="flex justify-between items-center text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em] print:text-black">
+              <div className="flex justify-between items-center text-[11px] font-bold text-slate-300 uppercase tracking-[0.1em] print:text-black">
                 <span>{LAB_NAME} - Rapport</span>
                 <div className="flex gap-8 items-center">
                   <span className="text-[var(--color-accent)] font-black">Validé par le Biologiste Responsable</span>

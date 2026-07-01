@@ -33,11 +33,11 @@ export function AnalysisChartsTab({ analysis, results }: AnalysisChartsTabProps)
         {interpretations.length === 0 ? (
           <div className="p-5 bg-[var(--color-surface-muted)] border border-[var(--color-border)] rounded-2xl flex items-center justify-center gap-2">
             <Sparkles className="text-indigo-500" size={16} />
-            <p className="text-sm font-semibold text-[var(--color-text-soft)]">Aucune anomalie morphologique majeure détectée</p>
+            <p className="text-sm font-semibold text-[var(--color-text-secondary)]">Aucune anomalie morphologique majeure détectée</p>
           </div>
         ) : (
           <div className="p-5 bg-indigo-50/50 border border-indigo-100 rounded-2xl">
-            <h4 className="text-[10px] font-bold text-[var(--color-accent)] uppercase tracking-widest mb-3 flex items-center gap-2">
+            <h4 className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-[0.08em] mb-3 flex items-center gap-2">
               <Activity size={12} /> Interprétations Diagnostiques
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -52,6 +52,6 @@ export function AnalysisChartsTab({ analysis, results }: AnalysisChartsTabProps)
       </div>
     );
   } catch {
-    return <div className="p-8 text-center text-slate-400">Erreur lors de l&apos;affichage des graphiques.</div>;
+    return <div className="p-8 text-center text-slate-500">Erreur lors de l&apos;affichage des graphiques.</div>;
   }
 }

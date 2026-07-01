@@ -17,7 +17,7 @@ interface InventoryTabProps {
 function Panel({ title, children, className = '' }: { title: string; children: React.ReactNode; className?: string }) {
   return (
     <article className={`rounded-2xl border border-[var(--color-border)]/50 bg-[var(--color-surface)] p-5 shadow-sm ${className}`}>
-      <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">{title}</h2>
+      <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">{title}</h2>
       {children}
     </article>
   );
@@ -45,7 +45,7 @@ export function InventoryTab({ period }: InventoryTabProps) {
       .finally(() => setLoading(false));
   }, [period]);
 
-  if (loading) return <div className="flex h-64 items-center justify-center text-sm text-[var(--color-text-soft)]">Chargement…</div>;
+  if (loading) return <div className="flex h-64 items-center justify-center text-sm text-[var(--color-text-secondary)]">Chargement…</div>;
   if (!data) return null;
 
   return (
@@ -70,7 +70,7 @@ export function InventoryTab({ period }: InventoryTabProps) {
         <Panel title="Répartition des Mouvements">
           <div className="h-56">
             {data.movementTypeBreakdown.length === 0
-              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-soft)]">Aucun mouvement.</div>
+              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucun mouvement.</div>
               : <DonutChart
                   data={data.movementTypeBreakdown.map(m => ({
                     name: MOV_LABELS[m.type]?.label ?? m.type,
@@ -83,7 +83,7 @@ export function InventoryTab({ period }: InventoryTabProps) {
         <Panel title="Consommation par Catégorie" className="xl:col-span-2">
           <div className="h-56">
             {data.consumptionByCategory.length === 0
-              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune donnée.</div>
+              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune donnée.</div>
               : (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -108,10 +108,10 @@ export function InventoryTab({ period }: InventoryTabProps) {
 
       <Panel title="Top Réactifs Consommés">
         {data.consumptionRanking.length === 0
-          ? <div className="flex h-24 items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune consommation enregistrée.</div>
+          ? <div className="flex h-24 items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune consommation enregistrée.</div>
           : (
             <div className="overflow-hidden rounded-xl border">
-              <div className="grid grid-cols-12 border-b bg-[var(--color-surface-muted)] px-4 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-soft)]">
+              <div className="grid grid-cols-12 border-b bg-[var(--color-surface-muted)] px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                 <div className="col-span-1">#</div>
                 <div className="col-span-4">Réactif</div>
                 <div className="col-span-3">Catégorie</div>
@@ -122,14 +122,14 @@ export function InventoryTab({ period }: InventoryTabProps) {
                 {data.consumptionRanking.map((item, i) => (
                   <div key={item.id} className="grid grid-cols-12 items-center px-4 py-2.5 text-sm even:bg-[var(--color-surface-muted)]/30">
                     <div className="col-span-1">
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-100 text-[10px] font-bold text-indigo-600">{i + 1}</span>
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600">{i + 1}</span>
                     </div>
                     <div className="col-span-4 font-medium text-[var(--color-text)] truncate">{item.name}</div>
-                    <div className="col-span-3 text-[var(--color-text-soft)] truncate">{item.category}</div>
+                    <div className="col-span-3 text-[var(--color-text-secondary)] truncate">{item.category}</div>
                     <div className="col-span-2 text-right font-semibold text-[var(--color-accent)]">
                       {item.totalQty.toLocaleString('fr-FR')} {item.unit}
                     </div>
-                    <div className="col-span-2 text-right text-[var(--color-text-soft)]">{item.count}</div>
+                    <div className="col-span-2 text-right text-[var(--color-text-secondary)]">{item.count}</div>
                   </div>
                 ))}
               </div>
@@ -140,7 +140,7 @@ export function InventoryTab({ period }: InventoryTabProps) {
       {data.criticalItems.length > 0 && (
         <Panel title="Articles en Stock Critique">
           <div className="overflow-hidden rounded-xl border border-amber-100">
-            <div className="grid grid-cols-12 border-b bg-amber-50 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-amber-700">
+            <div className="grid grid-cols-12 border-b bg-amber-50 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-amber-700">
               <div className="col-span-4">Réactif</div>
               <div className="col-span-3">Catégorie</div>
               <div className="col-span-2 text-right">Stock</div>
@@ -153,9 +153,9 @@ export function InventoryTab({ period }: InventoryTabProps) {
                 return (
                   <div key={item.id} className="grid grid-cols-12 items-center px-4 py-2.5 text-sm bg-amber-50/30">
                     <div className="col-span-4 font-medium text-[var(--color-text)] truncate">{item.name}</div>
-                    <div className="col-span-3 text-[var(--color-text-soft)] truncate">{item.category}</div>
+                    <div className="col-span-3 text-[var(--color-text-secondary)] truncate">{item.category}</div>
                     <div className="col-span-2 text-right font-semibold text-rose-600">{item.currentStock} {item.unit}</div>
-                    <div className="col-span-2 text-right text-[var(--color-text-soft)]">{item.minThreshold} {item.unit}</div>
+                    <div className="col-span-2 text-right text-[var(--color-text-secondary)]">{item.minThreshold} {item.unit}</div>
                     <div className="col-span-1 text-right text-xs font-bold text-amber-600">{pct}%</div>
                   </div>
                 );

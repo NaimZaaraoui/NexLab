@@ -29,7 +29,7 @@ export function QcLotEditModal({ open, saving, lot, onClose, onChange, onSave }:
       <DialogContent className="flex max-h-[90vh] max-w-xl flex-col p-0 overflow-hidden">
         <DialogHeader className="px-6 py-5 border-b">
           <DialogTitle className="text-lg font-semibold text-[var(--color-text)]">Modifier le lot QC</DialogTitle>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">Ajustez les informations du lot sans quitter la configuration QC.</p>
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Ajustez les informations du lot sans quitter la configuration QC.</p>
         </DialogHeader>
 
         <div className="grid gap-4 px-6 py-5 overflow-y-auto">

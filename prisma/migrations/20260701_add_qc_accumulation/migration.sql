@@ -1,0 +1,7 @@
+ALTER TABLE "qc_targets" ADD COLUMN "phase" TEXT NOT NULL DEFAULT 'ACCUMULATION';
+ALTER TABLE "qc_targets" ADD COLUMN "validPoints" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "qc_targets" ADD COLUMN "meanLoc" REAL;
+ALTER TABLE "qc_targets" ADD COLUMN "sdLoc" REAL;
+
+ALTER TABLE "qc_values" ADD COLUMN "isExcluded" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "qc_values" ADD COLUMN "excludeReason" TEXT;

@@ -19,7 +19,7 @@ export default function ClinicSettingsPage() {
                 Identité <span className="text-[var(--color-accent)]">Clinique & Biologiste</span>
               </h1>
             </div>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Gérer les informations de la clinique, les coordonnées et les informations du biologiste.
             </p>
           </div>

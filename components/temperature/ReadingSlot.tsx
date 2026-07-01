@@ -24,14 +24,14 @@ export function ReadingSlot({ label, reading, unit, onClick }: ReadingSlotProps)
             : 'border-emerald-100 bg-emerald-50/50 hover:bg-emerald-50'
       }`}
     >
-      <div className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">
+      <div className="text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 mb-2">
         {label}
       </div>
 
       {isPending ? (
         <div className="flex flex-col">
           <span className="text-xl font-black text-slate-200 tracking-tighter">-</span>
-          <span className="text-[9px] font-bold text-slate-300 uppercase tracking-wider mt-1 group-hover:text-indigo-400 transition-colors">
+          <span className="text-[11px] font-bold text-slate-300 uppercase tracking-[0.06em] mt-1 group-hover:text-indigo-400 transition-colors">
             Enregistrer
           </span>
         </div>
@@ -39,11 +39,11 @@ export function ReadingSlot({ label, reading, unit, onClick }: ReadingSlotProps)
         <div className="flex flex-col">
           <div className={`text-xl font-black tracking-tighter ${reading.isOutOfRange ? 'text-rose-600' : 'text-emerald-600'}`}>
             {reading.value.toFixed(1)}
-            <span className="ml-0.5 text-[10px] font-bold uppercase opacity-60">{unit}</span>
+            <span className="ml-0.5 text-xs font-bold uppercase opacity-60">{unit}</span>
           </div>
           <div className="flex items-center gap-1.5 mt-1">
-            <Clock size={10} className="text-slate-400" />
-            <span className="text-[10px] font-bold text-slate-400">
+            <Clock size={10} className="text-slate-500" />
+            <span className="text-xs font-bold text-slate-500">
               {new Date(reading.recordedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>

@@ -15,7 +15,7 @@ export function QcMaterialCard({ material, canWrite, onOpenEntry }: QcMaterialCa
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="text-sm font-semibold text-[var(--color-text)]">{material.name}</div>
-          <div className="mt-1 text-xs text-[var(--color-text-soft)]">{material.manufacturer || 'Fabricant non renseigné'}</div>
+          <div className="mt-1 text-xs text-[var(--color-text-secondary)]">{material.manufacturer || 'Fabricant non renseigné'}</div>
         </div>
         <span
           className={`status-pill ${
@@ -32,7 +32,7 @@ export function QcMaterialCard({ material, canWrite, onOpenEntry }: QcMaterialCa
 
       <div className="mt-4 space-y-3">
         {material.lots.length === 0 ? (
-          <div className="rounded-2xl border border-dashed px-4 py-6 text-sm text-[var(--color-text-soft)]">
+          <div className="rounded-2xl border border-dashed px-4 py-6 text-sm text-[var(--color-text-secondary)]">
             Aucun lot actif configuré pour ce matériel.
           </div>
         ) : (
@@ -45,7 +45,7 @@ export function QcMaterialCard({ material, canWrite, onOpenEntry }: QcMaterialCa
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <div className="text-sm font-semibold text-[var(--color-text)]">Lot {lot.lotNumber}</div>
-                    <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+                    <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
                       Expire le {new Date(lot.expiryDate).toLocaleDateString('fr-FR')} · {lot.targetsCount} paramètre(s)
                     </div>
                     <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
@@ -82,7 +82,7 @@ export function QcMaterialCard({ material, canWrite, onOpenEntry }: QcMaterialCa
                   </span>
                 </div>
                 <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-                  <div className="text-xs text-[var(--color-text-soft)]">
+                  <div className="text-xs text-[var(--color-text-secondary)]">
                     {lot.lastResult
                       ? `Dernière saisie: ${new Date(lot.lastResult.performedAt).toLocaleString('fr-FR')}`
                       : 'Aucun résultat enregistré'}

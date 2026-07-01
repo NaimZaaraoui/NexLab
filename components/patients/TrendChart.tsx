@@ -48,16 +48,16 @@ export function TrendChart({ testName, data, unit }: TrendChartProps) {
     <div className="bg-[var(--color-surface)] p-5 rounded-2xl border border-[var(--color-border)] shadow-sm hover:shadow-md transition-all group">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{testName}</h4>
+          <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] mb-1">{testName}</h4>
           <div className="flex items-baseline gap-1">
             <span className="text-xl font-black text-[var(--color-text)]">{lastValue}</span>
-            <span className="text-[10px] font-bold text-slate-400 uppercase">{unit}</span>
+            <span className="text-xs font-bold text-slate-500 uppercase">{unit}</span>
           </div>
         </div>
         
         {prevValue !== null && (
-          <div className={`flex items-center gap-1 text-[10px] font-black px-2 py-1 rounded-lg ${
-            diff > 0 ? 'bg-indigo-50 text-[var(--color-accent)]' : diff < 0 ? 'bg-rose-50 text-rose-600' : 'bg-[var(--color-surface-muted)] text-slate-400'
+          <div className={`flex items-center gap-1 text-xs font-black px-2 py-1 rounded-lg ${
+            diff > 0 ? 'bg-indigo-50 text-[var(--color-accent)]' : diff < 0 ? 'bg-rose-50 text-rose-600' : 'bg-[var(--color-surface-muted)] text-slate-500'
           }`}>
             {diff > 0 ? <TrendingUp size={12} /> : diff < 0 ? <TrendingDown size={12} /> : <Minus size={12} />}
             {Math.abs(diff).toFixed(2)}
@@ -99,10 +99,10 @@ export function TrendChart({ testName, data, unit }: TrendChartProps) {
       </div>
 
       <div className="flex justify-between mt-2">
-        <span className="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">
+        <span className="text-[11px] font-bold text-slate-300 uppercase tracking-tighter">
           {new Date(sortedData[0].date).toLocaleDateString()}
         </span>
-        <span className="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">
+        <span className="text-[11px] font-bold text-slate-300 uppercase tracking-tighter">
           {new Date(sortedData[sortedData.length - 1].date).toLocaleDateString()}
         </span>
       </div>

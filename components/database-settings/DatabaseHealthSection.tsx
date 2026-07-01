@@ -12,7 +12,7 @@ export function DatabaseHealthSection({ health }: Props) {
     <section className="bento-panel p-5">
       <div>
         <h2 className="text-sm font-semibold text-[var(--color-text)]">Santé système</h2>
-        <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
           Vue rapide de l&apos;état de la base, des sauvegardes et des alertes critiques.
         </p>
       </div>
@@ -125,7 +125,7 @@ export function DatabaseHealthSection({ health }: Props) {
         </div>
         <div className="mt-3 space-y-2">
           {!health || health.criticalLogs.length === 0 ? (
-            <p className="text-sm text-[var(--color-text-soft)]">Aucun événement critique récent.</p>
+            <p className="text-sm text-[var(--color-text-secondary)]">Aucun événement critique récent.</p>
           ) : (
             health.criticalLogs.map((log) => (
               <div
@@ -134,12 +134,12 @@ export function DatabaseHealthSection({ health }: Props) {
               >
                 <div>
                   <p className="text-sm font-semibold text-[var(--color-text)]">{log.action}</p>
-                  <p className="text-xs text-[var(--color-text-soft)]">
+                  <p className="text-xs text-[var(--color-text-secondary)]">
                     {log.entity}
                     {log.entityId ? ` · ${log.entityId}` : ''}
                   </p>
                 </div>
-                <p className="text-xs text-[var(--color-text-soft)]">
+                <p className="text-xs text-[var(--color-text-secondary)]">
                   {new Date(log.createdAt).toLocaleString('fr-FR')}
                 </p>
               </div>

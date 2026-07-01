@@ -196,7 +196,7 @@ export function MonitoringClient() {
                        )}
                      </span>
                      {log.context?.sys?.memRss && (
-                       <span className="text-zinc-600 shrink-0 text-[10px]">
+                       <span className="text-zinc-600 shrink-0 text-xs">
                          {log.context.sys.memRss}
                        </span>
                      )}

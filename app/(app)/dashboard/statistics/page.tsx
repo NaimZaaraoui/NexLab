@@ -52,7 +52,7 @@ export default function StatisticsPage() {
             </div>
             <div>
               <h1 className="text-xl font-semibold text-[var(--color-text)]">Statistiques</h1>
-              <p className="mt-0.5 text-sm text-[var(--color-text-soft)]">
+              <p className="mt-0.5 text-sm text-[var(--color-text-secondary)]">
                 Analyses, patients, finances et inventaire — vue complète du laboratoire.
               </p>
             </div>

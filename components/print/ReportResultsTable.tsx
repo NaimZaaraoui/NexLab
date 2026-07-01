@@ -47,7 +47,7 @@ function ResultRow({ res, results, testReferences, analysis, isNFS, showPrev }: 
       <td className={`${py} pl-4`}>
         <div className={`flex flex-col ${hasParent ? 'pl-6' : 'pl-4'}`}>
           <span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">{test?.name}</span>
-          <span className="text-[8px] font-bold text-slate-300 uppercase tracking-widest print:text-black/40">{test?.code}</span>
+          <span className="text-xs font-bold text-slate-300 uppercase tracking-[0.08em] print:text-black/40">{test?.code}</span>
         </div>
       </td>
       <td className={`${py} text-start`}>
@@ -63,7 +63,7 @@ function ResultRow({ res, results, testReferences, analysis, isNFS, showPrev }: 
             )}
           </div>
           {res.notes && (
-            <span className="text-[9px] font-medium text-[var(--color-text-soft)] italic leading-none mt-1 print:text-black/60">
+            <span className="text-[11px] font-medium text-[var(--color-text-secondary)] italic leading-none mt-1 print:text-black/60">
               ({res.notes})
             </span>
           )}
@@ -71,18 +71,18 @@ function ResultRow({ res, results, testReferences, analysis, isNFS, showPrev }: 
       </td>
       {showPrev && (
         <td className={`${py} text-center`}>
-          <span className="text-xs tracking-tight font-bold text-slate-400 print:text-black/40">
+          <span className="text-xs tracking-tight font-bold text-slate-500 print:text-black/40">
             {formatReportResultValue(analysis.previousResults?.[res.testId] || '', res.test?.code) || '—'}
           </span>
         </td>
       )}
-      <td className={`${py} px-4 text-center text-xs font-bold text-[var(--color-text-soft)] print:text-black`}>
+      <td className={`${py} px-4 text-center text-xs font-bold text-[var(--color-text-secondary)] print:text-black`}>
         <span dangerouslySetInnerHTML={{ __html: res.unit || test?.unit || '—' }} />
       </td>
-      <td className={`${py} pr-4 text-right text-xs font-bold text-slate-400 print:text-black`}>
+      <td className={`${py} pr-4 text-right text-xs font-bold text-slate-500 print:text-black`}>
         {refVals && (
           refVals.display === 'QUALIT.' ? (
-            <span className="text-slate-300 print:text-black/30 text-[9px] font-black tracking-widest">SANS RÉF.</span>
+            <span className="text-slate-300 print:text-black/30 text-[11px] font-black tracking-[0.08em]">SANS RÉF.</span>
           ) : (
             <span className="text-[var(--color-text)] tracking-tight print:text-black">{refVals.display}</span>
           )
@@ -105,11 +105,11 @@ function formatReportResultValue(value: string, testCode?: string | null): strin
 function ColHeaderRow({ showPrev }: { showPrev: boolean }) {
   return (
     <tr className="bg-[var(--color-surface-muted)]/50 print:bg-black/5">
-      <th className="py-2 pl-4 text-left text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 print:text-black/80">Examen / Paramètre</th>
-      <th className="py-2 text-left text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 print:text-black/80">Résultat</th>
-      {showPrev && <th className="py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 print:text-black/80 w-20">Préc.</th>}
-      <th className="py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 print:text-black/80">Unité</th>
-      <th className="py-2 pr-4 text-right text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 print:text-black/80">Valeurs de Référence</th>
+      <th className="py-2 pl-4 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Examen / Paramètre</th>
+      <th className="py-2 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Résultat</th>
+      {showPrev && <th className="py-2 text-center text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80 w-20">Préc.</th>}
+      <th className="py-2 text-center text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Unité</th>
+      <th className="py-2 pr-4 text-right text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Valeurs de Référence</th>
     </tr>
   );
 }
@@ -175,7 +175,7 @@ export function ReportResultsTable({
                         <tr>
                           <td colSpan={colSpan} className="py-2">
                             <div className="flex items-center gap-4">
-                              <span className="text-xs font-black text-slate-400 uppercase tracking-[0.4em] print:text-black/60">
+                              <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                                 {displayCategoryName}
                               </span>
                               <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10" />
@@ -201,7 +201,7 @@ export function ReportResultsTable({
                   ) : (
                     /* If only groups exist, render the category label once above them */
                     <div className="flex items-center gap-4 py-2">
-                      <span className="text-xs font-black text-slate-400 uppercase tracking-[0.4em] print:text-black/60">
+                      <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
                         {displayCategoryName}
                       </span>
                       <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10" />

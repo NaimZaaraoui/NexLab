@@ -38,14 +38,14 @@ export function PeriodSelector({ value, onChange }: PeriodSelectorProps) {
 
       {value.range === 'custom' && (
         <div className="flex items-center gap-2">
-          <CalendarDays className="h-4 w-4 text-[var(--color-text-soft)]" />
+          <CalendarDays className="h-4 w-4 text-[var(--color-text-secondary)]" />
           <input
             type="date"
             value={value.from || ''}
             onChange={e => onChange({ ...value, from: e.target.value })}
             className="input-premium h-8 w-36 text-xs"
           />
-          <span className="text-xs text-[var(--color-text-soft)]">→</span>
+          <span className="text-xs text-[var(--color-text-secondary)]">→</span>
           <input
             type="date"
             value={value.to || ''}

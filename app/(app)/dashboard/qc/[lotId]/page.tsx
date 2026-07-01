@@ -49,7 +49,7 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
           <div className="space-y-2">
             <Link
               href="/dashboard/qc"
-              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-soft)] transition-colors hover:text-[var(--color-accent)]"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-accent)]"
             >
               <ArrowLeft size={16} />
               Retour
@@ -57,11 +57,11 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
             <div>
               <h1 className="text-xl font-semibold text-[var(--color-text)]">
                 {lot.material.name}
-                <span className="ml-2 inline-flex rounded-full border border-[var(--color-border)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">
+                <span className="ml-2 inline-flex rounded-full border border-[var(--color-border)] px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                   Niveau {lot.material.level}
                 </span>
               </h1>
-              <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
                 Lot {lot.lotNumber}
                 {!lot.isActive ? ' · Archivé' : ''}
               </p>
@@ -81,7 +81,7 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
                   </option>
                 ))}
               </select>
-              <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+              <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">
                 <ChevronDown size={16} />
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
             className={`rounded-md px-4 py-2 text-sm font-semibold transition ${
               activeTab === 'overview'
                 ? 'bg-[var(--color-accent)] text-white'
-                : 'text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)]'
+                : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)]'
             }`}
           >
             Résumé & graphique
@@ -123,7 +123,7 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
             className={`rounded-md px-4 py-2 text-sm font-semibold transition ${
               activeTab === 'history'
                 ? 'bg-[var(--color-accent)] text-white'
-                : 'text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)]'
+                : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)]'
             }`}
           >
             Historique
@@ -134,30 +134,41 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
       {activeTab === 'overview' && (
         <>
           <section className="grid grid-cols-2 gap-4 xl:grid-cols-4 print:hidden">
-            <div className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Cible</p>
+            <div className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)] xl:col-span-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Cible {activeTarget?.phase === 'ROUTINE' && 'locale'}</p>
               <p className="mt-2 text-2xl font-semibold text-[var(--color-text)] tabular-nums">
-                {activeTarget?.mean.toFixed(2) || '0.00'}
-                <span className="ml-2 text-sm font-medium text-[var(--color-text-soft)]">{activeTarget?.unit}</span>
+                {(activeTarget?.phase === 'ROUTINE' && activeTarget.meanLoc ? activeTarget.meanLoc : activeTarget?.mean)?.toFixed(2) || '0.00'}
+                <span className="ml-2 text-sm font-medium text-[var(--color-text-secondary)]">{activeTarget?.unit}</span>
+              </p>
+            </div>
+            <div className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)] xl:col-span-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
+                {activeTarget?.controlMode === 'STATISTICAL' ? `Écart-type ${activeTarget?.phase === 'ROUTINE' ? 'local' : ''}` : 'Plage'}
+              </p>
+              <p className="mt-2 text-2xl font-semibold text-[var(--color-text)] tabular-nums">
+                {activeTarget?.controlMode === 'STATISTICAL' ? ((activeTarget?.phase === 'ROUTINE' && activeTarget.sdLoc ? activeTarget.sdLoc : activeTarget?.sd)?.toFixed(3) || '0.000') : 'Acceptation'}
               </p>
             </div>
             <div className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">
-                {activeTarget?.controlMode === 'STATISTICAL' ? 'Écart-type' : 'Plage'}
-              </p>
-              <p className="mt-2 text-2xl font-semibold text-[var(--color-text)] tabular-nums">
-                {activeTarget?.controlMode === 'STATISTICAL' ? (activeTarget.sd?.toFixed(3) || '0.000') : 'Acceptation'}
-              </p>
-            </div>
-            <div className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Précision</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Précision</p>
               <p className="mt-2 text-2xl font-semibold text-[var(--color-text)] tabular-nums">
                 {activeTarget?.mean && activeTarget?.sd ? ((activeTarget.sd / activeTarget.mean) * 100).toFixed(2) : '0.00'}%
               </p>
             </div>
-            <div className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Mesures</p>
+            <div className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)] xl:col-span-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Mesures</p>
               <p className="mt-2 text-2xl font-semibold text-[var(--color-text)] tabular-nums">{activeData?.points.length || 0}</p>
+            </div>
+            <div className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)] xl:col-span-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Phase QC</p>
+              <p className="mt-2 text-2xl font-semibold text-[var(--color-text)]">
+                {activeTarget?.phase === 'ACCUMULATION' ? 'Accumulation' : 'Routine'}
+              </p>
+              {activeTarget?.phase === 'ACCUMULATION' && (
+                <p className="mt-1 text-sm font-medium text-amber-600">
+                  {activeTarget?.validPoints ?? 0} / 20 pts
+                </p>
+              )}
             </div>
           </section>
 
@@ -174,7 +185,7 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
                   Lecture recentrée sur le test sélectionné pour une revue mensuelle plus claire.
                 </p>
               </div>
-              <div className="rounded-2xl border bg-[var(--color-surface)] px-4 py-3 text-xs text-[var(--color-text-soft)]">
+              <div className="rounded-2xl border bg-[var(--color-surface)] px-4 py-3 text-xs text-[var(--color-text-secondary)]">
                 {format(new Date(), 'MMMM yyyy', { locale: fr })}
               </div>
             </div>
@@ -195,13 +206,15 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
                   }))}
                   mean={activeTarget?.mean || 0}
                   sd={activeTarget?.sd || 0}
+                  meanLoc={activeTarget?.meanLoc || null}
+                  sdLoc={activeTarget?.sdLoc || null}
                   controlMode={activeTarget?.controlMode || 'STATISTICAL'}
                   unit={activeTarget?.unit || null}
                   minAcceptable={activeTarget?.minAcceptable || null}
                   maxAcceptable={activeTarget?.maxAcceptable || null}
                 />
               ) : (
-                <div className="flex h-[320px] items-center justify-center text-center text-sm text-[var(--color-text-soft)]">
+                <div className="flex h-[320px] items-center justify-center text-center text-sm text-[var(--color-text-secondary)]">
                   Aucun résultat QC enregistré pour ce test.
                 </div>
               )}
@@ -214,14 +227,14 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
         <section className="space-y-4 print:hidden">
           <div className="px-1">
             <h3 className="text-sm font-semibold text-[var(--color-text)]">Historique des relevés</h3>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Détail chronologique des mesures du test sélectionné, limité par défaut pour garder une lecture légère.
             </p>
           </div>
 
           <div className="overflow-hidden rounded-xl border bg-[var(--color-surface)] shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
             {!activeData || activeData.activeArray.length === 0 ? (
-              <div className="py-20 text-center text-sm text-[var(--color-text-soft)]">
+              <div className="py-20 text-center text-sm text-[var(--color-text-secondary)]">
                 Données manquantes
               </div>
             ) : (
@@ -240,7 +253,7 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
                           <div className="text-sm font-semibold text-[var(--color-text)]">
                             {format(new Date(day.date), 'EEEE dd MMMM yyyy', { locale: fr })}
                           </div>
-                          <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+                          <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
                             {day.points.length} mesure(s) · Moyenne {day.mean.toFixed(2)} {activeTarget?.unit || ''}
                           </div>
                         </div>
@@ -248,7 +261,7 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
                           <span className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-2 py-1 text-[11px] font-medium text-[var(--color-text)]">
                             {isExpanded ? 'Réduire' : 'Voir'}
                           </span>
-                          {isExpanded ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
+                          {isExpanded ? <ChevronUp size={16} className="text-slate-500" /> : <ChevronDown size={16} className="text-slate-500" />}
                         </div>
                       </button>
 
@@ -256,9 +269,15 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
                         <div className="space-y-1 px-3 py-3">
                           {day.points.map((point) => {
                             let statusColor = 'text-slate-700 bg-[var(--color-surface-muted)] border-[var(--color-border)]';
-                            let icon = <CheckCircle2 size={10} className="text-[var(--color-text-soft)]" />;
+                            let icon = <CheckCircle2 size={10} className="text-[var(--color-text-secondary)]" />;
 
-                            if (point.flag === 'fail') {
+                            if (point.isExcluded) {
+                              statusColor = 'text-slate-400 bg-slate-50 border-slate-200 opacity-60 line-through';
+                              icon = <AlertTriangle size={10} className="text-slate-400" />;
+                            } else if (point.flag === 'accumulation') {
+                              statusColor = 'text-amber-700 bg-amber-50 border-amber-100';
+                              icon = <CheckCircle2 size={10} className="text-amber-600" />;
+                            } else if (point.flag === 'fail') {
                               statusColor = 'text-red-700 bg-red-50 border-red-100';
                               icon = <AlertTriangle size={10} className="text-red-600" />;
                             } else if (point.flag === 'warn') {
@@ -272,19 +291,24 @@ export default function QcLotPage({ params }: { params: Promise<{ lotId: string 
                                 className="group/row flex items-center justify-between rounded-md border border-transparent px-4 py-3 transition-all hover:border-[var(--color-border)] hover:bg-[var(--color-surface-muted)]/80"
                               >
                                 <div className="flex items-center gap-8">
-                                  <div className="w-12 text-xs font-medium text-[var(--color-text-soft)] tabular-nums">
+                                  <div className="w-12 text-xs font-medium text-[var(--color-text-secondary)] tabular-nums">
                                     {format(new Date(point.performedAt), 'HH:mm:ss')}
                                   </div>
                                   <div className={`status-pill h-9 !rounded-xl border px-5 text-[11px] ${statusColor}`}>
                                     {icon}
                                     <span className="text-sm font-semibold tabular-nums">{point.measured}</span>
-                                    <span className="ml-2 text-[9px] font-medium opacity-50">{activeTarget?.unit}</span>
+                                    <span className="ml-2 text-[11px] font-medium opacity-50">{activeTarget?.unit}</span>
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-6">
-                                  <div className="hidden text-[11px] text-[var(--color-text-soft)] md:block">
+                                  <div className="hidden text-[11px] text-[var(--color-text-secondary)] md:block">
                                     {point.performedByName}
                                   </div>
+                                  {point.isExcluded && (
+                                    <span className="rounded bg-slate-200 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">
+                                      Exclu ({point.excludeReason})
+                                    </span>
+                                  )}
                                 </div>
                               </div>
                             );

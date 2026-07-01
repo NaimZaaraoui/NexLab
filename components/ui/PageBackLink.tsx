@@ -31,7 +31,7 @@ export function PageBackLink({
     </>
   );
 
-  const classes = `mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)] transition-colors hover:text-[var(--color-accent)] ${className}`.trim();
+  const classes = `mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-accent)] ${className}`.trim();
 
   if (href) {
     return (

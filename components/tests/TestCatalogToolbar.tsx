@@ -30,19 +30,19 @@ export function TestCatalogToolbar({
   return (
     <div className="bento-panel p-5 sm:p-6 flex flex-col xl:flex-row items-center gap-4 sm:gap-5">
       <div className="input-premium h-11 flex flex-1 items-center gap-2 px-3 py-2">
-        <Search className="h-4 w-4 shrink-0 text-[var(--color-text-soft)]" />
+        <Search className="h-4 w-4 shrink-0 text-[var(--color-text-secondary)]" />
         <input
           placeholder="Rechercher par code ou nom d'analyse..."
           value={searchTerm}
           onChange={(event) => onSearchTermChange(event.target.value)}
           aria-label="Rechercher un test"
-          className="h-full w-full border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
+          className="h-full w-full border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-secondary)]"
         />
       </div>
 
       <div className="flex items-center gap-3 w-full xl:w-auto">
         <div className="flex items-center gap-2 h-11 px-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] shrink-0">
-          <Filter size={15} className="text-[var(--color-text-soft)]" />
+          <Filter size={15} className="text-[var(--color-text-secondary)]" />
           <select
             value={selectedCategory}
             onChange={(event) => onSelectedCategoryChange(event.target.value)}

@@ -30,7 +30,7 @@ export default function TemperatureDashboardPage() {
           <div>
             <PageBackLink href="/" />
             <h1 className="text-xl font-bold text-[var(--color-text)] flex items-center gap-2">Suivi des températures</h1>
-            <p className="mt-1 text-sm font-medium text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm font-medium text-[var(--color-text-secondary)]">
               {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}
             </p>
           </div>
@@ -74,7 +74,7 @@ export default function TemperatureDashboardPage() {
         <section className="rounded-3xl border border-amber-200 bg-amber-50/50 px-6 py-5 shadow-sm">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="text-xs font-black uppercase tracking-widest text-amber-700 flex items-center gap-2">
+              <h2 className="text-xs font-black uppercase tracking-[0.08em] text-amber-700 flex items-center gap-2">
                 <CalendarCheck className="h-4 w-4" />
                 Suivi quotidien
               </h2>
@@ -89,13 +89,13 @@ export default function TemperatureDashboardPage() {
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {state.loading && (
-          <div className="col-span-full rounded-xl border bg-[var(--color-surface)] px-5 py-12 text-center text-sm text-[var(--color-text-soft)]">
+          <div className="col-span-full rounded-xl border bg-[var(--color-surface)] px-5 py-12 text-center text-sm text-[var(--color-text-secondary)]">
             Chargement des instruments...
           </div>
         )}
 
         {!state.loading && state.instruments.length === 0 && (
-          <div className="col-span-full rounded-xl border bg-[var(--color-surface)] px-5 py-12 text-center text-sm text-[var(--color-text-soft)]">
+          <div className="col-span-full rounded-xl border bg-[var(--color-surface)] px-5 py-12 text-center text-sm text-[var(--color-text-secondary)]">
             Aucun instrument ne correspond aux filtres actuels.
           </div>
         )}

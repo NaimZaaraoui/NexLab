@@ -29,7 +29,7 @@ export function DatabaseMaintenanceSection({
             </span>
             <div>
               <h2 className="text-sm font-semibold text-[var(--color-text)]">Mode maintenance guide</h2>
-              <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
                 Active une page d&apos;attente pour les utilisateurs non administrateurs avant une restauration ou une intervention sensible.
               </p>
             </div>
@@ -40,7 +40,7 @@ export function DatabaseMaintenanceSection({
           <label className="flex items-center justify-between gap-4 rounded-2xl border bg-[var(--color-surface)] px-4 py-3">
             <div>
               <p className="text-sm font-semibold text-[var(--color-text)]">Maintenance active</p>
-              <p className="text-xs text-[var(--color-text-soft)]">Les admins gardent l&apos;acces, les autres voient l&apos;ecran de maintenance.</p>
+              <p className="text-xs text-[var(--color-text-secondary)]">Les admins gardent l&apos;acces, les autres voient l&apos;ecran de maintenance.</p>
             </div>
             <button
               type="button"

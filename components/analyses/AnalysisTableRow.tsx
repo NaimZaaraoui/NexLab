@@ -44,7 +44,7 @@ export function AnalysisTableRow({ analysis, currencyUnit, tatThresholds, deleti
         analysis.isUrgent ? 'border-l-4 border-l-rose-500 pl-4' : ''
       }`}
     >
-      <div className="hidden text-center text-xs font-medium text-[var(--color-text-soft)] lg:col-span-1 lg:block">
+      <div className="hidden text-center text-xs font-medium text-[var(--color-text-secondary)] lg:col-span-1 lg:block">
         #{analysis.dailyId || '?'}
       </div>
 
@@ -52,12 +52,12 @@ export function AnalysisTableRow({ analysis, currencyUnit, tatThresholds, deleti
         <div className="flex items-center gap-2 text-sm font-semibold text-[var(--color-text)]">
           <span className="truncate">{patientName}</span>
           {analysis.isUrgent && (
-            <span className="rounded-full border border-rose-200/70 bg-rose-50 px-2 py-0.5 text-[10px] font-semibold text-rose-700">
+            <span className="rounded-full border border-rose-200/70 bg-rose-50 px-2 py-0.5 text-xs font-semibold text-rose-700">
               Urgent
             </span>
           )}
         </div>
-        <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+        <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
           {testsCount} analyse{testsCount > 1 ? 's' : ''}
         </div>
         <div className="mt-2 flex flex-wrap gap-2">
@@ -74,7 +74,7 @@ export function AnalysisTableRow({ analysis, currencyUnit, tatThresholds, deleti
         <div className="text-sm text-[var(--color-text-secondary)]">
           {format(new Date(analysis.creationDate), 'dd MMM yyyy', { locale: fr })}
         </div>
-        <div className="text-xs text-[var(--color-text-soft)]">
+        <div className="text-xs text-[var(--color-text-secondary)]">
           {format(new Date(analysis.creationDate), 'HH:mm')}
         </div>
       </div>
@@ -114,7 +114,7 @@ export function AnalysisTableRow({ analysis, currencyUnit, tatThresholds, deleti
       <div className="flex justify-end gap-1 lg:col-span-2">
         <button
           onClick={(e) => onPrintRequest(e, analysis.id)}
-          className="flex h-8 w-8 items-center justify-center rounded-md border text-[var(--color-text-soft)] transition-colors hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200"
+          className="flex h-8 w-8 items-center justify-center rounded-md border text-[var(--color-text-secondary)] transition-colors hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200"
           title="Imprimer le compte-rendu"
         >
           <PrinterCheck className="h-4 w-4" />
@@ -126,7 +126,7 @@ export function AnalysisTableRow({ analysis, currencyUnit, tatThresholds, deleti
           className={`flex h-8 w-8 items-center justify-center rounded-md border transition-colors ${
             sendingEmailId === analysis.id
               ? 'bg-blue-50 text-blue-400 border-blue-200 animate-pulse'
-              : 'text-[var(--color-text-soft)] hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200'
+              : 'text-[var(--color-text-secondary)] hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200'
           }`}
           title="Envoyer par email"
         >
@@ -138,8 +138,8 @@ export function AnalysisTableRow({ analysis, currencyUnit, tatThresholds, deleti
             onClick={(event) => onDeleteRequest(event, analysis.id)}
             className={`flex h-8 w-8 items-center justify-center rounded-md border transition-colors ${
               deletingId === analysis.id
-                ? 'text-slate-400'
-                : 'text-[var(--color-text-soft)] hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200'
+                ? 'text-slate-500'
+                : 'text-[var(--color-text-secondary)] hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200'
             }`}
             title="Supprimer analyse"
           >

@@ -175,7 +175,7 @@ export function PrintSettingsForm({ initialSettings }: Props) {
   const inputClass = 'input-premium w-full';
 
   const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-    <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-[0.12em] mb-4 flex items-center gap-3">
+    <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-[0.08em] mb-4 flex items-center gap-3">
       <span className="w-6 h-[1px] bg-[var(--color-surface-muted)]" />
       {children}
       <span className="flex-1 h-[1px] bg-[var(--color-surface-muted)]" />
@@ -205,7 +205,7 @@ export function PrintSettingsForm({ initialSettings }: Props) {
         ) : (
           <div className="flex h-40 w-48 flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface-muted)] text-slate-300">
             <ImageIcon size={32} strokeWidth={1.5} />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-center px-4">Aucun fichier configuré</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.08em] text-center px-4">Aucun fichier configuré</span>
           </div>
         )}
       </div>
@@ -227,12 +227,12 @@ export function PrintSettingsForm({ initialSettings }: Props) {
             {uploading ? (
               <><Loader2 size={22} className="animate-spin text-slate-600" /><p className="text-xs font-semibold text-slate-700">Chargement...</p></>
             ) : (
-              <><UploadCloud size={22} className="text-slate-400" /><p className="text-xs font-semibold text-[var(--color-text)]">Cliquez ou glissez votre fichier ici</p><p className="text-[10px] text-slate-400 font-medium">JPG, PNG ou WebP — Max 2MB</p></>
+              <><UploadCloud size={22} className="text-slate-500" /><p className="text-xs font-semibold text-[var(--color-text)]">Cliquez ou glissez votre fichier ici</p><p className="text-xs text-slate-500 font-medium">JPG, PNG ou WebP — Max 2MB</p></>
             )}
           </div>
         </div>
-        {uploadError && <p className="rounded-md border border-rose-100 bg-rose-50 px-3 py-1.5 text-[10px] font-semibold text-rose-500">⚠️ {uploadError}</p>}
-        <p className="text-[11px] text-slate-400 font-medium italic text-center">{hint}</p>
+        {uploadError && <p className="rounded-md border border-rose-100 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-500">⚠️ {uploadError}</p>}
+        <p className="text-[11px] text-slate-500 font-medium italic text-center">{hint}</p>
       </div>
     </div>
   );
@@ -292,7 +292,7 @@ export function PrintSettingsForm({ initialSettings }: Props) {
       <div className="rounded-xl border bg-[var(--color-surface)] p-6 space-y-5 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
         <SectionTitle>Mise en page du rapport</SectionTitle>
         <div>
-          <label className="block text-xs font-semibold text-[var(--color-text-soft)] uppercase tracking-[0.12em] mb-1.5">
+          <label className="block text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mb-1.5">
             Titre du rapport
           </label>
           <input
@@ -302,11 +302,11 @@ export function PrintSettingsForm({ initialSettings }: Props) {
             onChange={e => set('report_title', e.target.value)}
             placeholder="RAPPORT D'ANALYSE (par défaut)"
           />
-          <p className="mt-1.5 text-[11px] text-slate-400">Laissez vide pour conserver le titre par défaut.</p>
+          <p className="mt-1.5 text-[11px] text-slate-500">Laissez vide pour conserver le titre par défaut.</p>
         </div>
 
         <div className="space-y-4 pt-2">
-          <p className="text-xs font-semibold text-[var(--color-text-soft)] uppercase tracking-[0.12em]">Champs affichés</p>
+          <p className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.08em]">Champs affichés</p>
 
           {[
             { key: 'report_show_doctor', label: 'Médecin prescripteur', desc: 'Affiche le nom du médecin en en-tête', defaultVal: true },
@@ -318,7 +318,7 @@ export function PrintSettingsForm({ initialSettings }: Props) {
             <div key={key} className="flex items-center justify-between gap-4 rounded-xl border bg-[var(--color-surface-muted)] px-4 py-3">
               <div>
                 <p className="text-sm font-medium text-[var(--color-text)]">{label}</p>
-                <p className="text-xs text-[var(--color-text-soft)]">{desc}</p>
+                <p className="text-xs text-[var(--color-text-secondary)]">{desc}</p>
               </div>
               <ToggleSwitch
                 id={key}
@@ -334,7 +334,7 @@ export function PrintSettingsForm({ initialSettings }: Props) {
       <div className="rounded-xl border bg-[var(--color-surface)] p-6 space-y-6 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
         <SectionTitle>Pied de page du rapport</SectionTitle>
         <div>
-          <label className="block text-xs font-semibold text-[var(--color-text-soft)] uppercase tracking-[0.12em] mb-1.5">Note du biologiste (Disclaimer)</label>
+          <label className="block text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mb-1.5">Note du biologiste (Disclaimer)</label>
           <textarea
             className={`${inputClass} resize-none h-20`}
             value={values.report_disclaimer ?? ''}
@@ -343,7 +343,7 @@ export function PrintSettingsForm({ initialSettings }: Props) {
           />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-[var(--color-text-soft)] uppercase tracking-[0.12em] mb-1.5">Texte de pied de page global</label>
+          <label className="block text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mb-1.5">Texte de pied de page global</label>
           <textarea
             className={`${inputClass} resize-none h-20`}
             value={values.lab_footer_text ?? ''}

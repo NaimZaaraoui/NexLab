@@ -179,7 +179,7 @@ export default function StatisticsReportPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center text-sm font-medium text-slate-400 animate-pulse">
+      <div className="flex h-screen items-center justify-center text-sm font-medium text-slate-500 animate-pulse">
         Génération du rapport en cours...
       </div>
     );
@@ -201,7 +201,7 @@ export default function StatisticsReportPage() {
         <div className="bg-white rounded-3xl border border-[var(--color-border)] p-6 shadow-sm flex items-center justify-between gap-6">
           <div>
             <h1 className="text-2xl font-black text-[var(--color-text)] tracking-tight">Rapport de Performance</h1>
-            <p className="text-sm font-medium text-[var(--color-text-soft)] mt-1">{rangeLabel}</p>
+            <p className="text-sm font-medium text-[var(--color-text-secondary)] mt-1">{rangeLabel}</p>
           </div>
           <button
             onClick={() => window.print()}
@@ -231,14 +231,14 @@ export default function StatisticsReportPage() {
                 {labSubtitle && (
                   <div className="flex items-center gap-2 mt-1">
                     <div className="h-[2px] w-5 bg-blue-300" />
-                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-blue-200">{labSubtitle}</span>
+                    <span className="text-xs font-bold uppercase tracking-[0.1em] text-blue-200">{labSubtitle}</span>
                   </div>
                 )}
                 {labAddress && <p className="text-xs text-blue-200 mt-1">{labAddress}{labPhone ? ` · Tél: ${labPhone}` : ''}</p>}
               </div>
             </div>
             <div className="text-right">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-300">Rapport de Performance</p>
+              <p className="text-xs font-bold uppercase tracking-[0.08em] text-blue-300">Rapport de Performance</p>
               <h2 className="text-xl font-black mt-1">Analyse Statistique</h2>
               <p className="text-sm text-blue-200 mt-1 capitalize">{rangeLabel}</p>
               <p className="text-xs text-blue-300 mt-2">Édité le {editionDate}</p>
@@ -247,14 +247,14 @@ export default function StatisticsReportPage() {
 
           <div className="mt-6 pt-5 border-t border-white/10 flex items-center gap-3">
             <div className="h-px flex-1 bg-white/10" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-300">Document à usage administratif · NexLab LIMS</span>
+            <span className="text-xs font-bold uppercase tracking-[0.1em] text-blue-300">Document à usage administratif · NexLab LIMS</span>
             <div className="h-px flex-1 bg-white/10" />
           </div>
         </div>
 
         {/* ── KPI CARDS ── */}
         <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-5">Indicateurs Clés de Performance</p>
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-5">Indicateurs Clés de Performance</p>
           <div className="grid grid-cols-4 gap-4 print:gap-3">
             {[
               { label: "Chiffre d'Affaires", value: formatCurrency(data.kpis.totalRevenue), icon: Banknote, color: 'text-emerald-600', bg: 'bg-emerald-50' },
@@ -264,7 +264,7 @@ export default function StatisticsReportPage() {
             ].map(({ label, value, icon: Icon, color, bg }) => (
               <div key={label} className={`rounded-2xl border border-[var(--color-border)] ${bg} p-4 print:rounded-xl print:p-3`}>
                 <div className={`flex items-center justify-between mb-3 print:mb-2`}>
-                  <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[var(--color-text-soft)] print:text-black/60">{label}</p>
+                  <p className="text-xs font-black uppercase tracking-[0.08em] text-[var(--color-text-secondary)] print:text-black/60">{label}</p>
                   <Icon size={16} className={color} />
                 </div>
                 <p className={`text-2xl font-black ${color} tracking-tight print:text-xl print:text-black`}>{value}</p>
@@ -276,15 +276,15 @@ export default function StatisticsReportPage() {
           {data.kpis.cnamAnalysesCount > 0 && (
             <div className="mt-4 grid grid-cols-3 gap-4 print:gap-3">
               <div className="rounded-2xl border border-teal-200 bg-teal-50/70 p-4 print:rounded-xl">
-                <p className="text-[10px] font-black uppercase tracking-[0.15em] text-teal-600/70 mb-2">Part Assurance (CNAM)</p>
+                <p className="text-xs font-black uppercase tracking-[0.08em] text-teal-600/70 mb-2">Part Assurance (CNAM)</p>
                 <p className="text-xl font-black text-teal-700 print:text-black">{formatCurrency(data.kpis.totalInsuranceShare)}</p>
               </div>
               <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 print:rounded-xl">
-                <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[var(--color-text-soft)] mb-2">Part Patient</p>
+                <p className="text-xs font-black uppercase tracking-[0.08em] text-[var(--color-text-secondary)] mb-2">Part Patient</p>
                 <p className="text-xl font-black text-[var(--color-text)] print:text-black">{formatCurrency(data.kpis.totalPatientShare)}</p>
               </div>
               <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 print:rounded-xl">
-                <p className="text-[10px] font-black uppercase tracking-[0.15em] text-indigo-600/70 mb-2">Dossiers Assurés</p>
+                <p className="text-xs font-black uppercase tracking-[0.08em] text-indigo-600/70 mb-2">Dossiers Assurés</p>
                 <p className="text-xl font-black text-indigo-700 print:text-black">{data.kpis.cnamAnalysesCount}</p>
               </div>
             </div>
@@ -294,28 +294,28 @@ export default function StatisticsReportPage() {
         {/* ── TAB-SPECIFIC SECTIONS ── */}
         {tab === 'analyses' && tabData && (
           <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Activité Analytique</p>
+            <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Activité Analytique</p>
             <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Rapport des Analyses</h3>
             <AnalysesPrintSection data={tabData as import('@/components/statistics/types').AnalysesData} />
           </div>
         )}
         {tab === 'patients' && tabData && (
           <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Démographie</p>
+            <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Démographie</p>
             <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Rapport Patients</h3>
             <PatientsPrintSection data={tabData as import('@/components/statistics/types').PatientsData} />
           </div>
         )}
         {tab === 'financial' && tabData && (
           <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Finance</p>
+            <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Finance</p>
             <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Rapport Financier</h3>
             <FinancialPrintSection data={tabData as import('@/components/statistics/types').FinancialData} formatCurrency={formatCurrency} />
           </div>
         )}
         {tab === 'inventory' && tabData && (
           <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Inventaire</p>
+            <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Inventaire</p>
             <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Rapport Consommation Réactifs</h3>
             <InventoryPrintSection data={tabData as import('@/components/statistics/types').InventoryData} />
           </div>
@@ -324,10 +324,10 @@ export default function StatisticsReportPage() {
         {/* ── REVENUE CHART (overview only) ── */}
         {tab === 'overview' && data.timeline.length > 0 && (
           <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Évolution du Chiffre d&apos;Affaires</p>
+            <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Évolution du Chiffre d&apos;Affaires</p>
             <div className="flex items-end gap-3 mb-6">
               <h3 className="text-lg font-black text-[var(--color-text)]">Courbe de Performance Financière</h3>
-              <span className="text-xs font-semibold text-[var(--color-text-soft)] mb-0.5 capitalize">{rangeLabel}</span>
+              <span className="text-xs font-semibold text-[var(--color-text-secondary)] mb-0.5 capitalize">{rangeLabel}</span>
             </div>
             <div className="flex justify-center w-full" style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' } as React.CSSProperties}>
                 <LineChart width={750} height={260} data={data.timeline} margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
@@ -351,7 +351,7 @@ export default function StatisticsReportPage() {
                   />
                   <Tooltip
                     contentStyle={{ borderRadius: '12px', border: '1px solid #E2E8F0', fontSize: '12px' }}
-                    formatter={(val: any) => [formatCurrency(Number(val)), "Chiffre d'Affaires"]}
+                    formatter={(val: number | string) => [formatCurrency(Number(val)), "Chiffre d'Affaires"]}
                     labelFormatter={(label) => format(new Date(label), 'dd MMMM yyyy', { locale: fr })}
                   />
                   <Line
@@ -371,11 +371,11 @@ export default function StatisticsReportPage() {
         {/* ── TOP TESTS TABLE (overview only) ── */}
         {tab === 'overview' && data.topTests.length > 0 && (
           <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10 print:break-before-page">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Activité par Examen</p>
+            <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Activité par Examen</p>
             <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Top {data.topTests.length} Examens Prescrits</h3>
 
             <div className="overflow-hidden rounded-2xl border border-[var(--color-border)] print:rounded-none print:border-black/20">
-              <div className="grid grid-cols-12 bg-[var(--color-surface-muted)] border-b border-[var(--color-border)] px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.15em] text-[var(--color-text-soft)] print:border-black/20 print:text-black/60">
+              <div className="grid grid-cols-12 bg-[var(--color-surface-muted)] border-b border-[var(--color-border)] px-4 py-2.5 text-xs font-black uppercase tracking-[0.08em] text-[var(--color-text-secondary)] print:border-black/20 print:text-black/60">
                 <div className="col-span-1 text-center">Rang</div>
                 <div className="col-span-5">Examen</div>
                 <div className="col-span-3">Catégorie</div>
@@ -389,7 +389,7 @@ export default function StatisticsReportPage() {
                   return (
                     <div key={test.id} className={`grid grid-cols-12 items-center px-4 py-3 ${i % 2 === 0 ? 'bg-white' : 'bg-[var(--color-surface-muted)]/30'}`}>
                       <div className="col-span-1 text-center">
-                        <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-black ${i === 0 ? 'bg-indigo-600 text-white' : i < 3 ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-500'}`}>
+                        <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-black ${i === 0 ? 'bg-indigo-600 text-white' : i < 3 ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-500'}`}>
                           {i + 1}
                         </span>
                       </div>
@@ -400,13 +400,13 @@ export default function StatisticsReportPage() {
                         </div>
                       </div>
                       <div className="col-span-3">
-                        <span className="text-xs font-semibold text-[var(--color-text-soft)] print:text-black/60">{test.category}</span>
+                        <span className="text-xs font-semibold text-[var(--color-text-secondary)] print:text-black/60">{test.category}</span>
                       </div>
                       <div className="col-span-2 text-right">
                         <span className="text-sm font-black text-[var(--color-text)] print:text-black">{test.count}</span>
                       </div>
                       <div className="col-span-1 text-right">
-                        <span className="text-xs font-bold text-[var(--color-text-soft)] print:text-black/60">{pct}%</span>
+                        <span className="text-xs font-bold text-[var(--color-text-secondary)] print:text-black/60">{pct}%</span>
                       </div>
                     </div>
                   );
@@ -423,11 +423,11 @@ export default function StatisticsReportPage() {
           {/* ── CNAM TABLE ── */}
           {data.cnamByProvider.length > 0 && (
             <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Assurance Maladie</p>
+              <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Assurance Maladie</p>
             <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Ventilation CNAM / Tier-Payant</h3>
 
             <div className="overflow-hidden rounded-2xl border border-[var(--color-border)] print:rounded-none print:border-black/20">
-              <div className="grid grid-cols-12 bg-teal-50 border-b border-teal-100 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.15em] text-teal-700 print:border-black/20 print:text-black/60 print:bg-slate-50">
+              <div className="grid grid-cols-12 bg-teal-50 border-b border-teal-100 px-4 py-2.5 text-xs font-black uppercase tracking-[0.08em] text-teal-700 print:border-black/20 print:text-black/60 print:bg-slate-50">
                 <div className="col-span-4">Assureur</div>
                 <div className="col-span-2 text-center">Dossiers</div>
                 <div className="col-span-2 text-right">Total</div>
@@ -454,7 +454,7 @@ export default function StatisticsReportPage() {
         {/* ── CONCLUSIONS (overview only) ── */}
         {tab === 'overview' && (
         <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Analyse Qualitative</p>
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Analyse Qualitative</p>
           <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Conclusions et Observations</h3>
 
           <div className="space-y-4">
@@ -480,7 +480,7 @@ export default function StatisticsReportPage() {
         {/* ── BIOLOGISTE NOTES ── */}
         {notes && (
           <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-text-soft)] mb-1">Observations Complémentaires</p>
+            <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Observations Complémentaires</p>
             <h3 className="text-lg font-black text-[var(--color-text)] mb-4">Notes du Biologiste Responsable</h3>
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)]/50 p-5 print:rounded-none print:border-black/20 print:bg-transparent">
               <p className="text-sm leading-relaxed whitespace-pre-wrap text-[var(--color-text)] print:text-black">{notes}</p>
@@ -492,14 +492,14 @@ export default function StatisticsReportPage() {
         <div className="px-10 py-8">
           <div className="grid grid-cols-2 gap-12">
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-text-soft)] mb-3">Certification du Document</p>
-              <p className="text-xs text-[var(--color-text-soft)] leading-relaxed print:text-black/70">
+              <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-3">Certification du Document</p>
+              <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed print:text-black/70">
                 Ce rapport a été généré automatiquement par le système de gestion NexLab LIMS sur la base des données enregistrées dans la base de données du laboratoire.
                 Les informations présentées sont confidentielles et à usage administratif interne exclusivement.
               </p>
             </div>
             <div className="text-center flex flex-col items-center">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-text-soft)] mb-4">Signature du Biologiste</p>
+              <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-4">Signature du Biologiste</p>
               <div style={{ position: 'relative', width: '120px', height: '90px', margin: '0 auto 12px auto' }}>
                 {settings?.lab_stamp_image && settings?.lab_bio_signature && (
                   <>
@@ -539,14 +539,14 @@ export default function StatisticsReportPage() {
                   </div>
                 )}
               </div>
-              <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-widest print:text-black">{bioName}</p>
+              <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">{bioName}</p>
               {settings.lab_bio_onmpt && (
-                <p className="text-[10px] text-[var(--color-text-soft)] mt-1 print:text-black/60">ONMPT: {settings.lab_bio_onmpt}</p>
+                <p className="text-xs text-[var(--color-text-secondary)] mt-1 print:text-black/60">ONMPT: {settings.lab_bio_onmpt}</p>
               )}
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-[var(--color-border)] flex items-center justify-between text-[9px] font-bold text-[var(--color-text-soft)] uppercase tracking-[0.25em] print:text-black/40 print:border-black/10">
+          <div className="mt-8 pt-6 border-t border-[var(--color-border)] flex items-center justify-between text-[11px] font-bold text-[var(--color-text-secondary)] uppercase tracking-[0.08em] print:text-black/40 print:border-black/10">
             <span>{labName}{labPhone ? ` · Tél: ${labPhone}` : ''}</span>
             <span>Rapport Statistique · {format(new Date(), 'yyyy')}</span>
             <span>NexLab LIMS</span>

@@ -32,13 +32,13 @@ export function TemperatureInvalidateModal({
       <DialogContent className="flex bg-white max-h-[90vh] max-w-lg flex-col p-0 overflow-hidden">
         <DialogHeader className="px-6 py-5 border-b">
           <DialogTitle className="text-lg font-semibold text-[var(--color-text)]">Annuler un relevé</DialogTitle>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
             {new Date(reading.recordedAt).toLocaleString('fr-FR')} · {reading.period}
           </p>
         </DialogHeader>
 
         <div className="space-y-4 px-6 py-5 overflow-y-auto">
-          <p className="text-sm text-[var(--color-text-soft)]">
+          <p className="text-sm text-[var(--color-text-secondary)]">
             Indiquez le motif d’annulation pour garder une trace claire dans l’historique et l’audit.
           </p>
           <label className="grid gap-2">

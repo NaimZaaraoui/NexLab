@@ -16,13 +16,13 @@ const sizeClasses = {
     gap: 'gap-1.5',
     logo: 'h-7',
     suffix: 'text-[11px]',
-    subtitle: 'text-[9px]',
+    subtitle: 'text-[11px]',
   },
   md: {
     gap: 'gap-2',
     logo: 'h-9',
     suffix: 'text-xs',
-    subtitle: 'text-[10px]',
+    subtitle: 'text-xs',
   },
   lg: {
     gap: 'gap-2.5',
@@ -88,9 +88,9 @@ export function NexLabLockup({
             loading={size === 'sm' ? 'lazy' : 'eager'}
             decoding="async"
           />
-          {suffix ? <span className={`font-semibold uppercase tracking-[0.16em] ${classes.suffix} ${suffixTone}`}>{suffix}</span> : null}
+          {suffix ? <span className={`font-semibold uppercase tracking-[0.08em] ${classes.suffix} ${suffixTone}`}>{suffix}</span> : null}
         </div>
-        {subtitle ? <p className={`font-medium uppercase tracking-[0.16em] ${classes.subtitle} ${subtitleTone}`}>{subtitle}</p> : null}
+        {subtitle ? <p className={`font-medium uppercase tracking-[0.08em] ${classes.subtitle} ${subtitleTone}`}>{subtitle}</p> : null}
       </div>
     </div>
   );

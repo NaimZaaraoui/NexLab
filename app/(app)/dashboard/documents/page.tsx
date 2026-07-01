@@ -15,7 +15,7 @@ export default function DocumentsPage() {
       <div className="mx-auto max-w-[1500px] space-y-5 pb-16">
         <section className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
           <h1 className="text-xl font-semibold text-[var(--color-text)]">Documents & papeterie</h1>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
             Gérer et imprimer les modèles administratifs du laboratoire.
           </p>
         </section>
@@ -27,7 +27,7 @@ export default function DocumentsPage() {
                 <div className="flex h-11 w-11 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)]">
                   <Mail size={24} />
                 </div>
-                <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">
+                <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                   A4 Portrait
                 </div>
               </div>
@@ -46,7 +46,7 @@ export default function DocumentsPage() {
                   <Printer size={16} />
                   <span>Imprimer le modèle</span>
                 </div>
-                <div className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-soft)]">
+                <div className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)]">
                   <Printer size={18} />
                 </div>
               </div>
@@ -54,10 +54,10 @@ export default function DocumentsPage() {
           </button>
 
           <div className="flex cursor-not-allowed flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed bg-[var(--color-surface-muted)] p-8 text-center opacity-60">
-            <div className="flex h-11 w-11 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-slate-400">
+            <div className="flex h-11 w-11 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-slate-500">
               <FileText size={24} />
             </div>
-            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-400">
+            <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-500">
               D&apos;autres documents bientôt...
             </p>
           </div>

@@ -51,8 +51,8 @@ export function HistogramView({
     ? 'bg-transparent px-0 py-1 overflow-hidden'
     : 'bg-[var(--color-surface)] p-4 rounded-2xl border border-[var(--color-border)] overflow-hidden';
   const titleClassName = isReport
-    ? 'text-[11px] font-black text-[var(--color-text)] uppercase tracking-[0.2em] print:text-black'
-    : 'text-[10px] font-black text-slate-400 uppercase tracking-widest';
+    ? 'text-[11px] font-black text-[var(--color-text)] uppercase tracking-[0.1em] print:text-black'
+    : 'text-xs font-black text-slate-500 uppercase tracking-[0.08em]';
   const axisStroke = isReport ? '#cbd5e1' : '#f1f5f9';
   const markerStroke = isReport ? '#64748b' : '#94a3b8';
   const markerValueClassName = isReport ? 'fill-slate-900 font-bold' : 'fill-indigo-600 font-medium';

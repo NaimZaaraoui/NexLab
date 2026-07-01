@@ -24,7 +24,7 @@ export function GlobalNotePanel() {
           {globalNote ? (
             <p className="text-sm text-[var(--color-text-secondary)] whitespace-pre-wrap">{globalNote}</p>
           ) : (
-            <p className="text-sm text-slate-400 italic">Aucune note globale.</p>
+            <p className="text-sm text-slate-500 italic">Aucune note globale.</p>
           )}
         </div>
       ) : (

@@ -46,7 +46,7 @@ export function ExportSidebar({
       </div>
 
       <div className="bento-panel p-6">
-        <h4 className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+        <h4 className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.06em] text-slate-500">
           Colonnes incluses
         </h4>
         <div className="flex flex-wrap gap-2">
@@ -66,7 +66,7 @@ export function ExportSidebar({
           <Clock3 size={14} />
           Statut export
         </h4>
-        <div className="space-y-2 text-xs text-[var(--color-text-soft)]">
+        <div className="space-y-2 text-xs text-[var(--color-text-secondary)]">
           <p>
             Type: <span className="font-semibold text-[var(--color-text)]">{selectedLabel}</span>
           </p>
@@ -82,15 +82,15 @@ export function ExportSidebar({
       </div>
 
       <div className="bento-panel bg-[var(--color-surface-muted)]/50 p-6">
-        <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-400">Conseils</h4>
+        <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.06em] text-slate-500">Conseils</h4>
         <ul className="space-y-3">
           {[
             'Utilisez "Mois" pour les statistiques mensuelles',
             'Filtrez par catégorie pour le catalogue',
             'Le statut "Validé Bio" = résultats certifiés',
           ].map((tip, index) => (
-            <li key={tip} className="flex items-start gap-2 text-xs text-[var(--color-text-soft)]">
-              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[10px] font-bold text-[var(--color-accent)]">
+            <li key={tip} className="flex items-start gap-2 text-xs text-[var(--color-text-secondary)]">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-xs font-bold text-[var(--color-accent)]">
                 {index + 1}
               </span>
               {tip}

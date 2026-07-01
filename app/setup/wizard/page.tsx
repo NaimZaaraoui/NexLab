@@ -30,7 +30,7 @@ const Field = ({
   label, required, children,
 }: { label: string; required?: boolean; children: React.ReactNode }) => (
   <div>
-    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.06em] text-slate-500">
       {label}{required && <span className="ml-1 text-rose-400">*</span>}
     </label>
     {children}
@@ -133,7 +133,7 @@ export default function WizardPage() {
               <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-all ${
                 past ? 'bg-indigo-600 text-white' :
                 active ? 'border-2 border-indigo-600 bg-white text-indigo-600' :
-                'border-2 border-slate-200 bg-white text-slate-400'
+                'border-2 border-slate-200 bg-white text-slate-500'
               }`}>
                 {past ? <CheckCircle2 className="h-4 w-4" /> : idx + 1}
               </div>
@@ -237,7 +237,7 @@ export default function WizardPage() {
                   value={adminData.password}
                   onChange={e => setAdminData({ ...adminData, password: e.target.value })}
                 />
-                <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600">
                   {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
@@ -307,7 +307,7 @@ export default function WizardPage() {
             <h2 className="text-xl font-bold text-slate-800">NexLab est prêt !</h2>
             <p className="mt-2 text-sm text-slate-500">Votre laboratoire a été configuré avec succès.</p>
             <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-left">
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Compte administrateur</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.06em] text-slate-500">Compte administrateur</p>
               <p className="mt-1 font-mono text-sm font-semibold text-slate-800">{adminData.email}</p>
             </div>
             <button

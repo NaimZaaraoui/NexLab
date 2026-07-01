@@ -18,7 +18,7 @@ export default function TestsPage() {
               </div>
               <div>
                 <h1 className="text-xl font-semibold text-[var(--color-text)]">Catalogue d&apos;analyses</h1>
-                <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+                <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
                   Gérer les paramètres biologiques et les plages de référence.
                 </p>
               </div>

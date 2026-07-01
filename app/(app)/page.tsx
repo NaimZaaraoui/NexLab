@@ -179,7 +179,7 @@ export default function DashboardPage() {
             <h1 className="text-lg font-semibold text-[var(--color-text)]">
               Tableau de bord laboratoire
             </h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Bonjour {session?.user?.name || 'Utilisateur'}, suivi opérationnel du laboratoire.
             </p>
           </div>
@@ -249,7 +249,7 @@ export default function DashboardPage() {
                 className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-amber-200/60 bg-[var(--color-surface)]/82 px-3 py-2 shadow-[0_6px_16px_rgba(120,80,0,0.035)]"
               >
                 <span className="text-sm font-medium text-[var(--color-text)]">{item.name}</span>
-                <span className="text-xs text-[var(--color-text-soft)]">
+                <span className="text-xs text-[var(--color-text-secondary)]">
                   {formatInventoryAlertReason(item)}
                 </span>
               </div>
@@ -336,7 +336,7 @@ export default function DashboardPage() {
                   <CheckCircle2 size={24} />
                 </div>
                 <p className="text-sm font-semibold text-[var(--color-text)]">Aucune analyse en attente</p>
-                <p className="mt-1 text-xs text-[var(--color-text-soft)] max-w-[250px]">Toutes les analyses ont été validées. Excellent travail !</p>
+                <p className="mt-1 text-xs text-[var(--color-text-secondary)] max-w-[250px]">Toutes les analyses ont été validées. Excellent travail !</p>
               </div>
             )}
             {!loading &&
@@ -352,12 +352,12 @@ export default function DashboardPage() {
                     href={`/analyses/${analysis.id}`}
                     className="grid grid-cols-12 items-center px-5 py-3 transition-colors hover:bg-[var(--color-surface-muted)]/86"
                   >
-                    <div className="col-span-1 text-center text-xs font-medium text-[var(--color-text-soft)]">{index + 1}</div>
+                    <div className="col-span-1 text-center text-xs font-medium text-[var(--color-text-secondary)]">{index + 1}</div>
                     <div className="col-span-5 min-w-0">
                       <div className="truncate text-sm font-medium text-[var(--color-text)]">
                         {analysis.patientFirstName} {analysis.patientLastName}
                       </div>
-                      <div className="text-xs text-[var(--color-text-soft)]">ID: {analysis.dailyId || 'N/A'}</div>
+                      <div className="text-xs text-[var(--color-text-secondary)]">ID: {analysis.dailyId || 'N/A'}</div>
                     </div>
                     <div className="col-span-2 text-center font-mono text-xs font-medium text-[var(--color-text-secondary)]">
                       {analysis.orderNumber}
@@ -466,7 +466,7 @@ function ActionCard({ label, href, icon: Icon, primary = false }: ActionCardProp
         </span>
         {label}
       </span>
-      <ArrowRight className={`h-4 w-4 transition-transform group-hover:translate-x-0.5 ${primary ? 'text-white/90' : 'text-[var(--color-text-soft)]'}`} />
+      <ArrowRight className={`h-4 w-4 transition-transform group-hover:translate-x-0.5 ${primary ? 'text-white/90' : 'text-[var(--color-text-secondary)]'}`} />
     </Link>
   );
 }
@@ -487,7 +487,7 @@ function QuickLink({ href, children }: { href: string; children: string }) {
       className="flex items-center justify-between rounded-2xl border bg-[var(--color-surface-muted)]/86 px-3 py-2 text-[13px] font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface)]"
     >
       {children}
-      <ArrowRight className="h-4 w-4 text-[var(--color-text-soft)]" />
+      <ArrowRight className="h-4 w-4 text-[var(--color-text-secondary)]" />
     </Link>
   );
 }

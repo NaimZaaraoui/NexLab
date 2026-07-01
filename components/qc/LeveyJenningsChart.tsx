@@ -50,6 +50,8 @@ export function LeveyJenningsChart({
   controlMode,
   minAcceptable,
   maxAcceptable,
+  meanLoc,
+  sdLoc,
   printWidth,
 }: {
   title: string;
@@ -60,18 +62,24 @@ export function LeveyJenningsChart({
   controlMode: 'STATISTICAL' | 'ACCEPTANCE_RANGE';
   minAcceptable: number | null;
   maxAcceptable: number | null;
+  meanLoc?: number | null;
+  sdLoc?: number | null;
   printWidth?: number;
 }) {
-  const statistical = controlMode === 'STATISTICAL' && sd && sd > 0;
+  const statistical = controlMode === 'STATISTICAL';
+  const hasLocal = statistical && typeof meanLoc === 'number' && typeof sdLoc === 'number';
+  const effectiveMean = hasLocal ? (meanLoc as number) : mean;
+  const effectiveSd = hasLocal ? (sdLoc as number) : sd;
+  const isStatReady = statistical && effectiveSd !== null && effectiveSd > 0;
 
   const CLAMP_MARGIN = 0.2;
 
   const clampValue = (v: number): { displayMeasured: number; isClamped: boolean } => {
-    if (statistical && sd) {
-      const upperLimit = mean + 3 * sd;
-      const lowerLimit = mean - 3 * sd;
-      if (v > upperLimit) return { displayMeasured: upperLimit + CLAMP_MARGIN * sd, isClamped: true };
-      if (v < lowerLimit) return { displayMeasured: lowerLimit - CLAMP_MARGIN * sd, isClamped: true };
+    if (isStatReady && effectiveSd) {
+      const upperLimit = effectiveMean + 3 * effectiveSd;
+      const lowerLimit = effectiveMean - 3 * effectiveSd;
+      if (v > upperLimit) return { displayMeasured: upperLimit + CLAMP_MARGIN * effectiveSd, isClamped: true };
+      if (v < lowerLimit) return { displayMeasured: lowerLimit - CLAMP_MARGIN * effectiveSd, isClamped: true };
     } else {
       const upper = maxAcceptable ?? mean;
       const lower = minAcceptable ?? mean;
@@ -93,12 +101,12 @@ export function LeveyJenningsChart({
     };
   });
 
-  const rangeMin = statistical && sd
-    ? mean - sd * 3.5
-    : Math.min(...ordered.map(p => p.displayMeasured), minAcceptable ?? mean, mean) - 1;
-  const rangeMax = statistical && sd
-    ? mean + sd * 3.5
-    : Math.max(...ordered.map(p => p.displayMeasured), maxAcceptable ?? mean, mean) + 1;
+  const rangeMin = isStatReady && effectiveSd
+    ? effectiveMean - effectiveSd * 3.5
+    : Math.min(...ordered.map(p => p.displayMeasured), minAcceptable ?? effectiveMean, effectiveMean) - 1;
+  const rangeMax = isStatReady && effectiveSd
+    ? effectiveMean + effectiveSd * 3.5
+    : Math.max(...ordered.map(p => p.displayMeasured), maxAcceptable ?? effectiveMean, effectiveMean) + 1;
 
   const CustomTooltip = ({ active, payload }: ChartTooltipProps<OrderedChartPoint>) => {
     if (active && payload && payload.length) {
@@ -107,7 +115,7 @@ export function LeveyJenningsChart({
         <div className="min-w-[200px] rounded-2xl border border-slate-700 bg-slate-900 p-3 text-xs text-white shadow-xl opacity-95">
           <div className="flex justify-between items-center mb-2 pb-2 border-b border-slate-700">
              <span className="font-bold">{point.fullDate}</span>
-             <span className={`px-1.5 py-0.5 rounded-md text-[9px] font-black uppercase tracking-widest ${
+             <span className={`px-1.5 py-0.5 rounded-md text-[11px] font-black uppercase tracking-[0.08em] ${
                point.flag === 'fail' ? 'bg-rose-500' : point.flag === 'warn' ? 'bg-amber-500' : point.flag === 'ok' ? 'bg-emerald-500' : 'bg-slate-700'
              }`}>
                {point.flag === 'fail' ? 'Échec' : point.flag === 'warn' ? 'Alerte' : 'Conforme'}
@@ -115,34 +123,44 @@ export function LeveyJenningsChart({
           </div>
           <div className="grid gap-1">
             <div className="flex justify-between">
-              <span className="text-slate-400">Valeur réelle:</span>
+              <span className="text-slate-500">Valeur réelle:</span>
               <span className="font-black text-white">{point.measured} {unit || ''}</span>
             </div>
             {point.isClamped && (
-              <div className="text-rose-400 text-[9px] font-black uppercase tracking-wider">
+              <div className="text-rose-400 text-[11px] font-black uppercase tracking-[0.06em]">
                 ⚠ Dépasse les limites ±3SD — affiché tronqué
               </div>
             )}
             {statistical ? (
-              <div className="flex justify-between">
-                <span className="text-slate-400">Z-Score:</span>
-                <span className="font-black text-white">{point.zScore?.toFixed(2) ?? '—'}</span>
-              </div>
+              <>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Z-Score {hasLocal ? '(Local)' : ''}:</span>
+                  <span className="font-black text-white">{point.zScore?.toFixed(2) ?? '—'}</span>
+                </div>
+                {hasLocal && (
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Z-Score (Fab):</span>
+                    <span className="font-medium text-slate-300">
+                      {sd && sd > 0 ? ((point.measured - mean) / sd).toFixed(2) : '—'}
+                    </span>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="flex justify-between">
-                <span className="text-slate-400">Zone:</span>
+                <span className="text-slate-500">Zone:</span>
                 <span className="font-black text-white">{point.inAcceptanceRange ? 'Dans la plage' : 'Hors plage'}</span>
               </div>
             )}
             {point.rule && (
               <div className="flex justify-between mt-1 pt-1 border-t border-slate-700">
-                <span className="text-slate-400">Règle violée:</span>
+                <span className="text-slate-500">Règle violée:</span>
                 <span className="font-black text-rose-400">{point.rule}</span>
               </div>
             )}
             {point.performedByName && (
               <div className="flex justify-between mt-1 pt-1 border-t border-slate-700">
-                <span className="text-slate-400">Opérateur:</span>
+                <span className="text-slate-500">Opérateur:</span>
                 <span className="font-medium text-slate-300">{point.performedByName}</span>
               </div>
             )}
@@ -153,19 +171,39 @@ export function LeveyJenningsChart({
     return null;
   };
 
-  const sdLines = statistical && sd ? [
-    { label: '+3SD', value: mean + 3 * sd, color: '#444', dash: '6 6' },
-    { label: '+2SD', value: mean + 2 * sd, color: '#888', dash: '6 6' },
-    { label: '+1SD', value: mean + 1 * sd, color: '#ccc', dash: '6 6' },
-    { label: 'X̄', value: mean, color: '#000', strokeWidth: 2 },
-    { label: '-1SD', value: mean - 1 * sd, color: '#ccc', dash: '6 6' },
-    { label: '-2SD', value: mean - 2 * sd, color: '#888', dash: '6 6' },
-    { label: '-3SD', value: mean - 3 * sd, color: '#444', dash: '6 6' },
-  ] : [
-    { label: 'Max', value: maxAcceptable ?? mean, color: '#444', dash: '6 6' },
-    { label: 'Cible', value: mean, color: '#000', strokeWidth: 2 },
-    { label: 'Min', value: minAcceptable ?? mean, color: '#444', dash: '6 6' },
-  ];
+  let sdLines: any[] = [];
+  if (isStatReady && effectiveSd) {
+    if (hasLocal) {
+      sdLines = [
+        { label: 'Fab+3SD', value: mean + 3 * (sd || 0), color: '#cbd5e1', dash: '3 3', strokeWidth: 1 },
+        { label: 'Fab X̄', value: mean, color: '#94a3b8', strokeWidth: 1, dash: '3 3' },
+        { label: 'Fab-3SD', value: mean - 3 * (sd || 0), color: '#cbd5e1', dash: '3 3', strokeWidth: 1 },
+        { label: '+3SD', value: effectiveMean + 3 * effectiveSd, color: '#444', dash: '6 6', strokeWidth: 1 },
+        { label: '+2SD', value: effectiveMean + 2 * effectiveSd, color: '#888', dash: '6 6', strokeWidth: 1 },
+        { label: '+1SD', value: effectiveMean + 1 * effectiveSd, color: '#ccc', dash: '6 6', strokeWidth: 1 },
+        { label: 'X̄ loc', value: effectiveMean, color: '#2563eb', strokeWidth: 2 },
+        { label: '-1SD', value: effectiveMean - 1 * effectiveSd, color: '#ccc', dash: '6 6', strokeWidth: 1 },
+        { label: '-2SD', value: effectiveMean - 2 * effectiveSd, color: '#888', dash: '6 6', strokeWidth: 1 },
+        { label: '-3SD', value: effectiveMean - 3 * effectiveSd, color: '#444', dash: '6 6', strokeWidth: 1 },
+      ];
+    } else {
+      sdLines = [
+        { label: '+3SD', value: effectiveMean + 3 * effectiveSd, color: '#444', dash: '6 6', strokeWidth: 1 },
+        { label: '+2SD', value: effectiveMean + 2 * effectiveSd, color: '#888', dash: '6 6', strokeWidth: 1 },
+        { label: '+1SD', value: effectiveMean + 1 * effectiveSd, color: '#ccc', dash: '6 6', strokeWidth: 1 },
+        { label: 'X̄', value: effectiveMean, color: '#000', strokeWidth: 2 },
+        { label: '-1SD', value: effectiveMean - 1 * effectiveSd, color: '#ccc', dash: '6 6', strokeWidth: 1 },
+        { label: '-2SD', value: effectiveMean - 2 * effectiveSd, color: '#888', dash: '6 6', strokeWidth: 1 },
+        { label: '-3SD', value: effectiveMean - 3 * effectiveSd, color: '#444', dash: '6 6', strokeWidth: 1 },
+      ];
+    }
+  } else {
+    sdLines = [
+      { label: 'Max', value: maxAcceptable ?? effectiveMean, color: '#444', dash: '6 6', strokeWidth: 1 },
+      { label: 'Cible', value: effectiveMean, color: '#000', strokeWidth: 2 },
+      { label: 'Min', value: minAcceptable ?? effectiveMean, color: '#444', dash: '6 6', strokeWidth: 1 },
+    ];
+  }
 
   const dotRenderer = ({ cx = 0, cy = 0, payload }: DotRendererProps) => {
     if (!payload) return null;
@@ -175,7 +213,7 @@ export function LeveyJenningsChart({
       payload.flag === 'ok' ? '#10b981' :
       '#334155';
     if (payload.isClamped) {
-      const goingUp = payload.displayMeasured > mean;
+      const goingUp = payload.displayMeasured > effectiveMean;
       const size = 7;
       const pts = goingUp
         ? `${cx},${cy - size} ${cx - size},${cy + size * 0.7} ${cx + size},${cy + size * 0.7}`
@@ -188,8 +226,8 @@ export function LeveyJenningsChart({
   return (
     <div className="rounded-[2rem] border border-[var(--color-border)]/50 bg-[var(--color-surface)] p-6 shadow-sm ring-1 ring-slate-900/5 print:border-none print:shadow-none print:ring-0">
       <div className="mb-6">
-        <h3 className="text-sm font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">{title}</h3>
-        <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+        <h3 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">{title}</h3>
+        <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
           {statistical ? 'Levey-Jennings (30 derniers points)' : "Courbe de tendance (30 derniers points)"}
         </p>
       </div>
@@ -201,7 +239,7 @@ export function LeveyJenningsChart({
             <XAxis dataKey="displayDate" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} dy={10} />
             <YAxis domain={[rangeMin, rangeMax]} axisLine={false} tickLine={false} tick={false} />
             {sdLines.map((line) => (
-              <ReferenceLine key={line.label} y={line.value} stroke={line.color} strokeWidth={line.strokeWidth || 1} strokeDasharray={line.dash} label={{ position: 'left', value: line.label, fontSize: 10, fill: '#64748b', fontWeight: line.label === 'X̄' || line.label === 'Cible' ? 800 : 500 }} />
+              <ReferenceLine key={line.label} y={line.value} stroke={line.color} strokeWidth={line.strokeWidth || 1} strokeDasharray={line.dash} label={{ position: 'left', value: line.label, fontSize: 10, fill: line.label.startsWith('Fab') ? '#94a3b8' : '#64748b', fontWeight: line.label.includes('X̄') || line.label === 'Cible' ? 800 : 500 }} />
             ))}
             <Line type="monotone" dataKey="displayMeasured" stroke="var(--color-text)" strokeWidth={2.5} dot={dotRenderer} isAnimationActive={false} />
           </LineChart>
@@ -212,7 +250,7 @@ export function LeveyJenningsChart({
               <XAxis dataKey="displayDate" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} dy={10} />
               <YAxis domain={[rangeMin, rangeMax]} axisLine={false} tickLine={false} tick={false} />
               {sdLines.map((line) => (
-                <ReferenceLine key={line.label} y={line.value} stroke={line.color} strokeWidth={line.strokeWidth || 1} strokeDasharray={line.dash} label={{ position: 'left', value: line.label, fontSize: 10, fill: '#64748b', fontWeight: line.label === 'X̄' || line.label === 'Cible' ? 800 : 500 }} />
+                <ReferenceLine key={line.label} y={line.value} stroke={line.color} strokeWidth={line.strokeWidth || 1} strokeDasharray={line.dash} label={{ position: 'left', value: line.label, fontSize: 10, fill: line.label.startsWith('Fab') ? '#94a3b8' : '#64748b', fontWeight: line.label.includes('X̄') || line.label === 'Cible' ? 800 : 500 }} />
               ))}
               <RechartsTooltip content={<CustomTooltip />} cursor={{ stroke: '#e2e8f0', strokeWidth: 1 }} />
               <Line type="monotone" dataKey="displayMeasured" stroke="var(--color-text)" strokeWidth={2.5} dot={dotRenderer} activeDot={{ r: 6, strokeWidth: 0 }} isAnimationActive={false} />

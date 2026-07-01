@@ -119,11 +119,11 @@ export default function ChangePasswordPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Nouveau mot de passe */}
             <div>
-              <label htmlFor="new-password" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <label htmlFor="new-password" className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.06em] text-slate-500">
                 Nouveau mot de passe
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
                 <input
                   id="new-password"
                   type={showPassword ? 'text' : 'password'}
@@ -136,7 +136,7 @@ export default function ChangePasswordPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition-colors"
                   aria-label={showPassword ? 'Masquer' : 'Afficher'}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -146,11 +146,11 @@ export default function ChangePasswordPage() {
 
             {/* Confirmer le mot de passe */}
             <div>
-              <label htmlFor="confirm-password" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <label htmlFor="confirm-password" className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.06em] text-slate-500">
                 Confirmer le mot de passe
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
                 <input
                   id="confirm-password"
                   type={showPassword ? 'text' : 'password'}
@@ -185,7 +185,7 @@ export default function ChangePasswordPage() {
           </form>
 
           {/* Footer */}
-          <div className="mt-8 flex items-center justify-center gap-2 text-xs text-slate-400">
+          <div className="mt-8 flex items-center justify-center gap-2 text-xs text-slate-500">
             <ShieldCheck className="h-3.5 w-3.5" />
             Mise à jour obligatoire de sécurité
           </div>

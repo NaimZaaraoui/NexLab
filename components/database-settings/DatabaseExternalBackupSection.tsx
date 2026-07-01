@@ -28,7 +28,7 @@ export function DatabaseExternalBackupSection({
             </span>
             <div>
               <h2 className="text-sm font-semibold text-[var(--color-text)]">Copie externe et automatisation</h2>
-              <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
                 Configure un dossier externe pour dupliquer les sauvegardes et planifie `npm run backup:run` via cron ou une tâche système.
               </p>
             </div>
@@ -44,17 +44,17 @@ export function DatabaseExternalBackupSection({
               className="input-premium h-11 w-full"
               placeholder="/mnt/usb-lims-backups ou /srv/nexlab-backups"
             />
-            <p className="mt-2 text-xs text-[var(--color-text-soft)]">
+            <p className="mt-2 text-xs text-[var(--color-text-secondary)]">
               L&apos;application y copiera la sauvegarde SQLite et le bundle de reprise lors des exécutions programmées.
             </p>
           </label>
 
           <div className="rounded-2xl border bg-[var(--color-surface)] px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Etat cible externe</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Etat cible externe</p>
             <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
               {health?.externalTarget.configuredPath || 'Aucun chemin configuré'}
             </p>
-            <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+            <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
               {health?.externalTarget.configuredPath
                 ? health.externalTarget.available
                   ? 'Chemin accessible depuis le serveur.'
@@ -64,11 +64,11 @@ export function DatabaseExternalBackupSection({
           </div>
 
           <div className="rounded-2xl border bg-[var(--color-surface-muted)] px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Commande à planifier</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Commande à planifier</p>
             <code className="mt-2 block overflow-x-auto rounded-xl bg-slate-950 px-3 py-3 text-xs text-slate-100">
               0 2 * * * cd /chemin/vers/nexlab && npm run backup:run &gt;&gt; backups/backup.log 2&gt;&amp;1
             </code>
-            <p className="mt-2 text-xs text-[var(--color-text-soft)]">
+            <p className="mt-2 text-xs text-[var(--color-text-secondary)]">
               Exemple cron quotidien à 02:00. À exécuter sur la machine hôte ou le serveur qui héberge Docker.
             </p>
           </div>

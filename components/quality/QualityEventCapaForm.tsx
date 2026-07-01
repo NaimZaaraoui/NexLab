@@ -76,7 +76,7 @@ export function QualityEventCapaForm({ event }: QualityEventCapaFormProps) {
     <div className="mt-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-3">
       <div className="grid gap-3 lg:grid-cols-2">
         <label className="space-y-1">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Cause racine</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Cause racine</span>
           <textarea
             value={form.rootCause}
             onChange={(event) => updateField('rootCause', event.target.value)}
@@ -86,7 +86,7 @@ export function QualityEventCapaForm({ event }: QualityEventCapaFormProps) {
         </label>
 
         <label className="space-y-1">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Action corrective</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Action corrective</span>
           <textarea
             value={form.correctiveAction}
             onChange={(event) => updateField('correctiveAction', event.target.value)}
@@ -96,7 +96,7 @@ export function QualityEventCapaForm({ event }: QualityEventCapaFormProps) {
         </label>
 
         <label className="space-y-1">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Action préventive</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Action préventive</span>
           <textarea
             value={form.preventiveAction}
             onChange={(event) => updateField('preventiveAction', event.target.value)}
@@ -107,7 +107,7 @@ export function QualityEventCapaForm({ event }: QualityEventCapaFormProps) {
 
         <div className="grid gap-3 sm:grid-cols-3">
           <label className="space-y-1 sm:col-span-1">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Responsable</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Responsable</span>
             <input
               value={form.actionOwner}
               onChange={(event) => updateField('actionOwner', event.target.value)}
@@ -115,7 +115,7 @@ export function QualityEventCapaForm({ event }: QualityEventCapaFormProps) {
             />
           </label>
           <label className="space-y-1 sm:col-span-1">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Échéance</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Échéance</span>
             <input
               type="date"
               value={form.actionDueDate}
@@ -124,7 +124,7 @@ export function QualityEventCapaForm({ event }: QualityEventCapaFormProps) {
             />
           </label>
           <label className="space-y-1 sm:col-span-1">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Statut</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Statut</span>
             <select
               value={form.actionStatus}
               onChange={(event) => updateField('actionStatus', event.target.value)}
@@ -138,7 +138,7 @@ export function QualityEventCapaForm({ event }: QualityEventCapaFormProps) {
           </label>
 
           <label className="space-y-1 sm:col-span-3">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Vérification / résolution</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Vérification / résolution</span>
             <textarea
               value={form.verificationNote}
               onChange={(event) => updateField('verificationNote', event.target.value)}

@@ -65,7 +65,7 @@ export function DatabaseFileTable({
       <div className="flex items-center justify-between border-b bg-[var(--color-surface-muted)] px-5 py-4">
         <div>
           <h2 className="text-sm font-semibold text-[var(--color-text)]">{title}</h2>
-          <p className="mt-1 text-xs text-[var(--color-text-soft)]">{subtitle}</p>
+          <p className="mt-1 text-xs text-[var(--color-text-secondary)]">{subtitle}</p>
         </div>
       </div>
 
@@ -73,18 +73,18 @@ export function DatabaseFileTable({
         <table className="w-full min-w-[860px]">
           <thead>
             <tr className="border-b bg-[var(--color-surface)] text-left">
-              <th className="px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Fichier</th>
-              <th className="px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Créé le</th>
-              <th className="px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Taille</th>
-              <th className="px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Statut</th>
-              <th className="px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Chemin</th>
-              <th className="px-5 py-3 text-right text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Actions</th>
+              <th className="px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Fichier</th>
+              <th className="px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Créé le</th>
+              <th className="px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Taille</th>
+              <th className="px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Statut</th>
+              <th className="px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Chemin</th>
+              <th className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {loading && (
               <tr>
-                <td colSpan={6} className="px-5 py-10 text-center text-sm text-[var(--color-text-soft)]">
+                <td colSpan={6} className="px-5 py-10 text-center text-sm text-[var(--color-text-secondary)]">
                   Chargement...
                 </td>
               </tr>
@@ -92,7 +92,7 @@ export function DatabaseFileTable({
 
             {!loading && (!items || items.length === 0) && (
               <tr>
-                <td colSpan={6} className="px-5 py-10 text-center text-sm text-[var(--color-text-soft)]">
+                <td colSpan={6} className="px-5 py-10 text-center text-sm text-[var(--color-text-secondary)]">
                   {emptyLabel}
                 </td>
               </tr>
@@ -107,7 +107,7 @@ export function DatabaseFileTable({
                     <td className="px-5 py-4">
                       <div className="font-semibold text-[var(--color-text)]">{item.fileName}</div>
                       {item.fileName.endsWith('.sqlite') || item.fileName.endsWith('.sqlite.enc') ? (
-                        <span className={`mt-1 inline-flex rounded-full border px-2 py-0.5 text-[10px] font-medium ${
+                        <span className={`mt-1 inline-flex rounded-full border px-2 py-0.5 text-xs font-medium ${
                           item.encrypted
                             ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
                             : 'border-amber-200 bg-amber-50 text-amber-700'
@@ -125,7 +125,7 @@ export function DatabaseFileTable({
                         {badge.label}
                       </span>
                     </td>
-                    <td className="max-w-[360px] px-5 py-4 text-xs text-[var(--color-text-soft)]">
+                    <td className="max-w-[360px] px-5 py-4 text-xs text-[var(--color-text-secondary)]">
                       <span className="line-clamp-2">{item.absolutePath}</span>
                     </td>
                     <td className="px-5 py-4 text-right">

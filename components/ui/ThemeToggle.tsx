@@ -30,7 +30,7 @@ export function ThemeToggle() {
         className={`p-1.5 rounded-full transition-all flex items-center justify-center ${
           theme === "light"
             ? "bg-[var(--color-surface)] text-[var(--color-accent)] shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-[var(--color-border)]"
-            : "text-[var(--color-text-soft)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50 border border-transparent"
+            : "text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50 border border-transparent"
         }`}
         aria-label="Light mode"
       >
@@ -42,7 +42,7 @@ export function ThemeToggle() {
         className={`p-1.5 rounded-full transition-all flex items-center justify-center ${
           theme === "dark"
             ? "bg-[var(--color-surface)] text-[var(--color-accent)] shadow-[0_2px_4px_rgba(0,0,0,0.4)] border border-[var(--color-border)]"
-            : "text-[var(--color-text-soft)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50 border border-transparent"
+            : "text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50 border border-transparent"
         }`}
         aria-label="Dark mode"
       >
@@ -54,7 +54,7 @@ export function ThemeToggle() {
         className={`p-1.5 rounded-full transition-all flex items-center justify-center ${
           theme === "system"
             ? "bg-[var(--color-surface)] text-[var(--color-accent)] shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-[var(--color-border)]"
-            : "text-[var(--color-text-soft)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50 border border-transparent"
+            : "text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50 border border-transparent"
         }`}
         aria-label="System theme"
       >

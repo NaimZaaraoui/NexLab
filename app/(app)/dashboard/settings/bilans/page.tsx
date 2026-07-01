@@ -175,9 +175,9 @@ export default function BilansPage() {
       </section>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border bg-[var(--color-surface)] p-20 text-slate-400 shadow-[0_6px_18px_rgba(15,31,51,0.04)]">
+        <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border bg-[var(--color-surface)] p-20 text-slate-500 shadow-[0_6px_18px_rgba(15,31,51,0.04)]">
           <RefreshCw size={34} className="animate-spin text-slate-500" />
-          <p className="font-bold uppercase tracking-widest text-xs">Chargement des bilans...</p>
+          <p className="font-bold uppercase tracking-[0.08em] text-xs">Chargement des bilans...</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -186,9 +186,9 @@ export default function BilansPage() {
           ))}
 
           {bilans.length === 0 && (
-            <div className="col-span-full flex flex-col items-center justify-center gap-4 rounded-2xl border bg-[var(--color-surface)] p-20 text-slate-400 shadow-[0_6px_18px_rgba(15,31,51,0.04)]">
+            <div className="col-span-full flex flex-col items-center justify-center gap-4 rounded-2xl border bg-[var(--color-surface)] p-20 text-slate-500 shadow-[0_6px_18px_rgba(15,31,51,0.04)]">
                <FolderKanban size={40} className="text-slate-300" />
-               <p className="font-bold uppercase tracking-widest text-xs text-center">Aucun bilan configuré.<br/>Commencez par en créer un nouveau.</p>
+               <p className="font-bold uppercase tracking-[0.08em] text-xs text-center">Aucun bilan configuré.<br/>Commencez par en créer un nouveau.</p>
             </div>
           )}
         </div>

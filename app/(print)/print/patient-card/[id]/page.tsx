@@ -71,7 +71,7 @@ export default function PatientCardPrintPage() {
   const labSubtitle = settings.lab_subtitle || 'Centre de Santé';
 
   if (loading) {
-    return <div className="flex h-screen items-center justify-center text-sm font-medium text-[var(--color-text-soft)] animate-pulse">Chargement...</div>;
+    return <div className="flex h-screen items-center justify-center text-sm font-medium text-[var(--color-text-secondary)] animate-pulse">Chargement...</div>;
   }
   if (!patient) {
     return <div className="flex h-screen items-center justify-center text-sm font-bold text-rose-500">Patient introuvable.</div>;
@@ -88,7 +88,7 @@ export default function PatientCardPrintPage() {
           <div className="space-y-1">
             <PageBackLink href={`/dashboard/patients/${patient.id}`} />
             <h1 className="text-2xl font-black text-[var(--color-text)] tracking-tight">Fiche Médicale Patient</h1>
-            <p className="text-sm font-medium text-[var(--color-text-soft)]">Document standardisé, identique aux rapports d&apos;analyse.</p>
+            <p className="text-sm font-medium text-[var(--color-text-secondary)]">Document standardisé, identique aux rapports d&apos;analyse.</p>
           </div>
           <button onClick={() => window.print()} className="group btn-primary h-14 px-8 rounded-2xl">
             <Printer size={18} className="group-hover:rotate-12 transition-transform" />
@@ -114,7 +114,7 @@ export default function PatientCardPrintPage() {
               )}
               <div className="flex flex-col ml-2">
                 <h1 className="text-3xl font-black text-[var(--color-text)] tracking-tight uppercase print:text-black leading-none">{labName}</h1>
-                <div className="text-[10px] font-black text-[var(--color-text-secondary)] uppercase tracking-widest mt-2 flex items-center gap-2 print:text-black/70">
+                <div className="text-xs font-black text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mt-2 flex items-center gap-2 print:text-black/70">
                   <span className="w-6 h-[2px] bg-indigo-600 print:bg-black"></span>
                   {labSubtitle}
                 </div>
@@ -124,7 +124,7 @@ export default function PatientCardPrintPage() {
             <div className="flex items-center justify-end gap-5 pr-6">
               <div className="text-right">
                 <h2 className="text-2xl font-black text-[var(--color-text)] uppercase tracking-tight mb-1 print:text-black">FICHE PATIENT</h2>
-                <p className="text-[10px] font-bold text-[var(--color-text-soft)] uppercase tracking-widest print:text-black/60">ID Dossier: {memberCode}</p>
+                <p className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-[0.08em] print:text-black/60">ID Dossier: {memberCode}</p>
               </div>
               {settings.report_show_barcode !== 'false' && (
                 <div className="p-1 bg-white border border-slate-200 rounded-lg shadow-sm print:border-black/20 print:shadow-none shrink-0 mix-blend-multiply">
@@ -138,10 +138,10 @@ export default function PatientCardPrintPage() {
           <div className="grid grid-cols-12 gap-4 mb-6 px-4">
             <div className="col-span-12 h-px bg-[var(--color-surface-muted)] print:bg-black/10"></div>
             <div className="col-span-4">
-              <span className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-widest print:text-black">Patient</span>
+              <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">Patient</span>
               <div className="flex flex-col mt-2">
                 <h3 className="text-2xl font-black text-[var(--color-text)] mb-2 print:text-black">{patientName}</h3>
-                <div className="flex gap-4 text-sm font-medium text-[var(--color-text-soft)] print:text-black">
+                <div className="flex gap-4 text-sm font-medium text-[var(--color-text-secondary)] print:text-black">
                   <span>{patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('fr-FR') : 'N/A'}</span>
                   <span className="text-slate-200 print:text-black/30">|</span>
                   <span className="uppercase">{patient.gender === 'M' ? 'H' : 'F'}</span>
@@ -152,17 +152,17 @@ export default function PatientCardPrintPage() {
             </div>
             <div className="col-span-8 grid grid-cols-2 gap-4 pl-8 border-l border-[var(--color-border)] print:border-black/10">
               <div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">Statut Dossier</span>
+                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Statut Dossier</span>
                 <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">
                   {patient.analyses.length > 0 ? 'Dossier Existant' : 'Dossier Nouveau'}
                 </p>
               </div>
               <div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">Édition</span>
+                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Édition</span>
                 <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{dateEdition}</p>
               </div>
               <div className="col-span-2">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">Établissement</span>
+                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Établissement</span>
                 <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{labName}</p>
               </div>
             </div>
@@ -175,8 +175,8 @@ export default function PatientCardPrintPage() {
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-[var(--color-surface-muted)]/50 print:bg-black/5">
-                <th className="py-2 pl-4 text-left text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 print:text-black/80 w-[40%]">Champ / Catégorie</th>
-                <th className="py-2 text-left text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 print:text-black/80">Informations Enregistrées</th>
+                <th className="py-2 pl-4 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80 w-[40%]">Champ / Catégorie</th>
+                <th className="py-2 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Informations Enregistrées</th>
               </tr>
             </thead>
             <tbody>
@@ -184,7 +184,7 @@ export default function PatientCardPrintPage() {
               <tr>
                 <td colSpan={2} className="py-2">
                   <div className="flex items-center gap-4">
-                    <span className="text-xs font-black text-slate-400 uppercase tracking-[0.4em] print:text-black/60">État Civil &amp; Identité</span>
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">État Civil &amp; Identité</span>
                     <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10"></div>
                   </div>
                 </td>
@@ -210,7 +210,7 @@ export default function PatientCardPrintPage() {
               <tr>
                 <td colSpan={2} className="py-2 pt-5">
                   <div className="flex items-center gap-4">
-                    <span className="text-xs font-black text-slate-400 uppercase tracking-[0.4em] print:text-black/60">Coordonnées de Contact</span>
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Coordonnées de Contact</span>
                     <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10"></div>
                   </div>
                 </td>
@@ -232,7 +232,7 @@ export default function PatientCardPrintPage() {
               <tr>
                 <td colSpan={2} className="py-2 pt-5">
                   <div className="flex items-center gap-4">
-                    <span className="text-xs font-black text-slate-400 uppercase tracking-[0.4em] print:text-black/60">Historique Laboratoire</span>
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Historique Laboratoire</span>
                     <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10"></div>
                   </div>
                 </td>
@@ -254,18 +254,18 @@ export default function PatientCardPrintPage() {
         <div className="border-t-2 border-slate-900 print:border-black mx-4 pt-6 pb-6">
           <div className="grid grid-cols-3 gap-12">
             <div className="col-span-2">
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 print:text-black">Notes du Service</h4>
-              <p className="text-xs text-[var(--color-text-soft)] leading-relaxed print:text-black">
+              <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] mb-4 print:text-black">Notes du Service</h4>
+              <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed print:text-black">
                 Fiche administrative générée le {dateEdition} par NexLab LIMS.<br />
-                <span className="text-[8px] font-black text-slate-300 uppercase print:text-black/40">Usage professionnel exclusif — Document confidentiel</span>
+                <span className="text-xs font-black text-slate-300 uppercase print:text-black/40">Usage professionnel exclusif — Document confidentiel</span>
               </p>
               <div className="mt-4 flex gap-8">
                 <div className="flex flex-col">
-                  <span className="text-[9px] font-black text-slate-300 uppercase print:text-black/40">ID Patient</span>
+                  <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/40">ID Patient</span>
                   <span className="text-[11px] font-bold text-[var(--color-text)] print:text-black">{memberCode}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[9px] font-black text-slate-300 uppercase print:text-black/40">Dossiers</span>
+                  <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/40">Dossiers</span>
                   <span className="text-[11px] font-bold text-[var(--color-text)] print:text-black">{patient.analyses.length}</span>
                 </div>
               </div>
@@ -273,7 +273,7 @@ export default function PatientCardPrintPage() {
 
             <div className="flex flex-col items-center">
               <div className="w-full border-b border-slate-900 pb-2 mb-4 text-center print:border-black">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] print:text-black">Signature &amp; Cachet</span>
+                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] print:text-black">Signature &amp; Cachet</span>
               </div>
               <div style={{ position: 'relative', width: '120px', height: '90px', margin: '0 auto' }}>
                 {settings.lab_stamp_image && settings.lab_bio_signature && (
@@ -304,10 +304,10 @@ export default function PatientCardPrintPage() {
                 )}
               </div>
               <div className="text-center mt-2">
-                <p className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-widest print:text-black">
+                <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
                   {settings.lab_bio_title && settings.lab_bio_name ? `${settings.lab_bio_title} ${settings.lab_bio_name}` : 'Biologiste Responsable'}
                 </p>
-                {settings.lab_bio_onmpt && <p className="text-[8px] font-bold text-slate-400 print:text-black/60 mt-0.5">ONMPT: {settings.lab_bio_onmpt}</p>}
+                {settings.lab_bio_onmpt && <p className="text-xs font-bold text-slate-500 print:text-black/60 mt-0.5">ONMPT: {settings.lab_bio_onmpt}</p>}
               </div>
             </div>
           </div>

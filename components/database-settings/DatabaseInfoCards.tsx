@@ -15,7 +15,7 @@ export function DatabaseInfoCards({ data, newestBackupCreatedAt }: Props) {
             <Database size={20} />
           </span>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Fichier actif</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Fichier actif</p>
             <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">{data?.databasePath || '—'}</p>
           </div>
         </div>
@@ -27,7 +27,7 @@ export function DatabaseInfoCards({ data, newestBackupCreatedAt }: Props) {
             <HardDrive size={20} />
           </span>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Dernière sauvegarde</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Dernière sauvegarde</p>
             <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
               {newestBackupCreatedAt ? new Date(newestBackupCreatedAt).toLocaleString('fr-FR') : 'Aucune sauvegarde'}
             </p>
@@ -41,7 +41,7 @@ export function DatabaseInfoCards({ data, newestBackupCreatedAt }: Props) {
             <ShieldCheck size={20} />
           </span>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Dossier backups</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Dossier backups</p>
             <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">{data?.backupDirectory || '—'}</p>
           </div>
         </div>

@@ -56,7 +56,7 @@ export function Navigation() {
 
         <button
           onClick={toggleCollapse}
-          className="absolute -right-3 top-8 flex h-7 w-7 items-center justify-center rounded-full border bg-[var(--color-surface)] text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-surface-muted)]"
+          className="absolute -right-3 top-8 flex h-7 w-7 items-center justify-center rounded-full border bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)]"
         >
           <ChevronLeft
             className={`w-4 h-4 transition-transform ${!sidebarOpen && 'rotate-180'}`}

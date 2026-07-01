@@ -143,7 +143,7 @@ export default function QcDashboardPage() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h1 className="text-xl font-semibold text-[var(--color-text)]">Contrôle Qualité</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Suivi quotidien des contrôles, lots actifs, suivi statistique et plages d’acceptation.
             </p>
           </div>
@@ -172,14 +172,14 @@ export default function QcDashboardPage() {
 
       <section className="grid gap-4 md:grid-cols-2">
         <div className="rounded-xl border bg-[var(--color-surface)] p-5 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-          <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Cibles statistiques</div>
+          <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Cibles statistiques</div>
           <div className="mt-2 text-3xl font-semibold tracking-tight text-[var(--color-text)]">{modeSummary.statistical}</div>
-          <div className="mt-2 text-sm text-[var(--color-text-soft)]">Cibles suivies avec SD, z-score et règles Westgard.</div>
+          <div className="mt-2 text-sm text-[var(--color-text-secondary)]">Cibles suivies avec SD, z-score et règles Westgard.</div>
         </div>
         <div className="rounded-xl border bg-[var(--color-surface)] p-5 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-          <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Cibles par plage</div>
+          <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Cibles par plage</div>
           <div className="mt-2 text-3xl font-semibold tracking-tight text-[var(--color-text)]">{modeSummary.acceptance}</div>
-          <div className="mt-2 text-sm text-[var(--color-text-soft)]">Cibles validées par plage d’acceptation min/max.</div>
+          <div className="mt-2 text-sm text-[var(--color-text-secondary)]">Cibles validées par plage d’acceptation min/max.</div>
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db/prisma';
-import { requireAuthUser } from '@/lib/security/authz';
+import { requireAuthUser, getInternalPrintToken } from '@/lib/security/authz';
 import { getAnalysisPdf, backgroundGenerateAndCachePdf } from '@/lib/documents/pdf-storage';
 import type { AnalysisStatus } from '@/lib/analysis/status-flow';
 import { isTerminalStatus } from '@/lib/analysis/status-flow';
@@ -61,8 +61,8 @@ export async function GET(
       Promise.resolve().then(() => backgroundGenerateAndCachePdf(id, origin));
     }
 
-    // ✅ Cas 2 : Brouillon ou cache absent → génération dynamique via Puppeteer
-    const pdfData = await generateAnalysisPDF(id, origin);
+    const printToken = getInternalPrintToken();
+    const pdfData = await generateAnalysisPDF(id, origin, printToken);
     return toPdfResponse(Buffer.from(pdfData), safeName, 'dynamic');
 
   } catch (error) {

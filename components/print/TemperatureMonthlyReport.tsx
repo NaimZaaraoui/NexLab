@@ -71,7 +71,7 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
                   <h1 className="text-4xl font-black text-[var(--color-text)] tracking-tight uppercase print:text-black leading-none">
                     {LAB_NAME}
                   </h1>
-                  <div className="text-[10px] font-black text-[var(--color-text-secondary)] uppercase tracking-widest mt-2 flex items-center gap-2">
+                  <div className="text-xs font-black text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mt-2 flex items-center gap-2">
                     <span className="w-6 h-[2px] bg-indigo-600 print:bg-black"></span>
                     {LAB_SUBTITLE.toUpperCase()}
                   </div>
@@ -81,7 +81,7 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
               <div className="text-right pr-6">
                 <h2 className="text-2xl font-black text-[var(--color-text)] uppercase tracking-tight mb-1 print:text-black">SUIVI TEMPÉRATURE</h2>
                 <div className="flex flex-col items-end">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:text-black/60">Période: {targetMonth}</p>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Période: {targetMonth}</p>
                 </div>
               </div>
             </div>
@@ -89,10 +89,10 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
             <div className="grid grid-cols-12 gap-4 mb-8 relative z-10 px-4">
               <div className="col-span-12 h-px bg-[var(--color-surface-muted)] print:bg-black/10"></div>
               <div className="col-span-4">
-                <span className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-widest print:text-black">Équipement</span>
+                <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">Équipement</span>
                 <div className="flex flex-col mt-2">
                   <h3 className="text-2xl font-black text-[var(--color-text)] mb-2 print:text-black">{instrument.name}</h3>
-                  <div className="flex gap-4 text-sm font-medium text-[var(--color-text-soft)] print:text-black">
+                  <div className="flex gap-4 text-sm font-medium text-[var(--color-text-secondary)] print:text-black">
                     <span>{instrument.type}</span>
                     <span className="text-slate-200 print:text-black/30">|</span>
                     <span>{instrument.location || 'Localisation non spécifiée'}</span>
@@ -102,15 +102,15 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
 
               <div className="col-span-8 grid grid-cols-2 gap-4 pl-8 border-l border-[var(--color-border)] print:border-black/10">
                 <div>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">Période</span>
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Période</span>
                   <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{targetMonth}</p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">Édition</span>
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Édition</span>
                   <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{printDate}</p>
                 </div>
                 <div className="col-span-2">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest print:text-black/60">Établissement</span>
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Établissement</span>
                   <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{LAB_NAME}{LAB_ADDRESS ? ` — ${LAB_ADDRESS}` : ''}</p>
                 </div>
               </div>
@@ -128,16 +128,16 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
             <div className="pt-6 border-t-2 border-slate-900 print:border-black mt-12 footer-content px-4">
               <div className="grid grid-cols-3 gap-12">
                 <div className="col-span-2">
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 print:text-black">Validation Biologiste</h4>
-                  <p className="text-xs text-[var(--color-text-soft)] leading-relaxed max-w-md print:text-black">
+                  <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] mb-4 print:text-black">Validation Biologiste</h4>
+                  <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed max-w-md print:text-black">
                     Revue effectuée conformément aux procédures d&apos;assurance qualité du laboratoire.
                     Les écarts hors plage font l&apos;objet d&apos;actions correctives documentées.<br />
-                    <span className="text-[8px] font-black text-slate-300 uppercase print:text-black/40 italic mt-2 block tracking-wider">Document généré le {printDate}</span>
+                    <span className="text-xs font-black text-slate-300 uppercase print:text-black/40 italic mt-2 block tracking-[0.06em]">Document généré le {printDate}</span>
                   </p>
                 </div>
                 <div className="flex flex-col items-center">
                   <div className="w-full border-b border-slate-900 pb-2 mb-4 text-center print:border-black">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] print:text-black">Signature & Cachet</span>
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] print:text-black">Signature & Cachet</span>
                   </div>
                   <div className="flex flex-col items-center gap-2 w-full">
                     <div style={{ position: 'relative', width: '120px', height: '90px', margin: '0 auto' }}>
@@ -185,10 +185,10 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
                     </div>
 
                     <div className="text-center">
-                      <p className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-widest print:text-black">
+                      <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
                         {BIO_TITLE && BIO_NAME ? `${BIO_TITLE} ${BIO_NAME}` : 'Biologiste Responsable'}
                       </p>
-                      {BIO_ONMPT && <p className="text-[8px] font-bold text-slate-400 print:text-black/60 mt-0.5">ONMPT: {BIO_ONMPT}</p>}
+                      {BIO_ONMPT && <p className="text-xs font-bold text-slate-500 print:text-black/60 mt-0.5">ONMPT: {BIO_ONMPT}</p>}
                     </div>
                   </div>
                 </div>
@@ -199,7 +199,7 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
                   {FOOTER_TEXT}
                 </div>
               )}
-              <div className="mt-6 flex justify-between items-center text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
+              <div className="mt-6 flex justify-between items-center text-[11px] font-bold text-slate-300 uppercase tracking-[0.1em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
                 <span>{LAB_NAME}</span>
                 <div className="flex gap-4">
                   {LAB_PHONE && <span>Tél: {LAB_PHONE}</span>}
@@ -220,9 +220,9 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
       return (
         <div className="break-inside-avoid">
           <div className="flex items-center gap-4 mb-6">
-            <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.4em] print:text-black">Graphique de tendance</span>
+            <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">Graphique de tendance</span>
             <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/5"></div>
-            <div className="flex gap-4 text-[10px] font-bold text-slate-400">
+            <div className="flex gap-4 text-xs font-bold text-slate-500">
                <span>Zone: {instrument.targetMin} - {instrument.targetMax}{instrument.unit}</span>
             </div>
           </div>
@@ -270,12 +270,12 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
                 <tr>
                   <td>
                     <div className="px-8 pb-2 pt-4">
-                      <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--color-text)] mb-2 print:text-black">
+                      <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-text)] mb-2 print:text-black">
                         Registre journalier - {targetMonth}
                       </h3>
                       <table className="w-full text-left text-[11px] border-collapse relative z-10">
                         <thead>
-                          <tr className="border-b border-slate-900 print:border-black text-[9px] uppercase tracking-widest text-slate-400 print:text-black/60">
+                          <tr className="border-b border-slate-900 print:border-black text-[11px] uppercase tracking-[0.08em] text-slate-500 print:text-black/60">
                             <th className="py-1 pr-4 font-black">Jour</th>
                             <th className="py-1 pr-4 font-black">Matin</th>
                             <th className="py-1 pr-4 font-black">Soir</th>
@@ -313,7 +313,7 @@ export const TemperatureMonthlyReport = forwardRef<HTMLDivElement, TemperatureMo
                                 </td>
                                 <td className="py-[3px] pr-4 italic">
                                   {action ? (
-                                    <span className="text-slate-700 print:text-black font-medium text-[10px]">{action}</span>
+                                    <span className="text-slate-700 print:text-black font-medium text-xs">{action}</span>
                                   ) : (
                                     <span className="text-slate-300 print:text-black/30">—</span>
                                   )}

@@ -18,7 +18,7 @@ export function NavigationFooter({ sidebarOpen, mobile = false, onLogout }: Navi
         }`}
       >
         <span className={`flex items-center gap-3 ${!mobile && !sidebarOpen ? 'justify-center' : ''}`}>
-          <LogOut className="h-[18px] w-[18px] flex-shrink-0 text-[var(--color-text-soft)] group-hover:text-rose-600" />
+          <LogOut className="h-[18px] w-[18px] flex-shrink-0 text-[var(--color-text-secondary)] group-hover:text-rose-600" />
           {(sidebarOpen || mobile) && <span className="text-[13px]">Déconnexion</span>}
         </span>
       </button>

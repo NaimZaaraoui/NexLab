@@ -15,6 +15,8 @@ export type QcValue = {
   inAcceptanceRange: boolean | null;
   flag: string;
   rule: string | null;
+  isExcluded?: boolean;
+  excludeReason?: string | null;
 };
 
 export type QcResult = {
@@ -34,6 +36,10 @@ export type QcTarget = {
   minAcceptable: number | null;
   maxAcceptable: number | null;
   unit: string | null;
+  phase?: string;
+  validPoints?: number;
+  meanLoc?: number | null;
+  sdLoc?: number | null;
 };
 
 export type QcLot = {

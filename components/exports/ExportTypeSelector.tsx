@@ -33,7 +33,7 @@ export function ExportTypeSelector({ exportType, config, onChange }: ExportTypeS
             </div>
             <div className="min-w-0">
               <div className="mb-1 text-sm font-bold text-[var(--color-text)]">{item.label}</div>
-              <div className="text-[11px] leading-relaxed text-[var(--color-text-soft)]">{item.description}</div>
+              <div className="text-[11px] leading-relaxed text-[var(--color-text-secondary)]">{item.description}</div>
             </div>
           </button>
         ))}

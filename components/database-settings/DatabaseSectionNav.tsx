@@ -22,7 +22,7 @@ export function DatabaseSectionNav({ title, description, active }: DatabaseSecti
       <div className="flex flex-col gap-4">
         <div>
           <h1 className="text-xl font-semibold text-[var(--color-text)]">{title}</h1>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">{description}</p>
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{description}</p>
         </div>
 
         <div className="flex flex-wrap gap-2">

@@ -24,9 +24,9 @@ export function DatabaseMaintenanceOverview({
         <article className="bento-panel p-5">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Dernier backup</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Dernier backup</p>
               <h2 className="mt-2 text-lg font-semibold text-[var(--color-text)]">{label}</h2>
-              <p className="mt-2 text-sm text-[var(--color-text-soft)]">{description}</p>
+              <p className="mt-2 text-sm text-[var(--color-text-secondary)]">{description}</p>
             </div>
             <span className={tone === 'ok' ? 'status-pill rounded-md px-2.5 py-1 status-pill-success' : tone === 'warning' ? 'status-pill rounded-md px-2.5 py-1 status-pill-warning' : 'status-pill rounded-md px-2.5 py-1 status-pill-error'}>
               {tone === 'ok' ? 'OK' : tone === 'warning' ? 'Attention' : 'Urgent'}
@@ -35,19 +35,19 @@ export function DatabaseMaintenanceOverview({
 
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             <div className="rounded-md border bg-[var(--color-surface)] px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Base active</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Base active</p>
               <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
                 {health?.database.reachable && health?.database.fileExists ? 'Connectée et présente' : 'À vérifier'}
               </p>
             </div>
             <div className="rounded-md border bg-[var(--color-surface)] px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Copies locales</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Copies locales</p>
               <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
                 {health?.backups.count ? `${health.backups.count} sauvegarde(s)` : 'Aucune sauvegarde'}
               </p>
             </div>
             <div className="rounded-md border bg-[var(--color-surface)] px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Copies externes</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Copies externes</p>
               <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
                 {health?.externalTarget.configuredPath
                   ? health.externalTarget.available
@@ -60,9 +60,9 @@ export function DatabaseMaintenanceOverview({
         </article>
 
         <article className="bento-panel p-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Lecture simple</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Lecture simple</p>
           <h2 className="mt-2 text-lg font-semibold text-[var(--color-text)]">Ce qui protège le labo</h2>
-          <div className="mt-4 space-y-3 text-sm text-[var(--color-text-soft)]">
+          <div className="mt-4 space-y-3 text-sm text-[var(--color-text-secondary)]">
             <p>1. Une sauvegarde SQLite locale régulière.</p>
             <p>2. Un bundle de reprise avec base + uploads.</p>
             <p>3. Une copie vers un disque ou dossier externe.</p>

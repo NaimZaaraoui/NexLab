@@ -18,16 +18,16 @@ export function AnalysesPrintSection({ data }: Props) {
           { label: 'Urgentes', value: data.kpis.urgent, color: 'text-rose-700' },
         ].map(k => (
           <div key={k.label} className="rounded-xl border p-4 bg-slate-50">
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{k.label}</p>
+            <p className="text-xs font-black uppercase tracking-[0.08em] text-slate-500">{k.label}</p>
             <p className={`text-2xl font-black mt-1 ${k.color} print:text-black`}>{k.value}</p>
           </div>
         ))}
       </div>
 
       <div>
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-3">Répartition par Statut</p>
+        <p className="text-xs font-black uppercase tracking-[0.1em] text-slate-500 mb-3">Répartition par Statut</p>
         <div className="overflow-hidden rounded-xl border">
-          <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+          <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-slate-500">
             <div>Statut</div><div className="text-center">Nombre</div><div className="text-right">%</div>
           </div>
           {data.statusDistribution.map(s => (
@@ -41,9 +41,9 @@ export function AnalysesPrintSection({ data }: Props) {
       </div>
 
       <div>
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-3">TAT Moyen par Catégorie (minutes)</p>
+        <p className="text-xs font-black uppercase tracking-[0.1em] text-slate-500 mb-3">TAT Moyen par Catégorie (minutes)</p>
         <div className="overflow-hidden rounded-xl border">
-          <div className="grid grid-cols-12 bg-slate-50 border-b px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+          <div className="grid grid-cols-12 bg-slate-50 border-b px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-slate-500">
             <div className="col-span-5">Catégorie</div>
             <div className="col-span-2 text-right">Moy.</div><div className="col-span-2 text-right">Min</div>
             <div className="col-span-2 text-right">Max</div><div className="col-span-1 text-right">N</div>
@@ -62,9 +62,9 @@ export function AnalysesPrintSection({ data }: Props) {
 
       {data.topPrescripteurs.length > 0 && (
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-3">Top Prescripteurs</p>
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-slate-500 mb-3">Top Prescripteurs</p>
           <div className="overflow-hidden rounded-xl border">
-            <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <div className="grid grid-cols-3 bg-slate-50 border-b px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-slate-500">
               <div className="col-span-2">Médecin</div><div className="text-right">Prescriptions</div>
             </div>
             {data.topPrescripteurs.map(p => (

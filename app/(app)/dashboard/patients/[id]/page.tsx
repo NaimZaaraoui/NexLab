@@ -120,7 +120,7 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
 
   if (!patient) {
     return (
-      <div className="p-8 text-center text-slate-400">
+      <div className="p-8 text-center text-slate-500">
          <p>Patient introuvable</p>
       </div>
     );
@@ -196,11 +196,11 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
                 <div>
                    <div className="flex items-center gap-3 mb-2">
                      <h1 className="text-2xl font-semibold tracking-tight text-[var(--color-text)]">{patient.lastName} {patient.firstName}</h1>
-                     <span className={`rounded-md px-3 py-1 text-[10px] font-semibold uppercase tracking-wide ${patient.gender === 'M' ? 'bg-indigo-100 text-indigo-700' : 'bg-rose-100 text-rose-700'}`}>
+                     <span className={`rounded-md px-3 py-1 text-xs font-semibold uppercase tracking-wide ${patient.gender === 'M' ? 'bg-indigo-100 text-indigo-700' : 'bg-rose-100 text-rose-700'}`}>
                        {patient.gender === 'M' ? 'Homme' : 'Femme'}
                      </span>
                    </div>
-                   <div className="flex flex-wrap gap-6 text-sm font-medium text-[var(--color-text-soft)]">
+                   <div className="flex flex-wrap gap-6 text-sm font-medium text-[var(--color-text-secondary)]">
                       <div className="flex items-center gap-2">
                         <Calendar size={16} className="text-slate-300" />
                         <span>{calculatePatientAge(patient.birthDate)} ans <span className="text-slate-200 ml-1">({patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('fr-FR') : 'N/A'})</span></span>
@@ -215,19 +215,19 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
 
              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4 w-full lg:w-72">
                 <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition-all">
-                   <div className="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1 flex items-center gap-2">
+                   <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 flex items-center gap-2">
                       <Phone size={12} /> Téléphone
                    </div>
                    <div className="text-sm font-semibold text-slate-700">{patient.phoneNumber || '—'}</div>
                 </div>
                 <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition-all">
-                   <div className="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1 flex items-center gap-2">
+                   <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 flex items-center gap-2">
                       <Mail size={12} /> Email
                    </div>
                    <div className="text-sm font-semibold text-slate-700 truncate">{patient.email || '—'}</div>
                 </div>
                 <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition-all">
-                   <div className="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1 flex items-center gap-2">
+                   <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 flex items-center gap-2">
                       <MapPin size={12} /> Adresse
                    </div>
                    <div className="text-sm font-semibold text-slate-700 truncate">{patient.address || '—'}</div>
@@ -241,13 +241,13 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
            <div className="flex items-center gap-2 rounded-xl bg-[var(--color-surface-muted)] p-1 w-fit">
               <button
                 onClick={() => setActiveTab('history')}
-                className={`flex items-center gap-2 rounded-md px-8 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] transition-all ${activeTab === 'history' ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm' : 'text-[var(--color-text-soft)] hover:text-slate-700'}`}
+                className={`flex items-center gap-2 rounded-md px-8 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] transition-all ${activeTab === 'history' ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm' : 'text-[var(--color-text-secondary)] hover:text-slate-700'}`}
               >
                 <Info size={14} /> Historique
               </button>
               <button
                 onClick={() => setActiveTab('trends')}
-                className={`flex items-center gap-2 rounded-md px-8 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] transition-all ${activeTab === 'trends' ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm' : 'text-[var(--color-text-soft)] hover:text-slate-700'}`}
+                className={`flex items-center gap-2 rounded-md px-8 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] transition-all ${activeTab === 'trends' ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm' : 'text-[var(--color-text-secondary)] hover:text-slate-700'}`}
               >
                 <TrendingUpIcon size={14} /> Tendances
               </button>
@@ -271,9 +271,9 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
                     <div className="empty-state-icon w-16 h-16 rounded-full bg-[var(--color-surface-muted)]">
                         <TrendingUpIcon size={32} />
                      </div>
-                     <p className="text-[var(--color-text-soft)] font-semibold max-w-sm mx-auto">
+                     <p className="text-[var(--color-text-secondary)] font-semibold max-w-sm mx-auto">
                       Pas assez de données pour afficher les tendances.<br />
-                      <span className="text-xs font-medium text-slate-400 mt-2 block italic text-center">Les graphiques apparaissent automatiquement lorsqu&apos;un même paramètre est analysé au moins deux fois.</span>
+                      <span className="text-xs font-medium text-slate-500 mt-2 block italic text-center">Les graphiques apparaissent automatiquement lorsqu&apos;un même paramètre est analysé au moins deux fois.</span>
                     </p>
                   </div>
                 )}

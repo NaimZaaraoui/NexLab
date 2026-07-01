@@ -53,11 +53,11 @@ export function AnalyseForm() {
         <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
             <h1 className="text-lg font-semibold tracking-tight text-[var(--color-text)]">Nouveau dossier d&apos;analyse</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Enregistrez le dossier, rattachez le patient et sélectionnez les examens demandés.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs text-[var(--color-text-soft)]">
+          <div className="flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
             <span className="status-pill rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-2.5 py-1 text-[var(--color-text-secondary)]">
               {state.selectedTests.length} examen(s)
             </span>

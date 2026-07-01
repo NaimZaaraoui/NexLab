@@ -15,10 +15,10 @@ export function InventoryAnalyticsPanel({ analytics, categories }: InventoryAnal
       <article className="rounded-[2rem] border border-[var(--color-border)]/50 bg-[var(--color-surface)] p-6 shadow-sm ring-1 ring-slate-900/5">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
               Consommation des 30 derniers jours
             </h2>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Vue consolidée de la consommation réelle et des pertes enregistrées.
             </p>
           </div>
@@ -26,21 +26,21 @@ export function InventoryAnalyticsPanel({ analytics, categories }: InventoryAnal
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <div className="rounded-md border bg-[var(--color-surface-muted)] px-4 py-3">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Consommé</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Consommé</div>
             <div className="mt-1 text-xl font-semibold text-[var(--color-text)]">{analytics.totals.consumption30d}</div>
           </div>
           <div className="rounded-md border bg-[var(--color-surface-muted)] px-4 py-3">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Rebut</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Rebut</div>
             <div className="mt-1 text-xl font-semibold text-[var(--color-text)]">{analytics.totals.waste30d}</div>
           </div>
           <div className="rounded-md border bg-[var(--color-surface-muted)] px-4 py-3">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Moyenne / jour</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Moyenne / jour</div>
             <div className="mt-1 text-xl font-semibold text-[var(--color-text)]">{analytics.totals.avgDailyConsumption30d}</div>
           </div>
         </div>
         <div className="mt-5 space-y-3">
           {analytics.topConsumedItems.length === 0 ? (
-            <div className="rounded-md border border-dashed px-4 py-6 text-sm text-[var(--color-text-soft)]">
+            <div className="rounded-md border border-dashed px-4 py-6 text-sm text-[var(--color-text-secondary)]">
               Pas encore assez de mouvements pour afficher une tendance.
             </div>
           ) : (
@@ -52,13 +52,13 @@ export function InventoryAnalyticsPanel({ analytics, categories }: InventoryAnal
               >
                 <div>
                   <div className="text-sm font-semibold text-[var(--color-text)]">{entry.name}</div>
-                  <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+                  <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
                     {entry.category} · {entry.avgDailyConsumption30d} / jour
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-semibold text-[var(--color-text)]">{entry.consumption30d}</div>
-                  <div className="text-[11px] text-[var(--color-text-soft)]">{entry.unit}</div>
+                  <div className="text-[11px] text-[var(--color-text-secondary)]">{entry.unit}</div>
                 </div>
               </Link>
             ))
@@ -69,12 +69,12 @@ export function InventoryAnalyticsPanel({ analytics, categories }: InventoryAnal
       <article className="rounded-[2rem] border border-[var(--color-border)]/50 bg-[var(--color-surface)] p-6 shadow-sm ring-1 ring-slate-900/5">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
               Catégories configurables
             </h2>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">Organisation actuelle des articles inventaire.</p>
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Organisation actuelle des articles inventaire.</p>
           </div>
-          <span className="text-xs text-[var(--color-text-soft)]">{categories.filter((c) => c.isActive).length} active(s)</span>
+          <span className="text-xs text-[var(--color-text-secondary)]">{categories.filter((c) => c.isActive).length} active(s)</span>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           {categories.filter((category) => category.isActive).map((category) => (
@@ -85,7 +85,7 @@ export function InventoryAnalyticsPanel({ analytics, categories }: InventoryAnal
         </div>
         {analytics.topWastedItems.length > 0 && (
           <div className="mt-5 border-t border-[var(--color-border)] pt-4">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">Articles les plus rebutés</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">Articles les plus rebutés</div>
             <div className="mt-3 space-y-2">
               {analytics.topWastedItems.map((entry) => (
                 <Link
@@ -94,7 +94,7 @@ export function InventoryAnalyticsPanel({ analytics, categories }: InventoryAnal
                   className="flex items-center justify-between rounded-md border bg-[var(--color-surface-muted)] px-3 py-2 text-sm hover:bg-[var(--color-surface-muted)]"
                 >
                   <span className="font-medium text-[var(--color-text)]">{entry.name}</span>
-                  <span className="text-[var(--color-text-soft)]">
+                  <span className="text-[var(--color-text-secondary)]">
                     {entry.waste30d} {entry.unit}
                   </span>
                 </Link>

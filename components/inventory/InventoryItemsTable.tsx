@@ -14,7 +14,7 @@ interface InventoryItemsTableProps {
 export function InventoryItemsTable({ items, loading, isAdmin, onCreate }: InventoryItemsTableProps) {
   return (
     <section className="overflow-hidden rounded-[2rem] border border-[var(--color-border)]/50 bg-[var(--color-surface)] shadow-sm ring-1 ring-slate-900/5">
-      <div className="grid grid-cols-12 border-b bg-[var(--color-surface-muted)] px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-soft)]">
+      <div className="grid grid-cols-12 border-b bg-[var(--color-surface-muted)] px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--color-text-secondary)]">
         <div className="col-span-3">Réactif</div>
         <div className="col-span-2">Catégorie</div>
         <div className="col-span-2 text-center">Stock actuel</div>
@@ -76,7 +76,7 @@ export function InventoryItemsTable({ items, loading, isAdmin, onCreate }: Inven
               >
                 <div className="col-span-3">
                   <div className="font-semibold text-[var(--color-text)]">{item.name}</div>
-                  <div className="text-xs text-[var(--color-text-soft)]">
+                  <div className="text-xs text-[var(--color-text-secondary)]">
                     {item.kind === 'CONSUMABLE' ? 'Consommable' : 'Réactif'}
                   </div>
                 </div>
@@ -110,7 +110,7 @@ export function InventoryItemsTable({ items, loading, isAdmin, onCreate }: Inven
                           ? 'font-semibold text-[var(--color-critical)]'
                           : item.daysUntilExpiry !== null && item.daysUntilExpiry <= 30
                             ? 'font-semibold text-[var(--color-warning)]'
-                            : 'text-[var(--color-text-soft)]'
+                            : 'text-[var(--color-text-secondary)]'
                       }`}
                     >
                       <CalendarClock className="h-3.5 w-3.5" />

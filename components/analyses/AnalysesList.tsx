@@ -67,7 +67,7 @@ export function AnalysesList() {
         {filteredAnalyses.length === 0 ? (
           <div className="empty-state mx-4 my-6">
             <div className="empty-state-icon">
-              <FileSearch className="h-6 w-6 text-[var(--color-text-soft)]" />
+              <FileSearch className="h-6 w-6 text-[var(--color-text-secondary)]" />
             </div>
             <p className="empty-state-title">Aucun dossier trouvé</p>
             <p className="empty-state-text">
@@ -76,7 +76,7 @@ export function AnalysesList() {
           </div>
         ) : (
           <>
-            <div className="hidden grid-cols-12 border-b bg-[var(--color-surface-muted)] px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)] lg:grid">
+            <div className="hidden grid-cols-12 border-b bg-[var(--color-surface-muted)] px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)] lg:grid">
               <div className="col-span-1 text-center">ID</div>
               <div className="col-span-4">Patient</div>
               <div className="col-span-2">Date</div>
@@ -104,7 +104,7 @@ export function AnalysesList() {
 
             <div className="flex flex-col gap-3 border-t px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-2">
-                <label htmlFor="items-per-page" className="text-sm text-[var(--color-text-soft)]">
+                <label htmlFor="items-per-page" className="text-sm text-[var(--color-text-secondary)]">
                   Lignes par page
                 </label>
                 <select

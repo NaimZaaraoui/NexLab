@@ -19,7 +19,7 @@ export default async function PrintSettingsPage() {
       <section className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
         <PageBackLink href="/dashboard/settings" />
         <h1 className="text-xl font-semibold text-[var(--color-text)]">Modèles d&apos;impression</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
           Ces informations apparaissent sur chaque rapport et enveloppe imprimée.
         </p>
       </section>

@@ -15,7 +15,7 @@ interface PatientsTabProps {
 function Panel({ title, children, className = '' }: { title: string; children: React.ReactNode; className?: string }) {
   return (
     <article className={`rounded-2xl border border-[var(--color-border)]/50 bg-[var(--color-surface)] p-5 shadow-sm ${className}`}>
-      <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">{title}</h2>
+      <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">{title}</h2>
       {children}
     </article>
   );
@@ -36,7 +36,7 @@ export function PatientsTab({ period }: PatientsTabProps) {
       .finally(() => setLoading(false));
   }, [period]);
 
-  if (loading) return <div className="flex h-64 items-center justify-center text-sm text-[var(--color-text-soft)]">Chargement…</div>;
+  if (loading) return <div className="flex h-64 items-center justify-center text-sm text-[var(--color-text-secondary)]">Chargement…</div>;
   if (!data) return null;
 
   return (
@@ -52,7 +52,7 @@ export function PatientsTab({ period }: PatientsTabProps) {
         <Panel title="Répartition par Sexe">
           <div className="h-64">
             {data.genderDistribution.length === 0
-              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune donnée.</div>
+              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune donnée.</div>
               : <DonutChart data={data.genderDistribution.map(g => ({ name: g.gender, value: g.count }))} />}
           </div>
         </Panel>
@@ -60,7 +60,7 @@ export function PatientsTab({ period }: PatientsTabProps) {
         <Panel title="Pyramide des Âges" className="xl:col-span-2">
           <div className="h-64">
             {data.agePyramid.every(b => b.M === 0 && b.F === 0)
-              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune donnée d'âge disponible.</div>
+              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune donnée d'âge disponible.</div>
               : <AgePyramidChart data={data.agePyramid} />}
           </div>
         </Panel>
@@ -69,14 +69,14 @@ export function PatientsTab({ period }: PatientsTabProps) {
       <div className="grid gap-5 xl:grid-cols-2">
         <Panel title="Top 10 Patients (visites sur la période)">
           {data.topPatients.length === 0
-            ? <div className="flex h-32 items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune donnée.</div>
+            ? <div className="flex h-32 items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune donnée.</div>
             : (
               <div className="space-y-2">
                 {data.topPatients.map((p, i) => {
                   const max = data.topPatients[0].count;
                   return (
                     <div key={p.id} className="flex items-center gap-3">
-                      <span className="w-5 shrink-0 text-right text-xs font-bold text-[var(--color-text-soft)]">{i + 1}</span>
+                      <span className="w-5 shrink-0 text-right text-xs font-bold text-[var(--color-text-secondary)]">{i + 1}</span>
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-0.5">
                           <span className="text-sm font-medium text-[var(--color-text)]">{p.name}</span>
@@ -95,7 +95,7 @@ export function PatientsTab({ period }: PatientsTabProps) {
 
         <Panel title="Distribution des Fréquences de Visite">
           {data.frequencyHistogram.length === 0
-            ? <div className="flex h-48 items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune donnée.</div>
+            ? <div className="flex h-48 items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune donnée.</div>
             : (
               <div className="h-48">
                 <ResponsiveContainer width="100%" height="100%">

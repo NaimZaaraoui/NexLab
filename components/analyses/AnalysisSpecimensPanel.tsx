@@ -391,7 +391,7 @@ export function AnalysisSpecimensPanel() {
           </div>
           <div>
             <h2 className="text-sm font-semibold text-[var(--color-text)]">Gestion des échantillons</h2>
-            <p className="text-xs text-[var(--color-text-soft)]">Réception, état et motifs de rejet</p>
+            <p className="text-xs text-[var(--color-text-secondary)]">Réception, état et motifs de rejet</p>
           </div>
         </div>
 
@@ -434,7 +434,7 @@ export function AnalysisSpecimensPanel() {
             <div key={draft.id || `${draft.sampleType}-${index}`} className={`px-5 py-4 ${isRejected ? 'bg-rose-50/40' : ''}`.trim()}>
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-[var(--color-text-soft)]">Tube {index + 1}</span>
+                  <span className="text-xs font-semibold text-[var(--color-text-secondary)]">Tube {index + 1}</span>
                   <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusColors[draft.status] || statusColors.expected}`}>
                     {STATUS_OPTIONS.find(o => o.value === draft.status)?.label ?? draft.status}
                   </span>

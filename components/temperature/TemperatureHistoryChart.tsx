@@ -42,7 +42,7 @@ type ScatterShapeProps<T> = {
 export function TemperatureHistoryChart({ readings, min, max, unit, printWidth }: TemperatureHistoryChartProps) {
   if (readings.length === 0) {
     return (
-      <div className="rounded-md border border-dashed px-4 py-16 text-center text-sm text-slate-400">
+      <div className="rounded-md border border-dashed px-4 py-16 text-center text-sm text-slate-500">
         Aucun point de mesure à afficher.
       </div>
     );
@@ -72,7 +72,7 @@ export function TemperatureHistoryChart({ readings, min, max, unit, printWidth }
         <div className="min-w-[180px] rounded-2xl border border-slate-700 bg-slate-900 p-3 text-xs text-white shadow-xl opacity-95">
           <div className="flex justify-between items-center mb-2 pb-2 border-b border-slate-800">
             <span className="font-bold">{format(new Date(item.recordedAt), 'dd/MM/yyyy HH:mm')}</span>
-            <span className={`px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest ${
+            <span className={`px-2 py-0.5 rounded-md text-xs font-black uppercase tracking-[0.08em] ${
               item.isOutOfRange ? 'bg-rose-500' : 'bg-slate-700'
             }`}>
               {item.isOutOfRange ? 'Hors Plage' : 'Conforme'}
@@ -80,28 +80,28 @@ export function TemperatureHistoryChart({ readings, min, max, unit, printWidth }
           </div>
           <div className="space-y-1.5">
             <div className="flex justify-between">
-              <span className="text-slate-400">Température:</span>
+              <span className="text-slate-500">Température:</span>
               <span className="font-black text-white">{item.value.toFixed(1)}{unit}</span>
             </div>
             {item.isClamped && (
-              <div className="text-rose-400 text-[9px] font-black uppercase tracking-wider">
+              <div className="text-rose-400 text-[11px] font-black uppercase tracking-[0.06em]">
                 ⚠ Dépasse les limites — affiché tronqué
               </div>
             )}
             <div className="flex justify-between">
-              <span className="text-slate-400">Période:</span>
+              <span className="text-slate-500">Période:</span>
               <span className="font-medium text-slate-300">{item.period}</span>
             </div>
             {item.recordedBy && (
               <div className="flex justify-between">
-                <span className="text-slate-400">Opérateur:</span>
+                <span className="text-slate-500">Opérateur:</span>
                 <span className="font-medium text-slate-300">{item.recordedBy}</span>
               </div>
             )}
             {item.correctiveAction && (
               <div className="mt-1 pt-1 border-t border-slate-800">
-                <p className="text-[8px] font-black uppercase text-amber-500 mb-0.5">Action corrective:</p>
-                <p className="italic text-slate-400 leading-tight">{item.correctiveAction}</p>
+                <p className="text-xs font-black uppercase text-amber-500 mb-0.5">Action corrective:</p>
+                <p className="italic text-slate-500 leading-tight">{item.correctiveAction}</p>
               </div>
             )}
           </div>
@@ -117,13 +117,13 @@ export function TemperatureHistoryChart({ readings, min, max, unit, printWidth }
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-slate-500" />
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-soft)]">
+            <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
               Plage de Conformité: {min.toFixed(1)} à {max.toFixed(1)}{unit}
             </span>
           </div>
           <div className="h-4 w-px bg-slate-200 hidden md:block" />
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+            <span className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
                {data.length} dernières mesures
             </span>
           </div>

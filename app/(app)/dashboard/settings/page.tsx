@@ -138,11 +138,11 @@ export default function SettingsPage() {
           <div className="max-w-3xl">
             <PageBackLink href="/" />
             <div className="mt-3 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                 <Settings className="h-3.5 w-3.5" />
                 Centre de configuration
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700">
+              <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-emerald-700">
                 <ShieldCheck className="h-3.5 w-3.5" />
                 Mode administrateur
               </span>
@@ -157,17 +157,17 @@ export default function SettingsPage() {
 
           <div className="grid gap-3 sm:grid-cols-3 xl:min-w-[520px]">
             <div className="rounded-2xl border bg-[var(--color-surface-muted)]/80 px-4 py-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-soft)]">Espaces</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Espaces</p>
               <p className="mt-2 text-2xl font-semibold tracking-tight text-[var(--color-text)]">{totalSpaces}</p>
               <p className="mt-1 text-xs text-[var(--color-text-secondary)]">Zones d’administration accessibles</p>
             </div>
             <div className="rounded-2xl border bg-[var(--color-surface-muted)]/80 px-4 py-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-soft)]">Pôles</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Pôles</p>
               <p className="mt-2 text-2xl font-semibold tracking-tight text-[var(--color-text)]">{settingsGroups.length}</p>
               <p className="mt-1 text-xs text-[var(--color-text-secondary)]">Configuration et sécurité séparées</p>
             </div>
             <div className="rounded-2xl border bg-[var(--color-surface-muted)]/80 px-4 py-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-soft)]">Conseil</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Conseil</p>
               <p className="mt-2 text-sm font-semibold text-[var(--color-text)]">Sauvegardes + audit</p>
               <p className="mt-1 text-xs text-[var(--color-text-secondary)]">À vérifier avant toute mise en production</p>
             </div>
@@ -192,7 +192,7 @@ export default function SettingsPage() {
                     <h2 className="text-lg font-semibold tracking-tight text-[var(--color-text)] sm:text-xl">
                       {group.title}
                     </h2>
-                    <span className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${group.tone.badge}`}>
+                    <span className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] ${group.tone.badge}`}>
                       {group.items.length} modules
                     </span>
                   </div>
@@ -201,7 +201,7 @@ export default function SettingsPage() {
                   </p>
                 </div>
               </div>
-              <p className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--color-text-soft)]">
+              <p className="text-xs font-medium uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                 Choisissez un espace de travail
               </p>
             </div>
@@ -217,13 +217,13 @@ export default function SettingsPage() {
                     <div className={`flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--color-border)] ${group.tone.iconBg} ${group.tone.icon}`}>
                       <item.icon size={20} />
                     </div>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] transition-colors group-hover:text-[var(--color-text)]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors group-hover:text-[var(--color-text)]">
                       <ArrowRight size={18} />
                     </div>
                   </div>
 
                   <div className="relative">
-                    <span className="inline-flex rounded-full border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-soft)]">
+                    <span className="inline-flex rounded-full border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                       {item.badge}
                     </span>
                     <h3 className="mt-3 text-base font-semibold text-[var(--color-text)]">
@@ -234,7 +234,7 @@ export default function SettingsPage() {
                     </p>
                   </div>
 
-                  <div className="relative mt-auto flex items-center gap-2 pt-2 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-text-soft)]">
+                  <div className="relative mt-auto flex items-center gap-2 pt-2 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                     Ouvrir l&apos;espace
                     <span className="h-px flex-1 bg-[var(--color-border)] transition-colors group-hover:bg-[var(--color-text-soft)]" />
                   </div>

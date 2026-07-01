@@ -40,7 +40,7 @@ export function RecordReadingModal({
       <DialogContent className="flex max-h-[90vh] max-w-2xl flex-col p-0 overflow-hidden">
         <DialogHeader className="px-6 py-5 border-b">
           <DialogTitle className="text-lg font-semibold text-[var(--color-text)]">Relevé {PERIOD_LABELS[selectedPeriod]}</DialogTitle>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">{instrument.name}</p>
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{instrument.name}</p>
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
@@ -65,11 +65,11 @@ export function RecordReadingModal({
                   autoFocus
                   required
                 />
-                <span className="text-xs font-semibold text-[var(--color-text-soft)]">{instrument.unit}</span>
+                <span className="text-xs font-semibold text-[var(--color-text-secondary)]">{instrument.unit}</span>
               </div>
             </label>
 
-            <div className="rounded-2xl border bg-[var(--color-surface-muted)] px-4 py-3 text-xs text-[var(--color-text-soft)]">
+            <div className="rounded-2xl border bg-[var(--color-surface-muted)] px-4 py-3 text-xs text-[var(--color-text-secondary)]">
               Plage cible: {instrument.targetMin}
               {instrument.unit} à {instrument.targetMax}
               {instrument.unit}

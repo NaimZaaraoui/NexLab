@@ -96,11 +96,11 @@ export default function DatabaseBackupsPage() {
               <FolderArchive size={20} />
             </span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Dernier backup</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Dernier backup</p>
               <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
                 {newestBackup?.createdAt ? new Date(newestBackup.createdAt).toLocaleString('fr-FR') : 'Aucun backup'}
               </p>
-              <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+              <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
                 {data?.items?.length ? `${data.items.length} fichier(s) disponibles` : 'Créez une première sauvegarde'}
               </p>
             </div>
@@ -113,11 +113,11 @@ export default function DatabaseBackupsPage() {
               <FolderArchive size={20} />
             </span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Dernier bundle</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Dernier bundle</p>
               <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
                 {recoveryBundles?.items?.[0]?.createdAt ? new Date(recoveryBundles.items[0].createdAt).toLocaleString('fr-FR') : 'Aucun bundle'}
               </p>
-              <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+              <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
                 {recoveryBundles?.items?.length ? `${recoveryBundles.items.length} archive(s) disponibles` : 'Créez un bundle de reprise'}
               </p>
             </div>
@@ -130,7 +130,7 @@ export default function DatabaseBackupsPage() {
               <ShieldCheck size={20} />
             </span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Dernier test</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Dernier test</p>
               <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
                 {health?.testHistory.lastRecoveryTestAt
                   ? `Bundle · ${new Date(health.testHistory.lastRecoveryTestAt).toLocaleString('fr-FR')}`
@@ -138,7 +138,7 @@ export default function DatabaseBackupsPage() {
                     ? `Backup · ${new Date(health.testHistory.lastBackupTestAt).toLocaleString('fr-FR')}`
                     : 'Aucun test manuel'}
               </p>
-              <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+              <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
                 {health?.testHistory.lastRecoveryTestOk === false || health?.testHistory.lastBackupTestOk === false
                   ? 'Le dernier test a signalé un problème'
                   : 'Utilisez “Tester” pour vérifier un fichier sans restaurer'}
@@ -170,12 +170,12 @@ export default function DatabaseBackupsPage() {
       <section className="overflow-hidden rounded-xl border bg-[var(--color-surface)] shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
         <div className="border-b bg-[var(--color-surface-muted)] px-5 py-4">
           <h2 className="text-sm font-semibold text-[var(--color-text)]">Importer une sauvegarde</h2>
-          <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+          <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
             Importez un fichier <code>.sqlite</code> depuis votre machine ou clé USB. Le fichier sera vérifié avant d&apos;être accepté.
           </p>
         </div>
         <div className="flex flex-col items-start gap-4 px-5 py-5 sm:flex-row sm:items-center">
-          <label className="flex flex-1 cursor-pointer items-center gap-3 rounded-md border border-dashed bg-[var(--color-surface-muted)] px-4 py-3 text-sm text-[var(--color-text-soft)] transition hover:border-slate-400 hover:text-slate-700">
+          <label className="flex flex-1 cursor-pointer items-center gap-3 rounded-md border border-dashed bg-[var(--color-surface-muted)] px-4 py-3 text-sm text-[var(--color-text-secondary)] transition hover:border-slate-400 hover:text-slate-700">
             <Upload size={18} />
             {uploadBackupFile ? uploadBackupFile.name : 'Choisir un fichier .sqlite…'}
             <input

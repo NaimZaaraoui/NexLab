@@ -25,7 +25,7 @@ export function AnalyseTestsPanel({
     <div className="bento-panel flex h-full flex-col p-5 lg:p-6">
       <div className="mb-6 flex flex-col items-start justify-between gap-4">
         <div className="input-premium flex h-11 w-full max-w-sm items-center gap-2 rounded-md bg-[var(--color-surface-muted)]">
-          <Search className="h-4 w-4 text-slate-400 transition-colors" />
+          <Search className="h-4 w-4 text-slate-500 transition-colors" />
           <input
             placeholder="Chercher analyse..."
             value={searchTest}
@@ -81,7 +81,7 @@ export function AnalyseTestsPanel({
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex flex-col">
-                        <span className={`text-[11px] font-semibold uppercase tracking-wide ${isSelected ? 'text-[var(--color-text)]' : 'text-[var(--color-text-soft)]'}`}>
+                        <span className={`text-[11px] font-semibold uppercase tracking-wide ${isSelected ? 'text-[var(--color-text)]' : 'text-[var(--color-text-secondary)]'}`}>
                           {test.code}
                         </span>
                         <span className={`mt-0.5 text-sm font-medium leading-tight ${isSelected ? 'text-[var(--color-text)]' : 'text-slate-700'}`}>

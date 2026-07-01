@@ -54,7 +54,7 @@ export default function SupportHubPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* VIDEOS SECTION */}
         <section className="lg:col-span-2 flex flex-col gap-4">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--color-text-soft)]">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
             Tutoriels Vidéos Essentiels
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -67,7 +67,7 @@ export default function SupportHubPage() {
                   {vid.title}
                 </h3>
                 <div className="mt-auto flex items-center justify-between pt-4">
-                  <span className="text-xs font-semibold text-[var(--color-text-soft)]">{vid.duration}</span>
+                  <span className="text-xs font-semibold text-[var(--color-text-secondary)]">{vid.duration}</span>
                   <button className="flex items-center gap-2 rounded-lg bg-[var(--color-surface-muted)] px-3 py-1.5 text-xs font-semibold text-[var(--color-accent)] transition-colors group-hover:bg-indigo-50">
                     <PlayCircle className="h-4 w-4" />
                     Lecture
@@ -77,7 +77,7 @@ export default function SupportHubPage() {
             ))}
           </div>
 
-          <h2 className="mt-8 text-sm font-semibold uppercase tracking-widest text-[var(--color-text-soft)]">
+          <h2 className="mt-8 text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
             Foire Aux Questions (FAQ)
           </h2>
           <div className="flex flex-col gap-3">
@@ -91,7 +91,7 @@ export default function SupportHubPage() {
                   className="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-[var(--color-surface-muted)]"
                 >
                   <span className="text-sm font-semibold text-[var(--color-text)]">{faq.q}</span>
-                  <div className={`flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-surface-muted)] text-[var(--color-text-soft)] transition-transform ${openFaq === idx ? 'rotate-90' : ''}`}>
+                  <div className={`flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] transition-transform ${openFaq === idx ? 'rotate-90' : ''}`}>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </div>
                 </button>
@@ -116,7 +116,7 @@ export default function SupportHubPage() {
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-[var(--color-text)]">Diagnostic Système</h3>
-                <p className="text-xs text-[var(--color-text-soft)]">Analyser l'état local</p>
+                <p className="text-xs text-[var(--color-text-secondary)]">Analyser l'état local</p>
               </div>
             </div>
             <p className="mb-4 text-xs leading-relaxed text-[var(--color-text-secondary)]">

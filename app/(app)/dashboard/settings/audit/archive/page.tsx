@@ -139,13 +139,13 @@ export default function AuditArchivePage() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="text-xl font-semibold text-[var(--color-text)]">Archives d&apos;audit</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Événements archivés selon la politique de rétention.
             </p>
           </div>
           <div className="hidden items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-3 py-2 text-[var(--color-text-secondary)] lg:flex">
             <Archive className="h-4 w-4" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.12em]">Mode archive</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.08em]">Mode archive</span>
           </div>
         </div>
       </section>
@@ -155,7 +155,7 @@ export default function AuditArchivePage() {
           <label className="xl:col-span-2">
             <span className="form-label mb-1.5">Recherche</span>
             <div className="input-premium flex h-11 items-center gap-2">
-              <Search size={16} className="text-[var(--color-text-soft)]" />
+              <Search size={16} className="text-[var(--color-text-secondary)]" />
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Utilisateur, action, ID..." className="w-full border-none bg-transparent outline-none" />
             </div>
           </label>
@@ -210,28 +210,28 @@ export default function AuditArchivePage() {
           <table className="w-full min-w-[1060px]">
             <thead>
               <tr className="border-b bg-[var(--color-surface-muted)] text-left">
-                <th className="px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Date</th>
-                <th className="px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Archivé le</th>
-                <th className="px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Criticité</th>
-                <th className="px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Utilisateur</th>
-                <th className="px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Action</th>
-                <th className="px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Détails</th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Date</th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Archivé le</th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Criticité</th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Utilisateur</th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Action</th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Détails</th>
               </tr>
             </thead>
             <tbody className="divide-y">
-              {loading && <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-[var(--color-text-soft)]">Chargement...</td></tr>}
-              {!loading && visibleItems.length === 0 && <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-[var(--color-text-soft)]">Aucune archive trouvée.</td></tr>}
+              {loading && <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-[var(--color-text-secondary)]">Chargement...</td></tr>}
+              {!loading && visibleItems.length === 0 && <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-[var(--color-text-secondary)]">Aucune archive trouvée.</td></tr>}
               {!loading && visibleItems.map((item) => (
                 <tr key={item.id} className="hover:bg-[var(--color-surface-muted)]/60">
                   <td className="px-4 py-3 text-xs text-[var(--color-text-secondary)]">{new Date(item.createdAt).toLocaleString('fr-FR')}</td>
-                  <td className="px-4 py-3 text-xs text-[var(--color-text-soft)]">{new Date(item.archivedAt).toLocaleString('fr-FR')}</td>
+                  <td className="px-4 py-3 text-xs text-[var(--color-text-secondary)]">{new Date(item.archivedAt).toLocaleString('fr-FR')}</td>
                   <td className="px-4 py-3 text-xs"><span className={severityBadgeClass(item.severity)}>{item.severity}</span></td>
                   <td className="px-4 py-3 text-xs text-[var(--color-text-secondary)]">
                     <div className="font-semibold text-[var(--color-text)]">{item.userName || 'Système'}</div>
                     <div>{item.userEmail || '—'}</div>
                   </td>
                   <td className="px-4 py-3 text-xs font-semibold text-[var(--color-text)]">{item.action}</td>
-                  <td className="max-w-[340px] px-4 py-3 text-xs text-[var(--color-text-soft)]">
+                  <td className="max-w-[340px] px-4 py-3 text-xs text-[var(--color-text-secondary)]">
                     <div className="truncate">{detailsPreview(item.details)}</div>
                     {item.details && (
                       <button onClick={() => setSelectedLog(item)} className="mt-1 text-[11px] font-semibold text-[var(--color-text)] hover:text-[var(--color-text-secondary)] hover:underline">
@@ -247,7 +247,7 @@ export default function AuditArchivePage() {
       </section>
 
       <div className="flex items-center justify-between">
-        <p className="text-xs text-[var(--color-text-soft)]">Total: <span className="font-semibold text-[var(--color-text)]">{data?.total ?? 0}</span></p>
+        <p className="text-xs text-[var(--color-text-secondary)]">Total: <span className="font-semibold text-[var(--color-text)]">{data?.total ?? 0}</span></p>
         <div className="flex items-center gap-2">
           <button className="btn-secondary-sm disabled:cursor-not-allowed disabled:opacity-50" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Précédent</button>
           <span className="text-xs font-semibold text-[var(--color-text-secondary)]">Page {page} / {totalPages}</span>
@@ -261,9 +261,9 @@ export default function AuditArchivePage() {
             <div className="mb-4 flex items-start justify-between gap-3">
               <div>
                 <h3 className="text-base font-semibold text-[var(--color-text)]">Détails archive</h3>
-                <p className="mt-1 text-xs text-[var(--color-text-soft)]">{new Date(selectedLog.createdAt).toLocaleString('fr-FR')} • {selectedLog.action}</p>
+                <p className="mt-1 text-xs text-[var(--color-text-secondary)]">{new Date(selectedLog.createdAt).toLocaleString('fr-FR')} • {selectedLog.action}</p>
               </div>
-              <button onClick={() => setSelectedLog(null)} className="inline-flex h-9 w-9 items-center justify-center rounded-lg border bg-[var(--color-surface-muted)] text-[var(--color-text-soft)] hover:text-[var(--color-text)]" aria-label="Fermer">
+              <button onClick={() => setSelectedLog(null)} className="inline-flex h-9 w-9 items-center justify-center rounded-lg border bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] hover:text-[var(--color-text)]" aria-label="Fermer">
                 <X size={16} />
               </button>
             </div>

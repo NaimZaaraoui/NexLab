@@ -43,7 +43,7 @@ export function AnalyseActionBar({
             <div className="flex flex-col">
               <span className="section-label">Total à payer</span>
               <span className="text-base font-semibold tracking-tight text-[var(--color-text)] sm:text-lg">
-                {totalAmount.toLocaleString()} <span className="text-[10px] text-[var(--color-text-soft)]">{amountUnit}</span>
+                {totalAmount.toLocaleString()} <span className="text-xs text-[var(--color-text-secondary)]">{amountUnit}</span>
               </span>
             </div>
             <div className="hidden h-8 w-px bg-slate-200 md:block" />

@@ -61,12 +61,12 @@ export function QcLotsTargetsPanel({
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   return (
     <article className="bento-panel p-5">
-      <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">Lots et cibles</h2>
+      <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Lots et cibles</h2>
       <div className="mt-4 rounded-2xl border bg-[var(--color-surface-muted)] px-4 py-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <div className="text-sm font-semibold text-[var(--color-text)]">Hypothèse globale pour les plages fabricant</div>
-            <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+            <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
               Si une fiche QC donne seulement `cible + min/max`, le système convertit cette plage en SD interne selon ce réglage.
             </div>
           </div>
@@ -83,7 +83,7 @@ export function QcLotsTargetsPanel({
                 className={`rounded-full border px-3 py-2 text-xs font-semibold transition-colors ${
                   globalRangeBasis === value
                     ? 'border-[var(--color-accent)] bg-[var(--color-accent-soft)] text-[var(--color-accent)]'
-                    : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-soft)] hover:bg-[var(--color-surface-muted)]'
+                    : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)]'
                 }`}
               >
                 {label}
@@ -129,7 +129,7 @@ export function QcLotsTargetsPanel({
             onChange={(event) => onLotFormChange((prev) => ({ ...prev, expiryDate: event.target.value }))}
             required
           />
-          <span className="text-xs text-[var(--color-text-soft)]">
+          <span className="text-xs text-[var(--color-text-secondary)]">
             Date limite indiquée par le fabricant sur le flacon ou la notice du contrôle.
           </span>
         </label>
@@ -141,11 +141,11 @@ export function QcLotsTargetsPanel({
             value={lotForm.openedAt}
             onChange={(event) => onLotFormChange((prev) => ({ ...prev, openedAt: event.target.value }))}
           />
-          <span className="text-xs text-[var(--color-text-soft)]">
+          <span className="text-xs text-[var(--color-text-secondary)]">
             Date à laquelle le lot a été ouvert, reconstitué ou commencé au laboratoire.
           </span>
         </label>
-        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-4 py-3 text-sm text-[var(--color-text-soft)] md:col-span-2">
+        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-4 py-3 text-sm text-[var(--color-text-secondary)] md:col-span-2">
           La date d’expiration vient du fournisseur. La date d’ouverture sert au suivi interne du laboratoire après ouverture ou reconstitution du lot.
         </div>
         <div className="md:col-span-2">
@@ -162,9 +162,9 @@ export function QcLotsTargetsPanel({
             <button
               type="button"
               onClick={onToggleShowInactive}
-              className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-text-soft)] hover:text-[var(--color-accent)] transition-colors"
+              className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors"
             >
-              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-surface-muted)] px-1.5 text-[10px] font-bold text-[var(--color-text-soft)]">
+              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-surface-muted)] px-1.5 text-xs font-bold text-[var(--color-text-secondary)]">
                 {inactiveCount}
               </span>
               {showInactive ? 'Masquer les inactifs' : 'Afficher les inactifs'}
@@ -189,11 +189,11 @@ export function QcLotsTargetsPanel({
               >
                 <div className="min-w-0">
                   <div className="text-sm font-semibold text-[var(--color-text)]">{material.name}</div>
-                  <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+                  <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
                     {material.level} · {material.lots.length} lot{material.lots.length > 1 ? 's' : ''}
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-[var(--color-text-soft)]">
+                <div className="flex items-center gap-2 text-[var(--color-text-secondary)]">
                   <span className="rounded-full bg-[var(--color-surface)]/80 px-2.5 py-1 text-[11px] font-medium">
                     {material.lots.length} lot{material.lots.length > 1 ? 's' : ''}
                   </span>
@@ -216,23 +216,23 @@ export function QcLotsTargetsPanel({
                           <div className="flex items-start justify-between gap-3">
                             <div>
                               <div className="text-sm font-semibold text-[var(--color-text)]">Lot {lot.lotNumber}</div>
-                              <div className="mt-1 text-xs text-[var(--color-text-soft)]">
+                              <div className="mt-1 text-xs text-[var(--color-text-secondary)]">
                                 Expire le {new Date(lot.expiryDate).toLocaleDateString('fr-FR')}
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
                               {!lot.isActive && (
-                                <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-soft)]">
+                                <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-secondary)]">
                                   Inactif
                                 </span>
                               )}
-                              <span className="rounded-full bg-[var(--color-surface-muted)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-soft)]">
+                              <span className="rounded-full bg-[var(--color-surface-muted)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-text-secondary)]">
                                 {lot.targets.length} cible{lot.targets.length > 1 ? 's' : ''}
                               </span>
                               {selectedLotId === lot.id ? (
-                                <ChevronDown className="h-4 w-4 text-[var(--color-text-soft)]" />
+                                <ChevronDown className="h-4 w-4 text-[var(--color-text-secondary)]" />
                               ) : (
-                                <ChevronRight className="h-4 w-4 text-[var(--color-text-soft)]" />
+                                <ChevronRight className="h-4 w-4 text-[var(--color-text-secondary)]" />
                               )}
                             </div>
                           </div>
@@ -299,7 +299,7 @@ export function QcLotsTargetsPanel({
                               {targetRows.map((row, index) => (
                                 <div key={index} className="relative">
                                   {row.testCode && (
-                                    <div className="absolute -top-2 left-6 z-10 rounded-full bg-[var(--color-accent)] px-2 py-0.5 text-[10px] font-bold uppercase text-white shadow-sm">
+                                    <div className="absolute -top-2 left-6 z-10 rounded-full bg-[var(--color-accent)] px-2 py-0.5 text-xs font-bold uppercase text-white shadow-sm">
                                       {lot.targets.some(t => t.testCode === row.testCode) ? 'Modification' : 'Nouveau'}
                                     </div>
                                   )}
@@ -379,7 +379,7 @@ export function QcLotsTargetsPanel({
                                       <div className="font-medium text-[var(--color-accent)] group-hover:underline">{target.testCode}</div>
                                       <div className="col-span-2">{target.testName}</div>
                                       <div 
-                                        className="text-xs text-[var(--color-text-soft)]"
+                                        className="text-xs text-[var(--color-text-secondary)]"
                                         dangerouslySetInnerHTML={{ __html: target.unit || '--' }}
                                       />
                                       <div>{target.controlMode === 'STATISTICAL' ? 'Statistique' : 'Plage'}</div>
@@ -392,7 +392,7 @@ export function QcLotsTargetsPanel({
                                     </div>
                                   ))
                                 ) : (
-                                  <div className="px-4 py-4 text-sm text-[var(--color-text-soft)]">
+                                  <div className="px-4 py-4 text-sm text-[var(--color-text-secondary)]">
                                     Aucune cible n’est encore configurée pour ce lot.
                                   </div>
                                 )}
@@ -403,7 +403,7 @@ export function QcLotsTargetsPanel({
                       </div>
                     ))
                   ) : (
-                    <div className="rounded-2xl border border-dashed px-4 py-4 text-sm text-[var(--color-text-soft)]">
+                    <div className="rounded-2xl border border-dashed px-4 py-4 text-sm text-[var(--color-text-secondary)]">
                       Aucun lot configuré pour ce matériel.
                     </div>
                   )}
@@ -413,7 +413,7 @@ export function QcLotsTargetsPanel({
           );
         })}
         {filteredMaterials.length === 0 && (
-          <div className="rounded-2xl border border-dashed px-4 py-4 text-sm text-[var(--color-text-soft)]">
+          <div className="rounded-2xl border border-dashed px-4 py-4 text-sm text-[var(--color-text-secondary)]">
             Aucun lot QC trouvé pour ce filtre.
           </div>
         )}

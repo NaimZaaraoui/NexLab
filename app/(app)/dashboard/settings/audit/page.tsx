@@ -136,7 +136,7 @@ export default function AuditLogsPage() {
                 <div key={testCode} className="inline-flex w-fit items-center gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 font-mono text-sm">
                   <span className="font-bold text-slate-700">{testCode}:</span>
                   <span className="rounded bg-[var(--color-surface-muted)] px-1.5 py-0.5 text-slate-500 line-through">{oldValue || 'vide'}</span>
-                  <span className="text-slate-400">➔</span>
+                  <span className="text-slate-500">➔</span>
                   <span className="rounded bg-[var(--color-surface-muted)] px-1.5 py-0.5 font-bold text-slate-700">{newValue || 'vide'}</span>
                 </div>
               );
@@ -168,7 +168,7 @@ export default function AuditLogsPage() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="text-xl font-semibold text-[var(--color-text)]">Journal d&apos;audit</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Historique des actions critiques réalisées dans le système.
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function AuditLogsPage() {
             </button>
             <div className="hidden items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-3 py-2 text-[var(--color-text-secondary)] lg:flex">
               <ShieldCheck className="h-4 w-4" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.12em]">Traçabilité active</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.08em]">Traçabilité active</span>
             </div>
           </div>
         </div>
@@ -228,7 +228,7 @@ export default function AuditLogsPage() {
 
       <section className="rounded-2xl border bg-[var(--color-surface)] p-5 shadow-[0_6px_18px_rgba(15,31,51,0.04)]">
         <h3 className="text-sm font-semibold text-[var(--color-text)]">Rétention et archivage</h3>
-        <p className="mt-1 text-xs text-[var(--color-text-soft)]">
+        <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
           Les logs plus anciens que la période choisie sont déplacés vers l&apos;archive puis retirés de la table active.
         </p>
         <div className="mt-4 flex flex-wrap items-end gap-3 border-t border-[var(--color-border)] pt-4">
@@ -263,7 +263,7 @@ export default function AuditLogsPage() {
       />
 
       <div className="flex items-center justify-between">
-        <p className="text-xs text-[var(--color-text-soft)]">
+        <p className="text-xs text-[var(--color-text-secondary)]">
           Total: <span className="font-semibold text-[var(--color-text)]">{data?.total ?? 0}</span>
           {data && data.total > 0 && (
             <>

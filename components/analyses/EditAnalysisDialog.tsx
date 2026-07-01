@@ -72,21 +72,21 @@ export function EditAnalysisDialog({
               <button
                 type="button"
                 onClick={() => updateEditForm('isUrgent', false)}
-                className={`h-10 px-4 rounded-xl text-xs font-bold border ${!editForm.isUrgent ? 'bg-[var(--color-surface-muted)] border-slate-300 text-slate-700' : 'bg-[var(--color-surface)] border-[var(--color-border)] text-[var(--color-text-soft)]'}`}
+                className={`h-10 px-4 rounded-xl text-xs font-bold border ${!editForm.isUrgent ? 'bg-[var(--color-surface-muted)] border-slate-300 text-slate-700' : 'bg-[var(--color-surface)] border-[var(--color-border)] text-[var(--color-text-secondary)]'}`}
               >
                 Non urgent
               </button>
               <button
                 type="button"
                 onClick={() => updateEditForm('isUrgent', true)}
-                className={`h-10 px-4 rounded-xl text-xs font-bold border ${editForm.isUrgent ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-[var(--color-surface)] border-[var(--color-border)] text-[var(--color-text-soft)]'}`}
+                className={`h-10 px-4 rounded-xl text-xs font-bold border ${editForm.isUrgent ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-[var(--color-surface)] border-[var(--color-border)] text-[var(--color-text-secondary)]'}`}
               >
                 Urgent
               </button>
             </div>
             <div className="col-span-2 pt-3 border-t border-[var(--color-border)]">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tests sélectionnés</span>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-[0.08em]">Tests sélectionnés</span>
                 <span className="text-xs font-semibold text-[var(--color-accent)]">{selectedTestIds.length} test(s)</span>
               </div>
               <input

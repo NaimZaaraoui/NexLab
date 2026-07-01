@@ -27,17 +27,17 @@ export function DatabaseRestoreSummary({ restoreSummary, onClose }: Props) {
       </div>
       <div className="mt-3 grid gap-3 md:grid-cols-3">
         <div className="rounded-md border bg-[var(--color-surface)] px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Fichier de sécurité</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Fichier de sécurité</p>
           <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">{restoreSummary.safetyFileName}</p>
         </div>
         <div className="rounded-md border bg-[var(--color-surface)] px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Validation post-restore</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Validation post-restore</p>
           <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
             {restoreSummary.validation?.valid === false ? 'Problèmes détectés' : 'Base valide'}
           </p>
         </div>
         <div className="rounded-md border bg-[var(--color-surface)] px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Uploads</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Uploads</p>
           <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">
             {restoreSummary.kind === 'bundle'
               ? restoreSummary.restoredUploads
@@ -49,7 +49,7 @@ export function DatabaseRestoreSummary({ restoreSummary, onClose }: Props) {
       </div>
       {restoreSummary.validation?.issues?.length ? (
         <div className="mt-3 rounded-md border bg-[var(--color-surface)] px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Détails validation</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Détails validation</p>
           <div className="mt-2 space-y-1">
             {restoreSummary.validation.issues.map((issue) => (
               <p key={issue} className="text-sm text-[var(--color-text-secondary)]">{issue}</p>

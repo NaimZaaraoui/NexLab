@@ -17,7 +17,7 @@ interface AnalysesTabProps {
 function Panel({ title, children, className = '' }: { title: string; children: React.ReactNode; className?: string }) {
   return (
     <article className={`rounded-2xl border border-[var(--color-border)]/50 bg-[var(--color-surface)] p-5 shadow-sm ${className}`}>
-      <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">{title}</h2>
+      <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">{title}</h2>
       {children}
     </article>
   );
@@ -44,7 +44,7 @@ export function AnalysesTab({ period }: AnalysesTabProps) {
       .finally(() => setLoading(false));
   }, [period]);
 
-  if (loading) return <div className="flex h-64 items-center justify-center text-sm text-[var(--color-text-soft)]">Chargement…</div>;
+  if (loading) return <div className="flex h-64 items-center justify-center text-sm text-[var(--color-text-secondary)]">Chargement…</div>;
   if (!data) return null;
 
   const validationRate = data.kpis.total > 0 ? Math.round((data.kpis.validated / data.kpis.total) * 100) : 0;
@@ -62,7 +62,7 @@ export function AnalysesTab({ period }: AnalysesTabProps) {
         <Panel title="Répartition par Statut">
           <div className="h-56">
             {data.statusDistribution.length === 0
-              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune donnée.</div>
+              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune donnée.</div>
               : <DonutChart data={data.statusDistribution.map(s => ({ name: STATUS_LABELS[s.status] ?? s.status, value: s.count }))} />}
           </div>
         </Panel>
@@ -70,7 +70,7 @@ export function AnalysesTab({ period }: AnalysesTabProps) {
         <Panel title="Urgentes vs Normales (par semaine)" className="xl:col-span-2">
           <div className="h-56">
             {data.urgentVsNormal.length === 0
-              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune donnée.</div>
+              ? <div className="flex h-full items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune donnée.</div>
               : (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={data.urgentVsNormal} margin={{ top: 4, right: 8, left: -16, bottom: 0 }} barSize={14}>
@@ -91,10 +91,10 @@ export function AnalysesTab({ period }: AnalysesTabProps) {
       <div className="grid gap-5 xl:grid-cols-2">
         <Panel title="TAT Moyen par Catégorie (minutes)">
           {data.tatByCategory.length === 0
-            ? <div className="flex h-40 items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune donnée.</div>
+            ? <div className="flex h-40 items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune donnée.</div>
             : (
               <div className="overflow-hidden rounded-xl border">
-                <div className="grid grid-cols-12 border-b bg-[var(--color-surface-muted)] px-4 py-2 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-soft)]">
+                <div className="grid grid-cols-12 border-b bg-[var(--color-surface-muted)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                   <div className="col-span-4">Catégorie</div>
                   <div className="col-span-2 text-right">Moy.</div>
                   <div className="col-span-2 text-right">Min</div>
@@ -106,9 +106,9 @@ export function AnalysesTab({ period }: AnalysesTabProps) {
                     <div key={c.name} className="grid grid-cols-12 items-center px-4 py-2.5 text-sm">
                       <div className="col-span-4 font-medium text-[var(--color-text)] truncate">{c.name}</div>
                       <div className="col-span-2 text-right font-semibold text-[var(--color-accent)]">{c.avgMin}m</div>
-                      <div className="col-span-2 text-right text-[var(--color-text-soft)]">{c.minMin}m</div>
-                      <div className="col-span-2 text-right text-[var(--color-text-soft)]">{c.maxMin}m</div>
-                      <div className="col-span-2 text-right text-[var(--color-text-soft)]">{c.count}</div>
+                      <div className="col-span-2 text-right text-[var(--color-text-secondary)]">{c.minMin}m</div>
+                      <div className="col-span-2 text-right text-[var(--color-text-secondary)]">{c.maxMin}m</div>
+                      <div className="col-span-2 text-right text-[var(--color-text-secondary)]">{c.count}</div>
                     </div>
                   ))}
                 </div>
@@ -118,12 +118,12 @@ export function AnalysesTab({ period }: AnalysesTabProps) {
 
         <Panel title="Taux d'Anomalie par Test (Top 15)">
           {data.abnormalRates.length === 0
-            ? <div className="flex h-40 items-center justify-center text-sm text-[var(--color-text-soft)]">Aucune donnée (min. 5 résultats).</div>
+            ? <div className="flex h-40 items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucune donnée (min. 5 résultats).</div>
             : (
               <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
                 {data.abnormalRates.map((t, i) => (
                   <div key={t.name} className="flex items-center gap-3">
-                    <span className="w-5 shrink-0 text-right text-xs font-bold text-[var(--color-text-soft)]">{i + 1}</span>
+                    <span className="w-5 shrink-0 text-right text-xs font-bold text-[var(--color-text-secondary)]">{i + 1}</span>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-0.5">
                         <span className="text-xs font-medium text-[var(--color-text)] truncate max-w-[65%]">{t.name}</span>
@@ -137,7 +137,7 @@ export function AnalysesTab({ period }: AnalysesTabProps) {
                           style={{ width: `${t.rate}%`, backgroundColor: ANOMALY_COLORS[Math.min(Math.floor(t.rate / 20), 4)] }}
                         />
                       </div>
-                      <p className="mt-0.5 text-[10px] text-[var(--color-text-soft)]">{t.abnormal}/{t.total} résultats</p>
+                      <p className="mt-0.5 text-xs text-[var(--color-text-secondary)]">{t.abnormal}/{t.total} résultats</p>
                     </div>
                   </div>
                 ))}
@@ -148,13 +148,13 @@ export function AnalysesTab({ period }: AnalysesTabProps) {
 
       <Panel title="Top Prescripteurs">
         {data.topPrescripteurs.length === 0
-          ? <div className="flex h-20 items-center justify-center text-sm text-[var(--color-text-soft)]">Aucun prescripteur enregistré.</div>
+          ? <div className="flex h-20 items-center justify-center text-sm text-[var(--color-text-secondary)]">Aucun prescripteur enregistré.</div>
           : (
             <div className="grid gap-2 sm:grid-cols-2">
               {data.topPrescripteurs.map((p, i) => (
                 <div key={p.name} className="flex items-center justify-between rounded-xl border border-[var(--color-border)]/50 bg-[var(--color-surface-muted)] px-4 py-2.5">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-[10px] font-bold text-indigo-600">{i + 1}</span>
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600">{i + 1}</span>
                     <span className="text-sm font-medium text-[var(--color-text)] truncate max-w-[180px]">{p.name}</span>
                   </div>
                   <span className="text-sm font-semibold text-[var(--color-accent)]">{p.count}</span>

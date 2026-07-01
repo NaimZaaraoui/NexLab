@@ -27,11 +27,11 @@ export function PatientsToolbar({
         <div className="flex flex-col justify-between gap-3 lg:flex-row lg:items-center">
           <div>
             <h1 className="text-lg font-semibold text-[var(--color-text)]">Patients</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">Répertoire central des dossiers patients.</p>
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Répertoire central des dossiers patients.</p>
           </div>
           <div className="flex items-center gap-2.5">
             <div className="rounded-md border bg-[var(--color-surface-muted)] px-3 py-2 text-right">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-soft)]">Total</div>
+              <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Total</div>
               <div className="text-lg font-semibold text-[var(--color-text)]">{total}</div>
             </div>
 
@@ -52,15 +52,15 @@ export function PatientsToolbar({
 
       <section className="rounded-xl border bg-[var(--color-surface)] p-3 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
         <div className="flex h-11 items-center gap-2 rounded-md border bg-[var(--color-surface)] px-3">
-          <Search className="h-4 w-4 shrink-0 text-[var(--color-text-soft)]" />
+          <Search className="h-4 w-4 shrink-0 text-[var(--color-text-secondary)]" />
           <input
             value={searchTerm}
             onChange={(event) => onSearchTermChange(event.target.value)}
             placeholder="Rechercher par nom, prénom ou téléphone..."
-            className="h-full w-full border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-soft)]"
+            className="h-full w-full border-0 bg-transparent px-2 text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-secondary)]"
           />
           {isSearching && (
-            <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs text-[var(--color-text-soft)]">
+            <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs text-[var(--color-text-secondary)]">
               <Loader2 size={12} className="animate-spin" />
               Recherche...
             </span>

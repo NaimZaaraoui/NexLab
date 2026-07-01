@@ -64,7 +64,7 @@ export function AnalysisResultRow({
         )}
 
         <div className="flex shrink-0 items-center gap-3 lg:w-56">
-          <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md border ${abnormal ? 'border-rose-200 bg-rose-50 text-rose-600' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-soft)]'}`}>
+          <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md border ${abnormal ? 'border-rose-200 bg-rose-50 text-rose-600' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)]'}`}>
             {createElement(categoryIcon, { size: 14 })}
           </div>
           <div className="flex min-w-0 flex-col">
@@ -72,7 +72,7 @@ export function AnalysisResultRow({
               <span className="truncate text-sm font-semibold text-[var(--color-text)]">{displayName}</span>
               {isFormula && <Calculator size={12} className="shrink-0 text-indigo-400" />}
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{test.code}</span>
+            <span className="text-xs font-bold uppercase tracking-[0.06em] text-slate-500">{test.code}</span>
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export function AnalysisResultRow({
                   onKeyDown={(event) => handleKeyDown(event, index, total)}
                   disabled={isFinalValidated || isFormula}
                   placeholder="--"
-                  className={`font-mono h-10 rounded-md border font-bold transition-all outline-none focus:ring-4 ${isNumeric ? 'w-28 px-2 text-center text-lg tracking-tight' : 'w-48 px-4 text-sm'} ${abnormal ? 'border-rose-300 bg-rose-50 text-rose-600 focus:border-rose-400 focus:ring-rose-500/10' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)] hover:border-slate-300 focus:border-indigo-500 focus:bg-[var(--color-surface)] focus:ring-indigo-500/10'} ${isFormula ? 'cursor-not-allowed border-transparent bg-[var(--color-surface-muted)] text-slate-400' : ''}`}
+                  className={`font-mono h-10 rounded-md border font-bold transition-all outline-none focus:ring-4 ${isNumeric ? 'w-28 px-2 text-center text-lg tracking-tight' : 'w-48 px-4 text-sm'} ${abnormal ? 'border-rose-300 bg-rose-50 text-rose-600 focus:border-rose-400 focus:ring-rose-500/10' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)] hover:border-slate-300 focus:border-indigo-500 focus:bg-[var(--color-surface)] focus:ring-indigo-500/10'} ${isFormula ? 'cursor-not-allowed border-transparent bg-[var(--color-surface-muted)] text-slate-500' : ''}`}
                 />
                 {abnormal && <AlertCircle className="absolute -right-7 top-1/2 -translate-y-1/2 text-rose-500" size={16} />}
               </div>
@@ -135,7 +135,7 @@ export function AnalysisResultRow({
           </div>
 
           {prevResult && (
-            <div className="mt-0.5 flex items-center gap-1.5 text-[10px] text-slate-400">
+            <div className="mt-0.5 flex items-center gap-1.5 text-xs text-slate-500">
               <History size={10} />
               <span>Préc: </span>
               <span className="font-mono font-bold text-[var(--color-text-secondary)]">
@@ -148,11 +148,11 @@ export function AnalysisResultRow({
 
         <div className="flex shrink-0 items-center justify-end gap-4 lg:w-52">
           <div className="text-right">
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Unité</div>
+            <div className="text-xs font-bold uppercase tracking-[0.06em] text-slate-500">Unité</div>
             <span className="text-xs font-semibold text-[var(--color-text-secondary)]" dangerouslySetInnerHTML={{ __html: test.unit || '--' }} />
           </div>
           <div className="w-20 text-right">
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Réf.</div>
+            <div className="text-xs font-bold uppercase tracking-[0.06em] text-slate-500">Réf.</div>
             <span className="text-xs font-mono font-bold text-[var(--color-text)]">
               {(() => {
                 if (!isNumeric) return 'QUALIT.';
@@ -164,7 +164,7 @@ export function AnalysisResultRow({
           {!isFinalValidated && (
             <button
               onClick={() => toggleNote(result.id)}
-              className={`rounded-md p-1.5 transition-colors ${notes[result.id] ? 'bg-indigo-50 text-[var(--color-accent)]' : 'text-slate-400 hover:bg-[var(--color-surface-muted)] hover:text-indigo-500'}`}
+              className={`rounded-md p-1.5 transition-colors ${notes[result.id] ? 'bg-indigo-50 text-[var(--color-accent)]' : 'text-slate-500 hover:bg-[var(--color-surface-muted)] hover:text-indigo-500'}`}
               tabIndex={-1}
               title={notes[result.id] ? 'Modifier Note' : 'Ajouter Note'}
             >
@@ -178,7 +178,7 @@ export function AnalysisResultRow({
         <div className={`mb-2 ml-10 mr-4 ${isFinalValidated ? 'opacity-70' : ''}`}>
           <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4">
             <div className="mb-3 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-[var(--color-text-soft)]">
+              <div className="flex items-center gap-2 text-[var(--color-text-secondary)]">
                 <MessageSquare size={12} className="text-indigo-500" />
                 <span className="section-label">Note technique</span>
               </div>
@@ -186,7 +186,7 @@ export function AnalysisResultRow({
                 {notes[result.id] && (
                   <button
                     onClick={() => deleteNote(result.id)}
-                    className="rounded-md bg-rose-50 px-2.5 py-1 text-[10px] font-medium text-rose-600 transition-colors hover:bg-rose-100"
+                    className="rounded-md bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-600 transition-colors hover:bg-rose-100"
                     disabled={isFinalValidated}
                   >
                     Supprimer
@@ -194,7 +194,7 @@ export function AnalysisResultRow({
                 )}
                 <button
                   onClick={() => toggleNote(result.id)}
-                  className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[10px] font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)]"
+                  className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-xs font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)]"
                 >
                   Annuler
                 </button>
@@ -217,7 +217,7 @@ export function AnalysisResultRow({
 
       {!expandedNotes.includes(result.id) && notes[result.id] && (
         <div
-          className={`mb-1 ml-10 mr-4 flex w-fit items-center gap-1.5 rounded-md border border-indigo-100 bg-indigo-50/70 px-3 py-1.5 text-[10px] font-medium text-[var(--color-accent)] transition-colors ${isFinalValidated ? 'cursor-default' : 'cursor-pointer hover:bg-indigo-50'}`}
+          className={`mb-1 ml-10 mr-4 flex w-fit items-center gap-1.5 rounded-md border border-indigo-100 bg-indigo-50/70 px-3 py-1.5 text-xs font-medium text-[var(--color-accent)] transition-colors ${isFinalValidated ? 'cursor-default' : 'cursor-pointer hover:bg-indigo-50'}`}
           onClick={() => {
             if (!isFinalValidated) toggleNote(result.id);
           }}

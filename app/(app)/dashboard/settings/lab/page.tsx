@@ -17,7 +17,7 @@ export default function LabSettingsPage() {
               </div>
               <h1 className="text-xl font-semibold tracking-tight text-[var(--color-text)]">Configuration métier</h1>
             </div>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Gérer les types d&apos;échantillons et les paramètres financiers.
             </p>
           </div>

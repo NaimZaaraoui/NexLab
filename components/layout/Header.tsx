@@ -207,7 +207,7 @@ export function Header({ onMobileMenuToggle }: HeaderProps) {
           <div className="group flex items-center gap-2.5 rounded-2xl border bg-[var(--color-surface)] px-2.5 py-1.5">
             <div className="hidden text-right sm:flex sm:flex-col">
               <div className="text-xs font-semibold text-[var(--color-text)]">{user?.name || 'Utilisateur'}</div>
-              <div className="text-[10px] font-semibold uppercase tracking-[0.06em] text-[var(--color-text-secondary)]">{roleLabel}</div>
+              <div className="text-xs font-semibold uppercase tracking-[0.06em] text-[var(--color-text-secondary)]">{roleLabel}</div>
             </div>
             <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-blue-700/20 bg-[var(--color-accent)] text-xs font-black text-white transition-all group-hover:brightness-105" title={user?.email || ''}>
               {initials}

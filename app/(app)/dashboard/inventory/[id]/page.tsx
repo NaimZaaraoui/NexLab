@@ -102,7 +102,7 @@ export default function InventoryDetailPage() {
           <div>
             <PageBackLink href="/dashboard/inventory" />
             <h1 className="text-xl font-semibold text-[var(--color-text)]">{item.name}</h1>
-            <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               {item.kind === 'CONSUMABLE' ? 'Consommable' : 'Réactif'} · {item.category}
             </p>
           </div>
@@ -167,7 +167,7 @@ export default function InventoryDetailPage() {
         <div className="space-y-4">
           <article className="bento-panel p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
                 Informations
               </h2>
               <div className="flex flex-wrap gap-2 text-xs">

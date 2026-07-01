@@ -40,7 +40,7 @@ export function TemperatureEditModal({
       <DialogContent className="flex max-h-[90vh] bg-white max-w-xl flex-col p-0 overflow-hidden">
         <DialogHeader className="px-6 py-5 border-b">
           <DialogTitle className="text-lg font-semibold text-[var(--color-text)]">Corriger un relevé</DialogTitle>
-          <p className="mt-1 text-sm text-[var(--color-text-soft)]">
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
             {new Date(reading.recordedAt).toLocaleString('fr-FR')} · {reading.period}
           </p>
         </DialogHeader>
