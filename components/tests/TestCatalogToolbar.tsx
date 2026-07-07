@@ -40,7 +40,7 @@ export function TestCatalogToolbar({
         />
       </div>
 
-      <div className="flex items-center gap-3 w-full xl:w-auto">
+      <div className="flex items-center flex-wrap gap-3 w-full xl:w-auto">
         <div className="flex items-center gap-2 h-11 px-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] shrink-0">
           <Filter size={15} className="text-[var(--color-text-secondary)]" />
           <select
@@ -66,8 +66,8 @@ export function TestCatalogToolbar({
           Catégories
         </Link>
 
-        <button 
-          onClick={onImportTests} 
+        <button
+          onClick={onImportTests}
           className="inline-flex h-11 items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 text-sm font-semibold text-[var(--color-text)] transition-colors hover:bg-[var(--color-surface-muted)] whitespace-nowrap"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -75,13 +75,13 @@ export function TestCatalogToolbar({
         </button>
 
         {onExportTests && (
-          <button 
+          <button
             onClick={onExportTests}
-            disabled={isExporting} 
+            disabled={isExporting}
             className="inline-flex h-11 items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 text-sm font-semibold text-[var(--color-text)] transition-colors hover:bg-[var(--color-surface-muted)] whitespace-nowrap disabled:opacity-50"
           >
             {isExporting ? (
-               <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+              <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
             ) : (
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 16 12 21 17 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line></svg>
             )}

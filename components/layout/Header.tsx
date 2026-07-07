@@ -92,11 +92,46 @@ export function Header({ onMobileMenuToggle }: HeaderProps) {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
+  const knownNotificationIds = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      if (Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
+    }
+  }, []);
+
   const fetchNotifications = async () => {
     try {
       const res = await fetch('/api/notifications');
       if (res.ok) {
         const data = await res.json();
+        
+        // Handle native notifications for new unread messages
+        if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+          const newUnread = data.filter((n: HeaderNotification) => !n.isRead && !knownNotificationIds.current.has(n.id));
+          
+          newUnread.forEach((notif: HeaderNotification) => {
+            const nativeNotif = new Notification(notif.title, {
+              body: notif.message,
+              icon: '/icon.png',
+              tag: notif.id,
+            });
+            
+            nativeNotif.onclick = () => {
+              window.focus();
+              handleNotificationClick(notif.id);
+              nativeNotif.close();
+            };
+          });
+        }
+        
+        // Update known IDs
+        const newIds = new Set<string>();
+        data.forEach((n: HeaderNotification) => newIds.add(n.id));
+        knownNotificationIds.current = newIds;
+
         setNotifications(data);
         setUnreadCount(data.filter((n: HeaderNotification) => !n.isRead).length);
       }

@@ -26,6 +26,7 @@ model Test {
   id              String                @id @default(uuid())
   name            String
   code            String                @unique
+  loincCode       String?
   unit            String?
   minValue        Float?
   maxValue        Float?

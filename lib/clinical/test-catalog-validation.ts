@@ -41,6 +41,7 @@ export function buildTestPersistenceData(
 
   return {
     code: payload.code,
+    loincCode: payload.loincCode ?? null,
     name: payload.name,
     unit: numericLike ? payload.unit ?? null : null,
     minValue: numericLike ? payload.minValue ?? null : null,

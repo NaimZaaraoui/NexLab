@@ -51,6 +51,16 @@ const SECURITY_HEADERS: Record<string, string> = {
   ].join('; '),
 };
 
+const USE_SECURE_COOKIES = process.env.USE_SECURE_COOKIES === 'true'
+  ? true
+  : process.env.USE_SECURE_COOKIES === 'false'
+  ? false
+  : process.env.NODE_ENV === 'production';
+
+const SESSION_COOKIE_NAME = USE_SECURE_COOKIES
+  ? '__Secure-auth.session-token'
+  : 'auth.session-token';
+
 function isPublicPath(pathname: string): boolean {
   return PUBLIC_PREFIXES.some(prefix => pathname.startsWith(prefix));
 }
@@ -75,7 +85,8 @@ function ensureCSRFCookie(req: NextRequest, response: NextResponse): NextRespons
     response.cookies.set(CSRF_COOKIE_NAME, createCSRFToken(), {
       httpOnly: false,
       sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
+      // Prefer TLS detection over NODE_ENV so local network HTTP access still receives cookies
+      secure: req.nextUrl.protocol === 'https:' || process.env.USE_SECURE_COOKIES === 'true',
       path: '/',
       maxAge: 60 * 60 * 24,
     });
@@ -131,9 +142,7 @@ export async function proxy(req: NextRequest) {
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
-    cookieName: process.env.NODE_ENV === 'production'
-      ? '__Secure-auth.session-token'
-      : 'auth.session-token',
+    cookieName: SESSION_COOKIE_NAME,
   });
 
   if (!token) {

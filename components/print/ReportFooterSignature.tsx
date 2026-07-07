@@ -25,19 +25,19 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
             <div className="pt-6 border-t-2 border-slate-900 print:border-black footer-content">
               <div className="grid grid-cols-3 gap-12">
                 <div className="col-span-2">
-                  <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] mb-4 print:text-black">Notes du Biologiste</h4>
+                  <h4 className="text-[11px] font-black text-slate-500 uppercase tracking-[0.1em] mb-4 print:text-black">Notes du Biologiste</h4>
                   <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed max-w-md print:text-black">
                     {REPORT_DISCLAIMER}<br />
-                    <span className="text-[10px] font-black text-slate-300 uppercase print:text-black/60">↑ = Résultat élevé | ↓ = Résultat bas | Préc. = Dernier résultat validé dans notre laboratoire</span>
+                    <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/60">↑ = Résultat élevé | ↓ = Résultat bas | Préc. = Dernier résultat validé dans notre laboratoire</span>
                   </p>
                   <div className="mt-6 flex gap-8">
                     <div className="flex flex-col">
-                      <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/60">ID Document</span>
-                      <span className="text-[11px] font-bold text-[var(--color-text)] print:text-black">{analysis.id.substring(0, 8).toUpperCase()}</span>
+                      <span className="text-[10px] font-black text-slate-300 uppercase print:text-black/60">ID Document</span>
+                      <span className="text-[10px] font-bold text-[var(--color-text)] print:text-black">{analysis.id.substring(0, 8).toUpperCase()}</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/60">Statut</span>
-                      <span className={`text-[11px] font-black uppercase ${isValidated ? 'text-[var(--color-accent)]' : 'text-amber-600'} print:text-black`}>
+                      <span className="text-[10px] font-black text-slate-300 uppercase print:text-black/60">Statut</span>
+                      <span className={`text-[10px] font-black uppercase ${isValidated ? 'text-[var(--color-accent)]' : 'text-amber-600'} print:text-black`}>
                         {isValidated ? 'Validé' : 'En attente'}
                       </span>
                     </div>
@@ -46,7 +46,7 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
 
                 <div className="flex flex-col items-center">
                   <div className="w-full border-b border-slate-900 pb-2 mb-4 text-center print:border-black">
-                    <span className="text-xs font-black text-slate-500 uppercase tracking-[0.1em] print:text-black">Signature & Cachet</span>
+                    <span className="text-[11px] font-black text-slate-500 uppercase tracking-[0.1em] print:text-black">Signature & Cachet</span>
                   </div>
                   <div className="flex flex-col items-center gap-2 w-full">
                     {analysis.validatedBioAt && (
@@ -55,7 +55,7 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
                       </div>
                     )}
 
-                    <div style={{ position: 'relative', width: '120px', height: '90px', margin: '0 auto' }}>
+                    <div style={{ position: 'relative', width: '140px', height: '80px', margin: '0 auto' }}>
                       {settings?.lab_stamp_image && settings?.lab_bio_signature && (
                         <>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -86,24 +86,24 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
                         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={settings.lab_bio_signature} alt="Signature" style={{ width: '130px', height: '30px', objectFit: 'contain', objectPosition: 'center bottom', filter: 'contrast(1.15)' }} />
-                          <div style={{ width: '120px', height: '90px', border: '1px dashed #cfd2d7ff', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
-                            <span style={{ fontSize: '7px', color: '#cfd2d7ff', textAlign: 'center', lineHeight: 1.5, textTransform: 'uppercase', letterSpacing: '0.1em', transform: 'rotate(-15deg)' }}>Zone de cachet</span>
+                          <div style={{ width: '140px', height: '80px', border: '1px dashed rgba(15, 23, 42, 0.7)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
+                            <span style={{ fontSize: '7px', color: 'rgba(15, 23, 42, 0.7)', textAlign: 'center', lineHeight: 1.5, textTransform: 'uppercase', letterSpacing: '0.1em', transform: 'rotate(-15deg)' }}>Zone de cachet</span>
                           </div>
                         </div>
                       )}
 
                       {!settings?.lab_stamp_image && !settings?.lab_bio_signature && (
-                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '120px', height: '90px', border: '2px dashed #cfd2d7ff', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
-                          <span style={{ fontSize: '8px', color: '#cfd2d7ff', textAlign: 'center', lineHeight: 1.6, textTransform: 'uppercase', letterSpacing: '0.15em', transform: 'rotate(-15deg)' }}>Zone de cachet</span>
+                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '140px', height: '80px', border: '2px dashed rgba(15, 23, 42, 0.7)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
+                          <span style={{ fontSize: '8px', color: 'rgba(15, 23, 42, 0.7)', textAlign: 'center', lineHeight: 1.6, textTransform: 'uppercase', letterSpacing: '0.15em', transform: 'rotate(-15deg)' }}>Zone de cachet</span>
                         </div>
                       )}
                     </div>
 
                     <div className="text-center">
-                      <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
+                      <p className="text-[11px] font-bold text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">
                         {BIO_TITLE && BIO_NAME ? `${BIO_TITLE} ${BIO_NAME}` : 'Biologiste Responsable'}
                       </p>
-                      {BIO_ONMPT && <p className="text-xs font-bold text-slate-500 print:text-black/60 mt-0.5">ONMPT: {BIO_ONMPT}</p>}
+                      {BIO_ONMPT && <p className="text-[11px] font-bold text-slate-500 print:text-black/60 mt-0.5">ONMPT: {BIO_ONMPT}</p>}
                     </div>
                   </div>
                 </div>
@@ -114,7 +114,7 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
                   {FOOTER_TEXT}
                 </div>
               )}
-              <div className="mt-6 flex justify-between items-center text-[11px] font-bold text-slate-300 uppercase tracking-[0.1em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
+              <div className="mt-6 flex justify-between items-center text-[9px] font-bold text-slate-300 uppercase tracking-[0.1em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
                 <span>{LAB_NAME}</span>
                 <div className="flex gap-4">
                   {LAB_PHONE && <span>Tél: {LAB_PHONE}</span>}
@@ -126,7 +126,7 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
             </div>
           ) : (
             <div className="mt-4 pt-4 border-t border-[var(--color-border)] print:border-black/10 footer-content">
-              <div className="flex justify-between items-center text-[11px] font-bold text-slate-300 uppercase tracking-[0.1em] print:text-black">
+              <div className="flex justify-between items-center text-[9px] font-bold text-slate-300 uppercase tracking-[0.1em] print:text-black">
                 <span>{LAB_NAME} - Rapport</span>
                 <div className="flex gap-8 items-center">
                   <span className="text-[var(--color-accent)] font-black">Validé par le Biologiste Responsable</span>

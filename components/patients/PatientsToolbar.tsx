@@ -24,12 +24,12 @@ export function PatientsToolbar({
   return (
     <>
       <section className="rounded-xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-        <div className="flex flex-col justify-between gap-3 lg:flex-row lg:items-center">
+        <div className="flex flex-col justify-between gap-3 lg:flex-row lg:items-center flex-wrap">
           <div>
             <h1 className="text-lg font-semibold text-[var(--color-text)]">Patients</h1>
             <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Répertoire central des dossiers patients.</p>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 flex-wrap">
             <div className="rounded-md border bg-[var(--color-surface-muted)] px-3 py-2 text-right">
               <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">Total</div>
               <div className="text-lg font-semibold text-[var(--color-text)]">{total}</div>

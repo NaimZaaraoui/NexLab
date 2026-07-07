@@ -8,19 +8,12 @@ import { NexLabLockup } from '@/components/branding/NexLabLockup';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+  const [email, setEmail] = useState(isDemo ? 'admin.demo@nexlab.dz' : '');
+  const [password, setPassword] = useState(isDemo ? 'DemoLab2026!' : '');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
-
-  useEffect(() => {
-    if (isDemo) {
-      setEmail('admin.demo@nexlab.dz');
-      setPassword('DemoLab2026!');
-    }
-  }, [isDemo]);
 
   useEffect(() => {
     fetch('/api/setup/status')
@@ -38,7 +31,12 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      const result = await signIn('credentials', { email, password, redirect: false });
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: '/',
+      });
       if (result?.error) {
         setError(result.error === 'Compte désactivé'
           ? "Ce compte a été désactivé. Contactez l'administrateur."
@@ -46,8 +44,8 @@ export default function LoginPage() {
         setLoading(false);
         return;
       }
-      router.push('/');
-      router.refresh();
+      const target = result?.url ? new URL(result.url, window.location.origin) : new URL('/', window.location.origin);
+      window.location.assign(`${target.pathname}${target.search}${target.hash}`);
     } catch {
       setError("Une erreur s'est produite lors de la connexion.");
       setLoading(false);
@@ -71,7 +69,7 @@ export default function LoginPage() {
         {/* Quote / value props */}
         <div className="relative z-10 space-y-8">
           <blockquote className="text-3xl font-bold leading-tight text-white">
-            "Chaque résultat<br />compte."
+            &quot;Chaque résultat<br />compte.&quot;
           </blockquote>
           <div className="space-y-4">
             {[

@@ -112,6 +112,7 @@ export function useTestCatalog() {
     setEditingTestId(test.id);
     setNewTest({
       code: test.code,
+      loincCode: test.loincCode || '',
       name: test.name,
       unit: test.unit || '',
       minValue: test.minValue?.toString() || '',

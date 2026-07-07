@@ -9,6 +9,7 @@ import {
 import { Layers, Plus, Save, Settings2 } from 'lucide-react';
 import { RESULT_TYPES, type CategoryOption, type TestFormState, type TestWithInventory, type TestsLabSettings } from '@/components/tests/types';
 import { validateFormula } from '@/lib/clinical/calculated-tests';
+import { LoincCombobox } from '@/components/tests/LoincCombobox';
 
 interface TestEditorModalProps {
   open: boolean;
@@ -99,13 +100,20 @@ export function TestEditorModal({
 
           <div className="grid grid-cols-1 gap-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-5 md:grid-cols-2">
             <div className="space-y-2">
-              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Code</label>
+              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Code local</label>
               <input
                 value={form.code}
                 onChange={(event) => onFormChange({ ...form, code: event.target.value.toUpperCase() })}
                 placeholder="Ex: HEMO"
                 className="input-premium h-11 bg-[var(--color-surface)] uppercase"
                 required
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="ml-1 text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">Code LOINC (Optionnel)</label>
+              <LoincCombobox
+                value={form.loincCode}
+                onChange={(val) => onFormChange({ ...form, loincCode: val })}
               />
             </div>
             <div className="space-y-2">

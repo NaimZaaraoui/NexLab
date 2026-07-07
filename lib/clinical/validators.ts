@@ -73,6 +73,7 @@ const optionalIntegerNumber = z.preprocess((value) => {
 
 const testSchemaObject = z.object({
   code: codeString,
+  loincCode: optionalNullableString.optional(),
   name: requiredTrimmedString('Le nom du test est requis'),
   unit: optionalNullableString.optional(),
   minValue: optionalNullableNumber.optional(),

@@ -12,6 +12,7 @@ export interface Test {
     id: string;
     name: string;
     code: string;
+    loincCode: string | null;
     unit: string | null;
     minValue: number | null;
     maxValue: number | null;

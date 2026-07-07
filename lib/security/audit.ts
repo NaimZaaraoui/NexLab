@@ -8,6 +8,9 @@ type AuditInput = {
   entity: string;
   entityId?: string | null;
   details?: Record<string, unknown> | string | null;
+  userId?: string | null;
+  userName?: string | null;
+  userRole?: string | null;
   ipAddress?: string | null;
   userAgent?: string | null;
 };
@@ -40,10 +43,10 @@ export async function createAuditLog(input: AuditInput) {
 
     const log = await prisma.auditLog.create({
       data: {
-        userId: user?.id || null,
-        userName: user?.name || null,
+        userId: user?.id || input.userId || null,
+        userName: user?.name || input.userName || null,
         userEmail: user?.email || null,
-        userRole: user?.role || null,
+        userRole: user?.role || input.userRole || null,
         action: input.action,
         severity: input.severity || 'INFO',
         entity: input.entity,

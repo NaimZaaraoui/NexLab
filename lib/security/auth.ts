@@ -46,19 +46,25 @@ export const ROUTE_PERMISSIONS: Record<string, string[]> = {
   ],
 };
 
+const _useSecureCookies = process.env.USE_SECURE_COOKIES === 'true'
+  ? true
+  : process.env.USE_SECURE_COOKIES === 'false'
+  ? false
+  : process.env.NODE_ENV === 'production';
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
   trustHost: true,
-  useSecureCookies: process.env.NODE_ENV === 'production',
+  useSecureCookies: _useSecureCookies,
   session: { strategy: 'jwt' },
   cookies: {
     sessionToken: {
-      name: process.env.NODE_ENV === 'production' ? '__Secure-auth.session-token' : 'auth.session-token',
+      name: _useSecureCookies ? '__Secure-auth.session-token' : 'auth.session-token',
       options: {
         httpOnly: true,
-        sameSite: 'lax', // Bloque les requêtes POST cross-origin (CSRF protection)
+        sameSite: 'lax',
         path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        secure: _useSecureCookies,
       },
     },
   },

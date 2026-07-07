@@ -330,40 +330,43 @@ export default function StatisticsReportPage() {
               <span className="text-xs font-semibold text-[var(--color-text-secondary)] mb-0.5 capitalize">{rangeLabel}</span>
             </div>
             <div className="flex justify-center w-full" style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' } as React.CSSProperties}>
-                <LineChart width={750} height={260} data={data.timeline} margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                  <XAxis
-                    dataKey="date"
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 11, fill: '#64748B' }}
-                    dy={8}
-                    tickFormatter={(val) => {
-                      const d = new Date(val);
-                      return `${d.getDate()}/${d.getMonth() + 1}`;
-                    }}
-                  />
-                  <YAxis
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 11, fill: '#64748B' }}
-                    tickFormatter={(val) => val >= 1000 ? `${(val / 1000).toFixed(0)}k` : val}
-                  />
-                  <Tooltip
-                    contentStyle={{ borderRadius: '12px', border: '1px solid #E2E8F0', fontSize: '12px' }}
-                    formatter={(val: number | string) => [formatCurrency(Number(val)), "Chiffre d'Affaires"]}
-                    labelFormatter={(label) => format(new Date(label), 'dd MMMM yyyy', { locale: fr })}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="revenue"
-                    stroke="#1f5fbf"
-                    strokeWidth={2.5}
-                    dot={false}
-                    activeDot={{ r: 5, fill: '#1f5fbf', stroke: '#fff', strokeWidth: 2 }}
-                    isAnimationActive={false}
-                  />
-                </LineChart>
+              <LineChart width={750} height={260} data={data.timeline} margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                <XAxis
+                  dataKey="date"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 11, fill: '#64748B' }}
+                  dy={8}
+                  tickFormatter={(val) => {
+                    const d = new Date(val);
+                    return `${d.getDate()}/${d.getMonth() + 1}`;
+                  }}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 11, fill: '#64748B' }}
+                  tickFormatter={(val) => val >= 1000 ? `${(val / 1000).toFixed(0)}k` : val}
+                />
+                <Tooltip
+                  contentStyle={{ borderRadius: '12px', border: '1px solid #E2E8F0', fontSize: '12px' }}
+                  formatter={(val: any) => [
+                    formatCurrency(val ? Number(val) : 0),
+                    "Chiffre d'Affaires"
+                  ]}
+                  labelFormatter={(label) => format(new Date(label), 'dd MMMM yyyy', { locale: fr })}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke="#1f5fbf"
+                  strokeWidth={2.5}
+                  dot={false}
+                  activeDot={{ r: 5, fill: '#1f5fbf', stroke: '#fff', strokeWidth: 2 }}
+                  isAnimationActive={false}
+                />
+              </LineChart>
             </div>
           </div>
         )}
@@ -418,63 +421,63 @@ export default function StatisticsReportPage() {
 
         {/* ── PAGE 3 WRAPPER (overview only) ── */}
         {tab === 'overview' && (
-        <div className="print:break-before-page">
-          
-          {/* ── CNAM TABLE ── */}
-          {data.cnamByProvider.length > 0 && (
-            <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-              <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Assurance Maladie</p>
-            <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Ventilation CNAM / Tier-Payant</h3>
+          <div className="print:break-before-page">
 
-            <div className="overflow-hidden rounded-2xl border border-[var(--color-border)] print:rounded-none print:border-black/20">
-              <div className="grid grid-cols-12 bg-teal-50 border-b border-teal-100 px-4 py-2.5 text-xs font-black uppercase tracking-[0.08em] text-teal-700 print:border-black/20 print:text-black/60 print:bg-slate-50">
-                <div className="col-span-4">Assureur</div>
-                <div className="col-span-2 text-center">Dossiers</div>
-                <div className="col-span-2 text-right">Total</div>
-                <div className="col-span-2 text-right">Part CNAM</div>
-                <div className="col-span-2 text-right">Part Patient</div>
-              </div>
-              <div className="divide-y divide-[var(--color-border)] print:divide-black/10">
-                {data.cnamByProvider.map((p, i) => (
-                  <div key={p.provider} className={`grid grid-cols-12 items-center px-4 py-3 ${i % 2 === 0 ? 'bg-white' : 'bg-teal-50/30'}`}>
-                    <div className="col-span-4 text-sm font-bold text-[var(--color-text)] print:text-black">{p.provider}</div>
-                    <div className="col-span-2 text-center text-sm font-medium text-[var(--color-text-secondary)] print:text-black">{p.count}</div>
-                    <div className="col-span-2 text-right text-sm text-[var(--color-text-secondary)] print:text-black">{formatCurrency(p.totalPrice)}</div>
-                    <div className="col-span-2 text-right text-sm font-black text-teal-600 print:text-black">{formatCurrency(p.insuranceShare)}</div>
-                    <div className="col-span-2 text-right text-sm text-[var(--color-text-secondary)] print:text-black">{formatCurrency(p.patientShare)}</div>
+            {/* ── CNAM TABLE ── */}
+            {data.cnamByProvider.length > 0 && (
+              <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
+                <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Assurance Maladie</p>
+                <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Ventilation CNAM / Tier-Payant</h3>
+
+                <div className="overflow-hidden rounded-2xl border border-[var(--color-border)] print:rounded-none print:border-black/20">
+                  <div className="grid grid-cols-12 bg-teal-50 border-b border-teal-100 px-4 py-2.5 text-xs font-black uppercase tracking-[0.08em] text-teal-700 print:border-black/20 print:text-black/60 print:bg-slate-50">
+                    <div className="col-span-4">Assureur</div>
+                    <div className="col-span-2 text-center">Dossiers</div>
+                    <div className="col-span-2 text-right">Total</div>
+                    <div className="col-span-2 text-right">Part CNAM</div>
+                    <div className="col-span-2 text-right">Part Patient</div>
                   </div>
-                ))}
+                  <div className="divide-y divide-[var(--color-border)] print:divide-black/10">
+                    {data.cnamByProvider.map((p, i) => (
+                      <div key={p.provider} className={`grid grid-cols-12 items-center px-4 py-3 ${i % 2 === 0 ? 'bg-white' : 'bg-teal-50/30'}`}>
+                        <div className="col-span-4 text-sm font-bold text-[var(--color-text)] print:text-black">{p.provider}</div>
+                        <div className="col-span-2 text-center text-sm font-medium text-[var(--color-text-secondary)] print:text-black">{p.count}</div>
+                        <div className="col-span-2 text-right text-sm text-[var(--color-text-secondary)] print:text-black">{formatCurrency(p.totalPrice)}</div>
+                        <div className="col-span-2 text-right text-sm font-black text-teal-600 print:text-black">{formatCurrency(p.insuranceShare)}</div>
+                        <div className="col-span-2 text-right text-sm text-[var(--color-text-secondary)] print:text-black">{formatCurrency(p.patientShare)}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
-        )}
-        </div>
         )}
 
         {/* ── CONCLUSIONS (overview only) ── */}
         {tab === 'overview' && (
-        <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
-          <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Analyse Qualitative</p>
-          <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Conclusions et Observations</h3>
+          <div className="px-10 py-8 border-b border-[var(--color-border)] print:border-black/10">
+            <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1">Analyse Qualitative</p>
+            <h3 className="text-lg font-black text-[var(--color-text)] mb-6">Conclusions et Observations</h3>
 
-          <div className="space-y-4">
-            {conclusions.map((c, i) => {
-              const Icon = c.type === 'success' ? CheckCircle2 : c.type === 'warning' ? AlertTriangle : Info;
-              const colors = {
-                success: 'bg-emerald-50 border-emerald-200 text-emerald-800 print:border-black/20 print:bg-slate-50',
-                warning: 'bg-amber-50 border-amber-200 text-amber-800 print:border-black/20 print:bg-slate-50',
-                info: 'bg-[var(--color-surface-muted)] border-[var(--color-border)] text-[var(--color-text)] print:border-black/20',
-              };
-              const iconColors = { success: 'text-emerald-500', warning: 'text-amber-500', info: 'text-indigo-400' };
-              return (
-                <div key={i} className={`flex items-start gap-3 rounded-2xl border p-4 print:rounded-none print:p-3 ${colors[c.type]}`}>
-                  <Icon size={16} className={`mt-0.5 shrink-0 ${iconColors[c.type]} print:text-black/60`} />
-                  <p className="text-sm leading-relaxed print:text-black">{c.text}</p>
-                </div>
-              );
-            })}
+            <div className="space-y-4">
+              {conclusions.map((c, i) => {
+                const Icon = c.type === 'success' ? CheckCircle2 : c.type === 'warning' ? AlertTriangle : Info;
+                const colors = {
+                  success: 'bg-emerald-50 border-emerald-200 text-emerald-800 print:border-black/20 print:bg-slate-50',
+                  warning: 'bg-amber-50 border-amber-200 text-amber-800 print:border-black/20 print:bg-slate-50',
+                  info: 'bg-[var(--color-surface-muted)] border-[var(--color-border)] text-[var(--color-text)] print:border-black/20',
+                };
+                const iconColors = { success: 'text-emerald-500', warning: 'text-amber-500', info: 'text-indigo-400' };
+                return (
+                  <div key={i} className={`flex items-start gap-3 rounded-2xl border p-4 print:rounded-none print:p-3 ${colors[c.type]}`}>
+                    <Icon size={16} className={`mt-0.5 shrink-0 ${iconColors[c.type]} print:text-black/60`} />
+                    <p className="text-sm leading-relaxed print:text-black">{c.text}</p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
         )}
 
         {/* ── BIOLOGISTE NOTES ── */}

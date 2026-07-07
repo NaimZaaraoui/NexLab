@@ -81,7 +81,7 @@ export function CbcIndicesPanel({ indices, mode = 'screen' }: Props) {
                         <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500 print:text-black/45">{item.formula}</span>
                       </div>
                     </td>
-                    <td className={isPrint ? 'py-3 align-top text-[13px] font-black text-black' : 'py-3 align-top text-sm font-bold text-[var(--color-text)]'}>
+                    <td className={isPrint ? 'py-3 align-top text-[13px] font-mono tabular-nums tracking-normal font-black text-black' : 'py-3 align-top text-sm font-mono tabular-nums font-bold text-[var(--color-text)]'}>
                       {item.displayValue}
                     </td>
                     <td className="py-3 align-top text-xs font-semibold text-[var(--color-text-secondary)] print:text-black/70">

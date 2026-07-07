@@ -33,6 +33,7 @@ export type InventoryRule = {
 
 export type TestFormState = {
   code: string;
+  loincCode: string;
   name: string;
   unit: string;
   minValue: string;
@@ -73,6 +74,7 @@ export const DEFAULT_TESTS_LAB_SETTINGS: TestsLabSettings = {
 
 export const EMPTY_TEST_FORM: TestFormState = {
   code: '',
+  loincCode: '',
   name: '',
   unit: '',
   minValue: '',

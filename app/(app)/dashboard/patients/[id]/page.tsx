@@ -2,10 +2,10 @@
 'use client';
 
 import { useState, useEffect, use, useCallback } from 'react';
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
+import {
+  Phone,
+  Mail,
+  MapPin,
   Activity,
   Plus,
   TrendingUp as TrendingUpIcon,
@@ -43,7 +43,7 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
     title: string;
     description: string;
     action: () => void;
-  }>({ open: false, title: '', description: '', action: () => {} });
+  }>({ open: false, title: '', description: '', action: () => { } });
 
 
   const fetchPatientData = useCallback(async () => {
@@ -121,14 +121,14 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
   if (!patient) {
     return (
       <div className="p-8 text-center text-slate-500">
-         <p>Patient introuvable</p>
+        <p>Patient introuvable</p>
       </div>
     );
   }
 
   // Process data for trends
   const trendData: Record<string, { unit?: string; points: { date: string; value: number; label: string }[] }> = {};
-  
+
   patient.analyses.forEach(analysis => {
     analysis.results.forEach(res => {
       // Safety check to prevent crash if value or test is missing
@@ -155,131 +155,130 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
 
   return (
     <div className="mx-auto max-w-[1500px] space-y-5 pb-16">
-       {/* Breadcrumbs / Back */}
-       <div className="flex items-center justify-between">
-         <PageBackLink href="/dashboard/patients" className="mb-0" iconSize={20} />
+      {/* Breadcrumbs / Back */}
+      <div className="flex items-center flex-wrap justify-between">
+        <PageBackLink href="/dashboard/patients" className="mb-0" iconSize={20} />
 
-         <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => printUrl(`/print/patient-card/${patient.id}?autoprint=1&_t=${Date.now()}`)}
+            className="btn-secondary-md px-6"
+          >
+            <IdCard size={16} /> Carte patient
+          </button>
+          <button
+            onClick={() => setEditingPatient(patient)}
+            className="btn-secondary-md px-6"
+          >
+            <Edit size={16} /> Modifier la fiche
+          </button>
+          {role !== 'MEDECIN' && (
             <button
-               onClick={() => printUrl(`/print/patient-card/${patient.id}?autoprint=1&_t=${Date.now()}`)}
-               className="btn-secondary-md px-6"
+              onClick={() => router.push(`/analyses/nouvelle?patientId=${id}`)}
+              className="btn-primary-md px-6"
             >
-              <IdCard size={16} /> Carte patient
+              <Plus size={18} /> Nouvelle Analyse
             </button>
-            <button 
-               onClick={() => setEditingPatient(patient)}
-               className="btn-secondary-md px-6"
-            >
-              <Edit size={16} /> Modifier la fiche
-            </button>
-             {role !== 'MEDECIN' && (
-               <button 
-               onClick={() => router.push(`/analyses/nouvelle?patientId=${id}`)}
-                  className="btn-primary-md px-6"
-               >
-                 <Plus size={18} /> Nouvelle Analyse
-               </button>
-             )}
+          )}
 
-         </div>
-       </div>
-
-       {/* Patient Profile Bento */}
-       <div className="rounded-xl border bg-[var(--color-surface)] p-6 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
-          <div className="relative z-10 flex flex-col lg:flex-row gap-10 items-start">
-             <div className="flex gap-8 items-center flex-1">
-                <div className={`w-24 h-24 rounded-[2rem] flex items-center justify-center text-4xl font-semibold shadow-inner ${
-                    patient.gender === 'F' ? 'bg-rose-50 text-rose-500' : 'bg-indigo-50 text-indigo-500'
-                }`}>
-                   {patient.firstName[0]}{patient.lastName[0]}
-                </div>
-                <div>
-                   <div className="flex items-center gap-3 mb-2">
-                     <h1 className="text-2xl font-semibold tracking-tight text-[var(--color-text)]">{patient.lastName} {patient.firstName}</h1>
-                     <span className={`rounded-md px-3 py-1 text-xs font-semibold uppercase tracking-wide ${patient.gender === 'M' ? 'bg-indigo-100 text-indigo-700' : 'bg-rose-100 text-rose-700'}`}>
-                       {patient.gender === 'M' ? 'Homme' : 'Femme'}
-                     </span>
-                   </div>
-                   <div className="flex flex-wrap gap-6 text-sm font-medium text-[var(--color-text-secondary)]">
-                      <div className="flex items-center gap-2">
-                        <Calendar size={16} className="text-slate-300" />
-                        <span>{calculatePatientAge(patient.birthDate)} ans <span className="text-slate-200 ml-1">({patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('fr-FR') : 'N/A'})</span></span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Activity size={16} className="text-slate-300" />
-                        <span>Dernière analyse il y a {patient.analyses.length > 0 ? 'qq jours' : 'jamais'}</span>
-                      </div>
-                   </div>
-                </div>
-             </div>
-
-             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4 w-full lg:w-72">
-                <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition-all">
-                   <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 flex items-center gap-2">
-                      <Phone size={12} /> Téléphone
-                   </div>
-                   <div className="text-sm font-semibold text-slate-700">{patient.phoneNumber || '—'}</div>
-                </div>
-                <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition-all">
-                   <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 flex items-center gap-2">
-                      <Mail size={12} /> Email
-                   </div>
-                   <div className="text-sm font-semibold text-slate-700 truncate">{patient.email || '—'}</div>
-                </div>
-                <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition-all">
-                   <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 flex items-center gap-2">
-                      <MapPin size={12} /> Adresse
-                   </div>
-                   <div className="text-sm font-semibold text-slate-700 truncate">{patient.address || '—'}</div>
-                </div>
-             </div>
-          </div>
-       </div>
-
-        {/* Tabs & Content */}
-        <div className="space-y-6">
-           <div className="flex items-center gap-2 rounded-xl bg-[var(--color-surface-muted)] p-1 w-fit">
-              <button
-                onClick={() => setActiveTab('history')}
-                className={`flex items-center gap-2 rounded-md px-8 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] transition-all ${activeTab === 'history' ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm' : 'text-[var(--color-text-secondary)] hover:text-slate-700'}`}
-              >
-                <Info size={14} /> Historique
-              </button>
-              <button
-                onClick={() => setActiveTab('trends')}
-                className={`flex items-center gap-2 rounded-md px-8 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] transition-all ${activeTab === 'trends' ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm' : 'text-[var(--color-text-secondary)] hover:text-slate-700'}`}
-              >
-                <TrendingUpIcon size={14} /> Tendances
-              </button>
-           </div>
-
-           {activeTab === 'history' ? (
-             <PatientHistoryTab analyses={patient.analyses} />
-           ) : (
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {parameterTrends.length > 0 ? (
-                  parameterTrends.map(([name, data]) => (
-                    <TrendChart 
-                      key={name}
-                      testName={name}
-                      unit={data.unit}
-                      data={data.points}
-                    />
-                  ))
-                ) : (
-                  <div className="col-span-full empty-state py-24">
-                    <div className="empty-state-icon w-16 h-16 rounded-full bg-[var(--color-surface-muted)]">
-                        <TrendingUpIcon size={32} />
-                     </div>
-                     <p className="text-[var(--color-text-secondary)] font-semibold max-w-sm mx-auto">
-                      Pas assez de données pour afficher les tendances.<br />
-                      <span className="text-xs font-medium text-slate-500 mt-2 block italic text-center">Les graphiques apparaissent automatiquement lorsqu&apos;un même paramètre est analysé au moins deux fois.</span>
-                    </p>
-                  </div>
-                )}
-             </div>
-           )}
         </div>
+      </div>
+
+      {/* Patient Profile Bento */}
+      <div className="rounded-xl border bg-[var(--color-surface)] p-6 shadow-[0_2px_8px_rgba(15,31,51,0.03)]">
+        <div className="relative z-10 flex flex-col lg:flex-row gap-10 items-start">
+          <div className="flex gap-8 items-center flex-1">
+            <div className={`w-24 h-24 rounded-[2rem] flex items-center justify-center text-4xl font-semibold shadow-inner ${patient.gender === 'F' ? 'bg-rose-50 text-rose-500' : 'bg-indigo-50 text-indigo-500'
+              }`}>
+              {patient.firstName[0]}{patient.lastName[0]}
+            </div>
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-2xl font-semibold tracking-tight text-[var(--color-text)]">{patient.lastName} {patient.firstName}</h1>
+                <span className={`rounded-md px-3 py-1 text-xs font-semibold uppercase tracking-wide ${patient.gender === 'M' ? 'bg-indigo-100 text-indigo-700' : 'bg-rose-100 text-rose-700'}`}>
+                  {patient.gender === 'M' ? 'Homme' : 'Femme'}
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-6 text-sm font-medium text-[var(--color-text-secondary)]">
+                <div className="flex items-center gap-2">
+                  <Calendar size={16} className="text-slate-300" />
+                  <span>{calculatePatientAge(patient.birthDate)} ans <span className="text-slate-200 ml-1">({patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('fr-FR') : 'N/A'})</span></span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Activity size={16} className="text-slate-300" />
+                  <span>Dernière analyse il y a {patient.analyses.length > 0 ? 'qq jours' : 'jamais'}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4 w-full lg:w-72">
+            <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition-all">
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 flex items-center gap-2">
+                <Phone size={12} /> Téléphone
+              </div>
+              <div className="text-sm font-semibold text-slate-700">{patient.phoneNumber || '—'}</div>
+            </div>
+            <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition-all">
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 flex items-center gap-2">
+                <Mail size={12} /> Email
+              </div>
+              <div className="text-sm font-semibold text-slate-700 truncate">{patient.email || '—'}</div>
+            </div>
+            <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition-all">
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 flex items-center gap-2">
+                <MapPin size={12} /> Adresse
+              </div>
+              <div className="text-sm font-semibold text-slate-700 truncate">{patient.address || '—'}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs & Content */}
+      <div className="space-y-6">
+        <div className="flex flex-wrap items-center gap-2 rounded-xl bg-[var(--color-surface-muted)] p-1 w-fit">
+          <button
+            onClick={() => setActiveTab('history')}
+            className={`flex items-center gap-2 rounded-md px-8 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] transition-all ${activeTab === 'history' ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm' : 'text-[var(--color-text-secondary)] hover:text-slate-700'}`}
+          >
+            <Info size={14} /> Historique
+          </button>
+          <button
+            onClick={() => setActiveTab('trends')}
+            className={`flex items-center gap-2 rounded-md px-8 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] transition-all ${activeTab === 'trends' ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm' : 'text-[var(--color-text-secondary)] hover:text-slate-700'}`}
+          >
+            <TrendingUpIcon size={14} /> Tendances
+          </button>
+        </div>
+
+        {activeTab === 'history' ? (
+          <PatientHistoryTab analyses={patient.analyses} />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {parameterTrends.length > 0 ? (
+              parameterTrends.map(([name, data]) => (
+                <TrendChart
+                  key={name}
+                  testName={name}
+                  unit={data.unit}
+                  data={data.points}
+                />
+              ))
+            ) : (
+              <div className="col-span-full empty-state py-24">
+                <div className="empty-state-icon w-16 h-16 rounded-full bg-[var(--color-surface-muted)]">
+                  <TrendingUpIcon size={32} />
+                </div>
+                <p className="text-[var(--color-text-secondary)] font-semibold max-w-sm mx-auto">
+                  Pas assez de données pour afficher les tendances.<br />
+                  <span className="text-xs font-medium text-slate-500 mt-2 block italic text-center">Les graphiques apparaissent automatiquement lorsqu&apos;un même paramètre est analysé au moins deux fois.</span>
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       <PatientEditModal
         mounted={mounted}
         patient={editingPatient}

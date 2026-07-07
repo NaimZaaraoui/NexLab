@@ -47,17 +47,17 @@ function ResultRow({ res, results, testReferences, analysis, isNFS, showPrev }: 
       <td className={`${py} pl-4`}>
         <div className={`flex flex-col ${hasParent ? 'pl-6' : 'pl-4'}`}>
           <span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">{test?.name}</span>
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-[0.08em] print:text-black/40">{test?.code}</span>
+          <span className="text-xs font-bold text-slate-300 uppercase tracking-[0.08em] print:text-black/50">{test?.code}</span>
         </div>
       </td>
       <td className={`${py} text-start`}>
         <div className="flex flex-col items-start gap-0.5">
           <div className="flex items-center justify-start gap-2">
-            <span className={`text-[14px] tracking-tight text-[var(--color-text)] ${flag ? 'font-black' : 'font-semibold'} print:text-black`}>
+            <span className={`text-[14px] font-mono tabular-nums tracking-normal text-[var(--color-text)] ${flag ? 'font-bold' : 'font-semibold'} print:text-black`}>
               {displayValue || '—'}
             </span>
             {flag && (
-              <span className="text-[12px] font-black text-[var(--color-text)] px-1 py-0.5 min-w-3.5">
+              <span className="text-[14px] font-mono font-black text-[var(--color-text)] px-1 py-0.5 min-w-3.5">
                 {flag === 'H' ? '↑' : '↓'}
               </span>
             )}
@@ -71,7 +71,7 @@ function ResultRow({ res, results, testReferences, analysis, isNFS, showPrev }: 
       </td>
       {showPrev && (
         <td className={`${py} text-center`}>
-          <span className="text-xs tracking-tight font-bold text-slate-500 print:text-black/40">
+          <span className="text-[12px] font-mono tabular-nums tracking-normal font-semibold text-slate-500 print:text-black/60">
             {formatReportResultValue(analysis.previousResults?.[res.testId] || '', res.test?.code) || '—'}
           </span>
         </td>
@@ -82,9 +82,9 @@ function ResultRow({ res, results, testReferences, analysis, isNFS, showPrev }: 
       <td className={`${py} pr-4 text-right text-xs font-bold text-slate-500 print:text-black`}>
         {refVals && (
           refVals.display === 'QUALIT.' ? (
-            <span className="text-slate-300 print:text-black/30 text-[11px] font-black tracking-[0.08em]">SANS RÉF.</span>
+            <span className="text-slate-300 print:text-black/30 text-[11px] font-black tracking-[0.08em]">—</span>
           ) : (
-            <span className="text-[var(--color-text)] tracking-tight print:text-black">{refVals.display}</span>
+            <span className="text-[13px] font-mono tabular-nums tracking-normal font-medium text-[var(--color-text)] print:text-black">{refVals.display}</span>
           )
         )}
       </td>

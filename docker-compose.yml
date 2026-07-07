@@ -12,10 +12,12 @@ services:
       - DATABASE_URL=file:/app/data/nexlab.db
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
+      - USE_SECURE_COOKIES=${USE_SECURE_COOKIES:-false}
       - RESEND_API_KEY=${RESEND_API_KEY}
       - CHROMIUM_PATH=/usr/bin/chromium
       - AUTH_SECRET=${AUTH_SECRET}
-      - NEXTAUTH_URL=http://nexlab.localhost
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost}
+      - AUTH_URL=${NEXTAUTH_URL:-http://localhost}
       - AUTH_TRUST_HOST=${AUTH_TRUST_HOST}
     volumes:
       - nexlab-db:/app/data

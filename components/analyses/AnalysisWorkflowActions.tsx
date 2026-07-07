@@ -22,7 +22,7 @@ export function AnalysisWorkflowActions() {
 
   const isFinalValidated = isAnalysisFinalValidated(analysis?.status);
   const selectedIdsCount = selectedIds.length;
-  
+
   const onEdit = () => setEditDialogOpen(true);
   const onPrintInvoice = handlePrintInvoice;
   const onOpenLabels = () => {
@@ -61,7 +61,7 @@ export function AnalysisWorkflowActions() {
         </>
       ) : (
         <>
-          <div className="ml-auto flex gap-2">
+          <div className="ml-auto flex flex-wrap gap-2">
             <button onClick={onPrintInvoice} className="btn-secondary h-10 px-4">
               <ReceiptText size={16} /> Facture
             </button>

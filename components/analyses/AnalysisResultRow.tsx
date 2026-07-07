@@ -126,8 +126,7 @@ export function AnalysisResultRow({
                   }}
                   onKeyDown={(event) => handleKeyDown(event, index, total)}
                   disabled={isFinalValidated || isFormula}
-                  placeholder="--"
-                  className={`font-mono h-10 rounded-md border font-bold transition-all outline-none focus:ring-4 ${isNumeric ? 'w-28 px-2 text-center text-lg tracking-tight' : 'w-48 px-4 text-sm'} ${abnormal ? 'border-rose-300 bg-rose-50 text-rose-600 focus:border-rose-400 focus:ring-rose-500/10' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)] hover:border-slate-300 focus:border-indigo-500 focus:bg-[var(--color-surface)] focus:ring-indigo-500/10'} ${isFormula ? 'cursor-not-allowed border-transparent bg-[var(--color-surface-muted)] text-slate-500' : ''}`}
+                  className={`font-mono h-10 rounded-md border font-bold transition-all outline-none focus:ring-4 ${isNumeric ? 'w-28 px-2 text-center text-lg tracking-normal' : 'w-48 px-4 text-sm'} ${abnormal ? 'border-rose-300 bg-rose-50 text-rose-600 focus:border-rose-400 focus:ring-rose-500/10' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)] hover:border-slate-300 focus:border-indigo-500 focus:bg-[var(--color-surface)] focus:ring-indigo-500/10'} ${isFormula ? 'cursor-not-allowed border-transparent bg-[var(--color-surface-muted)] text-slate-500' : ''}`}
                 />
                 {abnormal && <AlertCircle className="absolute -right-7 top-1/2 -translate-y-1/2 text-rose-500" size={16} />}
               </div>

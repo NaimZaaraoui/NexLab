@@ -32,7 +32,8 @@ export function generateCSRFToken(): string {
 export async function setCSRFTokenCookie(token: string): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.set(CSRF_COOKIE_NAME, token, {
-    httpOnly: true,
+    // Must be readable by client JS for the double-submit header pattern
+    httpOnly: false,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
     maxAge: 60 * 60 * 24, // 24 hours

@@ -46,7 +46,7 @@ export function NotificationsMenu({
       </button>
 
       {showNotifications && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-96 rounded-lg border bg-[var(--color-surface)] shadow-[0_10px_24px_rgba(15,31,51,0.08)]">
+        <div className="absolute right-0 top-full z-50 mt-2 sm:w-96 w-64 rounded-lg border bg-[var(--color-surface)] shadow-[0_10px_24px_rgba(15,31,51,0.08)]">
           <div className="flex items-center justify-between border-b px-4 py-3">
             <h3 className="text-sm font-semibold text-[var(--color-text)]">Notifications</h3>
             <div className="flex items-center gap-2">
@@ -68,9 +68,8 @@ export function NotificationsMenu({
                 <button
                   key={notification.id}
                   onClick={() => onNotificationClick(notification.id)}
-                  className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] ${
-                    !notification.isRead ? 'bg-[var(--color-accent-soft)]/35' : ''
-                  }`}
+                  className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] ${!notification.isRead ? 'bg-[var(--color-accent-soft)]/35' : ''
+                    }`}
                 >
                   <div className="mt-0.5 flex-shrink-0">{getNotificationIcon(notification.type)}</div>
                   <div className="min-w-0 flex-1">
