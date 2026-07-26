@@ -129,10 +129,6 @@ export function useResultatsPersistence({
         body: JSON.stringify({
           dailyId: editForm.dailyId,
           receiptNumber: editForm.receiptNumber,
-          patientFirstName: editForm.patientFirstName,
-          patientLastName: editForm.patientLastName,
-          patientAge: editForm.patientAge,
-          patientGender: editForm.patientGender,
           provenance: editForm.provenance,
           medecinPrescripteur: editForm.medecinPrescripteur,
           isUrgent: editForm.isUrgent,

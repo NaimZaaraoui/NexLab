@@ -1,4 +1,5 @@
-import { Check, Search } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Check, Search, X } from 'lucide-react';
 import type { Test } from '@/lib/core/types';
 import type { BilanOption } from './analyse-form-types';
 
@@ -8,6 +9,7 @@ interface AnalyseTestsPanelProps {
   bilans: BilanOption[];
   selectedTests: string[];
   toggleBilan: (bilan: BilanOption) => void;
+  tests: Test[];
   groupedTests: Record<string, Test[]>;
   toggleTest: (testId: string) => void;
 }
@@ -18,9 +20,28 @@ export function AnalyseTestsPanel({
   bilans,
   selectedTests,
   toggleBilan,
+  tests,
   groupedTests,
   toggleTest,
 }: AnalyseTestsPanelProps) {
+  const [activeCategory, setActiveCategory] = useState('all');
+  const categories = useMemo(() => (
+    Object.entries(groupedTests).map(([name, items]) => ({
+      name,
+      count: items.length,
+      selectedCount: items.filter((test) => selectedTests.includes(test.id)).length,
+    }))
+  ), [groupedTests, selectedTests]);
+  const selectedTestDetails = useMemo(() => (
+    tests.filter((test) => selectedTests.includes(test.id))
+  ), [selectedTests, tests]);
+  const selectedCategory = activeCategory === 'all' || Boolean(groupedTests[activeCategory])
+    ? activeCategory
+    : 'all';
+  const visibleGroups = selectedCategory === 'all'
+    ? groupedTests
+    : { [selectedCategory]: groupedTests[selectedCategory] ?? [] };
+
   return (
     <div className="bento-panel flex h-full flex-col p-5 lg:p-6">
       <div className="mb-6 flex flex-col items-start justify-between gap-4">
@@ -56,8 +77,63 @@ export function AnalyseTestsPanel({
         </div>
       </div>
 
+      {categories.length > 1 && (
+        <div className="mb-5 flex gap-2 overflow-x-auto rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-1">
+          <button
+            type="button"
+            onClick={() => setActiveCategory('all')}
+            className={`shrink-0 rounded-md px-3.5 py-2 text-xs font-semibold transition-colors ${
+              selectedCategory === 'all'
+                ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm'
+                : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]'
+            }`}
+          >
+            Tous ({tests.length})
+          </button>
+          {categories.map((category) => (
+            <button
+              key={category.name}
+              type="button"
+              onClick={() => setActiveCategory(category.name)}
+              className={`shrink-0 rounded-md px-3.5 py-2 text-xs font-semibold transition-colors ${
+                selectedCategory === category.name
+                  ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm'
+                  : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]'
+              }`}
+            >
+              {category.name} ({category.selectedCount}/{category.count})
+            </button>
+          ))}
+        </div>
+      )}
+
+      {selectedTestDetails.length > 0 && (
+        <div className="mb-5 rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3">
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <h3 className="text-sm font-semibold text-[var(--color-text)]">Examens sélectionnés</h3>
+            <span className="rounded-md bg-[var(--color-surface)] px-2.5 py-1 text-xs font-semibold text-[var(--color-text-secondary)]">
+              {selectedTestDetails.length}
+            </span>
+          </div>
+          <div className="flex max-h-24 flex-wrap gap-2 overflow-y-auto pr-1">
+            {selectedTestDetails.map((test) => (
+              <button
+                key={test.id}
+                type="button"
+                onClick={() => toggleTest(test.id)}
+                className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-[var(--color-surface)] px-2.5 py-1.5 text-xs font-semibold text-[var(--color-text)] transition-colors hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700"
+                title="Retirer cet examen"
+              >
+                <span>{test.code}</span>
+                <X size={12} />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="custom-scrollbar flex-1 max-h-[620px] space-y-8 overflow-y-auto pr-1">
-        {Object.entries(groupedTests).map(([category, categoryTests]) => (
+        {Object.entries(visibleGroups).map(([category, categoryTests]) => (
           <div key={category} className="space-y-3">
             <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-[var(--color-border)] bg-[var(--color-surface)] py-2">
               <h3 className="section-label text-[var(--color-text-secondary)]">{category}</h3>

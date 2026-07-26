@@ -50,14 +50,22 @@ export async function PATCH(
 
       const analysisResults = await prisma.result.findMany({
         where: { analysisId: id },
-        include: { test: { select: { isGroup: true, name: true, resultType: true, isOptional: true } } },
+        include: { test: { select: { id: true, isGroup: true, name: true, resultType: true, isOptional: true, parentId: true } } },
       });
 
-      // Exclude group headers, calculated fields, and explicitly optional tests from the mandatory check
+      // Identifier tous les tests qui agissent comme parents dans cette analyse
+      const parentTestIds = new Set(
+        analysisResults
+          .map(r => r.test?.parentId)
+          .filter((pid): pid is string => Boolean(pid))
+      );
+
+      // Exclude group headers, calculated fields, explicitly optional tests, AND tests that act as parents
       const requiredResults = analysisResults.filter(r => 
         !r.test?.isGroup && 
         r.test?.resultType !== 'calculated' && 
-        !r.test?.isOptional
+        !r.test?.isOptional &&
+        !parentTestIds.has(r.testId) // Un test parent n'a pas besoin de valeur (c'est juste un en-tête)
       );
       const emptyResults = requiredResults.filter(r => !r.value || r.value.trim() === '');
 
@@ -152,17 +160,16 @@ export async function PATCH(
 
       // Notifications
       try {
-        const medecinAdminIds = await getUserIdsByRoles(
-          ['MEDECIN', 'ADMIN'],
-          session.user.id
-        );
-        await notifyUsers({
-          userIds: medecinAdminIds,
-          type: 'validated_tech',
-          title: 'Validation technique effectuée',
-          message: `${updated.patientLastName} ${updated.patientFirstName} (ORD-${updated.orderNumber}) est prêt pour la validation biologique.`,
-          analysisId: id,
-        });
+        const bioIds = await getUserIdsByRoles(['ADMIN', 'MEDECIN']);
+        if (bioIds.length > 0) {
+          await notifyUsers({
+            userIds: bioIds,
+            type: 'validated_tech',
+            title: 'Validation technique effectuée',
+            message: `${updated.patient?.lastName || ''} ${updated.patient?.firstName || ''} (ORD-${updated.orderNumber}) est prêt pour la validation biologique.`,
+            analysisId: id,
+          });
+        }
       } catch (e) {
         console.error('Error in tech validation notification:', e);
       }
@@ -174,7 +181,7 @@ export async function PATCH(
         entityId: id,
         details: {
           orderNumber: updated.orderNumber,
-          patient: `${updated.patientLastName || ''} ${updated.patientFirstName || ''}`.trim(),
+          patient: `${updated.patient?.lastName || ''} ${updated.patient?.firstName || ''}`.trim(),
         },
         ipAddress: meta.ipAddress,
         userAgent: meta.userAgent,
@@ -229,14 +236,16 @@ export async function PATCH(
 
     // Notifications
     try {
-      const receptionistAndAdminIds = await getUserIdsByRoles(['RECEPTIONNISTE', 'ADMIN'], session.user.id);
-      await notifyUsers({
-        userIds: receptionistAndAdminIds,
-        type: 'validated_bio',
-        title: 'Résultats validés — prêts à imprimer',
-        message: `Le rapport de ${updated.patientLastName} ${updated.patientFirstName} (ORD-${updated.orderNumber}) a été validé biologiquement et est prêt pour impression.`,
-        analysisId: id,
-      });
+      const ids = await getUserIdsByRoles(['ADMIN', 'TECHNICIEN', 'RECEPTIONNISTE']);
+      if (ids.length > 0) {
+        await notifyUsers({
+          userIds: ids,
+          type: 'validated_bio',
+          title: 'Résultats validés — prêts à imprimer',
+          message: `Le rapport de ${updated.patient?.lastName || ''} ${updated.patient?.firstName || ''} (ORD-${updated.orderNumber}) a été validé biologiquement et est prêt pour impression.`,
+          analysisId: id,
+        });
+      }
     } catch (e) {
       console.error('Error in bio validation notification:', e);
     }
@@ -248,7 +257,7 @@ export async function PATCH(
       entityId: id,
       details: {
         orderNumber: updated.orderNumber,
-        patient: `${updated.patientLastName || ''} ${updated.patientFirstName || ''}`.trim(),
+        patient: `${updated.patient?.lastName || ''} ${updated.patient?.firstName || ''}`.trim(),
       },
       ipAddress: meta.ipAddress,
       userAgent: meta.userAgent,

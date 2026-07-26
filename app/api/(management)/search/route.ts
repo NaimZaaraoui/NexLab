@@ -40,8 +40,8 @@ export async function GET(req: NextRequest) {
             { orderNumber: { contains: query } },
             { dailyId: { contains: query } },
             { receiptNumber: { contains: query } },
-            { patientFirstName: { contains: query } },
-            { patientLastName: { contains: query } },
+            { patient: { firstName: { contains: query } } },
+            { patient: { lastName: { contains: query } } },
             { medecinPrescripteur: { contains: query } },
           ],
         },
@@ -51,10 +51,14 @@ export async function GET(req: NextRequest) {
           id: true,
           dailyId: true,
           orderNumber: true,
-          patientFirstName: true,
-          patientLastName: true,
           receiptNumber: true,
           status: true,
+          patient: {
+            select: {
+              firstName: true,
+              lastName: true,
+            }
+          }
         },
       }),
       prisma.test.findMany({
@@ -80,9 +84,10 @@ export async function GET(req: NextRequest) {
       })),
       ...analyses.map((a) => ({
         id: a.id,
-        title: `Analyse #${a.dailyId || a.orderNumber.slice(0, 8)}`,
+        title: `${a.dailyId ? `#${a.dailyId} - ` : ''}${a.patient?.lastName || ''} ${a.patient?.firstName || ''}`,
         type: 'analysis' as const,
-        description: `${a.patientLastName || ''} ${a.patientFirstName || ''} · ${a.receiptNumber || 'Sans quittance'}`.trim(),
+        description: `ORD-${a.orderNumber} ${a.receiptNumber ? `(Reçu: ${a.receiptNumber})` : ''}`,
+        url: `/analyses/${a.id}`,
       })),
       ...tests.map((t) => ({
         id: t.id,

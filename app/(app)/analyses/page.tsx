@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { AnalysesList } from '@/components/analyses/AnalysesList';
 import Link from 'next/link';
-import { DownloadCloud } from 'lucide-react';
+import { DownloadCloud, ListPlus } from 'lucide-react';
 
 export default function AnalysesPage() {
   return (
@@ -14,10 +14,16 @@ export default function AnalysesPage() {
               Registre opérationnel des dossiers patients, validations et suivi quotidien.
             </p>
           </div>
-          <Link href="/dashboard/exports" className="btn-secondary h-11 px-4">
-            <DownloadCloud className="h-4 w-4" />
-            Exporter
-          </Link>
+          <div className="flex gap-2">
+            <Link href="/analyses/batch" className="btn-primary h-11 px-4">
+              <ListPlus className="h-4 w-4" />
+              Saisie en série
+            </Link>
+            <Link href="/dashboard/exports" className="btn-secondary h-11 px-4">
+              <DownloadCloud className="h-4 w-4" />
+              Exporter
+            </Link>
+          </div>
         </div>
       </section>
 

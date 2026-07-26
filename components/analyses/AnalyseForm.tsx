@@ -112,6 +112,7 @@ export function AnalyseForm() {
             bilans={state.bilans}
             selectedTests={state.selectedTests}
             toggleBilan={state.toggleBilan}
+            tests={state.tests}
             groupedTests={state.groupedTests}
             toggleTest={state.toggleTest}
          />

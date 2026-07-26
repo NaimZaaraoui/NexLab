@@ -52,8 +52,6 @@ export async function findDailyIdConflict({
       id: true,
       dailyId: true,
       orderNumber: true,
-      patientFirstName: true,
-      patientLastName: true,
     },
   });
 

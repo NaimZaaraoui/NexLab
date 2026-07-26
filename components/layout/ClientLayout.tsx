@@ -1,6 +1,7 @@
 'use client';
 
 import { MobileMenuProvider, useMobileMenu } from '@/components/providers/MobileMenuContext';
+import { ToastProvider } from '@/components/providers/ToastProvider';
 import { Header } from '@/components/layout/Header';
 import { Navigation } from '@/components/layout/Navigation';
 import type { ReactNode } from 'react';
@@ -34,8 +35,10 @@ function AppShell({ children }: { children: ReactNode }) {
 
 export default function ClientLayout({ children }: { children: ReactNode }) {
   return (
-    <MobileMenuProvider>
-      <AppShell>{children}</AppShell>
-    </MobileMenuProvider>
+    <ToastProvider>
+      <MobileMenuProvider>
+        <AppShell>{children}</AppShell>
+      </MobileMenuProvider>
+    </ToastProvider>
   );
 }

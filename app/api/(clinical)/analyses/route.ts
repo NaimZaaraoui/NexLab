@@ -63,8 +63,8 @@ export async function GET(request: NextRequest) {
     if (q) {
       where.OR = [
         { orderNumber: { contains: q } },
-        { patientFirstName: { contains: q } },
-        { patientLastName: { contains: q } }
+        { patient: { firstName: { contains: q } } },
+        { patient: { lastName: { contains: q } } }
       ];
     }
 
@@ -86,6 +86,7 @@ export async function GET(request: NextRequest) {
     const findOptions = {
       where,
       include: {
+        patient: true,
         results: includeResults ? {
           include: {
             test: {
@@ -303,8 +304,8 @@ export async function POST(request: NextRequest) {
       if (!transactionPatientId) {
         const newPatient = await tx.patient.create({
           data: {
-            firstName: patientFirstName,
-            lastName: patientLastName,
+            firstName: patientFirstName ?? '',
+            lastName: patientLastName ?? '',
             gender: patientGender,
             birthDate: birthDateObj,
             phoneNumber: patientPhone,
@@ -324,10 +325,6 @@ export async function POST(request: NextRequest) {
           patientId: transactionPatientId,
           creationDate: creationTimestamp,
           totalPrice: totalPrice,
-          patientFirstName,
-          patientLastName,
-          patientAge: calculatedAge,
-          patientGender,
           receiptNumber: receiptNumberFromBody || receiptNumber,
           provenance: provenance || null,
           medecinPrescripteur: medecinPrescripteur || null,
@@ -346,6 +343,7 @@ export async function POST(request: NextRequest) {
           }
         },
         include: {
+          patient: true,
           results: {
             include: {
               test: true
@@ -385,7 +383,7 @@ export async function POST(request: NextRequest) {
         userIds: techAdminIds,
         type: 'new_analysis',
         title: 'Nouvelle analyse',
-        message: `Nouvelle analyse pour ${analysis.patientLastName} ${analysis.patientFirstName} — ORD-${analysis.orderNumber}`,
+        message: `Nouvelle analyse pour ${analysis.patient?.lastName} ${analysis.patient?.firstName} — ORD-${analysis.orderNumber}`,
         analysisId: analysis.id,
       });
 
@@ -399,7 +397,7 @@ export async function POST(request: NextRequest) {
           userIds: allUserIds,
           type: 'urgent',
           title: 'URGENT — Analyse prioritaire',
-          message: `Analyse urgente créée pour ${analysis.patientLastName} ${analysis.patientFirstName} — ORD-${analysis.orderNumber}`,
+          message: `Analyse urgente créée pour ${analysis.patient?.lastName} ${analysis.patient?.firstName} — ORD-${analysis.orderNumber}`,
           analysisId: analysis.id,
         });
       }
@@ -414,7 +412,7 @@ export async function POST(request: NextRequest) {
       entityId: analysis.id,
       details: {
         orderNumber: analysis.orderNumber,
-        patient: `${analysis.patientLastName || ''} ${analysis.patientFirstName || ''}`.trim(),
+        patient: `${analysis.patient?.lastName || ''} ${analysis.patient?.firstName || ''}`.trim(),
         totalPrice: analysis.totalPrice,
       },
       ipAddress: meta.ipAddress,

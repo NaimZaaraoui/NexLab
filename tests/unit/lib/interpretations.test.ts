@@ -74,7 +74,7 @@ describe('Hematology Interpretations', () => {
   describe('Anemia Detection (Gender-Specific)', () => {
     it('should flag ANÉMIE for male when HGB < 13.0', () => {
       const analysis = createMockAnalysis({
-        patientGender: 'M',
+        patient: { gender: 'M' } as any,
         results: [{ id: 'hgb-result', test: { code: 'HGB' }, value: null }] as any,
       });
 
@@ -87,7 +87,7 @@ describe('Hematology Interpretations', () => {
 
     it('should not flag ANÉMIE for male when HGB >= 13.0', () => {
       const analysis = createMockAnalysis({
-        patientGender: 'M',
+        patient: { gender: 'M' } as any,
         results: [{ id: 'hgb-result', test: { code: 'HGB' }, value: null }] as any,
       });
 
@@ -100,7 +100,7 @@ describe('Hematology Interpretations', () => {
 
     it('should flag ANÉMIE for female when HGB < 12.0', () => {
       const analysis = createMockAnalysis({
-        patientGender: 'F',
+        patient: { gender: 'F' } as any,
         results: [{ id: 'hgb-result', test: { code: 'HGB' }, value: null }] as any,
       });
 
@@ -113,7 +113,7 @@ describe('Hematology Interpretations', () => {
 
     it('should not flag ANÉMIE for female when HGB >= 12.0', () => {
       const analysis = createMockAnalysis({
-        patientGender: 'F',
+        patient: { gender: 'F' } as any,
         results: [{ id: 'hgb-result', test: { code: 'HGB' }, value: null }] as any,
       });
 
@@ -340,7 +340,7 @@ describe('Hematology Interpretations', () => {
   describe('Multiple Flags', () => {
     it('should return multiple flags for complex case', () => {
       const analysis = createMockAnalysis({
-        patientGender: 'M',
+        patient: { gender: 'M' } as any,
         results: [
           { id: 'gb-result', test: { code: 'GB' }, value: null },
           { id: 'hgb-result', test: { code: 'HGB' }, value: null },

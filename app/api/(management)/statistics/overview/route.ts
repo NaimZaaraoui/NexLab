@@ -72,7 +72,9 @@ export async function GET(request: Request) {
           isUrgent: true,
           status: true,
           validatedBioAt: true,
-          patientGender: true,
+          patient: {
+            select: { gender: true }
+          }
         },
       }),
       prisma.analysis.findMany({
@@ -103,7 +105,7 @@ export async function GET(request: Request) {
 
     const genderCounts: Record<string, number> = {};
     analyses.forEach(a => {
-      const g = a.patientGender || 'Inconnu';
+      const g = a.patient?.gender || 'Inconnu';
       genderCounts[g] = (genderCounts[g] || 0) + 1;
     });
     const genderDistribution = Object.entries(genderCounts).map(([gender, count]) => ({ gender, count }));

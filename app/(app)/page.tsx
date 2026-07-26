@@ -355,7 +355,7 @@ export default function DashboardPage() {
                     <div className="col-span-1 text-center text-xs font-medium text-[var(--color-text-secondary)]">{index + 1}</div>
                     <div className="col-span-5 min-w-0">
                       <div className="truncate text-sm font-medium text-[var(--color-text)]">
-                        {analysis.patientFirstName} {analysis.patientLastName}
+                        {analysis.patient?.firstName} {analysis.patient?.lastName}
                       </div>
                       <div className="text-xs text-[var(--color-text-secondary)]">ID: {analysis.dailyId || 'N/A'}</div>
                     </div>

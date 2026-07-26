@@ -48,21 +48,22 @@ export async function GET(request: NextRequest) {
         orderNumber: true,
         receiptNumber: true,
         creationDate: true,
-        patientFirstName: true,
-        patientLastName: true,
-        patientAge: true,
-        patientGender: true,
+        patient: {
+          select: {
+            firstName: true,
+            lastName: true,
+            gender: true,
+            birthDate: true,
+            insuranceNumber: true,
+          }
+        },
         insuranceProvider: true,
         insuranceCoverage: true,
         totalPrice: true,
         insuranceShare: true,
         patientShare: true,
         status: true,
-        patient: {
-          select: {
-            insuranceNumber: true,
-          },
-        },
+
       },
       orderBy: { creationDate: 'desc' },
     });
@@ -90,22 +91,25 @@ export async function GET(request: NextRequest) {
       const escapeCsv = (v: string | number | null | undefined) =>
         `"${String(v ?? '').replaceAll('"', '""')}"`;
 
-      const lines = analyses.map((a) => [
-        a.orderNumber,
-        a.receiptNumber,
-        a.creationDate.toLocaleDateString('fr-FR'),
-        a.patientLastName,
-        a.patientFirstName,
-        a.patientAge,
-        a.patientGender === 'M' ? 'Homme' : 'Femme',
-        a.insuranceProvider,
-        a.patient?.insuranceNumber,
-        a.insuranceCoverage ? `${a.insuranceCoverage}%` : '',
-        a.totalPrice?.toFixed(2),
-        a.insuranceShare?.toFixed(2),
-        a.patientShare?.toFixed(2),
-        a.status,
-      ].map(escapeCsv).join(','));
+      const lines = analyses.map((a) => {
+        const p = a.patient;
+        return [
+          a.orderNumber,
+          a.receiptNumber,
+          a.creationDate.toLocaleDateString('fr-FR'),
+          p?.lastName,
+          p?.firstName,
+          p?.birthDate ? Math.floor((new Date().getTime() - new Date(p.birthDate).getTime()) / 31557600000) : '',
+          p?.gender === 'M' ? 'Homme' : 'Femme',
+          a.insuranceProvider,
+          p?.insuranceNumber,
+          a.insuranceCoverage ? `${a.insuranceCoverage}%` : '',
+          a.totalPrice?.toFixed(2),
+          a.insuranceShare?.toFixed(2),
+          a.patientShare?.toFixed(2),
+          a.status,
+        ].map(escapeCsv).join(',');
+      });
 
       const csv = [headers.map(escapeCsv).join(','), ...lines].join('\n');
       const fileName = `cnam_export_${new Date().toISOString().slice(0, 10)}.csv`;

@@ -3,8 +3,10 @@ import { prisma } from '@/lib/db/prisma';
 type AnalysisForQualityEvent = {
   id: string;
   orderNumber: string;
-  patientFirstName: string | null;
-  patientLastName: string | null;
+  patient?: {
+    firstName: string;
+    lastName: string;
+  } | null;
 };
 
 type SpecimenForQualityEvent = {
@@ -46,7 +48,7 @@ export async function syncSpecimenQualityEvents({
   detectedById,
   detectedByName,
 }: SyncSpecimenQualityEventsInput) {
-  const patientName = `${analysis.patientLastName || ''} ${analysis.patientFirstName || ''}`.trim() || null;
+  const patientName = `${analysis.patient?.lastName || ''} ${analysis.patient?.firstName || ''}`.trim() || null;
   const rejectedSpecimens = specimens.filter((specimen) => specimen.status === 'rejected');
   const rejectedIds = new Set(rejectedSpecimens.map((specimen) => specimen.id));
 

@@ -3,11 +3,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useToast } from '@/components/providers/ToastProvider';
 import { DEFAULT_INVENTORY_CATEGORIES, type InventoryCategoryConfig } from '@/lib/inventory/inventory-categories';
 import type { InventoryDetailItem, InventoryItemFormValues, TestOption } from '@/components/inventory/types';
 
 export function useInventoryItem(itemId?: string) {
   const router = useRouter();
+  const { toast } = useToast();
   const { data: session, status } = useSession();
   const role = session?.user?.role || 'TECHNICIEN';
   const canWrite = ['ADMIN', 'TECHNICIEN'].includes(role);
@@ -83,8 +85,8 @@ export function useInventoryItem(itemId?: string) {
       const res = await fetch('/api/inventory/categories', { cache: 'no-store' });
       const data = await res.json();
       if (Array.isArray(data) && data.length > 0) setCategories(data);
-    } catch (error) {
-      console.error(error);
+    } catch {
+      // Non-critical — default categories remain in state
     }
   }, []);
 
@@ -98,8 +100,8 @@ export function useInventoryItem(itemId?: string) {
           setRuleForm((prev) => ({ ...prev, testId: prev.testId || data[0].id }));
         }
       }
-    } catch (error) {
-      console.error(error);
+    } catch {
+      // Non-critical — rules form will just have empty test list
     }
   }, []);
 

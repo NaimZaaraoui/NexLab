@@ -63,11 +63,7 @@ model Test {
 model Analysis {
   id                  String                @id @default(uuid())
   orderNumber         String                @unique
-  patientId           String?
-  patientFirstName    String?
-  patientLastName     String?
-  patientAge          Int?
-  patientGender       String?
+  patientId           String
   receiptNumber       String?
   dailyId             String?
   provenance          String?
@@ -102,7 +98,7 @@ model Analysis {
   validatedTechAt     DateTime?
   validatedTechBy     String?
   validatedTechName   String?
-  patient             Patient?              @relation(fields: [patientId], references: [id])
+  patient             Patient               @relation(fields: [patientId], references: [id])
   results             Result[]
   specimens           Specimen[]
   notifications       Notification[]

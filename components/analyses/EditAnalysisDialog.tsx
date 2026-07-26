@@ -1,6 +1,6 @@
 // components/analyses/EditAnalysisDialog.tsx
-import React from 'react';
-import { CheckCircle } from 'lucide-react';
+import React, { useMemo, useState, useCallback } from 'react';
+import { CheckCircle, Search, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import type { AvailableTestOption, EditAnalysisForm } from './types';
 
@@ -35,9 +35,50 @@ export function EditAnalysisDialog({
   saveAnalysisMeta,
   savingMeta,
 }: EditAnalysisDialogProps) {
+  const [activeCategory, setActiveCategory] = useState('all');
   const updateEditForm = <K extends keyof EditAnalysisForm>(key: K, value: EditAnalysisForm[K]) => {
     setEditForm((prev) => ({ ...prev, [key]: value }));
   };
+
+  const normalizedSearch = testSearch.toLowerCase().trim();
+  const selectedTests = useMemo(() => (
+    availableTests.filter((test) => selectedTestIds.includes(test.id))
+  ), [availableTests, selectedTestIds]);
+  const filteredTests = useMemo(() => (
+    availableTests.filter((test) => (
+      !normalizedSearch ||
+      test.code.toLowerCase().includes(normalizedSearch) ||
+      test.name.toLowerCase().includes(normalizedSearch)
+    ))
+  ), [availableTests, normalizedSearch]);
+  const categoryTabs = useMemo(() => {
+    const categories = new Map<string, { name: string; rank: number; count: number; selectedCount: number }>();
+
+    filteredTests.forEach((test) => {
+      const name = test.categoryName || 'Autres';
+      const current = categories.get(name) || {
+        name,
+        rank: test.categoryRank ?? 999,
+        count: 0,
+        selectedCount: 0,
+      };
+
+      current.count += 1;
+      if (selectedTestIds.includes(test.id)) current.selectedCount += 1;
+      categories.set(name, current);
+    });
+
+    return Array.from(categories.values()).sort((a, b) => {
+      if (a.rank !== b.rank) return a.rank - b.rank;
+      return a.name.localeCompare(b.name);
+    });
+  }, [filteredTests, selectedTestIds]);
+  const selectedCategory = activeCategory === 'all' || categoryTabs.some((category) => category.name === activeCategory)
+    ? activeCategory
+    : 'all';
+  const visibleTests = selectedCategory === 'all'
+    ? filteredTests
+    : filteredTests.filter((test) => (test.categoryName || 'Autres') === selectedCategory);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -49,13 +90,6 @@ export function EditAnalysisDialog({
           <div className="grid grid-cols-2 gap-4">
             <input className="input-premium h-10 text-sm" placeholder="N° Paillasse" value={editForm.dailyId} onChange={(e) => updateEditForm('dailyId', e.target.value)} />
             <input className="input-premium h-10 text-sm" placeholder="Quittance" value={editForm.receiptNumber} onChange={(e) => updateEditForm('receiptNumber', e.target.value)} />
-            <input className="input-premium h-10 text-sm" placeholder="Nom" value={editForm.patientLastName} onChange={(e) => updateEditForm('patientLastName', e.target.value)} />
-            <input className="input-premium h-10 text-sm" placeholder="Prénom" value={editForm.patientFirstName} onChange={(e) => updateEditForm('patientFirstName', e.target.value)} />
-            <input className="input-premium h-10 text-sm" placeholder="Âge" value={editForm.patientAge} onChange={(e) => updateEditForm('patientAge', e.target.value)} />
-            <select className="input-premium h-10 text-sm" value={editForm.patientGender} onChange={(e) => updateEditForm('patientGender', e.target.value)}>
-              <option value="M">M</option>
-              <option value="F">F</option>
-            </select>
             <input list="edit-provenance-options" className="input-premium h-10 text-sm col-span-2" placeholder="Provenance" value={editForm.provenance} onChange={(e) => updateEditForm('provenance', e.target.value)} />
             <datalist id="edit-provenance-options">
               {provenanceOptions.map((option) => (
@@ -89,36 +123,91 @@ export function EditAnalysisDialog({
                 <span className="text-xs font-bold text-slate-500 uppercase tracking-[0.08em]">Tests sélectionnés</span>
                 <span className="text-xs font-semibold text-[var(--color-accent)]">{selectedTestIds.length} test(s)</span>
               </div>
-              <input
-                value={testSearch}
-                onChange={(e) => setTestSearch(e.target.value)}
-                placeholder="Rechercher un test (code ou nom)..."
-                className="input-premium h-10 text-sm w-full mb-3"
-              />
+              <div className="relative mb-3">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                <input
+                  value={testSearch}
+                  onChange={(e) => setTestSearch(e.target.value)}
+                  placeholder="Rechercher un test (code ou nom)..."
+                  className="input-premium h-10 w-full pl-10 text-sm"
+                />
+              </div>
+              {selectedTests.length > 0 && (
+                <div className="mb-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3">
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <span className="text-sm font-semibold text-[var(--color-text)]">Demandés dans ce dossier</span>
+                    <span className="rounded-md bg-[var(--color-surface)] px-2.5 py-1 text-xs font-semibold text-[var(--color-text-secondary)]">
+                      {selectedTests.length}
+                    </span>
+                  </div>
+                  <div className="flex max-h-20 flex-wrap gap-2 overflow-y-auto pr-1">
+                    {selectedTests.map((test) => (
+                      <button
+                        key={test.id}
+                        type="button"
+                        onClick={() => toggleSelectedTest(test.id)}
+                        className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-[var(--color-surface)] px-2.5 py-1.5 text-xs font-semibold text-[var(--color-text)] transition-colors hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700"
+                        title="Retirer cet examen"
+                      >
+                        <span>{test.code}</span>
+                        <X size={12} />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {categoryTabs.length > 1 && (
+                <div className="mb-3 flex gap-2 overflow-x-auto rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-1">
+                  <button
+                    type="button"
+                    onClick={() => setActiveCategory('all')}
+                    className={`shrink-0 rounded-md px-3.5 py-2 text-xs font-semibold transition-colors ${
+                      selectedCategory === 'all'
+                        ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm'
+                        : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]'
+                    }`}
+                  >
+                    Tous ({filteredTests.length})
+                  </button>
+                  {categoryTabs.map((category) => (
+                    <button
+                      key={category.name}
+                      type="button"
+                      onClick={() => setActiveCategory(category.name)}
+                      className={`shrink-0 rounded-md px-3.5 py-2 text-xs font-semibold transition-colors ${
+                        selectedCategory === category.name
+                          ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm'
+                          : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]'
+                      }`}
+                    >
+                      {category.name} ({category.selectedCount}/{category.count})
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className="max-h-56 overflow-y-auto border border-[var(--color-border)] rounded-xl p-2 space-y-1">
-                {availableTests
-                  .filter((test) => {
-                    const q = testSearch.toLowerCase().trim();
-                    if (!q) return true;
-                    return test.code.toLowerCase().includes(q) || test.name.toLowerCase().includes(q);
-                  })
-                  .map((test) => (
+                {visibleTests
+                  .map((test) => {
+                    const isSelected = selectedTestIds.includes(test.id);
+
+                    return (
                     <button
                       key={test.id}
                       type="button"
                       onClick={() => toggleSelectedTest(test.id)}
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border text-left transition-all ${
-                        selectedTestIds.includes(test.id)
+                        isSelected
                           ? 'bg-indigo-50 border-indigo-200 text-indigo-700'
                           : 'bg-[var(--color-surface)] border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-slate-300'
                       }`}
                     >
                       <span className="text-xs font-bold">{test.code} - {test.name}</span>
-                      <span className={`w-4 h-4 rounded border-2 flex items-center justify-center ${selectedTestIds.includes(test.id) ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300'}`}>
-                        {selectedTestIds.includes(test.id) && <CheckCircle size={10} className="text-white" />}
+                      <span className={`w-4 h-4 rounded border-2 flex items-center justify-center ${isSelected ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300'}`}>
+                        {isSelected && <CheckCircle size={10} className="text-white" />}
                       </span>
                     </button>
-                  ))}
+                    );
+                  })}
               </div>
             </div>
           </div>

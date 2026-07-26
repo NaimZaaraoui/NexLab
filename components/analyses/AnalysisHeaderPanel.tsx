@@ -77,9 +77,9 @@ export function AnalysisHeaderPanel() {
               </span>
               <span className="text-xs text-[var(--color-text-secondary)]">{format(new Date(analysis.creationDate), 'dd MMMM yyyy', { locale: fr })}</span>
             </div>
-            <h1 className={`text-lg font-semibold tracking-tight text-[var(--color-text)] ${!analysis.patientFirstName && !analysis.patientLastName ? 'italic text-[var(--color-text-secondary)]' : ''}`}>
-              {(analysis.patientFirstName || analysis.patientLastName) ? (
-                <>{analysis.patientFirstName} <span className="text-[var(--color-accent)]">{analysis.patientLastName}</span></>
+            <h1 className={`text-lg font-semibold tracking-tight text-[var(--color-text)] ${!analysis.patient?.firstName && !analysis.patient?.lastName ? 'italic text-[var(--color-text-secondary)]' : ''}`}>
+              {(analysis.patient?.firstName || analysis.patient?.lastName) ? (
+                <>{analysis.patient?.firstName} <span className="text-[var(--color-accent)]">{analysis.patient?.lastName}</span></>
               ) : 'Patient Sans Nom'}
             </h1>
             {analysis.validatedTechAt && (
@@ -148,8 +148,8 @@ export function AnalysisHeaderPanel() {
 
       <AnalysisMetadataCards
         dailyId={analysis.dailyId || ''}
-        patientAge={analysis.patientAge ? String(analysis.patientAge) : ''}
-        patientGender={analysis.patientGender || 'M'}
+        patientAge={analysis.patient?.birthDate ? String(Math.floor((new Date().getTime() - new Date(analysis.patient.birthDate).getTime()) / 31557600000)) : ''}
+        patientGender={analysis.patient?.gender || 'M'}
       />
 
       <GlobalNotePanel />

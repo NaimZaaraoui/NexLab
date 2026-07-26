@@ -4,8 +4,8 @@ export const analysisCreateSchema = z.object({
   dailyId: z.string().optional().nullable(),
   patientId: z.string().optional().nullable(),
   selectedPatientId: z.string().optional().nullable(),
-  patientFirstName: z.string().min(1, 'Le prénom est requis'),
-  patientLastName: z.string().min(1, 'Le nom est requis'),
+  patientFirstName: z.string().optional().nullable(),
+  patientLastName: z.string().optional().nullable(),
   patientBirthDate: z.string().nullable().optional(),
   patientGender: z.enum(['M', 'F']).catch('M'),
   patientPhone: z.string().nullable().optional(),
@@ -21,6 +21,23 @@ export const analysisCreateSchema = z.object({
   insuranceProvider: z.string().nullable().optional(),
   insuranceNumber: z.string().nullable().optional(),
   insuranceCoverage: z.number().min(0).max(100).nullable().optional(),
+}).superRefine((data, ctx) => {
+  if (!data.selectedPatientId && !data.patientId) {
+    if (!data.patientFirstName || data.patientFirstName.trim() === '') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['patientFirstName'],
+        message: 'Le prénom est requis pour un nouveau patient',
+      });
+    }
+    if (!data.patientLastName || data.patientLastName.trim() === '') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['patientLastName'],
+        message: 'Le nom est requis pour un nouveau patient',
+      });
+    }
+  }
 });
 
 export const resultUpdateSchema = z.object({

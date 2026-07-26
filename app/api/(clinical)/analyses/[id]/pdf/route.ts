@@ -37,7 +37,11 @@ export async function GET(
         status: true,
         pdfReportPath: true,
         orderNumber: true,
-        patientLastName: true,
+        patient: {
+          select: {
+            lastName: true
+          }
+        }
       }
     });
 
@@ -46,7 +50,7 @@ export async function GET(
     }
 
     const origin = request.headers.get('origin') || `http://${request.headers.get('host')}` || 'http://localhost:3000';
-    const safeName = `rapport_${analysis.patientLastName || 'patient'}_${analysis.orderNumber}.pdf`;
+    const safeName = `rapport_${(analysis.patient?.lastName || 'patient').replace(/[^a-zA-Z0-9]/g, '_')}_${analysis.orderNumber}.pdf`;
     const status = (analysis.status ?? 'pending') as AnalysisStatus;
 
     // ✅ Cas 1 : Rapport validé + PDF en cache → service direct (instantané, 0% CPU)

@@ -88,7 +88,7 @@ export default function TubeLabelsPage() {
 
   const patientName = useMemo(() => {
     if (!analysis) return '';
-    return `${analysis.patientFirstName || ''} ${analysis.patientLastName || ''}`.trim() || 'Patient sans nom';
+    return `${analysis.patient?.firstName || ''} ${analysis.patient?.lastName || ''}`.trim() || 'Patient sans nom';
   }, [analysis]);
 
   const barcodeValue = useMemo(() => {
@@ -187,7 +187,7 @@ export default function TubeLabelsPage() {
                 </p>
               </div>
               <div className="shrink-0 rounded-full border border-[var(--color-border)] px-2 py-0.5 text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--color-text-secondary)] print:px-1.5 print:text-xs print:border-black">
-                {analysis.patientGender === 'F' ? 'F' : analysis.patientGender === 'M' ? 'M' : 'P'}
+                {analysis.patient?.gender === 'F' ? 'F' : analysis.patient?.gender === 'M' ? 'M' : 'P'}
               </div>
             </div>
 

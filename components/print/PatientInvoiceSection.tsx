@@ -27,7 +27,11 @@ interface PatientInvoiceSectionProps {
 export const PatientInvoiceSection: React.FC<PatientInvoiceSectionProps> = ({ analysis, settings }) => {
   const { LAB_NAME, LAB_ADDRESS } = resolvePrintBranding(settings);
 
-  const patientName = `${analysis.patientFirstName || ''} ${analysis.patientLastName || ''}`.trim() || 'PATIENT SANS NOM';
+  const patientName = `${analysis.patient?.firstName || ''} ${analysis.patient?.lastName || ''}`.trim() || 'PATIENT SANS NOM';
+  const age = analysis.patient?.birthDate 
+    ? Math.floor((new Date().getTime() - new Date(analysis.patient.birthDate).getTime()) / 31557600000) 
+    : '?';
+  const gender = analysis.patient?.gender === 'M' ? 'Homme' : analysis.patient?.gender === 'F' ? 'Femme' : '?';
   const dateFacture = format(new Date(), 'dd MMMM yyyy', { locale: fr });
   const dateEdition = format(new Date(analysis.creationDate), 'dd MMMM yyyy', { locale: fr });
 
@@ -41,9 +45,9 @@ export const PatientInvoiceSection: React.FC<PatientInvoiceSectionProps> = ({ an
         <div className="flex flex-col">
           <h3 className="text-3xl font-semibold text-[var(--color-text)] mb-2 print:text-2xl print:text-black">{patientName}</h3>
           <div className="flex gap-4 text-sm font-medium text-[var(--color-text-secondary)] print:text-black">
-            <span>{analysis.patientAge} ans</span>
+            <span>{age} ans</span>
             <span className="text-slate-200 print:text-black/30">|</span>
-            <span className="uppercase">{analysis.patientGender === 'M' ? 'Homme' : 'Femme'}</span>
+            <span className="uppercase">{gender}</span>
             <span className="text-slate-200 print:text-black/30">|</span>
             <span>ID: <span className="font-bold font-mono text-[var(--color-text)] print:text-black">{analysis.dailyId}</span></span>
           </div>

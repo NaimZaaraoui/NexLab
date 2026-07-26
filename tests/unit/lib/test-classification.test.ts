@@ -97,6 +97,7 @@ describe('Test Classification Module', () => {
     const unisexTest: Test = {
       id: '1',
       code: 'PLT',
+      loincCode: null,
       name: 'Platelets',
       minValue: 150,
       maxValue: 450,
@@ -143,7 +144,8 @@ describe('Test Classification Module', () => {
       id: '1',
       code: 'TEST',
       name: 'Test',
-      minValue: 0,
+      loincCode: null,
+  minValue: 0,
       maxValue: 100,
       minValueM: null,
       maxValueM: null,
@@ -184,6 +186,7 @@ describe('Test Classification Module', () => {
     const genderTest: Test = {
       id: '1',
       code: 'CREA',
+      loincCode: null,
       name: 'Creatinine',
       minValue: 6,
       maxValue: 13,

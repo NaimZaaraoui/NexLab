@@ -151,9 +151,13 @@ export async function GET() {
         },
         select: { 
           id: true, 
-          orderNumber: true, 
-          patientFirstName: true, 
-          patientLastName: true 
+          orderNumber: true,
+          patient: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          }
         }
       });
 
@@ -163,8 +167,8 @@ export async function GET() {
           await notifyUsers({
             userIds: adminIds,
             type: 'tat_breach',
-            title: 'Délai dépassé',
-            message: `L'analyse de ${a.patientLastName} ${a.patientFirstName} (ORD-${a.orderNumber}) dépasse ${tatThresholds.alertMinutes} minutes.`,
+            title: 'Alerte TAT Dépassement',
+            message: `L'analyse de ${a.patient?.lastName || ''} ${a.patient?.firstName || ''} (ORD-${a.orderNumber}) dépasse ${tatThresholds.alertMinutes} minutes.`,
             analysisId: a.id,
           });
         }

@@ -15,7 +15,10 @@ interface Props {
 export function ReportHeader({ analysis, settings }: Props) {
   const { LAB_NAME, LAB_SUBTITLE, LAB_ADDRESS, LAB_PHONE, LAB_EMAIL, LAB_LOGO, REPORT_TITLE, SHOW_DOCTOR, SHOW_BARCODE, SHOW_PROVENANCE } = resolvePrintBranding(settings);
 
-  const patientName = `${analysis.patientFirstName || ''} ${analysis.patientLastName || ''}`.trim() || 'PATIENT SANS NOM';
+  const patientName = `${analysis.patient?.firstName || ''} ${analysis.patient?.lastName || ''}`.trim() || 'PATIENT SANS NOM';
+  const age = analysis.patient?.birthDate 
+    ? Math.floor((new Date().getTime() - new Date(analysis.patient.birthDate).getTime()) / 31557600000) 
+    : null;
   const dateEdition = format(new Date(), 'dd MMMM yyyy', { locale: fr });
   const datePrelevement = format(new Date(analysis.creationDate), 'dd MMMM yyyy', { locale: fr });
 
@@ -75,9 +78,16 @@ export function ReportHeader({ analysis, settings }: Props) {
               <div className="flex flex-col mt-2">
                 <h3 className="text-2xl font-black text-[var(--color-text)] mb-2 print:text-black">{patientName}</h3>
                 <div className="flex gap-4 text-sm font-medium text-[var(--color-text-secondary)] print:text-black">
-                  <span>{analysis.patientAge} ans</span>
+                  {analysis.patient?.birthDate ? (
+                    <span>
+                      Né(e) le {new Date(analysis.patient.birthDate).toLocaleDateString('fr-FR')}
+                      {age !== null ? ` (${age} ans)` : ''}
+                    </span>
+                  ) : age !== null ? (
+                    <span>{age} ans</span>
+                  ) : null}
                   <span className="text-slate-200 print:text-black/30">|</span>
-                  <span className="uppercase">{analysis.patientGender === 'M' ? 'H' : 'F'}</span>
+                  <span className="uppercase">{analysis.patient?.gender === 'M' ? 'H' : 'F'}</span>
                   <span className="text-slate-200 print:text-black/30">|</span>
                   <span>ID: <span className="font-bold text-[var(--color-text)] print:text-black">{analysis.dailyId}</span></span>
                 </div>

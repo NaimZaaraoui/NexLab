@@ -69,7 +69,7 @@ export async function POST(
       pdfBuffer = Buffer.from(raw);
     }
 
-    const patientName = `${analysis.patientLastName} ${analysis.patientFirstName}`.trim();
+    const patientName = `${analysis.patient?.lastName || ''} ${analysis.patient?.firstName || ''}`.trim();
     const formattedDate = new Date(analysis.creationDate).toLocaleDateString('fr-FR', {
       day: '2-digit', month: 'long', year: 'numeric'
     });

@@ -10,15 +10,15 @@ export interface AvailableTestOption {
   id: string;
   code: string;
   name: string;
+  categoryName?: string | null;
+  categoryRank?: number | null;
+  parentId?: string | null;
+  isGroup?: boolean;
 }
 
 export interface EditAnalysisForm {
   dailyId: string;
   receiptNumber: string;
-  patientFirstName: string;
-  patientLastName: string;
-  patientAge: string;
-  patientGender: string;
   provenance: string;
   medecinPrescripteur: string;
   isUrgent: boolean;
@@ -27,10 +27,6 @@ export interface EditAnalysisForm {
 export const DEFAULT_EDIT_ANALYSIS_FORM: EditAnalysisForm = {
   dailyId: '',
   receiptNumber: '',
-  patientFirstName: '',
-  patientLastName: '',
-  patientAge: '',
-  patientGender: 'M',
   provenance: '',
   medecinPrescripteur: '',
   isUrgent: false,

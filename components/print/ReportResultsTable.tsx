@@ -1,4 +1,3 @@
-import React from 'react';
 import { sortReportResults } from '@/lib/documents/report-generation';
 import { isEgfrTestCode } from '@/lib/clinical/renal-tests';
 import type { Analysis, Result } from '@/lib/core/types';
@@ -101,11 +100,10 @@ function formatReportResultValue(value: string, testCode?: string | null): strin
   return parsed > 90 ? '> 90' : value;
 }
 
-/** Column header row — reused in every thead */
 function ColHeaderRow({ showPrev }: { showPrev: boolean }) {
   return (
     <tr className="bg-[var(--color-surface-muted)]/50 print:bg-black/5">
-      <th className="py-2 pl-4 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Examen / Paramètre</th>
+      <th className="py-2 pl-8 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Examen / Paramètre</th>
       <th className="py-2 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Résultat</th>
       {showPrev && <th className="py-2 text-center text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80 w-20">Préc.</th>}
       <th className="py-2 text-center text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Unité</th>
@@ -113,6 +111,10 @@ function ColHeaderRow({ showPrev }: { showPrev: boolean }) {
     </tr>
   );
 }
+
+type DisplayItem =
+  | { kind: 'groupHeader'; res: Result; depth: number }
+  | { kind: 'result'; res: Result; depth: number };
 
 export function ReportResultsTable({
   categories,
@@ -135,115 +137,101 @@ export function ReportResultsTable({
               const isNFS = categoryName === 'NFS';
               const displayCategoryName = isNFS ? 'Hématologie (NFS)' : categoryName;
 
-              // Split catResults into groups: top-level non-group tests, and each parent group with its children
-              const topLevelStandalones: Result[] = [];
-              // Map of parentTestId -> { parent: Result, children: Result[] }
-              const parentGroups: Map<string, { parent: Result; children: Result[] }> = new Map();
-              // Preserve insertion order of parents
-              const parentOrder: string[] = [];
+              // Build the set of testIds that act as parents within this category
+              const parentTestIds = new Set(
+                catResults
+                  .map((r) => r.test?.parentId)
+                  .filter((pid): pid is string => Boolean(pid))
+              );
 
-              catResults.forEach((res) => {
+              // Recursive function: builds a flat display list preserving hierarchy order.
+              // A test that is itself a parent becomes a groupHeader; leaf tests become result items.
+              const displayItems: DisplayItem[] = [];
+              const seenTestIds = new Set<string>();
+
+              const processItem = (res: Result, depth: number) => {
                 const test = res.test;
-                if (!test) return;
+                if (!test || seenTestIds.has(test.id)) return;
+                seenTestIds.add(test.id);
 
-                if (test.isGroup) {
-                  if (!parentGroups.has(res.testId)) {
-                    parentGroups.set(res.testId, { parent: res, children: [] });
-                    parentOrder.push(res.testId);
-                  }
-                } else if (test.parentId && parentGroups.has(test.parentId)) {
-                  parentGroups.get(test.parentId)!.children.push(res);
-                } else if (!test.parentId) {
-                  topLevelStandalones.push(res);
+                if (parentTestIds.has(test.id) || test.isGroup) {
+                  // This test is a parent → render as section divider
+                  displayItems.push({ kind: 'groupHeader', res, depth });
+                  // Recursively process its children
+                  catResults
+                    .filter((r) => r.test?.parentId === test.id)
+                    .forEach((child) => processItem(child, depth + 1));
                 } else {
-                  // orphan with parentId not in this category — treat as standalone
-                  topLevelStandalones.push(res);
+                  // Leaf test → normal result row
+                  displayItems.push({ kind: 'result', res, depth });
                 }
-              });
+              };
 
-              const hasStandalones = topLevelStandalones.length > 0;
-              const hasGroups = parentOrder.length > 0;
+              // Start from top-level tests (no parentId) to walk the tree top-down
+              catResults
+                .filter((r) => !r.test?.parentId)
+                .forEach((res) => processItem(res, 0));
+
+              // Safety net: catch any orphaned tests whose parent isn't in catResults
+              catResults
+                .filter((r) => r.test?.parentId && !seenTestIds.has(r.test.id))
+                .forEach((res) => processItem(res, 0));
 
               return (
-                <React.Fragment key={categoryName}>
-                  {/* ── Category label (top-level) ── */}
-                  {!hasGroups || hasStandalones ? (
-                    /* If there are standalone tests OR no groups, render a single outer table */
-                    <table className="w-full border-collapse mb-3">
-                      <thead>
-                        {/* Category title row */}
-                        <tr>
-                          <td colSpan={colSpan} className="py-2">
-                            <div className="flex items-center gap-4">
-                              <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
-                                {displayCategoryName}
-                              </span>
-                              <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10" />
-                            </div>
-                          </td>
-                        </tr>
-                        <ColHeaderRow showPrev={SHOW_PREVIOUS_RESULT} />
-                      </thead>
-                      <tbody>
-                        {topLevelStandalones.map((res) => (
-                          <ResultRow
-                            key={res.id}
-                            res={res}
-                            results={results}
-                            testReferences={testReferences}
-                            analysis={analysis}
-                            isNFS={isNFS}
-                            showPrev={SHOW_PREVIOUS_RESULT}
-                          />
-                        ))}
-                      </tbody>
-                    </table>
-                  ) : (
-                    /* If only groups exist, render the category label once above them */
-                    <div className="flex items-center gap-4 py-2">
-                      <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
-                        {displayCategoryName}
-                      </span>
-                      <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10" />
-                    </div>
-                  )}
-
-                  {/* ── One sub-table per parent group ── */}
-                  {parentOrder.map((parentId) => {
-                    const { parent, children } = parentGroups.get(parentId)!;
-                    return (
-                      <table key={parentId} className="w-full border-collapse mb-3">
-                        <thead>
-                          {/* Parent-test header row */}
-                          <tr className="break-inside-avoid">
-                            <td colSpan={colSpan} className="py-1.75 bg-[var(--color-surface-muted)]/30 print:bg-black/5">
-                              <div className="flex items-center gap-3 px-4">
-                                <span className="text-[12px] font-black text-[var(--color-accent)] uppercase tracking-tight print:text-black">
-                                  {parent.test?.name}
+                // ONE table per category, ONE column header row
+                <table key={categoryName} className="w-full border-collapse mb-4">
+                  <thead>
+                    {/* Category title */}
+                    <tr>
+                      <td colSpan={colSpan} className="py-2">
+                        <div className="flex items-center gap-4">
+                          <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
+                            {displayCategoryName}
+                          </span>
+                          <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10" />
+                        </div>
+                      </td>
+                    </tr>
+                    {/* Single column header for the entire category */}
+                    <ColHeaderRow showPrev={SHOW_PREVIOUS_RESULT} />
+                  </thead>
+                  <tbody>
+                    {displayItems.map((item) => {
+                      if (item.kind === 'groupHeader') {
+                        // Parent test → section-divider row (indented based on depth)
+                        const indent = item.depth === 0 ? 'px-4' : `pl-${4 + item.depth * 6} pr-4`;
+                        const textSize = item.depth === 0 ? 'text-[11px]' : 'text-[10px]';
+                        const bgClass = item.depth === 0
+                          ? 'bg-[var(--color-surface-muted)]/30 print:bg-black/5'
+                          : 'bg-[var(--color-surface-muted)]/15 print:bg-black/3';
+                        return (
+                          <tr key={`hdr-${item.res.id}`} className="break-inside-avoid">
+                            <td colSpan={colSpan} className={`py-1.5 ${bgClass}`}>
+                              <div className={`flex items-center gap-3 ${indent}`}>
+                                <span className={`${textSize} font-black text-[var(--color-accent)] uppercase tracking-tight print:text-black`}>
+                                  {item.res.test?.name}
                                 </span>
                                 <div className="h-px flex-1 bg-slate-200/50 print:bg-black/10" />
                               </div>
                             </td>
                           </tr>
-                          <ColHeaderRow showPrev={SHOW_PREVIOUS_RESULT} />
-                        </thead>
-                        <tbody>
-                          {children.map((res) => (
-                            <ResultRow
-                              key={res.id}
-                              res={res}
-                              results={results}
-                              testReferences={testReferences}
-                              analysis={analysis}
-                              isNFS={isNFS}
-                              showPrev={SHOW_PREVIOUS_RESULT}
-                            />
-                          ))}
-                        </tbody>
-                      </table>
-                    );
-                  })}
-                </React.Fragment>
+                        );
+                      }
+
+                      return (
+                        <ResultRow
+                          key={item.res.id}
+                          res={item.res}
+                          results={results}
+                          testReferences={testReferences}
+                          analysis={analysis}
+                          isNFS={isNFS}
+                          showPrev={SHOW_PREVIOUS_RESULT}
+                        />
+                      );
+                    })}
+                  </tbody>
+                </table>
               );
             })}
           </div>

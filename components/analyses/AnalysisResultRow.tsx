@@ -1,7 +1,7 @@
 import { createElement } from 'react';
 import { format } from 'date-fns';
 import { AlertCircle, Calculator, CheckCircle, History, MessageSquare, NotepadTextIcon } from 'lucide-react';
-import { formatReferenceRange, getTestReferenceValues, getResultReferenceValues } from '@/lib/core/utils';
+import { formatReferenceRange, getResultReferenceValues } from '@/lib/core/utils';
 import { getCategoryIcon } from '@/lib/core/category-icons';
 import { isResultAbnormal } from '@/lib/clinical/calculations';
 import { isCalculatedFormulaTest } from '@/lib/clinical/calculated-tests';
@@ -17,6 +17,7 @@ interface AnalysisResultRowProps {
   index: number;
   total: number;
   isFinalValidated: boolean;
+  navigationIds?: string[];
 }
 
 export function AnalysisResultRow({
@@ -25,6 +26,7 @@ export function AnalysisResultRow({
   index,
   total,
   isFinalValidated,
+  navigationIds,
 }: AnalysisResultRowProps) {
   const {
     selectedIds,
@@ -47,7 +49,7 @@ export function AnalysisResultRow({
   if (!test) return null;
 
   const value = results[result.id];
-  const abnormal = isResultAbnormal(value, result, analysis.patientGender);
+  const abnormal = isResultAbnormal(value, result, analysis.patient?.gender);
   const isNumeric = test.resultType === 'numeric' || test.resultType === 'calculated';
   const prevResult = history[result.id];
   const displayName = test.name;
@@ -85,7 +87,7 @@ export function AnalysisResultRow({
                 }}
                 value={results[result.id]}
                 onChange={(event) => handleResultChange(result.id, event.target.value)}
-                onKeyDown={(event) => handleKeyDown(event, index, total)}
+                onKeyDown={(event) => handleKeyDown(event, index, total, navigationIds)}
                 disabled={isFinalValidated || isFormula}
                 rows={3}
                 className="input-premium min-h-[80px] w-full max-w-md resize-none rounded-md px-4 py-3 text-sm"
@@ -98,7 +100,7 @@ export function AnalysisResultRow({
                 }}
                 value={results[result.id]}
                 onChange={(event) => handleResultChange(result.id, event.target.value)}
-                onKeyDown={(event) => handleKeyDown(event, index, total)}
+                onKeyDown={(event) => handleKeyDown(event, index, total, navigationIds)}
                 disabled={isFinalValidated || isFormula}
                 className={`h-10 w-full max-w-[200px] rounded-md border px-3 text-sm font-bold transition-all outline-none ${results[result.id] ? 'border-indigo-200 bg-indigo-50/50 text-indigo-700' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'}`}
               >
@@ -124,7 +126,7 @@ export function AnalysisResultRow({
                       handleResultChange(result.id, formatted);
                     }
                   }}
-                  onKeyDown={(event) => handleKeyDown(event, index, total)}
+                  onKeyDown={(event) => handleKeyDown(event, index, total, navigationIds)}
                   disabled={isFinalValidated || isFormula}
                   className={`font-mono h-10 rounded-md border font-bold transition-all outline-none focus:ring-4 ${isNumeric ? 'w-28 px-2 text-center text-lg tracking-normal' : 'w-48 px-4 text-sm'} ${abnormal ? 'border-rose-300 bg-rose-50 text-rose-600 focus:border-rose-400 focus:ring-rose-500/10' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)] hover:border-slate-300 focus:border-indigo-500 focus:bg-[var(--color-surface)] focus:ring-indigo-500/10'} ${isFormula ? 'cursor-not-allowed border-transparent bg-[var(--color-surface-muted)] text-slate-500' : ''}`}
                 />
@@ -155,7 +157,7 @@ export function AnalysisResultRow({
             <span className="text-xs font-mono font-bold text-[var(--color-text)]">
               {(() => {
                 if (!isNumeric) return 'QUALIT.';
-                const refVals = getResultReferenceValues(result, analysis.patientGender);
+                const refVals = getResultReferenceValues(result, analysis.patient?.gender);
                 return formatReferenceRange(refVals.min, refVals.max);
               })()}
             </span>

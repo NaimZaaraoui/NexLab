@@ -64,11 +64,7 @@ export interface Analysis {
   validatedBioAt?: string | Date;
   validatedBioBy?: string;
   validatedBioName?: string;
-  patientId: string | null;
-  patientFirstName: string | null;
-  patientLastName: string | null;
-  patientAge: number | null;
-  patientGender: string | null;
+  patientId: string;
   creationDate: Date;
   drawingDate: Date | null;
   status: string | null;

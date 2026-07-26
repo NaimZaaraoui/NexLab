@@ -178,7 +178,7 @@ export function parseReportHistograms(histogramData: string | null): ParsedHisto
 
 export function buildReportReferenceMap(
   results: Result[] | undefined,
-  patientGender: Analysis['patientGender']
+  patientGender?: string | null
 ) {
   const references = new Map<string, ReferenceDisplay>();
 
@@ -244,7 +244,7 @@ export function buildInvoiceItems(results: Result[] | undefined): InvoicePrintIt
 export function resolveEnvelopeRecipient(analysis?: Analysis) {
   return {
     patientName: analysis
-      ? `${analysis.patientFirstName || ''} ${analysis.patientLastName || ''}`.trim()
+      ? `${analysis.patient?.firstName || ''} ${analysis.patient?.lastName || ''}`.trim()
       : '................................................',
     dailyId: analysis?.dailyId || '........',
     dateStr: analysis

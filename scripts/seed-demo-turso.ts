@@ -245,10 +245,6 @@ async function main() {
       create: {
         orderNumber: orderNum,
         patientId: patient.id,
-        patientFirstName: p.firstName,
-        patientLastName: p.lastName,
-        patientAge: p.age,
-        patientGender: p.gender,
         provenance: i % 2 === 0 ? 'Interne' : 'Externe',
         medecinPrescripteur: i % 3 === 0 ? 'Dr. Mansouri' : 'Dr. Belkacem',
         status: i < 3 ? 'validated' : i === 3 ? 'in_progress' : 'pending',

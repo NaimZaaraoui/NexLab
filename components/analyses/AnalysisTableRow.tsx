@@ -34,7 +34,7 @@ export function AnalysisTableRow({ analysis, currencyUnit, tatThresholds, deleti
   
   const payment = PAYMENT_STATUS_MAP[analysis.paymentStatus || 'UNPAID'] ?? PAYMENT_STATUS_MAP.UNPAID;
   const isReleased = isAnalysisFinalValidated(analysis.status);
-  const patientName = `${analysis.patientLastName || 'ANONYME'} ${analysis.patientFirstName || ''}`.trim();
+  const patientName = `${analysis.patient?.lastName || 'ANONYME'} ${analysis.patient?.firstName || ''}`.trim();
   const remaining = Math.max(0, (analysis.totalPrice || 0) - (analysis.amountPaid || 0));
 
   return (

@@ -64,7 +64,7 @@ export function useOrderingState() {
         }
       }
     } catch (error) {
-      console.error(error);
+      showNotification('error', 'Impossible de charger les catégories');
     } finally {
       setLoading(false);
     }
@@ -85,7 +85,7 @@ export function useOrderingState() {
         body: JSON.stringify({ model, updates }),
       });
     } catch (error) {
-      console.error('Failed to save order', error);
+      showNotification('error', 'Erreur lors de la sauvegarde de l\'ordre');
     } finally {
       setSaving(false);
     }

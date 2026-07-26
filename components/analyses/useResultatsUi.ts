@@ -1,6 +1,6 @@
 import { useCallback, useState, type Dispatch, type MutableRefObject, type SetStateAction } from 'react';
 import { applyRenalAutoSelection, type RenalTestOption } from '@/lib/clinical/renal-tests';
-import type { ResultWithRenderCategory, AnalysisInputsMap } from './types';
+import type { ResultWithRenderCategory, AnalysisInputsMap, AvailableTestOption } from './types';
 
 interface UseResultatsUiOptions {
   analysisId: string;
@@ -8,7 +8,7 @@ interface UseResultatsUiOptions {
   sortedResults: ResultWithRenderCategory[];
   inputsRef: MutableRefObject<AnalysisInputsMap>;
   setSelectedTestIds: Dispatch<SetStateAction<string[]>>;
-  availableTests: RenalTestOption[];
+  availableTests: AvailableTestOption[];
 }
 
 export function useResultatsUi({
@@ -26,33 +26,67 @@ export function useResultatsUi({
     return num.toFixed(decimals).replace('.', ',');
   }, []);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent, index: number, total: number) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent, index: number, total: number, navigationIds?: string[]) => {
     if (e.key !== 'Enter') return;
 
     e.preventDefault();
-    let nextIndex = (index + 1) % total;
+    const navigationResults = navigationIds?.length
+      ? navigationIds
+        .map((id) => sortedResults.find((result) => result.id === id))
+        .filter((result): result is ResultWithRenderCategory => Boolean(result))
+      : sortedResults;
+    const navigationTotal = navigationResults.length || total;
+    let nextIndex = (index + 1) % navigationTotal;
     let steps = 0;
 
-    while (steps < total) {
-      const next = sortedResults[nextIndex]?.test;
+    while (steps < navigationTotal) {
+      const next = navigationResults[nextIndex]?.test;
       if (!next?.isGroup && next?.resultType !== 'calculated' && !next?.isOptional) break;
-      nextIndex = (nextIndex + 1) % total;
+      nextIndex = (nextIndex + 1) % navigationTotal;
       steps += 1;
     }
 
-    const nextId = sortedResults[nextIndex]?.id;
+    const nextId = navigationResults[nextIndex]?.id;
     if (nextId && inputsRef.current[nextId]) {
       inputsRef.current[nextId]?.focus();
     }
   }, [inputsRef, sortedResults]);
 
   const toggleSelectedTest = useCallback((testId: string) => {
-    setSelectedTestIds((prev) => (
-      applyRenalAutoSelection(
-        prev.includes(testId) ? prev.filter((id) => id !== testId) : [...prev, testId],
-        availableTests
-      )
-    ));
+    setSelectedTestIds((prev) => {
+      const isSelected = prev.includes(testId);
+      const test = availableTests.find(t => t.id === testId);
+      
+      console.log('toggleSelectedTest', { testId, isSelected, isGroup: test?.isGroup });
+      
+      let nextSelected = isSelected 
+        ? prev.filter((id) => id !== testId)
+        : [...prev, testId];
+
+      const getAllChildIds = (parentId: string): string[] => {
+        const children = availableTests.filter(t => t.parentId === parentId).map(t => t.id);
+        return children.reduce((acc, childId) => {
+          return [...acc, childId, ...getAllChildIds(childId)];
+        }, [] as string[]);
+      };
+
+      const childIds = getAllChildIds(testId);
+      
+      if (childIds.length > 0) {
+        console.log('Parent group toggled, childIds:', childIds);
+        
+        if (isSelected) {
+          // Deselect parent -> deselect children
+          nextSelected = nextSelected.filter(id => !childIds.includes(id));
+        } else {
+          // Select parent -> select children
+          const toAdd = childIds.filter(id => !nextSelected.includes(id));
+          nextSelected = [...nextSelected, ...toAdd];
+        }
+      }
+      
+      return applyRenalAutoSelection(nextSelected, availableTests);
+    });
   }, [availableTests, setSelectedTestIds]);
 
   const [printUrl, setPrintUrl] = useState<string | null>(null);

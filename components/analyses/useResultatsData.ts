@@ -72,10 +72,6 @@ export function useResultatsData({
       setEditForm({
         dailyId: data.dailyId || '',
         receiptNumber: data.receiptNumber || '',
-        patientFirstName: data.patientFirstName || '',
-        patientLastName: data.patientLastName || '',
-        patientAge: data.patientAge !== null && data.patientAge !== undefined ? String(data.patientAge) : '',
-        patientGender: data.patientGender || 'M',
         provenance: data.provenance || '',
         medecinPrescripteur: data.medecinPrescripteur || '',
         isUrgent: Boolean(data.isUrgent),
@@ -90,7 +86,7 @@ export function useResultatsData({
 
   const loadTests = useCallback(async () => {
     try {
-      const response = await fetch('/api/tests');
+      const response = await fetch(`/api/tests?_t=${Date.now()}`);
       if (!response.ok) return;
       const data = await response.json();
       if (!Array.isArray(data)) {
@@ -98,11 +94,22 @@ export function useResultatsData({
         return;
       }
       const normalized = data
-        .filter((item): item is { id: string; code?: string; name?: string } => Boolean(item?.id))
+        .filter((item): item is {
+          id: string;
+          code?: string;
+          name?: string;
+          categoryRel?: { name?: string | null; rank?: number | null } | null;
+          parentId?: string | null;
+          isGroup?: boolean;
+        } => Boolean(item?.id))
         .map((item) => ({
           id: item.id,
           code: item.code ?? '',
           name: item.name ?? '',
+          categoryName: item.categoryRel?.name ?? 'Autres',
+          categoryRank: item.categoryRel?.rank ?? 999,
+          parentId: item.parentId,
+          isGroup: item.isGroup,
         }));
       setAvailableTests(normalized);
     } catch (error) {

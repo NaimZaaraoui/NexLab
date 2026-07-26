@@ -39,8 +39,12 @@ export async function GET(request: Request) {
         select: {
           id: true,
           patientId: true,
-          patientGender: true,
-          patientAge: true,
+          patient: {
+            select: {
+              gender: true,
+              birthDate: true,
+            }
+          },
           creationDate: true,
         },
       }),
@@ -67,7 +71,7 @@ export async function GET(request: Request) {
     // Gender distribution
     const genderMap: Record<string, number> = {};
     analyses.forEach(a => {
-      const g = a.patientGender || 'Inconnu';
+      const g = a.patient?.gender || 'Inconnu';
       genderMap[g] = (genderMap[g] || 0) + 1;
     });
     const genderDistribution = Object.entries(genderMap).map(([gender, count]) => ({ gender, count }));
@@ -82,7 +86,9 @@ export async function GET(request: Request) {
     };
 
     analyses.forEach(a => {
-      const age = a.patientAge;
+      const age = a.patient?.birthDate 
+        ? Math.floor((new Date().getTime() - new Date(a.patient.birthDate).getTime()) / 31557600000) 
+        : null;
       let key = 'Inconnu';
       if (age !== null && age !== undefined) {
         if (age < 18) key = '0-17';
@@ -90,7 +96,7 @@ export async function GET(request: Request) {
         else if (age < 60) key = '40-59';
         else key = '60+';
       }
-      const gender = a.patientGender === 'F' ? 'F' : 'M';
+      const gender = a.patient?.gender === 'F' ? 'F' : 'M';
       ageBrackets[key][gender]++;
     });
 

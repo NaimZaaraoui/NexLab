@@ -32,8 +32,8 @@ export const RapportImpression = forwardRef<HTMLDivElement, ReportPrintProps>(
     }, [analysis, filteredResults]);
 
     const testReferences = useMemo(() => {
-      return buildReportReferenceMap(analysis.results, analysis.patientGender);
-    }, [analysis.results, analysis.patientGender]);
+      return buildReportReferenceMap(analysis.results, analysis.patient?.gender);
+    }, [analysis.results, analysis.patient?.gender]);
 
     const { histogramData: parsedHistograms, pltData } = useMemo(() => {
       return parseReportHistograms(analysis.histogramData);

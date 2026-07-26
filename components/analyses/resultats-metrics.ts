@@ -96,8 +96,8 @@ export function performAnalysisCalculations(
   // 3. Clinical Chemistry (eGFR / CKD-EPI)
   const creatRes = getResByAliases(['CREAT', 'CR', 'CREA', 'CREATININE']);
   const creat = creatRes ? parseLocaleNumber(updatedResults[creatRes.id] || '') : null;
-  const patientAge = analysis.patientAge ?? calculateAgeFromBirthDate(analysis.patient?.birthDate);
-  const patientGender = analysis.patientGender || analysis.patient?.gender || null;
+  const patientAge = calculateAgeFromBirthDate(analysis.patient?.birthDate);
+  const patientGender = analysis.patient?.gender || null;
 
   if (creatRes && creat !== null && patientAge !== null) {
     const unit = creatRes.unit || creatRes.test?.unit || 'mg/dL';
@@ -147,7 +147,7 @@ export function calculateResultMetrics(
   const abnormalCount = leafResults.filter((result: Result) => {
     const test = result.test;
     if (!test) return false;
-    return isResultAbnormal(results[result.id], result, analysis.patientGender);
+    return isResultAbnormal(results[result.id], result, analysis.patient?.gender);
   }).length;
 
   return {

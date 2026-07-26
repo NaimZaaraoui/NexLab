@@ -42,9 +42,21 @@ export function useAnalysisValidation({
     if (!analysis) return;
 
     if (type === 'tech') {
-      // Exclude group headers, calculated fields, and explicitly optional tests
+      // Identifier tous les tests qui agissent comme parents
+      const parentTestIds = new Set(
+        analysis.results
+          .map((r) => r.test?.parentId)
+          .filter((pid): pid is string => Boolean(pid))
+      );
+
+      // Exclude group headers, calculated fields, explicitly optional tests, AND tests that act as parents
       const requiredResults = analysis.results.filter((result) => {
-        return !result.test?.isGroup && result.test?.resultType !== 'calculated' && !result.test?.isOptional;
+        return (
+          !result.test?.isGroup &&
+          result.test?.resultType !== 'calculated' &&
+          !result.test?.isOptional &&
+          (!result.test?.id || !parentTestIds.has(result.test.id))
+        );
       });
       const testCount = requiredResults.length;
       const completedCount = requiredResults.filter((result) => {

@@ -22,8 +22,8 @@ test.describe('Database Encryption at Rest', () => {
   const adminToken = process.env.ADMIN_TOKEN || 'test-admin-token';
 
   test.describe('Encryption Configuration', () => {
-    test('should show encryption configured in health check', async ({ fetch }) => {
-      const response = await fetch(`${apiBase}/api/database/health`, {
+    test('should show encryption configured in health check', async ({ request }) => {
+      const response = await request.fetch(`${apiBase}/api/database/health`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -37,8 +37,8 @@ test.describe('Database Encryption at Rest', () => {
       expect(health.database.encryptionKey.keyLength).toBeGreaterThan(0);
     });
 
-    test('should verify database file exists and is accessible', async ({ fetch }) => {
-      const response = await fetch(`${apiBase}/api/database/health`, {
+    test('should verify database file exists and is accessible', async ({ request }) => {
+      const response = await request.fetch(`${apiBase}/api/database/health`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -52,8 +52,8 @@ test.describe('Database Encryption at Rest', () => {
       expect(health.database.reachable).toBe(true);
     });
 
-    test('should verify database integrity check passes', async ({ fetch }) => {
-      const response = await fetch(`${apiBase}/api/database/health`, {
+    test('should verify database integrity check passes', async ({ request }) => {
+      const response = await request.fetch(`${apiBase}/api/database/health`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -67,15 +67,15 @@ test.describe('Database Encryption at Rest', () => {
   });
 
   test.describe('Backup Encryption', () => {
-    test('should create encrypted database backup', async ({ fetch }) => {
+    test('should create encrypted database backup', async ({ request }) => {
       // Trigger backup creation
-      const backupResponse = await fetch(`${apiBase}/api/database/backups`, {
+      const backupResponse = await request.fetch(`${apiBase}/api/database/backups`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${adminToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ includeUploads: false }),
+        data: JSON.stringify({ includeUploads: false }),
       });
 
       expect(backupResponse.ok).toBe(true);
@@ -86,8 +86,8 @@ test.describe('Database Encryption at Rest', () => {
       expect(backup.fileName).toMatch(/\.sqlite\.enc$/);
     });
 
-    test('should list backups with encryption status', async ({ fetch }) => {
-      const response = await fetch(`${apiBase}/api/database/backups`, {
+    test('should list backups with encryption status', async ({ request }) => {
+      const response = await request.fetch(`${apiBase}/api/database/backups`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -108,9 +108,9 @@ test.describe('Database Encryption at Rest', () => {
       }
     });
 
-    test('should validate encrypted backup integrity', async ({ fetch }) => {
+    test('should validate encrypted backup integrity', async ({ request }) => {
       // Get list of backups
-      const listResponse = await fetch(`${apiBase}/api/database/backups`, {
+      const listResponse = await request.fetch(`${apiBase}/api/database/backups`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -125,7 +125,7 @@ test.describe('Database Encryption at Rest', () => {
       const latestBackup = backups[0];
 
       // Validate backup
-      const validateResponse = await fetch(
+      const validateResponse = await request.fetch(
         `${apiBase}/api/database/backups/validate`,
         {
           method: 'POST',
@@ -133,7 +133,7 @@ test.describe('Database Encryption at Rest', () => {
             Authorization: `Bearer ${adminToken}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ backupPath: latestBackup.fileName }),
+          data: JSON.stringify({ backupPath: latestBackup.fileName }),
         }
       );
 
@@ -144,14 +144,14 @@ test.describe('Database Encryption at Rest', () => {
       expect(validation.encrypted).toBe(true);
     });
 
-    test('should verify encrypted recovery bundle creation', async ({ fetch }) => {
-      const response = await fetch(`${apiBase}/api/database/recovery-bundles`, {
+    test('should verify encrypted recovery bundle creation', async ({ request }) => {
+      const response = await request.fetch(`${apiBase}/api/database/recovery-bundles`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${adminToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({}),
+        data: JSON.stringify({}),
       });
 
       expect(response.ok).toBe(true);
@@ -164,14 +164,14 @@ test.describe('Database Encryption at Rest', () => {
   });
 
   test.describe('Encryption Performance', () => {
-    test('should perform database queries within acceptable latency', async ({ fetch }) => {
+    test('should perform database queries within acceptable latency', async ({ request }) => {
       const iterations = 5;
       const latencies: number[] = [];
 
       for (let i = 0; i < iterations; i++) {
         const startTime = performance.now();
 
-        await fetch(`${apiBase}/api/database/health`, {
+        await request.fetch(`${apiBase}/api/database/health`, {
           headers: {
             Authorization: `Bearer ${adminToken}`,
           },
@@ -192,16 +192,16 @@ test.describe('Database Encryption at Rest', () => {
       expect(maxLatency).toBeLessThan(1000);
     });
 
-    test('should backup encrypted database in reasonable time', async ({ fetch }) => {
+    test('should backup encrypted database in reasonable time', async ({ request }) => {
       const startTime = performance.now();
 
-      const response = await fetch(`${apiBase}/api/database/backups`, {
+      const response = await request.fetch(`${apiBase}/api/database/backups`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${adminToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ includeUploads: false }),
+        data: JSON.stringify({ includeUploads: false }),
       });
 
       const endTime = performance.now();
@@ -217,9 +217,9 @@ test.describe('Database Encryption at Rest', () => {
   });
 
   test.describe('Backup & Restore Operations', () => {
-    test('should perform restore-test on encrypted backup', async ({ fetch }) => {
+    test('should perform restore-test on encrypted backup', async ({ request }) => {
       // Get list of backups
-      const listResponse = await fetch(`${apiBase}/api/database/backups`, {
+      const listResponse = await request.fetch(`${apiBase}/api/database/backups`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -234,7 +234,7 @@ test.describe('Database Encryption at Rest', () => {
       const latestBackup = backups[0];
 
       // Test restore without actually restoring
-      const testResponse = await fetch(
+      const testResponse = await request.fetch(
         `${apiBase}/api/database/backups/restore-test`,
         {
           method: 'POST',
@@ -242,7 +242,7 @@ test.describe('Database Encryption at Rest', () => {
             Authorization: `Bearer ${adminToken}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ backupPath: latestBackup.fileName }),
+          data: JSON.stringify({ backupPath: latestBackup.fileName }),
         }
       );
 
@@ -255,9 +255,9 @@ test.describe('Database Encryption at Rest', () => {
       expect(testResult.restoredValidation.valid).toBe(true);
     });
 
-    test('should validate and restore recovery bundle', async ({ fetch }) => {
+    test('should validate and restore recovery bundle', async ({ request }) => {
       // Get list of recovery bundles
-      const listResponse = await fetch(
+      const listResponse = await request.fetch(
         `${apiBase}/api/database/recovery-bundles`,
         {
           headers: {
@@ -275,7 +275,7 @@ test.describe('Database Encryption at Rest', () => {
       const latestBundle = bundles[0];
 
       // Validate bundle
-      const validateResponse = await fetch(
+      const validateResponse = await request.fetch(
         `${apiBase}/api/database/recovery-bundles/validate`,
         {
           method: 'POST',
@@ -283,7 +283,7 @@ test.describe('Database Encryption at Rest', () => {
             Authorization: `Bearer ${adminToken}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ bundlePath: latestBundle.fileName }),
+          data: JSON.stringify({ bundlePath: latestBundle.fileName }),
         }
       );
 
@@ -296,8 +296,8 @@ test.describe('Database Encryption at Rest', () => {
   });
 
   test.describe('Encryption Key Management', () => {
-    test('should verify encryption key is not exposed in API responses', async ({ fetch }) => {
-      const response = await fetch(`${apiBase}/api/database/health`, {
+    test('should verify encryption key is not exposed in API responses', async ({ request }) => {
+      const response = await request.fetch(`${apiBase}/api/database/health`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -315,21 +315,21 @@ test.describe('Database Encryption at Rest', () => {
       expect(health.database.encryptionKey.keyLength).toBeDefined();
     });
 
-    test('should verify backup encryption uses strong algorithm', async ({ fetch }) => {
+    test('should verify backup encryption uses strong algorithm', async ({ request }) => {
       // Create a backup
-      const backupResponse = await fetch(`${apiBase}/api/database/backups`, {
+      const backupResponse = await request.fetch(`${apiBase}/api/database/backups`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${adminToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ includeUploads: false }),
+        data: JSON.stringify({ includeUploads: false }),
       });
 
       const backup = await backupResponse.json();
 
       // Get backup list to verify encryption details
-      const listResponse = await fetch(`${apiBase}/api/database/backups`, {
+      const listResponse = await request.fetch(`${apiBase}/api/database/backups`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -358,28 +358,28 @@ test.describe('Database Encryption at Rest', () => {
       expect([401, 403]).toContain(response.status());
     });
 
-    test('should prevent access to backups without authentication', async ({ fetch }) => {
-      const response = await fetch(`${apiBase}/api/database/backups`);
+    test('should prevent access to backups without authentication', async ({ request }) => {
+      const response = await request.fetch(`${apiBase}/api/database/backups`);
 
       // Should deny access without auth
       expect([401, 403]).toContain(response.status());
     });
 
-    test('should log all encryption-related operations in audit trail', async ({ fetch }) => {
+    test('should log all encryption-related operations in audit trail', async ({ request }) => {
       // Create a backup (which should be logged)
-      const backupResponse = await fetch(`${apiBase}/api/database/backups`, {
+      const backupResponse = await request.fetch(`${apiBase}/api/database/backups`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${adminToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ includeUploads: false }),
+        data: JSON.stringify({ includeUploads: false }),
       });
 
       expect(backupResponse.ok).toBe(true);
 
       // Check audit trail for backup creation
-      const auditResponse = await fetch(
+      const auditResponse = await request.fetch(
         `${apiBase}/api/audit?action=database.backup_created&limit=10`,
         {
           headers: {
@@ -426,9 +426,9 @@ test.describe('Database Encryption at Rest', () => {
       }
     });
 
-    test('should maintain audit trail immutability with encryption', async ({ fetch }) => {
+    test('should maintain audit trail immutability with encryption', async ({ request }) => {
       // Verify audit trail triggers are in place
-      const response = await fetch(`${apiBase}/api/database/health`, {
+      const response = await request.fetch(`${apiBase}/api/database/health`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },

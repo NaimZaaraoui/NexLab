@@ -717,7 +717,7 @@ export function getHematologyFlags(analysis: Analysis, results: Record<string, s
 
   // Hemoglobin interpretation
   if (hgb !== null) {
-    const isMale = analysis.patientGender === 'M';
+    const isMale = analysis.patient?.gender === 'M';
     if (isMale && hgb < H_THRESH.HGB.ANEMIA_MALE) flags.push('ANÉMIE');
     if (!isMale && hgb < H_THRESH.HGB.ANEMIA_FEMALE) flags.push('ANÉMIE');
   }

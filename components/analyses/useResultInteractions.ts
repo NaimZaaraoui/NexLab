@@ -75,6 +75,18 @@ export function useResultInteractions({
     );
   };
 
+  const toggleGroupSelection = (childIds: string[]) => {
+    const allSelected = childIds.every((id) => selectedIds.includes(id));
+    if (allSelected) {
+      setSelectedIds((prev) => prev.filter((id) => !childIds.includes(id)));
+    } else {
+      setSelectedIds((prev) => {
+        const toAdd = childIds.filter((id) => !prev.includes(id));
+        return [...prev, ...toAdd];
+      });
+    }
+  };
+
   const initializeFromAnalysis = useCallback((nextNotes: Record<string, string>) => {
     setNotes(nextNotes);
     setDraftNotes({});
@@ -95,6 +107,7 @@ export function useResultInteractions({
     applyNote,
     deleteNote,
     toggleSelectAll,
+    toggleGroupSelection,
     initializeFromAnalysis,
   };
 }

@@ -32,7 +32,7 @@ async function main() {
 
     const updateAnalysis = db.prepare(`
       UPDATE analyses
-      SET patientFirstName = ?, patientLastName = ?, provenance = ?, medecinPrescripteur = ?, globalNote = ?
+      SET provenance = ?, medecinPrescripteur = ?, globalNote = ?
       WHERE id = ?
     `);
 
@@ -62,10 +62,7 @@ async function main() {
       });
 
       analyses.forEach((analysis, index) => {
-        const patientNames = analysis.patientId ? patientMap.get(analysis.patientId) : null;
         updateAnalysis.run(
-          patientNames?.firstName || `Analyse ${index + 1}`,
-          patientNames?.lastName || 'Démo',
           'Démo externe',
           'Dr Démo',
           null,

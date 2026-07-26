@@ -211,11 +211,11 @@ async function seedData() {
 
     await turso.execute({
       sql: `INSERT OR IGNORE INTO analyses
-            (id, orderNumber, patientId, patientFirstName, patientLastName, patientAge, patientGender,
+            (id, orderNumber, patientId,
              provenance, medecinPrescripteur, status, totalPrice, paymentStatus, creationDate, createdAt, updatedAt)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [
-        `demo-a${i + 1}`, ordNum, p.id, p.fn, p.ln, p.age, p.g,
+        `demo-a${i + 1}`, ordNum, p.id,
         i % 2 === 0 ? 'Interne' : 'Externe',
         i % 2 === 0 ? 'Dr. Mansouri' : 'Dr. Belkacem',
         status, 1200, i < 2 ? 'PAID' : 'UNPAID',

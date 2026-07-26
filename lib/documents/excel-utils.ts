@@ -20,10 +20,12 @@ interface ExcelAnalysisSummary {
   patientId?: string | null;
   orderNumber?: string | null;
   dailyId?: string | null;
-  patientFirstName?: string | null;
-  patientLastName?: string | null;
-  patientGender?: string | null;
-  patientAge?: number | null;
+  patient?: {
+    firstName: string;
+    lastName: string;
+    gender: string;
+    birthDate: Date | null;
+  } | null;
   status?: string | null;
   totalPrice?: number | null;
   creationDate: string | Date;
@@ -115,9 +117,9 @@ export const formatAnalysesForExcel = (
   return (analyses as ExcelAnalysisSummary[]).map(a => ({
     'N° Commande': a.orderNumber,
     'ID Paillasse': a.dailyId || '',
-    'Patient': `${a.patientFirstName || ''} ${a.patientLastName || ''}`.trim(),
-    'Sexe': a.patientGender === 'M' ? 'H' : 'F',
-    'Âge': a.patientAge || '?',
+    'Patient': `${a.patient?.firstName || ''} ${a.patient?.lastName || ''}`.trim(),
+    'Sexe': a.patient?.gender === 'M' ? 'H' : 'F',
+    'Âge': a.patient?.birthDate ? Math.floor((new Date().getTime() - new Date(a.patient.birthDate).getTime()) / 31557600000) : '?',
     'Statut': a.status === 'completed' || a.status === 'validated_bio' ? 'Validé' : 
               a.status === 'validated_tech' ? 'Valid. Tech' : 'En cours',
     [`Total (${currencyUnit})`]: a.totalPrice || 0,
@@ -145,7 +147,7 @@ export const formatResultsForExcel = (
       rows.push({
         'Date': format(new Date(analysis.creationDate), 'dd/MM/yyyy', { locale: fr }),
         'N° Commande': analysis.orderNumber,
-        'Patient': `${analysis.patientFirstName || ''} ${analysis.patientLastName || ''}`.trim(),
+        'Patient': `${analysis.patient?.firstName || ''} ${analysis.patient?.lastName || ''}`.trim(),
         'Examen': res.test?.name || '',
         'Code': res.test?.code || '',
         'Résultat': res.value || '',
@@ -317,12 +319,12 @@ export const formatPatientAnalysesForExcel = (
   currencyUnit: string = 'DA'
 ): ExcelRow[] => {
   const byPatient = (analyses as ExcelAnalysisSummary[]).reduce<Record<string, { patient: string; gender: string; age: number; count: number; total: number; lastVisit: Date }>>((acc, a) => {
-    const key = a.patientId || `${a.patientFirstName ?? ''}${a.patientLastName ?? ''}`;
+    const key = a.patientId || `${a.patient?.firstName ?? ''}${a.patient?.lastName ?? ''}`;
     if (!acc[key]) {
       acc[key] = {
-        patient: `${a.patientFirstName || ''} ${a.patientLastName || ''}`.trim(),
-        gender: a.patientGender ?? '',
-        age: a.patientAge ?? 0,
+        patient: `${a.patient?.firstName || ''} ${a.patient?.lastName || ''}`.trim(),
+        gender: a.patient?.gender ?? '',
+        age: a.patient?.birthDate ? Math.floor((new Date().getTime() - new Date(a.patient.birthDate).getTime()) / 31557600000) : 0,
         count: 0,
         total: 0,
         lastVisit: new Date(a.creationDate)

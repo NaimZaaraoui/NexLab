@@ -7,10 +7,6 @@ export interface AnalysisPatchPayload {
   printedAt?: string | null;
   dailyId?: string | null;
   receiptNumber?: string | null;
-  patientFirstName?: string | null;
-  patientLastName?: string | null;
-  patientAge?: number | string | null;
-  patientGender?: string | null;
   provenance?: string | null;
   medecinPrescripteur?: string | null;
   isUrgent?: boolean;
@@ -54,10 +50,6 @@ export function isPrintOnlyAnalysisUpdate(body: AnalysisPatchPayload) {
     body.status === undefined &&
     body.dailyId === undefined &&
     body.receiptNumber === undefined &&
-    body.patientFirstName === undefined &&
-    body.patientLastName === undefined &&
-    body.patientAge === undefined &&
-    body.patientGender === undefined &&
     body.provenance === undefined &&
     body.medecinPrescripteur === undefined &&
     body.isUrgent === undefined &&
@@ -75,10 +67,6 @@ export function isPaymentOnlyAnalysisUpdate(body: AnalysisPatchPayload) {
     body.printedAt === undefined &&
     body.dailyId === undefined &&
     body.receiptNumber === undefined &&
-    body.patientFirstName === undefined &&
-    body.patientLastName === undefined &&
-    body.patientAge === undefined &&
-    body.patientGender === undefined &&
     body.provenance === undefined &&
     body.medecinPrescripteur === undefined &&
     body.isUrgent === undefined &&
@@ -130,10 +118,6 @@ export function buildAnalysisPatchData(
     printedAt: body.printedAt !== undefined ? (body.printedAt ? new Date(body.printedAt) : null) : undefined,
     dailyId: body.dailyId !== undefined ? (body.dailyId || null) : undefined,
     receiptNumber: body.receiptNumber !== undefined ? (body.receiptNumber || null) : undefined,
-    patientFirstName: body.patientFirstName !== undefined ? (body.patientFirstName || null) : undefined,
-    patientLastName: body.patientLastName !== undefined ? (body.patientLastName || null) : undefined,
-    patientAge: parseAnalysisNumber(body.patientAge),
-    patientGender: parseAnalysisGender(body.patientGender),
     provenance: body.provenance !== undefined ? (body.provenance || null) : undefined,
     medecinPrescripteur: body.medecinPrescripteur !== undefined ? (body.medecinPrescripteur || null) : undefined,
     isUrgent: body.isUrgent !== undefined ? Boolean(body.isUrgent) : undefined,

@@ -97,8 +97,9 @@ export async function PUT(
         id: true,
         status: true,
         orderNumber: true,
-        patientFirstName: true,
-        patientLastName: true,
+        patient: {
+          select: { firstName: true, lastName: true }
+        },
       },
     });
 
@@ -193,7 +194,7 @@ export async function PUT(
       entityId: id,
       details: {
         orderNumber: analysis.orderNumber,
-        patient: `${analysis.patientLastName || ''} ${analysis.patientFirstName || ''}`.trim(),
+        patient: `${analysis.patient?.lastName || ''} ${analysis.patient?.firstName || ''}`.trim(),
         specimens: normalized.map((item) => ({
           sampleType: item.data.sampleType,
           status: item.data.status,

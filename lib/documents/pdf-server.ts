@@ -96,7 +96,7 @@ async function _generateAnalysisPDF(analysisId: string, origin?: string, printTo
       page.on('requestfailed', (request) => console.log('PAGE REQUEST FAILED:', request.url(), request.failure()?.errorText));
 
       await page.goto(url, {
-        waitUntil: 'networkidle0', // Better for fonts and external assets
+        waitUntil: 'networkidle2', // Allow up to 2 background connections (e.g., Next.js HMR)
         timeout: 30000,
       });
 

@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { isThisWeek } from 'date-fns';
 import { Analysis } from '@/lib/core/types';
 import { useLocalStorageState } from '@/lib/hooks/useLocalStorageState';
+import { useToast } from '@/components/providers/ToastProvider';
 
 import { ANALYSIS_STATUSES, AnalysisStatus } from '@/lib/analysis/analysis-status';
 import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
@@ -30,6 +31,7 @@ export const ITEMS_PER_PAGE_OPTIONS = [10, 20, 50, 100] as const;
 
 export function useAnalysesList() {
   const searchParams = useSearchParams();
+  const { toast } = useToast();
 
   const [analyses, setAnalyses] = useState<Analysis[]>([]);
   const [loading, setLoading] = useState(true);
@@ -125,7 +127,7 @@ export function useAnalysesList() {
           setCurrencyUnit(settingsData.amount_unit || 'DA');
         }
       } catch (error) {
-        console.error('Erreur analyses:', error);
+        toast('error', 'Impossible de charger les analyses. Vérifiez votre connexion.');
         setAnalyses([]);
       } finally {
         setLoading(false);
@@ -163,7 +165,7 @@ export function useAnalysesList() {
       if (!response.ok) throw new Error('Suppression impossible');
       setAnalyses((previous) => previous.filter((analysis) => analysis.id !== id));
     } catch (error) {
-      console.error('Erreur suppression:', error);
+      toast('error', 'Échec de la suppression du dossier.');
     } finally {
       setDeletingId(null);
       setConfirmDialog({ open: false, id: null });

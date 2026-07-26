@@ -136,8 +136,7 @@ export async function PATCH(
         dailyId: true,
         creationDate: true,
         orderNumber: true,
-        patientFirstName: true,
-        patientLastName: true,
+        patient: true,
       }
     });
 
@@ -186,6 +185,7 @@ export async function PATCH(
       where: { id },
       data: buildAnalysisPatchData(body, paymentState),
       include: {
+        patient: { select: { firstName: true, lastName: true, gender: true } },
         results: {
           include: {
             test: true
@@ -202,7 +202,7 @@ export async function PATCH(
         entityId: id,
         details: {
           orderNumber: existing.orderNumber,
-          patient: `${existing.patientLastName || ''} ${existing.patientFirstName || ''}`.trim(),
+          patient: `${existing.patient?.lastName || ''} ${existing.patient?.firstName || ''}`.trim(),
           previousAmountPaid: existing.amountPaid ?? 0,
           nextAmountPaid: paymentState.nextAmountPaid,
           paymentStatus: paymentState.nextPaymentStatus,
@@ -242,7 +242,7 @@ export async function PATCH(
           userIds: medecinAdminIds,
           type: 'results_entered',
           title: 'Résultats en cours de saisie',
-          message: `Les résultats pour ${analysis.patientLastName} ${analysis.patientFirstName} (ORD-${analysis.orderNumber}) sont en cours de saisie.`,
+          message: `Les résultats pour ${analysis.patient?.lastName} ${analysis.patient?.firstName} (ORD-${analysis.orderNumber}) sont en cours de saisie.`,
           analysisId: id,
         });
       }

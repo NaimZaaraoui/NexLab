@@ -279,11 +279,25 @@ export function canTransition(
   const requirements = TRANSITION_REQUIREMENTS[requireKey];
 
   if (requirements?.requireAllResultsFilled) {
+    // Identifier tous les tests qui agissent comme parents
+    const parentTestIds = new Set(
+      analysis.results
+        .map((r) => r.test?.parentId)
+        .filter((pid): pid is string => Boolean(pid))
+    );
+
     // Calculated tests (e.g. DFG/eGFR) are excluded from the mandatory fill check:
     // they may legitimately be empty when their dependencies (patient age, sex, etc.)
     // are unavailable. All other non-group tests must have a value.
     const allFilled = analysis.results.every(r => {
-      if (r.test?.resultType === 'calculated' || r.test?.isGroup || r.test?.isOptional) return true;
+      if (
+        r.test?.resultType === 'calculated' || 
+        r.test?.isGroup || 
+        r.test?.isOptional ||
+        (r.test?.id && parentTestIds.has(r.test.id))
+      ) {
+        return true;
+      }
       return r.value && r.value.trim();
     });
     if (!allFilled) {

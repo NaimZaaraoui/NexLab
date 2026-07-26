@@ -40,6 +40,7 @@ export async function PUT(
     const analysis = await prisma.analysis.findUnique({
       where: { id },
       include: {
+        patient: { select: { gender: true } },
         results: {
           include: { test: true }
         }
@@ -80,7 +81,7 @@ export async function PUT(
 
           // Si une valeur est saisie, on "fige" les valeurs de référence actuelles
           if (valStr) {
-            const refVals = getTestReferenceValues(existingResult.test, analysis.patientGender);
+            const refVals = getTestReferenceValues(existingResult.test, analysis.patient?.gender);
             clientMeta.reference = refVals;
           }
 
