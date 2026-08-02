@@ -4,6 +4,30 @@ import { prisma } from '@/lib/db/prisma';
 import { requireAnyRole } from '@/lib/security/authz';
 import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
 
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const guard = await requireAnyRole(['ADMIN', 'TECHNICIEN', 'MEDECIN', 'RECEPTIONNISTE']);
+    if (!guard.ok) return guard.error;
+
+    const { id } = await params;
+    const patient = await prisma.patient.findUnique({
+      where: { id },
+    });
+
+    if (!patient) {
+      return NextResponse.json({ error: 'Patient introuvable' }, { status: 404 });
+    }
+
+    return NextResponse.json(patient);
+  } catch (error) {
+    console.error('Error fetching patient:', error);
+    return NextResponse.json({ error: 'Error fetching patient' }, { status: 500 });
+  }
+}
+
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }

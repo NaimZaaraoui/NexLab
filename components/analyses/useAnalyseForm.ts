@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Test } from '@/lib/core/types';
 import { usePatientSelection } from './usePatientSelection';
 import type { BilanOption } from './analyse-form-types';
-import { applyRenalAutoSelection } from '@/lib/clinical/renal-tests';
+import { applySelectionRules } from '@/lib/clinical/rules-engine';
 
 export function useAnalyseForm() {
   const router = useRouter();
@@ -89,9 +89,9 @@ export function useAnalyseForm() {
       const isSelecting = !prev.includes(testId);
       const childrenIds = test.children?.map((c) => c.id) || [];
       if (isSelecting) {
-        return applyRenalAutoSelection(Array.from(new Set([...prev, testId, ...childrenIds])), tests);
+        return applySelectionRules(Array.from(new Set([...prev, testId, ...childrenIds])), tests);
       } else {
-        return applyRenalAutoSelection(prev.filter(id => id !== testId && !childrenIds.includes(id)), tests);
+        return applySelectionRules(prev.filter(id => id !== testId && !childrenIds.includes(id)), tests);
       }
     });
   }, [tests]);
@@ -102,9 +102,9 @@ export function useAnalyseForm() {
 
     setSelectedTests(prev => {
       if (allSelected) {
-        return applyRenalAutoSelection(prev.filter(id => !bilanTestIds.includes(id)), tests);
+        return applySelectionRules(prev.filter(id => !bilanTestIds.includes(id)), tests);
       } else {
-        return applyRenalAutoSelection(Array.from(new Set([...prev, ...bilanTestIds])), tests);
+        return applySelectionRules(Array.from(new Set([...prev, ...bilanTestIds])), tests);
       }
     });
   }, [selectedTests, tests]);

@@ -1,24 +1,23 @@
 import { Mail, PencilLine, Printer, ReceiptText, Tags } from 'lucide-react';
 import { isAnalysisFinalValidated } from '@/lib/analysis/status-flow';
-import { useDirectPrint } from '@/lib/hooks/useDirectPrint';
 import { LabelQuantityModal } from './LabelQuantityModal';
 import { useAnalysisContext } from './AnalysisContext';
 import { useState } from 'react';
 
 export function AnalysisWorkflowActions() {
-  const { printUrl } = useDirectPrint();
   const {
     analysis,
     sendingEmail,
     emailConfigured,
     setEditDialogOpen,
     handlePrint,
+    handlePrintInvoice,
+    handlePrintLabels,
     handleSendEmail,
     selectedIds,
   } = useAnalysisContext();
 
   const [labelModalOpen, setLabelModalOpen] = useState(false);
-  const { handlePrintInvoice } = useAnalysisContext();
 
   const isFinalValidated = isAnalysisFinalValidated(analysis?.status);
   const selectedIdsCount = selectedIds.length;
@@ -33,7 +32,7 @@ export function AnalysisWorkflowActions() {
 
   const handleConfirmLabels = (n: number) => {
     if (analysis) {
-      printUrl(`/print/labels/${analysis.id}?autoprint=1&count=${n}&_t=${Date.now()}`);
+      handlePrintLabels(n);
     }
   };
   const onPrint = handlePrint;

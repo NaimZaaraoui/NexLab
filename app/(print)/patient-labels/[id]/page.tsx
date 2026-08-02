@@ -3,25 +3,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { Printer } from 'lucide-react';
-import { Analysis, Specimen } from '@/lib/core/types';
+import { Patient } from '@/lib/core/types';
 import { Code39Barcode } from '@/components/print/Code39Barcode';
 import { PageBackLink } from '@/components/ui/PageBackLink';
+import { calculatePatientAge } from '@/components/patients/patient-helpers';
 
-type LabelItem = {
-  key: string;
-  barcode: string;
-  title: string;
-  subtitle: string;
-  specimen?: Specimen;
-  copy: number;
-};
-
-export default function TubeLabelsPage() {
+export default function PatientLabelsPage() {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
-  const [analysis, setAnalysis] = useState<Analysis | null>(null);
+  const [patient, setPatient] = useState<Patient | null>(null);
   const [loading, setLoading] = useState(true);
-  const [copies, setCopies] = useState(6);
+  const [copies, setCopies] = useState(3);
   const [ready, setReady] = useState(false);
   const autoPrint = searchParams.get('autoprint') === '1';
   const closeAfterPrint = searchParams.get('closeAfterPrint') === '1';
@@ -31,17 +23,16 @@ export default function TubeLabelsPage() {
 
     const load = async () => {
       try {
-        const response = await fetch(`/api/analyses/${id}`);
+        const response = await fetch(`/api/patients/${id}`);
         const data = await response.json();
         if (mounted && response.ok) {
-          setAnalysis(data);
-          
-          // Get initial copies from searchParams
+          setPatient(data);
+
           const countParam = searchParams.get('count');
           if (countParam) {
             setCopies(Math.max(1, Math.min(50, Number(countParam))));
           }
-          
+
           window.setTimeout(() => setReady(true), 250);
         }
       } finally {
@@ -73,62 +64,42 @@ export default function TubeLabelsPage() {
         previous?.call(window, new Event('afterprint'));
         window.close();
       };
-
       return () => {
         window.clearTimeout(timer);
         window.onafterprint = previous;
       };
     }
-
     return () => {
       window.clearTimeout(timer);
     };
   }, [autoPrint, closeAfterPrint, ready]);
 
   const patientName = useMemo(() => {
-    if (!analysis) return '';
-    return `${analysis.patient?.firstName || ''} ${analysis.patient?.lastName || ''}`.trim() || 'Patient sans nom';
-  }, [analysis]);
+    if (!patient) return '';
+    return `${patient.firstName || ''} ${patient.lastName || ''}`.trim() || 'Patient sans nom';
+  }, [patient]);
 
   const barcodeValue = useMemo(() => {
-    if (!analysis) return '';
-    return analysis.orderNumber || analysis.dailyId || analysis.id.slice(0, 12).toUpperCase();
-  }, [analysis]);
+    if (!patient) return '';
+    return patient.id.slice(0, 8).toUpperCase();
+  }, [patient]);
 
-  const labelItems = useMemo<LabelItem[]>(() => {
-    if (!analysis) return [];
-
+  const labelItems = useMemo(() => {
+    if (!patient) return [];
     const safeCopies = Math.max(1, Math.min(100, copies));
-    const specimens = (analysis.specimens || []).filter((specimen) => specimen.barcode);
-
-    if (specimens.length === 0) {
-      return Array.from({ length: safeCopies }, (_, index) => ({
-        key: `fallback-${index}`,
-        barcode: barcodeValue,
-        title: 'Tube',
-        subtitle: 'Dossier',
-        copy: index + 1,
-      }));
-    }
-
-    return specimens.flatMap((specimen) =>
-      Array.from({ length: safeCopies }, (_, copyIndex) => ({
-        key: `${specimen.id}-${copyIndex}`,
-        barcode: specimen.barcode || barcodeValue,
-        title: specimen.sampleType || 'Échantillon',
-        subtitle: specimen.containerType || 'Tube',
-        specimen,
-        copy: copyIndex + 1,
-      }))
-    );
-  }, [analysis, barcodeValue, copies]);
+    return Array.from({ length: safeCopies }, (_, index) => ({
+      key: `patient-label-${index}`,
+      barcode: barcodeValue,
+      copy: index + 1,
+    }));
+  }, [patient, barcodeValue, copies]);
 
   if (loading) {
     return <div className="p-6 text-sm text-[var(--color-text-secondary)]">Chargement des etiquettes...</div>;
   }
 
-  if (!analysis) {
-    return <div className="p-6 text-sm text-rose-600">Analyse introuvable.</div>;
+  if (!patient) {
+    return <div className="p-6 text-sm text-rose-600">Patient introuvable.</div>;
   }
 
   return (
@@ -136,10 +107,10 @@ export default function TubeLabelsPage() {
       <section className="rounded-3xl border bg-[var(--color-surface)] px-5 py-4 shadow-[0_8px_28px_rgba(15,31,51,0.06)] print:hidden">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <PageBackLink href={`/analyses/${analysis.id}`} />
-            <h1 className="text-xl font-semibold text-[var(--color-text)]">Etiquettes tubes</h1>
+            <PageBackLink href={`/dashboard/patients/${patient.id}`} />
+            <h1 className="text-xl font-semibold text-[var(--color-text)]">Etiquettes Patient</h1>
             <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-              Impression rapide des codes-barres échantillons pour {patientName}.
+              Impression des étiquettes d&apos;identification pour {patientName}.
             </p>
           </div>
 
@@ -177,16 +148,16 @@ export default function TubeLabelsPage() {
           >
             <div className="flex items-start justify-between gap-1 print:border-b-2 print:border-black print:pb-0.5 print:mb-0.5">
               <div className="min-w-0">
-                <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-500 print:hidden">{label.subtitle}</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-500 print:hidden">Patient</p>
                 <h2 className="mt-0.5 truncate text-sm font-semibold uppercase tracking-tight text-[var(--color-text)] print:text-[11px] print:font-black print:leading-tight print:mt-0 print:text-black">
                   {patientName}
                 </h2>
                 <p className="mt-0.5 truncate text-xs font-semibold text-[var(--color-text-secondary)] print:text-[8px] print:font-black print:text-black print:leading-none print:mt-0.5">
-                  {label.title} <span className="hidden print:inline">— {label.subtitle}</span>
+                  {calculatePatientAge(patient.birthDate as any)} ans
                 </p>
               </div>
               <div className="shrink-0 rounded-full border border-[var(--color-border)] px-2 py-0.5 text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--color-text-secondary)] print:px-1.5 print:py-0 print:text-[11px] print:font-black print:text-black print:border-2 print:border-black print:rounded-sm">
-                {analysis.patient?.gender === 'F' ? 'F' : analysis.patient?.gender === 'M' ? 'M' : 'P'}
+                {patient.gender === 'F' ? 'F' : patient.gender === 'M' ? 'M' : 'P'}
               </div>
             </div>
 
@@ -201,12 +172,12 @@ export default function TubeLabelsPage() {
 
             <div className="mt-2 grid grid-cols-2 gap-2 text-xs print:mt-auto print:flex print:items-center print:justify-between print:text-[8px] print:font-black print:text-black print:border-t-2 print:border-black print:pt-0.5 print:pb-0.5">
               <div className="print:flex print:gap-1">
-                <p className="font-bold uppercase tracking-[0.08em] text-slate-500 print:hidden">Ordre</p>
-                <p className="mt-0.5 truncate font-mono font-semibold text-[var(--color-text)] print:text-black print:font-black print:leading-none print:mt-0">ORD:{analysis.orderNumber}</p>
+                <p className="font-bold uppercase tracking-[0.08em] text-slate-500 print:hidden">ID Patient</p>
+                <p className="mt-0.5 truncate font-mono font-semibold text-[var(--color-text)] print:text-black print:font-black print:leading-none print:mt-0">ID:{patient.id.slice(0, 8).toUpperCase()}</p>
               </div>
               <div className="print:flex print:gap-1">
-                <p className="font-bold uppercase tracking-[0.08em] text-slate-500 print:hidden">Tube</p>
-                <p className="mt-0.5 truncate font-mono font-semibold text-[var(--color-text)] print:text-black print:font-black print:leading-none print:mt-0">T:{label.copy}/{copies}</p>
+                <p className="font-bold uppercase tracking-[0.08em] text-slate-500 print:hidden">Étiquette</p>
+                <p className="mt-0.5 truncate font-mono font-semibold text-[var(--color-text)] print:text-black print:font-black print:leading-none print:mt-0">E:{label.copy}/{copies}</p>
               </div>
               <div className="hidden print:block">
                 <p className="truncate font-mono font-semibold print:text-black print:font-black print:leading-none print:mt-0">

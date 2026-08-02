@@ -16,6 +16,8 @@ export function AnalysisValidationFooter() {
     handleSave,
     validating,
     saving,
+    hasUnsavedChanges,
+    isAutoSaving,
   } = useAnalysisContext();
 
   const isFinalValidated = isAnalysisFinalValidated(analysis?.status);
@@ -40,8 +42,13 @@ export function AnalysisValidationFooter() {
       
       {!isFinalValidated ? (
         <div className="flex flex-wrap items-center gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3 w-fit">
-          <button onClick={handleSave} disabled={saving} className="btn-secondary h-9 px-4 disabled:cursor-not-allowed disabled:opacity-60">
-            <Save size={16} /> {saving ? '...' : 'Sauvegarder'}
+          <button 
+            onClick={handleSave} 
+            disabled={saving || isAutoSaving} 
+            className={`btn-secondary h-9 px-4 disabled:cursor-not-allowed ${hasUnsavedChanges ? 'border-indigo-300 bg-indigo-50 text-indigo-700 hover:bg-indigo-100' : 'opacity-60'}`}
+          >
+            <Save size={16} className={isAutoSaving ? 'animate-bounce' : ''} /> 
+            {isAutoSaving ? 'Sauvegarde auto...' : saving ? '...' : hasUnsavedChanges ? 'Enregistrer les modifs' : 'Sauvegardé'}
           </button>
 
           <div className="h-8 w-px bg-slate-200 hidden md:block mx-1" />

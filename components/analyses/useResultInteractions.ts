@@ -6,11 +6,13 @@ import type { Analysis, Result } from '@/lib/core/types';
 interface UseResultInteractionsOptions {
   analysis: Analysis | null;
   showNotification: (type: 'success' | 'error', message: string) => void;
+  onNoteChanged?: () => void;
 }
 
 export function useResultInteractions({
   analysis,
   showNotification,
+  onNoteChanged,
 }: UseResultInteractionsOptions) {
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [draftNotes, setDraftNotes] = useState<Record<string, string>>({});
@@ -41,7 +43,8 @@ export function useResultInteractions({
 
   const applyNote = (id: string) => {
     setNotes((prev) => ({ ...prev, [id]: draftNotes[id] || '' }));
-    showNotification('success', "Note enregistrée localement (pensez à sauvegarder l'analyse)");
+    showNotification('success', "Note enregistrée localement (sauvegarde auto en cours...)");
+    onNoteChanged?.();
     toggleNote(id);
   };
 
@@ -57,6 +60,7 @@ export function useResultInteractions({
       return next;
     });
     showNotification('success', 'Note supprimée');
+    onNoteChanged?.();
     if (expandedNotes.includes(id)) {
       toggleNote(id);
     }

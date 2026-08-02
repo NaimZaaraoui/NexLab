@@ -55,14 +55,14 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
             }}
           >
              
-             <div className="border-2 rounded-full w-24 h-24 flex flex-col items-center justify-center p-2 relative border-black/20">
-                <div className="absolute inset-1 border rounded-full border-black" />
-                <LucideMicroscope size={16} className="text-slate-300 mb-1 print:text-black" />
-                <p className="text-[6px] font-black text-slate-500 uppercase tracking-[0.08em] text-center leading-tight print:text-black">
+             <div className="border-[1.5px] rounded-full w-28 h-28 flex flex-col items-center justify-center p-2 relative border-slate-300 print:border-black/30">
+                <div className="absolute inset-[3px] border rounded-full border-slate-800 print:border-black" />
+                <LucideMicroscope size={20} className="text-slate-400 mb-1.5 print:text-black" />
+                <p className="text-[9px] font-black text-slate-800 uppercase tracking-[0.08em] text-center leading-tight print:text-black">
                   Prenez soin<br/>de vous
                 </p>
-                <div className="w-4 h-px bg-slate-200 my-1 print:bg-black" />
-                <p className="text-[5px] font-medium text-slate-500 uppercase tracking-[0.08em] print:text-black">
+                <div className="w-5 h-[1.5px] bg-slate-400 my-1.5 print:bg-black/60" />
+                <p className="text-[7px] font-bold text-slate-600 uppercase tracking-[0.1em] print:text-black/80">
                   Bon rétablissement
                 </p>
              </div>
@@ -96,8 +96,8 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
               {/* ── En-tête : Logo + Nom + Adresse ── */}
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-5 w-full">
-                  <div className="w-14 h-14 rounded-full bg-slate-900 flex items-center justify-center text-white print:border-2 print:border-black print:text-black print:bg-transparent">
-                    <LucideMicroscope size={28} strokeWidth={1.75} />
+                  <div className="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-white print:border-2 print:border-black print:text-black print:bg-transparent">
+                    <LucideMicroscope size={24} strokeWidth={2} />
                   </div>
                   <div className="flex flex-col gap-1 w-full flex-1">
                     <div>
@@ -133,37 +133,35 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
               {/* ── Info patient (Minimalist & Modern) ── */}
               <div className="ml-12 mr-4 mb-4 relative group">
                
-                <div className="relative border-2 border-dashed pl-4 py-2 print:border-black w-[70mm]">
-                 
-                  
+                <div className="relative border-[1.5px] border-slate-800 print:border-black pl-5 pr-4 py-4 print:bg-black/[0.04] rounded-sm w-[75mm] shadow-sm">
                   {analysis ? (
-                    <div className="space-y-1 mt-1">
-                      <p className="text-lg font-bold text-[var(--color-text)] print:text-black leading-tight uppercase">
+                    <div className="space-y-1.5">
+                      <p className="text-xl font-black text-[var(--color-text)] print:text-black leading-tight uppercase tracking-tight">
                         {patientName}
                       </p>
                       
-                      <div className="flex items-center gap-4 text-[11px] text-[var(--color-text-secondary)] print:text-black font-medium">
-                        <span className="flex items-center gap-1">
-                          ID: <span className="font-mono font-bold text-[var(--color-text)] print:text-black">{dailyId}</span>
+                      <div className="flex items-center gap-3 text-[11px] text-[var(--color-text-secondary)] print:text-black font-semibold">
+                        <span className="flex items-center gap-1.5">
+                          ID: <span className="font-mono font-black text-[var(--color-text)] print:text-black">{dailyId}</span>
                         </span>
-                        <span className="w-1 h-1 rounded-full bg-slate-300 print:bg-black/30" />
+                        <span className="w-1 h-1 rounded-full bg-slate-400 print:bg-black/40" />
                         <span>{dateStr}</span>
                       </div>
                     </div>
                   ) : (
-                    <div className="space-y-3 mt-2">
+                    <div className="space-y-3.5">
                          {/* Zone de saisie manuelle */}
-                         <div className="flex gap-3">
-                          <span className="text-xs font-bold">NOM:</span>
-                          <div className="h-5 border-b border-[var(--color-border)] print:border-black/20 w-48" />
+                         <div className="flex gap-3 items-end">
+                          <span className="text-[11px] font-black tracking-wide">NOM:</span>
+                          <div className="h-4 border-b border-[var(--color-border)] print:border-black/30 flex-1" />
                          </div>
-                         <div className="flex gap-3">
-                            <span className="text-xs font-bold">ID:</span>
-                            <div className="h-5 border-b border-[var(--color-border)] print:border-black/20 w-24" />
+                         <div className="flex gap-3 items-end">
+                            <span className="text-[11px] font-black tracking-wide">ID:</span>
+                            <div className="h-4 border-b border-[var(--color-border)] print:border-black/30 w-24" />
                          </div>
-                         <div className="flex gap-4">
-                            <span className="text-xs font-bold">DATE:</span>
-                            <div className="h-5 border-b border-[var(--color-border)] print:border-black/20 w-32" />
+                         <div className="flex gap-3 items-end">
+                            <span className="text-[11px] font-black tracking-wide">DATE:</span>
+                            <div className="h-4 border-b border-[var(--color-border)] print:border-black/30 w-32" />
                          </div>
                     </div>
                   )}

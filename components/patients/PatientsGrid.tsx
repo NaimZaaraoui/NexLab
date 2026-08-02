@@ -1,9 +1,12 @@
 'use client';
 
-import { Calendar, ChevronRight, Edit2, Mail, Phone, Plus, Users } from 'lucide-react';
+import { Calendar, ChevronRight, Edit2, Mail, Phone, Plus, Users, Tags } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { calculatePatientAge } from '@/components/patients/patient-helpers';
 import type { PatientListItem } from '@/components/patients/types';
+import { useDirectPrint } from '@/lib/hooks/useDirectPrint';
+import { LabelQuantityModal } from '@/components/analyses/LabelQuantityModal';
 
 interface PatientsGridProps {
   patients: PatientListItem[];
@@ -14,6 +17,15 @@ interface PatientsGridProps {
 }
 
 export function PatientsGrid({ patients, loading, role, onEdit, onNewAnalysis }: PatientsGridProps) {
+  const { printUrl } = useDirectPrint();
+  const [activePrintPatientId, setActivePrintPatientId] = useState<string | null>(null);
+
+  const handleConfirmLabels = (count: number) => {
+    if (activePrintPatientId) {
+      printUrl(`/patient-labels/${activePrintPatientId}?autoprint=1&count=${count}&_t=${Date.now()}`);
+    }
+  };
+
   if (loading && patients.length === 0) {
     return (
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -71,6 +83,14 @@ export function PatientsGrid({ patients, loading, role, onEdit, onNewAnalysis }:
                   <Plus size={18} />
                 </button>
               )}
+              
+              <button
+                onClick={() => setActivePrintPatientId(patient.id)}
+                className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text)]"
+                title="Imprimer Étiquettes"
+              >
+                <Tags size={16} />
+              </button>
 
               <button
                 onClick={() => onEdit(patient)}
@@ -135,6 +155,15 @@ export function PatientsGrid({ patients, loading, role, onEdit, onNewAnalysis }:
           </p>
         </div>
       )}
+
+      <LabelQuantityModal
+        open={!!activePrintPatientId}
+        onOpenChange={(open) => {
+          if (!open) setActivePrintPatientId(null);
+        }}
+        onConfirm={handleConfirmLabels}
+        defaultCount={1}
+      />
     </div>
   );
 }

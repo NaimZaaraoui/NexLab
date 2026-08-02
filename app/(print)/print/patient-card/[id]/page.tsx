@@ -6,7 +6,12 @@ import { LucideMicroscope, Printer } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { PageBackLink } from '@/components/ui/PageBackLink';
 
-type PatientAnalysis = { id: string };
+type PatientAnalysis = {
+  id: string;
+  orderNumber?: string;
+  creationDate: string;
+  status?: string;
+};
 
 type PatientData = {
   id: string;
@@ -67,6 +72,11 @@ export default function PatientCardPrintPage() {
     return patient.id.slice(-8).toUpperCase();
   }, [patient]);
 
+  const lastAnalyses = useMemo(() => {
+    if (!patient) return [];
+    return patient.analyses.slice(0, 1);
+  }, [patient]);
+
   const labName = settings.lab_name || 'NexLab';
   const labSubtitle = settings.lab_subtitle || 'Centre de Santé';
 
@@ -79,8 +89,44 @@ export default function PatientCardPrintPage() {
 
   const dateEdition = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
 
+  const Row = ({ label, value }: { label: string; value: string }) => (
+    <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
+      <td className="py-2.5 pl-8">
+        <span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">{label}</span>
+      </td>
+      <td className="py-2.5">
+        <span className="text-[14px] tracking-tight font-bold text-[var(--color-text)] print:text-black">{value || '—'}</span>
+      </td>
+    </tr>
+  );
+
   return (
     <div className="min-h-screen bg-[#f3f6f9] py-12 px-4 print:p-0 print:bg-white flex flex-col items-center print:items-stretch">
+
+      <style jsx global>{`
+        @font-face {
+          font-family: "NexLab Sans";
+          src: url("/fonts/geist/Geist-Variable.woff2") format("woff2");
+          font-weight: 100 900;
+          font-style: normal;
+          font-display: swap;
+        }
+        * { font-family: "NexLab Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif !important; }
+        .break-inside-avoid { break-inside: avoid; }
+        @media print {
+          @page {
+            margin: 12mm 10mm;
+            size: A4;
+          }
+          body {
+            background: white !important;
+            margin: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          tr { break-inside: avoid; }
+        }
+      `}</style>
 
       {/* Screen-only toolbar */}
       <section className="w-full max-w-[21cm] mb-8 print:hidden">
@@ -97,7 +143,7 @@ export default function PatientCardPrintPage() {
         </div>
       </section>
 
-      {/* A4 page — plain divs, no outer table (avoids 2-page split bug) */}
+      {/* A4 page */}
       <div className="w-[21cm] bg-white shadow-[0_40px_80px_rgba(15,31,51,0.12)] border border-[var(--color-border)] print:border-none print:shadow-none print:m-0 print:w-full flex flex-col">
 
         {/* ── HEADER ── */}
@@ -105,7 +151,7 @@ export default function PatientCardPrintPage() {
           <div className="flex justify-between items-end mb-4 pt-4 px-4">
             <div className="flex items-center gap-4 mb-4">
               {settings.lab_logo ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
+                // eslint-disable-next-line @next/next/no-img-element
                 <img src={settings.lab_logo} alt={labName} className="h-14 w-auto max-w-[120px] object-contain" />
               ) : (
                 <div className="p-2 bg-black rounded-xl">
@@ -144,7 +190,7 @@ export default function PatientCardPrintPage() {
                 <div className="flex gap-4 text-sm font-medium text-[var(--color-text-secondary)] print:text-black">
                   <span>{patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('fr-FR') : 'N/A'}</span>
                   <span className="text-slate-200 print:text-black/30">|</span>
-                  <span className="uppercase">{patient.gender === 'M' ? 'H' : 'F'}</span>
+                  <span className="uppercase">{patient.gender === 'M' ? 'Homme' : 'Femme'}</span>
                   <span className="text-slate-200 print:text-black/30">|</span>
                   <span>ID: <span className="font-bold text-[var(--color-text)] print:text-black">{memberCode}</span></span>
                 </div>
@@ -175,7 +221,7 @@ export default function PatientCardPrintPage() {
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-[var(--color-surface-muted)]/50 print:bg-black/5">
-                <th className="py-2 pl-4 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80 w-[40%]">Champ / Catégorie</th>
+                <th className="py-2 pl-4 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80 w-[40%]">Champ</th>
                 <th className="py-2 text-left text-[11px] font-black uppercase tracking-[0.1em] text-slate-500 print:text-black/80">Informations Enregistrées</th>
               </tr>
             </thead>
@@ -189,22 +235,12 @@ export default function PatientCardPrintPage() {
                   </div>
                 </td>
               </tr>
-              <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
-                <td className="py-2.5 pl-8"><span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">Nom &amp; Prénom</span></td>
-                <td className="py-2.5"><span className="text-[14px] tracking-tight font-black text-[var(--color-text)] print:text-black uppercase">{patientName}</span></td>
-              </tr>
-              <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
-                <td className="py-2.5 pl-8"><span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">Date de Naissance</span></td>
-                <td className="py-2.5">
-                  <span className="text-[14px] tracking-tight font-bold text-[var(--color-text)] print:text-black">
-                    {patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }) : 'Non renseignée'}
-                  </span>
-                </td>
-              </tr>
-              <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
-                <td className="py-2.5 pl-8"><span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">Sexe</span></td>
-                <td className="py-2.5"><span className="text-[14px] tracking-tight font-bold text-[var(--color-text)] print:text-black uppercase">{patient.gender === 'F' ? 'Féminin' : 'Masculin'}</span></td>
-              </tr>
+              <Row label="Nom & Prénom" value={patientName} />
+              <Row
+                label="Date de Naissance"
+                value={patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }) : ''}
+              />
+              <Row label="Sexe" value={patient.gender === 'F' ? 'Féminin' : 'Masculin'} />
 
               {/* COORDONNÉES */}
               <tr>
@@ -215,37 +251,53 @@ export default function PatientCardPrintPage() {
                   </div>
                 </td>
               </tr>
-              <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
-                <td className="py-2.5 pl-8"><span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">Téléphone Principal</span></td>
-                <td className="py-2.5"><span className="text-[14px] tracking-tight font-bold text-[var(--color-text)] print:text-black">{patient.phoneNumber || '—'}</span></td>
-              </tr>
-              <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
-                <td className="py-2.5 pl-8"><span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">Adresse Email</span></td>
-                <td className="py-2.5"><span className="text-[14px] tracking-tight font-bold text-[var(--color-text)] print:text-black">{patient.email || '—'}</span></td>
-              </tr>
-              <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
-                <td className="py-2.5 pl-8"><span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">Adresse Complète</span></td>
-                <td className="py-2.5"><span className="text-[14px] tracking-tight font-bold text-[var(--color-text)] print:text-black">{patient.address || '—'}</span></td>
-              </tr>
+              <Row label="Téléphone" value={patient.phoneNumber || ''} />
+              <Row label="Email" value={patient.email || ''} />
+              <Row label="Adresse" value={patient.address || ''} />
 
-              {/* HISTORIQUE */}
+              {/* HISTORIQUE ANALYSES */}
               <tr>
                 <td colSpan={2} className="py-2 pt-5">
                   <div className="flex items-center gap-4">
-                    <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Historique Laboratoire</span>
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
+                      Historique Analyses ({patient.analyses.length} dossier{patient.analyses.length > 1 ? 's' : ''})
+                    </span>
                     <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10"></div>
                   </div>
                 </td>
               </tr>
-              <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
-                <td className="py-2.5 pl-8"><span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">Dossiers d&apos;Analyse</span></td>
-                <td className="py-2.5"><span className="text-[14px] tracking-tight font-bold text-[var(--color-text)] print:text-black">{patient.analyses.length} dossier(s) archivé(s)</span></td>
-              </tr>
-              <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
-                <td className="py-2.5 pl-8"><span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">Statut Informatique</span></td>
-                <td className="py-2.5"><span className="text-[14px] tracking-tight font-bold text-[var(--color-text)] print:text-black uppercase">Compte Actif</span></td>
-              </tr>
-
+              {lastAnalyses.length === 0 ? (
+                <tr>
+                  <td colSpan={2} className="py-3 pl-8 text-sm text-slate-400 print:text-black/40 italic">Aucun dossier d&apos;analyse enregistré.</td>
+                </tr>
+              ) : (
+                lastAnalyses.map((analysis, idx) => (
+                  <tr key={analysis.id} className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
+                    <td className="py-2.5 pl-8">
+                      <span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">
+                        {analysis.orderNumber || `Dossier #${idx + 1}`}
+                      </span>
+                    </td>
+                    <td className="py-2.5">
+                      <span className="text-[13px] font-bold text-[var(--color-text)] print:text-black">
+                        {new Date(analysis.creationDate).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                      </span>
+                      {analysis.status && (
+                        <span className="ml-3 text-[11px] font-black uppercase tracking-[0.08em] text-slate-400 print:text-black/50">
+                          {analysis.status}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
+              {patient.analyses.length > 1 && (
+                <tr>
+                  <td colSpan={2} className="py-2 pl-8 text-[11px] font-bold text-slate-400 print:text-black/40 italic">
+                    + {patient.analyses.length - 1} autre{patient.analyses.length - 1 > 1 ? 's' : ''} dossier{patient.analyses.length - 1 > 1 ? 's' : ''} non affichés.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -265,7 +317,7 @@ export default function PatientCardPrintPage() {
                   <span className="text-[11px] font-bold text-[var(--color-text)] print:text-black">{memberCode}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/40">Dossiers</span>
+                  <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/40">Total Dossiers</span>
                   <span className="text-[11px] font-bold text-[var(--color-text)] print:text-black">{patient.analyses.length}</span>
                 </div>
               </div>
@@ -311,29 +363,9 @@ export default function PatientCardPrintPage() {
               </div>
             </div>
           </div>
-
-         
         </div>
 
       </div>
-
-      <style jsx global>{`
-        .break-inside-avoid { break-inside: avoid; }
-        @media print {
-          @page {
-            margin: 12mm 10mm;
-            size: A4;
-            width: 189mm;
-          }
-          body {
-            background: white !important;
-            margin: 0;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          tr { break-inside: avoid; }
-        }
-      `}</style>
     </div>
   );
 }

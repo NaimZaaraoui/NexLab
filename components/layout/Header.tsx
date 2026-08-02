@@ -3,14 +3,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import { GlobalSearchBox } from '@/components/layout/GlobalSearchBox';
 import { NotificationsMenu } from '@/components/layout/NotificationsMenu';
+import { UserMenu } from '@/components/layout/UserMenu';
 import { QcStatusChip } from '@/components/layout/QcStatusChip';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
 import type { HeaderNotification, HeaderQcSummary, HeaderSearchResult } from '@/components/layout/types';
 import { useMobileMenu } from '@/components/providers/MobileMenuContext';
 import { useSession } from 'next-auth/react';
-import { ROLE_LABELS } from '@/lib/core/constants';
 
 interface HeaderProps {
   onMobileMenuToggle?: () => void;
@@ -23,8 +25,6 @@ export function Header({ onMobileMenuToggle }: HeaderProps) {
 
   const user = session?.user;
   const role = user?.role || 'TECHNICIEN';
-  const roleLabel = ROLE_LABELS[role] || role;
-  const initials = user?.name ? user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) : '??';
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<HeaderSearchResult[]>([]);
@@ -35,9 +35,12 @@ export function Header({ onMobileMenuToggle }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [qcSummary, setQcSummary] = useState<HeaderQcSummary | null>(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const searchRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -62,6 +65,9 @@ export function Header({ onMobileMenuToggle }: HeaderProps) {
       }
       if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
         setShowNotifications(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setShowUserMenu(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -183,73 +189,86 @@ export function Header({ onMobileMenuToggle }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-[var(--color-page)]/70 backdrop-blur-md transition-all duration-300">
-      <div className="flex h-20 items-center justify-between gap-4 px-4 lg:px-6 xl:px-8">
-        <div className="flex min-w-0 flex-1 items-center gap-3">
-          <button
-            onClick={() => {
-              toggle();
-              onMobileMenuToggle?.();
-            }}
-            className="rounded-xl border bg-[var(--color-surface)] p-2 text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)] lg:hidden"
-          >
-            <Menu className="w-5 h-5 text-[var(--color-text-secondary)]" />
-          </button>
+    <>
+      <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-[var(--color-page)]/70 backdrop-blur-md transition-all duration-300">
+        <div className="flex h-20 items-center justify-between gap-4 px-4 lg:px-6 xl:px-8">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
+            <button
+              onClick={() => {
+                toggle();
+                onMobileMenuToggle?.();
+              }}
+              className="rounded-xl border bg-[var(--color-surface)] p-2 text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-muted)] lg:hidden"
+            >
+              <Menu className="w-5 h-5 text-[var(--color-text-secondary)]" />
+            </button>
 
-          <GlobalSearchBox
-            searchQuery={searchQuery}
-            isSearching={isSearching}
-            searchResults={searchResults}
-            showSearchResults={showSearchResults}
-            searchRef={searchRef}
-            searchInputRef={searchInputRef}
-            onSearchQueryChange={setSearchQuery}
-            onFocus={() => searchQuery.length >= 2 && setShowSearchResults(true)}
-            onSelectResult={(result) => {
-              let url: string;
-              if (result.type === 'patient') {
-                url = `/dashboard/patients/${result.id}`;
-              } else if (result.type === 'analysis') {
-                url = `/analyses/${result.id}`;
-              } else {
-                url = `/tests?highlight=${result.id}`;
-              }
-              router.push(url);
-              setShowSearchResults(false);
-              setSearchQuery('');
-            }}
-          />
-        </div>
+            <GlobalSearchBox
+              searchQuery={searchQuery}
+              isSearching={isSearching}
+              searchResults={searchResults}
+              showSearchResults={showSearchResults}
+              searchRef={searchRef}
+              searchInputRef={searchInputRef}
+              onSearchQueryChange={setSearchQuery}
+              onFocus={() => searchQuery.length >= 2 && setShowSearchResults(true)}
+              onSelectResult={(result) => {
+                let url: string;
+                if (result.type === 'patient') {
+                  url = `/dashboard/patients/${result.id}`;
+                } else if (result.type === 'analysis') {
+                  url = `/analyses/${result.id}`;
+                } else {
+                  url = `/tests?highlight=${result.id}`;
+                }
+                router.push(url);
+                setShowSearchResults(false);
+                setSearchQuery('');
+              }}
+            />
+          </div>
 
-        <div className="flex items-center gap-2.5">
-          <ThemeToggle />
-          <QcStatusChip qcSummary={qcSummary} onClick={() => router.push('/dashboard/qc')} />
+          <div className="flex items-center gap-2.5">
+            <ThemeToggle />
+            <QcStatusChip qcSummary={qcSummary} onClick={() => router.push('/dashboard/qc')} />
 
-          <NotificationsMenu
-            notifications={notifications}
-            unreadCount={unreadCount}
-            showNotifications={showNotifications}
-            notifRef={notifRef}
-            onToggle={() => setShowNotifications((value) => !value)}
-            onNotificationClick={handleNotificationClick}
-            onReadAll={async () => {
-              await fetch('/api/notifications/read-all', { method: 'POST' });
-              setNotifications((prev) => prev.map((notification) => ({ ...notification, isRead: true })));
-              setUnreadCount(0);
-            }}
-          />
+            <NotificationsMenu
+              notifications={notifications}
+              unreadCount={unreadCount}
+              showNotifications={showNotifications}
+              notifRef={notifRef}
+              onToggle={() => setShowNotifications((value) => !value)}
+              onNotificationClick={handleNotificationClick}
+              onReadAll={async () => {
+                await fetch('/api/notifications/read-all', { method: 'POST' });
+                setNotifications((prev) => prev.map((notification) => ({ ...notification, isRead: true })));
+                setUnreadCount(0);
+              }}
+            />
 
-          <div className="group flex items-center gap-2.5 rounded-2xl border bg-[var(--color-surface)] px-2.5 py-1.5">
-            <div className="hidden text-right sm:flex sm:flex-col">
-              <div className="text-xs font-semibold text-[var(--color-text)]">{user?.name || 'Utilisateur'}</div>
-              <div className="text-xs font-semibold uppercase tracking-[0.06em] text-[var(--color-text-secondary)]">{roleLabel}</div>
-            </div>
-            <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-blue-700/20 bg-[var(--color-accent)] text-xs font-black text-white transition-all group-hover:brightness-105" title={user?.email || ''}>
-              {initials}
-            </div>
+            <UserMenu
+              name={user?.name}
+              email={user?.email}
+              role={role}
+              show={showUserMenu}
+              menuRef={userMenuRef}
+              onToggle={() => setShowUserMenu((v) => !v)}
+              onLogoutRequest={() => setShowLogoutConfirm(true)}
+            />
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      <ConfirmationModal
+        isOpen={showLogoutConfirm}
+        onClose={() => setShowLogoutConfirm(false)}
+        onConfirm={() => signOut({ redirectTo: '/login' })}
+        title="Se déconnecter ?"
+        message="Êtes-vous sûr de vouloir quitter votre session ? Vous devrez vous reconnecter pour accéder au laboratoire."
+        confirmText="Déconnexion"
+        type="danger"
+        icon="logout"
+      />
+    </>
   );
 }

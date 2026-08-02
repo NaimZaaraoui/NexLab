@@ -27,36 +27,35 @@ export const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ analysis, settings
   const { LAB_NAME, LAB_SUBTITLE } = resolvePrintBranding(settings);
 
   return (
-    <>
-      <div className="absolute top-0 right-0 w-1/3 h-1 bg-slate-900 print:bg-black"></div>
-      <div className="absolute top-0 left-0 w-12 h-1 bg-indigo-600 print:bg-black"></div>
-
-      <div className="flex justify-between items-end mb-8 relative z-10 pt-4">
+      <div className="flex justify-between items-end mb-4 relative z-10 px-4 pt-4">
+        {/* Lab identity: logo or icon + name */}
         <div className="flex items-center gap-4 mb-4">
-          <div className="p-2 bg-black rounded-md">
+          <div className="p-2 bg-black">
             <LucideMicroscope size={40} className="text-white" />
           </div>
           <div className="flex flex-col ml-2">
-            <h1 className="text-4xl font-semibold text-[var(--color-text)] tracking-[-0.03em] uppercase print:text-black leading-none">
+            <h1 className="text-3xl font-black text-[var(--color-text)] tracking-tight uppercase print:text-black leading-none">
               {LAB_NAME}
             </h1>
-            <div className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.24em] mt-1.5 flex items-center gap-2">
-              <span className="w-8 h-[1px] bg-indigo-600 print:bg-black"></span>
-              {LAB_SUBTITLE.toUpperCase()}
+            <div className="text-xs font-black text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mt-2 flex items-center gap-2">
+              <span className="w-6 h-[2px] bg-indigo-600 print:bg-black"></span>
+              {LAB_SUBTITLE}
             </div>
           </div>
         </div>
 
-        <div className="text-right border-r-4 border-indigo-600 pr-6 print:border-black">
-          <h2 className="text-2xl font-semibold text-[var(--color-text)] uppercase tracking-tight mb-1 print:text-black">FACTURE</h2>
-          <div className="flex flex-col items-end">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide print:text-black">Référence: {analysis.orderNumber}</p>
-            {analysis.receiptNumber && (
-              <p className="text-xs font-semibold text-[var(--color-accent)] uppercase tracking-wide print:text-black">Quittance: {analysis.receiptNumber}</p>
-            )}
+        {/* Invoice title */}
+        <div className="flex items-center justify-end gap-5 pr-6">
+          <div className="text-right">
+            <h2 className="text-2xl font-black text-[var(--color-text)] uppercase tracking-tight mb-1 print:text-black">FACTURE</h2>
+            <div className="flex flex-col items-end">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Réf: {analysis.orderNumber}</p>
+              {analysis.receiptNumber && (
+                <p className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">Quittance: {analysis.receiptNumber}</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </>
   );
 };

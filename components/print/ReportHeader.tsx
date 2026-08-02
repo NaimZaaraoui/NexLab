@@ -16,8 +16,8 @@ export function ReportHeader({ analysis, settings }: Props) {
   const { LAB_NAME, LAB_SUBTITLE, LAB_ADDRESS, LAB_PHONE, LAB_EMAIL, LAB_LOGO, REPORT_TITLE, SHOW_DOCTOR, SHOW_BARCODE, SHOW_PROVENANCE } = resolvePrintBranding(settings);
 
   const patientName = `${analysis.patient?.firstName || ''} ${analysis.patient?.lastName || ''}`.trim() || 'PATIENT SANS NOM';
-  const age = analysis.patient?.birthDate 
-    ? Math.floor((new Date().getTime() - new Date(analysis.patient.birthDate).getTime()) / 31557600000) 
+  const age = analysis.patient?.birthDate
+    ? Math.floor((new Date().getTime() - new Date(analysis.patient.birthDate).getTime()) / 31557600000)
     : null;
   const dateEdition = format(new Date(), 'dd MMMM yyyy', { locale: fr });
   const datePrelevement = format(new Date(analysis.creationDate), 'dd MMMM yyyy', { locale: fr });
@@ -26,104 +26,102 @@ export function ReportHeader({ analysis, settings }: Props) {
     <thead className="display-table-header-group">
       <tr>
         <td>
-          <div className="flex justify-between items-end mb-4 relative z-10 px-4">
-            {/* Lab identity: logo or icon + name */}
-            <div className="flex items-center gap-4 mb-4">
+          {/* ── TOP BAR : Lab identity + Report title ── */}
+          <div className="flex justify-between items-center mb-2 relative z-10 px-4 pt-4">
+            {/* Logo + lab name */}
+            <div className="flex items-center gap-3">
               {LAB_LOGO ? (
                 <img
                   src={LAB_LOGO}
                   alt={LAB_NAME}
-                  className="h-14 w-auto max-w-[120px] object-contain print:grayscale-0"
+                  className="h-10 w-auto max-w-[100px] object-contain print:grayscale-0"
                 />
               ) : (
-                <div className="p-2 bg-black">
-                  <LucideMicroscope size={40} className="text-white" />
+                <div className="p-1.5 bg-black">
+                  <LucideMicroscope size={28} className="text-white" />
                 </div>
               )}
-              <div className="flex flex-col ml-2">
-                <h1 className="text-3xl font-black text-[var(--color-text)] tracking-tight uppercase print:text-black leading-none">
+              <div className="flex flex-col">
+                <h1 className="text-2xl font-black text-[var(--color-text)] tracking-tight uppercase print:text-black leading-none">
                   {LAB_NAME}
                 </h1>
-                <div className="text-xs font-black text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mt-2 flex items-center gap-2">
-                  <span className="w-6 h-[2px] bg-indigo-600 print:bg-black"></span>
+                <div className="text-[10px] font-black text-[var(--color-text-secondary)] uppercase tracking-[0.1em] mt-1 flex items-center gap-2 print:text-black/70">
+                  <span className="w-5 h-[2px] bg-indigo-600 print:bg-black shrink-0" />
                   {LAB_SUBTITLE}
                 </div>
               </div>
             </div>
 
             {/* Report title + QR */}
-            <div className="flex items-center justify-end gap-5 pr-6">
+            <div className="flex items-center gap-4 pr-2">
               <div className="text-right">
-                <h2 className="text-2xl font-black text-[var(--color-text)] uppercase tracking-tight mb-1 print:text-black">{REPORT_TITLE}</h2>
-                <div className="flex flex-col items-end">
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Réf: {analysis.orderNumber}</p>
-                  {analysis.receiptNumber && (
-                    <p className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">Quittance: {analysis.receiptNumber}</p>
-                  )}
-                </div>
+                <h2 className="text-xl font-black text-[var(--color-text)] uppercase tracking-tight mb-0.5 print:text-black">{REPORT_TITLE}</h2>
+                <p className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Réf: {analysis.orderNumber}</p>
+                {analysis.receiptNumber && (
+                  <p className="text-[11px] font-bold text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">Quittance: {analysis.receiptNumber}</p>
+                )}
               </div>
               {SHOW_BARCODE && (
                 <div className="p-1 bg-white border border-slate-200 shadow-sm print:border-black/20 print:shadow-none shrink-0 mix-blend-multiply">
-                  <QRCodeSVG value={analysis.orderNumber.trim()} size={54} level="M" />
+                  <QRCodeSVG value={analysis.orderNumber.trim()} size={48} level="M" />
                 </div>
               )}
             </div>
           </div>
 
-          {/* Patient info row */}
-          <div className="grid grid-cols-12 gap-4 mb-8 relative z-10 px-4">
-            <div className="col-span-12 h-px bg-[var(--color-surface-muted)] print:bg-black/10"></div>
-            <div className="col-span-5">
-              <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">Patient</span>
-              <div className="flex flex-col mt-2">
-                <h3 className="text-2xl font-black text-[var(--color-text)] mb-2 print:text-black">{patientName}</h3>
-                <div className="flex gap-4 text-sm font-medium text-[var(--color-text-secondary)] print:text-black">
+          {/* ── PATIENT INFO BAND ── */}
+          <div className="grid grid-cols-12 gap-3 mb-3 relative z-10 px-4">
+            <div className="col-span-12 h-px bg-[var(--color-surface-muted)] print:bg-black/20" />
+            {/* Patient identity */}
+            <div className="col-span-5 py-1">
+              <span className="text-[10px] font-black text-[var(--color-accent)] uppercase tracking-[0.1em] print:text-black">Patient</span>
+              <div className="flex flex-col mt-1">
+                <h3 className="text-xl font-black text-[var(--color-text)] print:text-black leading-tight">{patientName}</h3>
+                <div className="flex flex-wrap gap-3 text-[12px] font-medium text-[var(--color-text-secondary)] print:text-black mt-0.5">
                   {analysis.patient?.birthDate ? (
                     <span>
                       Né(e) le {new Date(analysis.patient.birthDate).toLocaleDateString('fr-FR')}
-                      {age !== null ? ` (${age} ans)` : ''}
+                      {age !== null ? ` · ${age} ans` : ''}
                     </span>
                   ) : age !== null ? (
                     <span>{age} ans</span>
                   ) : null}
-                  <span className="text-slate-200 print:text-black/30">|</span>
-                  <span className="uppercase">{analysis.patient?.gender === 'M' ? 'H' : 'F'}</span>
-                  <span className="text-slate-200 print:text-black/30">|</span>
-                  <span>ID: <span className="font-bold text-[var(--color-text)] print:text-black">{analysis.dailyId}</span></span>
+                  <span className="text-slate-300 print:text-black/30">·</span>
+                  <span className="uppercase font-bold">{analysis.patient?.gender === 'M' ? 'Homme' : 'Femme'}</span>
+                  <span className="text-slate-300 print:text-black/30">·</span>
+                  <span>N°: <span className="font-bold text-[var(--color-text)] print:text-black">{analysis.dailyId}</span></span>
                 </div>
               </div>
             </div>
 
-            <div className="col-span-7 grid grid-cols-2 gap-4 pl-8 border-l border-[var(--color-border)] print:border-black/10">
+            {/* Meta info */}
+            <div className="col-span-7 grid grid-cols-2 gap-x-4 gap-y-1 pl-6 border-l border-[var(--color-border)] print:border-black/20 py-1">
               <div>
-                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Prélèvement</span>
-                <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{datePrelevement}</p>
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Prélèvement</span>
+                <p className="text-[12px] font-bold text-[var(--color-text)] print:text-black leading-tight mt-0.5">{datePrelevement}</p>
               </div>
               <div>
-                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Édition</span>
-                <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{dateEdition}</p>
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Édition</span>
+                <p className="text-[12px] font-bold text-[var(--color-text)] print:text-black leading-tight mt-0.5">{dateEdition}</p>
               </div>
               {SHOW_DOCTOR && analysis.medecinPrescripteur && (
                 <div>
-                  <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Prescripteur</span>
-                  <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{analysis.medecinPrescripteur}</p>
+                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Prescripteur</span>
+                  <p className="text-[12px] font-bold text-[var(--color-text)] print:text-black leading-tight mt-0.5">{analysis.medecinPrescripteur}</p>
                 </div>
               )}
               {SHOW_PROVENANCE && analysis.provenance && (
                 <div>
-                  <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Provenance</span>
-                  <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{analysis.provenance}</p>
+                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Provenance</span>
+                  <p className="text-[12px] font-bold text-[var(--color-text)] print:text-black leading-tight mt-0.5">{analysis.provenance}</p>
                 </div>
               )}
-              <div className={SHOW_DOCTOR && analysis.medecinPrescripteur ? '' : 'col-span-2'}>
-                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Établissement</span>
-                <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{LAB_NAME}{LAB_ADDRESS ? ` — ${LAB_ADDRESS}` : ''}</p>
-              </div>
             </div>
-            <div className="col-span-12 h-px bg-[var(--color-surface-muted)] print:bg-black/10"></div>
+            <div className="col-span-12 h-px bg-[var(--color-surface-muted)] print:bg-black/20" />
           </div>
         </td>
       </tr>
     </thead>
   );
 }
+

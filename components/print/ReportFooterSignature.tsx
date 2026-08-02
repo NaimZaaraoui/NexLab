@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function ReportFooterSignature({ analysis, settings, showFull = true }: Props) {
-  const { LAB_NAME, LAB_PHONE, BIO_TITLE, BIO_NAME, BIO_ONMPT, FOOTER_TEXT, REPORT_DISCLAIMER } = resolvePrintBranding(settings);
+  const { LAB_NAME, LAB_PHONE, LAB_ADDRESS, BIO_TITLE, BIO_NAME, BIO_ONMPT, FOOTER_TEXT, REPORT_DISCLAIMER } = resolvePrintBranding(settings);
   const isValidated = isAnalysisValidated(analysis.status as AnalysisStatus);
 
   return (
@@ -22,15 +22,14 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
       <tr>
         <td>
           {showFull ? (
-            <div className="pt-6 border-t-2 border-slate-900 print:border-black footer-content">
+            <div className="pt-3 border-t-2 border-slate-900 print:border-black footer-content">
               <div className="grid grid-cols-3 gap-12">
                 <div className="col-span-2">
-                  <h4 className="text-[11px] font-black text-slate-500 uppercase tracking-[0.1em] mb-4 print:text-black">Notes du Biologiste</h4>
+                  <h4 className="text-[11px] font-black text-slate-500 uppercase tracking-[0.1em] mb-1 print:text-black">Notes du Biologiste</h4>
                   <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed max-w-md print:text-black">
-                    {REPORT_DISCLAIMER}<br />
-                    <span className="text-[11px] font-black text-slate-300 uppercase print:text-black/60">↑ = Résultat élevé | ↓ = Résultat bas | Préc. = Dernier résultat validé dans notre laboratoire</span>
+                    {REPORT_DISCLAIMER}
                   </p>
-                  <div className="mt-6 flex gap-8">
+                  <div className="mt-3 flex gap-8">
                     <div className="flex flex-col">
                       <span className="text-[10px] font-black text-slate-300 uppercase print:text-black/60">ID Document</span>
                       <span className="text-[10px] font-bold text-[var(--color-text)] print:text-black">{analysis.id.substring(0, 8).toUpperCase()}</span>
@@ -45,7 +44,7 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
                 </div>
 
                 <div className="flex flex-col items-center">
-                  <div className="w-full border-b border-slate-900 pb-2 mb-4 text-center print:border-black">
+                  <div className="w-full border-b border-slate-900 pb-1 mb-2 text-center print:border-black">
                     <span className="text-[11px] font-black text-slate-500 uppercase tracking-[0.1em] print:text-black">Signature & Cachet</span>
                   </div>
                   <div className="flex flex-col items-center gap-2 w-full">
@@ -86,14 +85,14 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
                         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={settings.lab_bio_signature} alt="Signature" style={{ width: '130px', height: '30px', objectFit: 'contain', objectPosition: 'center bottom', filter: 'contrast(1.15)' }} />
-                          <div style={{ width: '140px', height: '80px', border: '1px dashed rgba(15, 23, 42, 0.7)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
+                          <div style={{ width: '140px', height: '80px', border: '1px dashed rgba(15, 23, 42, 0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
                             <span style={{ fontSize: '7px', color: 'rgba(15, 23, 42, 0.7)', textAlign: 'center', lineHeight: 1.5, textTransform: 'uppercase', letterSpacing: '0.1em', transform: 'rotate(-15deg)' }}>Zone de cachet</span>
                           </div>
                         </div>
                       )}
 
                       {!settings?.lab_stamp_image && !settings?.lab_bio_signature && (
-                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '140px', height: '80px', border: '2px dashed rgba(15, 23, 42, 0.7)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
+                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '140px', height: '80px', border: '2px dashed rgba(15, 23, 42, 0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
                           <span style={{ fontSize: '8px', color: 'rgba(15, 23, 42, 0.7)', textAlign: 'center', lineHeight: 1.6, textTransform: 'uppercase', letterSpacing: '0.15em', transform: 'rotate(-15deg)' }}>Zone de cachet</span>
                         </div>
                       )}
@@ -114,9 +113,10 @@ export function ReportFooterSignature({ analysis, settings, showFull = true }: P
                   {FOOTER_TEXT}
                 </div>
               )}
-              <div className="mt-6 flex justify-between items-center text-[9px] font-bold text-slate-300 uppercase tracking-[0.1em] border-t border-[var(--color-border)] pt-8 print:border-black print:text-black">
+              <div className="mt-3 flex justify-between items-center text-[9px] font-bold text-slate-300 uppercase tracking-[0.1em] border-t border-[var(--color-border)] pt-3 print:border-black print:text-black">
                 <span>{LAB_NAME}</span>
                 <div className="flex gap-4">
+                  {LAB_ADDRESS && <span>{LAB_ADDRESS}</span>}
                   {LAB_PHONE && <span>Tél: {LAB_PHONE}</span>}
                 </div>
                 <span className="text-[var(--color-text)] print:text-black page-number-container">

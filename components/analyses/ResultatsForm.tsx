@@ -115,9 +115,9 @@ function PrintIframe({ printUrl }: { printUrl: string | null }) {
         key={printUrl}
         src={printUrl}
         title="Print Engine Frame"
-        className="absolute w-[1px] h-[1px] opacity-0 pointer-events-none"
+        className="absolute"
         tabIndex={-1}
-        style={{ border: 0, left: -10000, top: -10000 }}
+        style={{ border: 0, left: '-10000px', top: '-10000px', width: '1px', height: '1px', position: 'fixed' }}
         onLoad={() => {
           activePrintUrlRef.current = null;
           setPrintStatus('sent');

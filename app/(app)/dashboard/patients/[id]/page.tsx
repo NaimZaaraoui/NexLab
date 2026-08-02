@@ -13,6 +13,7 @@ import {
   Edit,
   Calendar,
   IdCard,
+  Tags,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useDirectPrint } from '@/lib/hooks/useDirectPrint';
@@ -25,6 +26,7 @@ import type { PatientDetails } from '@/components/patients/types';
 import { useSession } from 'next-auth/react';
 import { NotificationToast } from '@/components/ui/notification-toast';
 import { PageBackLink } from '@/components/ui/PageBackLink';
+import { LabelQuantityModal } from '@/components/analyses/LabelQuantityModal';
 
 export default function PatientDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { data: session } = useSession();
@@ -37,6 +39,7 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
   const [activeTab, setActiveTab] = useState<'history' | 'trends'>('history');
   const [mounted, setMounted] = useState(false);
   const [editingPatient, setEditingPatient] = useState<PatientDetails | null>(null);
+  const [labelModalOpen, setLabelModalOpen] = useState(false);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [confirmDialog, setConfirmDialog] = useState<{
     open: boolean;
@@ -45,6 +48,9 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
     action: () => void;
   }>({ open: false, title: '', description: '', action: () => { } });
 
+  const handleConfirmLabels = (count: number) => {
+    printUrl(`/patient-labels/${id}?autoprint=1&count=${count}&_t=${Date.now()}`);
+  };
 
   const fetchPatientData = useCallback(async () => {
     try {
@@ -165,6 +171,13 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
             className="btn-secondary-md px-6"
           >
             <IdCard size={16} /> Carte patient
+          </button>
+          <button
+            onClick={() => setLabelModalOpen(true)}
+            className="btn-secondary-md px-4 text-[var(--color-text-secondary)]"
+            title="Imprimer Étiquettes"
+          >
+            <Tags size={16} /> Etiquettes
           </button>
           <button
             onClick={() => setEditingPatient(patient)}
@@ -301,6 +314,12 @@ export default function PatientDetailsPage({ params }: { params: Promise<{ id: s
       />
 
       {notification && <NotificationToast type={notification.type} message={notification.message} />}
+      <LabelQuantityModal
+        open={labelModalOpen}
+        onOpenChange={setLabelModalOpen}
+        onConfirm={handleConfirmLabels}
+        defaultCount={1}
+      />
     </div>
   );
 }

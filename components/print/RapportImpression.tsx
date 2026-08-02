@@ -38,42 +38,42 @@ export const RapportImpression = forwardRef<HTMLDivElement, ReportPrintProps>(
     const { histogramData: parsedHistograms, pltData } = useMemo(() => {
       return parseReportHistograms(analysis.histogramData);
     }, [analysis.histogramData]);
-    
+
     // Process results to isolate NFS if necessary
     const { categoryGroups, allOrderedCategories } = useMemo(() => {
       const grouped = groupReportResultsByCategory(filteredResults);
       const { categoryGroups } = grouped;
       let { allOrderedCategories } = grouped;
-      
+
       // Look for any result that is an NFS group
       const nfsResult = filteredResults.find(r => r.test?.code === 'NFS' && !r.test.parentId);
-      
+
       if (nfsResult) {
         const originalCategory = nfsResult.test?.categoryRel?.name || 'Divers';
-        
+
         // Only isolate if it's not already in its own "NFS" category
         if (originalCategory !== 'NFS') {
           // Find the NFS group and all its children
           const nfsResultId = nfsResult.testId;
-          const nfsAndChildrenRaw = filteredResults.filter(r => 
+          const nfsAndChildrenRaw = filteredResults.filter(r =>
             r.testId === nfsResultId || r.test?.parentId === nfsResultId
           );
-          
+
           // IDs to remove from the original category
           const nfsResIds = new Set(nfsAndChildrenRaw.map(r => r.id));
-          
+
           // Remove from original category
           categoryGroups[originalCategory] = categoryGroups[originalCategory].filter(r => !nfsResIds.has(r.id));
-          
+
           // Create new NFS category
           categoryGroups['NFS'] = nfsAndChildrenRaw;
-          
+
           // If original category is now empty, remove it
           if (categoryGroups[originalCategory].length === 0) {
             delete categoryGroups[originalCategory];
             allOrderedCategories = allOrderedCategories.filter(c => c !== originalCategory);
           }
-          
+
           // Add NFS to ordered categories if not present
           if (!allOrderedCategories.includes('NFS')) {
             // Find position of original category to keep ordering similar
@@ -86,7 +86,7 @@ export const RapportImpression = forwardRef<HTMLDivElement, ReportPrintProps>(
           }
         }
       }
-      
+
       return { categoryGroups, allOrderedCategories };
     }, [filteredResults]);
 
@@ -113,20 +113,23 @@ export const RapportImpression = forwardRef<HTMLDivElement, ReportPrintProps>(
     const renderGlobalNote = (pageIndex: number) => {
       if (!shouldRenderGlobalNote(pageIndex)) return null;
       return (
-        <div className="px-4 py-2 mb-4 bg-[var(--color-surface-muted)]/40 print:bg-white">
-          <p className="text-[11px] text-[var(--color-text-secondary)] italic leading-relaxed whitespace-pre-wrap print:text-black">
-            <span className="font-bold not-italic">(*) </span>
-            {globalNote}
-          </p>
-      </div>
-    );
+        <div className="mx-4 my-2 mb-4 p-3 border border-slate-300 rounded-md bg-slate-50 print:bg-white print:border-black/30 break-inside-avoid">
+          <div className="flex gap-2 items-start">
+            <span className="text-[11px] font-black text-slate-800 print:text-black">Note :</span>
+            <p className="text-[11px] font-medium text-slate-700 italic leading-relaxed whitespace-pre-wrap print:text-black">
+              {globalNote}
+            </p>
+          </div>
+        </div>
+      );
     };
 
     return (
       <div ref={ref} className="bg-[var(--color-surface)] font-sans text-[var(--color-text)] w-[210mm] mx-auto relative leading-relaxed print:p-0 print:text-black">
-        {/* <div className="absolute top-0 right-0 w-1/3 h-1 bg-slate-900 print:bg-black"></div>
-        <div className="absolute top-0 right-0 h-24 w-1 bg-slate-900 print:bg-black"></div>
-        <div className="absolute top-0 left-0 w-12 h-1 bg-indigo-600 print:bg-black"></div> */}
+        {/* Accent Bars for Premium Look */}
+        <div className="absolute top-0 right-0 w-80 h-1 bg-slate-900 print:bg-black z-20"></div>
+        <div className="absolute top-0 right-0 h-22 w-1 bg-slate-900 print:bg-black z-20"></div>
+        <div className="absolute top-0 left-0 w-16 h-1 bg-indigo-600 print:bg-black z-20"></div>
 
         {allOrderedCategories.map((cat, index) => {
           const isNFS = cat === 'NFS';
@@ -136,11 +139,11 @@ export const RapportImpression = forwardRef<HTMLDivElement, ReportPrintProps>(
             <ReportPageFrame key={cat} isValidated={isValidated} breakBefore={index > 0}>
               <table className="w-full border-collapse border-none mb-4 relative z-10 flex-1">
                 <ReportHeader analysis={analysis} settings={settings} />
-                <ReportResultsTable 
-                  categories={[cat]} 
-                  categoryGroups={categoryGroups} 
-                  results={results} 
-                  testReferences={testReferences} 
+                <ReportResultsTable
+                  categories={[cat]}
+                  categoryGroups={categoryGroups}
+                  results={results}
+                  testReferences={testReferences}
                   analysis={analysis}
                   settings={settings}
                 />

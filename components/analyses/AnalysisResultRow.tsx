@@ -1,4 +1,4 @@
-import { createElement } from 'react';
+import { createElement, useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { AlertCircle, Calculator, CheckCircle, History, MessageSquare, NotepadTextIcon } from 'lucide-react';
 import { formatReferenceRange, getResultReferenceValues } from '@/lib/core/utils';
@@ -56,6 +56,29 @@ export function AnalysisResultRow({
   const categoryIcon = getCategoryIcon(test.categoryRel?.icon);
   const isFormula = isCalculatedFormulaTest(test) || isCalculatedTest(test.code || '');
 
+  // Performance optimization: Local state for immediate keystroke feedback
+  const globalValue = results[result.id] || '';
+  const [localValue, setLocalValue] = useState(globalValue);
+
+  // Sync local state if global state changes externally (e.g., calculations or initial load)
+  useEffect(() => {
+    setLocalValue(globalValue);
+  }, [globalValue]);
+
+  const commitValue = (valToCommit?: string) => {
+    const finalVal = valToCommit ?? localValue;
+    if (finalVal !== globalValue) {
+      handleResultChange(result.id, finalVal);
+    }
+  };
+
+  const onLocalKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Enter') {
+      commitValue();
+    }
+    handleKeyDown(event as any, index, total, navigationIds);
+  };
+
   return (
     <>
       <div className={`group flex flex-col items-stretch gap-3 border-b px-3 py-3 transition-colors lg:flex-row lg:items-center lg:gap-4 ${test.parentId ? 'pl-6' : ''} ${abnormal ? 'bg-rose-50/40' : 'hover:bg-[var(--color-surface-muted)]/40'}`}>
@@ -85,9 +108,10 @@ export function AnalysisResultRow({
                 ref={(element) => {
                   inputsRef.current[result.id] = element;
                 }}
-                value={results[result.id]}
-                onChange={(event) => handleResultChange(result.id, event.target.value)}
-                onKeyDown={(event) => handleKeyDown(event, index, total, navigationIds)}
+                value={localValue}
+                onChange={(event) => setLocalValue(event.target.value)}
+                onBlur={() => commitValue()}
+                onKeyDown={onLocalKeyDown}
                 disabled={isFinalValidated || isFormula}
                 rows={3}
                 className="input-premium min-h-[80px] w-full max-w-md resize-none rounded-md px-4 py-3 text-sm"
@@ -98,9 +122,12 @@ export function AnalysisResultRow({
                 ref={(element) => {
                   inputsRef.current[result.id] = element;
                 }}
-                value={results[result.id]}
-                onChange={(event) => handleResultChange(result.id, event.target.value)}
-                onKeyDown={(event) => handleKeyDown(event, index, total, navigationIds)}
+                value={localValue}
+                onChange={(event) => {
+                  setLocalValue(event.target.value);
+                  handleResultChange(result.id, event.target.value); // Dropdown commits immediately
+                }}
+                onKeyDown={onLocalKeyDown}
                 disabled={isFinalValidated || isFormula}
                 className={`h-10 w-full max-w-[200px] rounded-md border px-3 text-sm font-bold transition-all outline-none ${results[result.id] ? 'border-indigo-200 bg-indigo-50/50 text-indigo-700' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'}`}
               >
@@ -117,16 +144,19 @@ export function AnalysisResultRow({
                   ref={(element) => {
                     inputsRef.current[result.id] = element;
                   }}
-                  value={results[result.id]}
-                  onChange={(event) => handleResultChange(result.id, event.target.value)}
+                  value={localValue}
+                  onChange={(event) => setLocalValue(event.target.value)}
                   onBlur={(event) => {
                     if (isNumeric && event.target.value) {
                       const decimals = parseInt(String(test.decimals ?? 1), 10);
                       const formatted = formatValue(event.target.value, decimals);
-                      handleResultChange(result.id, formatted);
+                      setLocalValue(formatted);
+                      commitValue(formatted);
+                    } else {
+                      commitValue();
                     }
                   }}
-                  onKeyDown={(event) => handleKeyDown(event, index, total, navigationIds)}
+                  onKeyDown={onLocalKeyDown}
                   disabled={isFinalValidated || isFormula}
                   className={`font-mono h-10 rounded-md border font-bold transition-all outline-none focus:ring-4 ${isNumeric ? 'w-28 px-2 text-center text-lg tracking-normal' : 'w-48 px-4 text-sm'} ${abnormal ? 'border-rose-300 bg-rose-50 text-rose-600 focus:border-rose-400 focus:ring-rose-500/10' : 'border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text)] hover:border-slate-300 focus:border-indigo-500 focus:bg-[var(--color-surface)] focus:ring-indigo-500/10'} ${isFormula ? 'cursor-not-allowed border-transparent bg-[var(--color-surface-muted)] text-slate-500' : ''}`}
                 />

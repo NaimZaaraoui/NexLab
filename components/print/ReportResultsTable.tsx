@@ -39,25 +39,50 @@ function ResultRow({ res, results, testReferences, analysis, isNFS, showPrev }: 
   }
 
   const compact = isNFS || hasParent;
-  const py = compact ? 'py-1' : 'py-1.25';
+  const py = compact ? 'py-1' : 'py-1.5';
+
+  const rowBg = flag
+    ? 'bg-slate-100/80 print:bg-black/[0.045] transition-colors break-inside-avoid'
+    : 'even:bg-[var(--color-surface-muted)]/30 print:even:bg-black/[0.02] transition-colors break-inside-avoid';
+
+  const nameSize = hasParent ? 'text-[12px]' : 'text-[13px]';
+  const nameWeight = hasParent
+    ? 'font-semibold text-slate-700 print:text-black/80'
+    : 'font-bold text-[var(--color-text)] print:text-black';
 
   return (
-    <tr className="group even:bg-[var(--color-surface-muted)]/30 print:even:bg-black/2 transition-colors break-inside-avoid">
-      <td className={`${py} pl-4`}>
-        <div className={`flex flex-col ${hasParent ? 'pl-6' : 'pl-4'}`}>
-          <span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">{test?.name}</span>
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-[0.08em] print:text-black/50">{test?.code}</span>
+    <tr className={`group ${rowBg}`}>
+      <td className={`${py} pl-4 relative`}>
+
+        <div className={`flex flex-col ${hasParent ? 'pl-8' : 'pl-3'}`}>
+          <span className={`${nameSize} ${nameWeight} uppercase tracking-tight ${flag ? '!font-black !text-slate-900 print:!text-black' : ''}`}>
+            {test?.name}
+          </span>
+          <span className={`text-[10px] font-bold uppercase tracking-[0.08em] ${hasParent ? 'text-slate-200 print:text-black/25' : 'text-slate-300 print:text-black/40'}`}>
+            {test?.code}
+          </span>
         </div>
       </td>
       <td className={`${py} text-start`}>
         <div className="flex flex-col items-start gap-0.5">
           <div className="flex items-center justify-start gap-2">
-            <span className={`text-[14px] font-mono tabular-nums tracking-normal text-[var(--color-text)] ${flag ? 'font-bold' : 'font-semibold'} print:text-black`}>
+            <span
+              className={`font-mono tabular-nums tracking-normal print:text-black ${flag
+                  ? 'text-[15px] font-black text-slate-900'
+                  : 'text-[14px] font-semibold text-[var(--color-text)]'
+                }`}
+            >
               {displayValue || '—'}
             </span>
             {flag && (
-              <span className="text-[14px] font-mono font-black text-[var(--color-text)] px-1 py-0.5 min-w-3.5">
-                {flag === 'H' ? '↑' : '↓'}
+              <span
+                className={`inline-flex items-center justify-center text-[10px] font-black text-white uppercase leading-none px-1.5 py-0.5 min-w-[18px] print:text-white ${flag === 'H'
+                    ? 'bg-slate-800 print:bg-black'
+                    : 'bg-slate-700 print:bg-black'
+                  }`}
+                style={{ letterSpacing: '0.05em' }}
+              >
+                {flag}
               </span>
             )}
           </div>
@@ -78,12 +103,51 @@ function ResultRow({ res, results, testReferences, analysis, isNFS, showPrev }: 
       <td className={`${py} px-4 text-center text-xs font-bold text-[var(--color-text-secondary)] print:text-black`}>
         <span dangerouslySetInnerHTML={{ __html: res.unit || test?.unit || '—' }} />
       </td>
-      <td className={`${py} pr-4 text-right text-xs font-bold text-slate-500 print:text-black`}>
+      <td className={`${py} pr-4 text-right align-middle`}>
         {refVals && (
           refVals.display === 'QUALIT.' ? (
             <span className="text-slate-300 print:text-black/30 text-[11px] font-black tracking-[0.08em]">—</span>
           ) : (
-            <span className="text-[13px] font-mono tabular-nums tracking-normal font-medium text-[var(--color-text)] print:text-black">{refVals.display}</span>
+            <div className="flex flex-col items-end justify-center gap-1">
+              <span className="text-[12px] font-mono tabular-nums tracking-normal font-medium text-[var(--color-text)] print:text-black/70 leading-none">
+                {refVals.display}
+              </span>
+              {refVals.min !== null && refVals.max !== null && (
+                <div className="w-[50px] h-1.5 bg-slate-100 print:bg-black/5 rounded-full relative overflow-hidden shrink-0 mt-0.5 hidden print:block">
+                  {/* Normal Range Area (Middle 60%) */}
+                  <div
+                    className="absolute h-full bg-slate-200 print:bg-black/[0.15]"
+                    style={{ left: '20%', width: '60%' }}
+                  />
+                  {/* Value indicator marker */}
+                  {(() => {
+                    const v = parseFloat(val.replace(',', '.'));
+                    if (isNaN(v)) return null;
+                    let pos = 50;
+                    if (v < refVals.min) {
+                      pos = Math.max(0, (v / refVals.min) * 20);
+                    } else if (v > refVals.max) {
+                      const excess = (v - refVals.max) / (refVals.max === 0 ? 1 : refVals.max);
+                      pos = Math.min(100, 80 + excess * 20);
+                    } else {
+                      const range = refVals.max - refVals.min;
+                      pos = range === 0 ? 50 : 20 + ((v - refVals.min) / range) * 60;
+                    }
+
+                    const isAbnormal = v < refVals.min || v > refVals.max;
+                    return (
+                      <div
+                        className={`absolute top-0 h-full w-[3px] shadow-sm ${isAbnormal
+                            ? 'bg-slate-800 print:bg-black z-10'
+                            : 'bg-slate-400 print:bg-black/60 z-10'
+                          }`}
+                        style={{ left: `clamp(0%, calc(${pos}% - 1.5px), calc(100% - 3px))` }}
+                      />
+                    );
+                  })()}
+                </div>
+              )}
+            </div>
           )
         )}
       </td>
@@ -181,15 +245,15 @@ export function ReportResultsTable({
                 // ONE table per category, ONE column header row
                 <table key={categoryName} className="w-full border-collapse mb-4">
                   <thead>
-                    {/* Category title */}
+                    {/* Category banner — solid dark band, highly visible on all printers */}
                     <tr>
-                      <td colSpan={colSpan} className="py-2">
-                        <div className="flex items-center gap-4">
-                          <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">
-                            {displayCategoryName}
-                          </span>
-                          <div className="h-[1px] flex-1 bg-[var(--color-surface-muted)] print:bg-black/10" />
-                        </div>
+                      <td
+                        colSpan={colSpan}
+                        className="py-[5px] px-4 bg-slate-900 print:bg-black"
+                      >
+                        <span className="text-[11px] font-black text-white uppercase tracking-[0.15em]">
+                          {displayCategoryName}
+                        </span>
                       </td>
                     </tr>
                     {/* Single column header for the entire category */}
@@ -198,20 +262,18 @@ export function ReportResultsTable({
                   <tbody>
                     {displayItems.map((item) => {
                       if (item.kind === 'groupHeader') {
-                        // Parent test → section-divider row (indented based on depth)
-                        const indent = item.depth === 0 ? 'px-4' : `pl-${4 + item.depth * 6} pr-4`;
-                        const textSize = item.depth === 0 ? 'text-[11px]' : 'text-[10px]';
+                        const indent = item.depth === 0 ? 'pl-4' : `pl-${4 + item.depth * 4}`;
+                        const textSize = item.depth === 0 ? 'text-[13px]' : 'text-[12px]';
                         const bgClass = item.depth === 0
                           ? 'bg-[var(--color-surface-muted)]/30 print:bg-black/5'
                           : 'bg-[var(--color-surface-muted)]/15 print:bg-black/3';
                         return (
-                          <tr key={`hdr-${item.res.id}`} className="break-inside-avoid">
-                            <td colSpan={colSpan} className={`py-1.5 ${bgClass}`}>
-                              <div className={`flex items-center gap-3 ${indent}`}>
-                                <span className={`${textSize} font-black text-[var(--color-accent)] uppercase tracking-tight print:text-black`}>
+                          <tr key={`hdr-${item.res.id}`} className={`break-inside-avoid ${bgClass}`}>
+                            <td colSpan={colSpan} className="py-1.5">
+                              <div className={`flex items-center ${indent}`}>
+                                <span className={`${textSize} font-black text-[var(--color-text)] uppercase tracking-tight print:text-black`}>
                                   {item.res.test?.name}
                                 </span>
-                                <div className="h-px flex-1 bg-slate-200/50 print:bg-black/10" />
                               </div>
                             </td>
                           </tr>

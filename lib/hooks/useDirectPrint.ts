@@ -10,11 +10,11 @@ export function useDirectPrint() {
       iframe = document.createElement('iframe');
       iframe.id = 'print-iframe';
       // Some browsers block window.print() on display:none iframes
-      iframe.style.position = 'absolute';
+      iframe.style.position = 'fixed';
+      iframe.style.left = '-10000px';
+      iframe.style.top = '-10000px';
       iframe.style.width = '1px';
       iframe.style.height = '1px';
-      iframe.style.opacity = '0';
-      iframe.style.pointerEvents = 'none';
       document.body.appendChild(iframe);
     }
 

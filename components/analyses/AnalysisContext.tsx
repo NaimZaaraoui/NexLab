@@ -38,6 +38,8 @@ export interface AnalysisContextType extends
     savingMeta: boolean;
     saveGlobalNoteBusy: boolean;
     savingPayment: boolean;
+    hasUnsavedChanges: boolean;
+    isAutoSaving: boolean;
     editDialogOpen: boolean;
     setEditDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     notification: AnalysisNotification | null;
@@ -57,6 +59,7 @@ export interface AnalysisContextType extends
     cbcIndicesEnabled: boolean;
     prevId: string | null;
     nextId: string | null;
+    handlePrintLabels: (n: number) => void;
 }
 
 const AnalysisContext = createContext<AnalysisContextType | null>(null);
@@ -89,6 +92,8 @@ export function AnalysisProvider({ analysisId, prevId, nextId, children }: Analy
   const [savingMeta, setSavingMeta] = useState(false);
   const [saveGlobalNoteBusy, setSaveGlobalNoteBusy] = useState(false);
   const [savingPayment, setSavingPayment] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isAutoSaving, setIsAutoSaving] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [diatronEnabled, setDiatronEnabled] = useState(false);
   const [cbcIndicesEnabled, setCbcIndicesEnabled] = useState(true);
@@ -136,6 +141,7 @@ export function AnalysisProvider({ analysisId, prevId, nextId, children }: Analy
   const interactionsData = useResultInteractions({
     analysis,
     showNotification,
+    onNoteChanged: () => setHasUnsavedChanges(true),
   });
 
   useEffect(() => {
@@ -171,6 +177,7 @@ export function AnalysisProvider({ analysisId, prevId, nextId, children }: Analy
       resultatsData.setResultMetadata(resultMetadata);
       return updatedResults;
     });
+    setHasUnsavedChanges(true);
   };
 
   // 4. Import Hook
@@ -218,6 +225,29 @@ export function AnalysisProvider({ analysisId, prevId, nextId, children }: Analy
     setPaymentAmountInput,
   });
 
+  // Override handleSave to clear unsaved changes flag
+  const originalHandleSave = persistenceData.handleSave;
+  persistenceData.handleSave = async () => {
+    await originalHandleSave();
+    setHasUnsavedChanges(false);
+  };
+
+  // Auto-save effect
+  useEffect(() => {
+    if (!hasUnsavedChanges || isFinalValidated) return;
+    
+    const timer = setTimeout(async () => {
+      setIsAutoSaving(true);
+      try {
+        await persistenceData.handleSave();
+      } finally {
+        setIsAutoSaving(false);
+      }
+    }, 5000); // 5 seconds auto-save debounce
+
+    return () => clearTimeout(timer);
+  }, [hasUnsavedChanges, results, interactionsData.notes, isFinalValidated]);
+
   const value: AnalysisContextType = {
     ...resultatsData,
     ...interactionsData,
@@ -233,6 +263,8 @@ export function AnalysisProvider({ analysisId, prevId, nextId, children }: Analy
     savingMeta,
     saveGlobalNoteBusy,
     savingPayment,
+    hasUnsavedChanges,
+    isAutoSaving,
     editDialogOpen,
     setEditDialogOpen,
     notification,

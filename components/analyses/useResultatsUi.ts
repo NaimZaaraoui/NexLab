@@ -100,12 +100,17 @@ export function useResultatsUi({
     setPrintUrl(`/analyses/${analysisId}/invoice?autoprint=1&_t=${Date.now()}`);
   }, [analysisId]);
 
+  const handlePrintLabels = useCallback((n: number) => {
+    setPrintUrl(`/labels/${analysisId}?autoprint=1&count=${n}&_t=${Date.now()}`);
+  }, [analysisId]);
+
   return {
     formatValue,
     handleKeyDown,
     toggleSelectedTest,
     handlePrint,
     handlePrintInvoice,
+    handlePrintLabels,
     printUrl,
   };
 }

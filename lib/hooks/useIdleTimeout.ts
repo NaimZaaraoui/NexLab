@@ -58,7 +58,8 @@ export function useIdleTimeout({
   const handleLogout = useCallback(async () => {
     clearTimers();
     onLogout?.();
-    await signOut({ callbackUrl: '/login?reason=idle' });
+    const callbackUrl = `${window.location.origin}/login?reason=idle`;
+    await signOut({ callbackUrl });
   }, [clearTimers, onLogout]);
 
   const resetTimers = useCallback(() => {
