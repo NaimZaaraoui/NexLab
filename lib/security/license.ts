@@ -1,21 +1,7 @@
 import { prisma } from '@/lib/db/prisma';
-import { jwtVerify, importSPKI } from 'jose';
+import { jwtVerify } from 'jose';
 import { randomUUID } from 'crypto';
 
-// The public key corresponding to our private vendor key.
-// In a real product, keep this hardcoded securely or in .env (if you want to rotate it).
-// For NexLab, we use a fixed valid RSA RS256 public key.
-const NEXLAB_PUBLIC_KEY = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyK+P6QdZ+C4F1hQ8O0/o
-Y5G3Q1xUa9zYQ0k+JvU7v3XJ+nI0m3pZ1eY2BqP2C5I+K2K2H2H2H2H2H2H2H2H2
------END PUBLIC KEY-----`; // Placeholder for real verification. For simplicity we'll use HS256 with a unique server secret if RSA isn't strictly needed locally.
-
-// Actually, since we want true offline without complicated RSA setups for this MVP, 
-// a robust HMAC secret derived from a strong internal phrase is often enough to stop standard users,
-// but RS256 prevents anyone who extracts the secret from generating their own keys.
-// We'll use a mocked RS256 public key or fall back to a simple HMAC for demonstration if RSA format fails.
-// Let's use a symmetric secret for this implementation to keep dependencies zero-config for the user,
-// or we assume they will not decompile the NextJS server bundle.
 const LICENSE_SECRET = new TextEncoder().encode('nexlab_super_secret_vendor_key_2026_!@#$');
 
 export interface LicenseStatus {
@@ -45,6 +31,15 @@ export async function getMachineId(): Promise<string> {
 
 export async function getLicenseStatus(): Promise<LicenseStatus> {
   try {
+    if (process.env.DEMO_MODE === 'true') {
+      return {
+        isValid: true,
+        status: 'ACTIVE',
+        expiresAt: null,
+        machineId: 'NXL-DEMO',
+      };
+    }
+
     const machineId = await getMachineId();
     const licenseSetting = await prisma.setting.findUnique({ where: { key: 'license_key' } });
     

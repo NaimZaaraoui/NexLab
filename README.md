@@ -1,241 +1,420 @@
 # NexLab LIMS
 
-> **Système de Gestion de Laboratoire d'Analyses Médicales**  
-> Laboratory Information Management System for medical laboratories
+NexLab CSSB is a production-oriented Laboratory Information Management System
+for small and medium medical biology laboratories, especially CSSB/public-health
+contexts. It covers the daily laboratory workflow: patient registration, test
+ordering, result entry, validation, printing, quality control, stock monitoring,
+audit trail, backup, and operational supervision.
 
 ![NexLab Dashboard](public/showcase.png)
 
-**NexLab** is a complete, production-ready LIMS built for medical biology laboratories — from small independent labs to hospital-based CSSB units. It covers the full analysis lifecycle: patient registration, result entry, technical and biological validation, professional report printing, quality control, inventory, and operations monitoring.
+## Why NexLab
 
----
+NexLab was built from inside a real laboratory workflow. The goal is not only to
+store results, but to make routine laboratory work faster, safer, and easier to
+audit:
 
-## ❤️ Why I Built This
+- fewer transcription errors
+- faster keyboard-driven result entry
+- clear validation flow
+- professional printed reports
+- local/offline deployment
+- strong backup and recovery tools
 
-As a medical laboratory technologist, I spent years manually writing patient results, managing paper records, and worrying about transcription errors. Existing LIMS solutions were either prohibitively expensive, too complex to deploy, or simply not adapted to the realities of a small Tunisian public lab.
+## Main Features
 
-I built NexLab because I know exactly what a lab needs — because I work in one every day.
+### Analysis Workflow
 
----
+- Patient registration and existing-patient search
+- New analysis creation with test categories, bilan presets, and selected-test basket
+- Batch analysis workflow
+- Result entry grouped by category, with parent tests shown as section titles
+- Keyboard navigation with Enter-to-next-field
+- Technical and biological validation workflow
+- Role-based access control: Admin, Technician, Biologist/Doctor, Receptionist
+- Urgent analysis tracking and TAT monitoring
+- Result notes, global notes, specimens, payment state, and report metadata
 
-## ✨ Features
+### Clinical Calculations
 
-### 🧪 Analysis Workflow
-- Fast patient registration and order creation
-- Full analysis lifecycle: **Pending → In Progress → Validated (Tech) → Validated (Bio)**
-- Role-based access control: Admin, Technician, Biologist (Doctor), Receptionist
-- Keyboard-optimized result entry with **Enter-to-next-field** navigation
-- Automatic flagging of abnormal values (↑ ↓) against configurable reference ranges
-- **Delta check**: previous results shown inline during entry for trend detection
-- Urgent specimen tracking with TAT (Turn-Around Time) monitoring
+- Hematology indices: VGM/MCV, TCMH/MCH, CCMH/MCHC
+- CBC discrimination and inflammation indices for printed reports
+- eGFR calculation with adult and pediatric formula routing
+- Calculated tests using configurable arithmetic formulas
+- Abnormal result detection using sex-aware reference ranges
+- Delta check with previous patient results during entry
 
-### 🔬 Clinical Calculations
-- **Hematology indices**: VGM (MCV), TCMH (MCH), CCMH (MCHC) — auto-calculated
-- **CBC discrimination indices** (displayed on printed report):
-  - Microcytosis: Mentzer, RDWI, Green & King
-  - Inflammation: NLR, PLR, MLR, SII
-- **eGFR estimation**:
-  - CKD-EPI 2021 (race-free) for adults ≥ 18 years
-  - EKFC 2021 for children aged 2–17 years
-  - Automatic formula routing based on patient age
-- **Custom formula engine**: define calculated tests (BUN/CR ratio, etc.) with arithmetic expressions in the test catalog
+### Reporting and Printing
 
-### 📄 Professional Reporting
-- High-quality A4 printed reports with lab branding (logo, stamp, signature)
-- Multi-category, multi-page layout with repeating headers
-- Previous results column for longitudinal comparison
-- CBC indices page with clinical interpretation
-- Analyzer histogram page (WBC, RBC, PLT distribution curves)
-- Printable patient envelopes (pochettes)
-- Barcode integration on reports
+- Professional A4 medical reports
+- Multi-category and multi-page report layout
+- Previous result column
+- CBC indices page with interpretation
+- Analyzer histogram page for compatible CBC imports
+- PDF report generation and caching
+- Internal print route protection with `INTERNAL_PRINT_TOKEN`
+- Patient labels, analysis labels, envelopes, invoices, QC and temperature printouts
+- Lab branding: logo, stamp, signature, report settings
 
-### 📊 Quality Control (QC)
-- Levey-Jennings control charts per analyte
-- QC material and lot management
-- Target value and standard deviation configuration
-- Daily QC status summary on dashboard
-- QC compliance check enforced before technical validation
+### Quality Control
 
-### 📦 Inventory Management
-- Reagent and consumable stock tracking
-- Lot management with expiry date monitoring
-- Automatic low-stock and expiry alerts
-- Movement history and reorder rules
-- Analytics dashboard
+- QC materials and lots
+- Target values, SD, acceptable ranges, and control modes
+- QC result entry and Levey-Jennings style monitoring
+- QC accumulation support
+- QC readiness checks before technical validation
+- QC print views and dashboard summaries
 
-### 🌡️ Temperature Monitoring
-- Multi-instrument temperature logging (fridges, analyzers, incubators)
-- Out-of-range alerts
-- Monthly temperature reports
+### Inventory
 
-### 📋 Operations
-- **Dashboard**: daily KPIs, active analyses, QC status, inventory alerts, temperature alerts, backup staleness — all at a glance
-- **TAT tracking**: configurable warn/alert thresholds with per-analysis display
-- **Audit trail**: full action log with configurable retention
-- **CNAM export**: Caisse Nationale d'Assurance Maladie compatible data export
-- **Statistics & Excel export**: analysis throughput, revenue, test frequency
-- **Diatron analyzer import**: direct result import from compatible CBC analyzers
+- Reagent and consumable catalog
+- Lot tracking and expiry monitoring
+- Receive, consume, waste, and adjust movements
+- Reorder rules
+- Inventory analytics
+- Link tests to inventory consumption rules
 
-### 🛡️ Data Safety
-- **Recovery bundles**: one-click creation of signed `.tar.gz` archives (database + uploads + docker-compose), with SHA-256 integrity verification and atomic restore with automatic rollback
-- **Scheduled backups**: automated backup rotation with configurable retention
-- **Database integrity checks** at startup and on-demand
-- **Migration safety**: schema migration with rollback capability
-- Persistent named Docker volumes — data survives container updates
+### Patients and Documents
 
----
+- Patient directory and patient detail pages
+- Patient history
+- Patient export and purge tools
+- Document dashboard
+- Printable patient card
 
-## 🚀 Quick Install (Recommended)
+### Operations and Security
 
-The easiest way to deploy NexLab is using the **offline installer package** — no internet connection required on the target machine.
+- Dashboard KPIs and active work overview
+- Audit logs, archive, and retention tools
+- Audit immutability triggers
+- Notifications
+- Statistics dashboards and Excel exports
+- CNAM-compatible export
+- License system with read-only behavior when expired
+- CSRF protection and rate limiting
+- Database health checks and supervision
 
-### Prerequisites
-- Docker Desktop (Windows/macOS) or Docker Engine (Linux)
-- 1 GB free disk space
+### Backup and Recovery
 
-### Linux / macOS
-```bash
-# Extract the installer package, then:
-bash install.sh
-```
+- Scheduled backups
+- Manual database backups
+- Recovery bundles containing database, uploads, and deployment files
+- Optional AES-256-GCM backup encryption
+- Database integrity checks
+- Migration safety helpers and rollback tooling
+- Optional external backup sync folder, for example Google Drive or Dropbox Desktop
+
+## Quick Install: Offline Package
+
+The recommended deployment for a lab workstation is the offline installer folder
+`nexlab-install/`. It contains the Docker image archive, compose file, scripts,
+and optional seed database.
+
+### Requirements
+
+- Docker Desktop on Windows/macOS, or Docker Engine on Linux
+- 4 to 6 GB free disk space minimum
+- Port 80 available on the server machine
 
 ### Windows
+
+Open PowerShell inside `nexlab-install/`:
+
 ```powershell
-# Right-click install.ps1 → Run with PowerShell
 .\install.ps1
 ```
 
+### Linux / macOS
+
+Open a terminal inside `nexlab-install/`:
+
+```bash
+bash install.sh
+```
+
 The installer will:
-1. Load the pre-built Docker image
-2. Create persistent data volumes
-3. Configure and start the application
-4. Open NexLab at **http://localhost** (port 80)
 
-On first launch, navigate to `/setup` to initialize the database and create the admin account.
+- load `nexlab-image.tar`
+- create persistent Docker volumes
+- create `.env` if missing
+- detect the server IP for `NEXTAUTH_URL`
+- restore `nexlab.db` if present
+- start NexLab on `http://localhost`
 
----
+On first launch, open `/setup` to initialize the application and create the
+first admin account.
 
-## 🛠 Developer Setup
+## Updating an Installed App
 
-### Prerequisites
+Build or copy the new `nexlab-image.tar` into `nexlab-install/`, then run:
+
+```powershell
+.\update.ps1
+```
+
+or on Linux/macOS:
+
+```bash
+bash update.sh
+```
+
+If you changed `.env`, recreate the container so Docker reloads the variables:
+
+```powershell
+docker compose down
+docker compose up -d --force-recreate
+```
+
+For LAN access from phones or other PCs, set:
+
+```env
+NEXTAUTH_URL=http://YOUR_SERVER_IP
+AUTH_URL=http://YOUR_SERVER_IP
+USE_SECURE_COOKIES=false
+AUTH_TRUST_HOST=true
+```
+
+Then recreate the container.
+
+## Developer Setup
+
+### Requirements
+
 - Node.js 20+
-- Bun (recommended) or npm
+- npm
+- SQLite-compatible local environment
 
-### Steps
+### Install
+
+Windows:
+
+```powershell
+copy .env.example .env
+npm install
+npx prisma generate
+npm run dev
+```
+
+Linux / macOS:
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/NaimZaaraoui/NexLab.git
-cd nexlab
-
-# 2. Install dependencies
-bun install
-
-# 3. Set up environment
 cp .env.example .env
-# Edit .env: set AUTH_SECRET to a random string
-
-# 4. Initialize the database
-bunx prisma migrate deploy
-bunx prisma generate
-
-# 5. Start the development server
-bun dev
+npm install
+npx prisma generate
+npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and go to `/setup` to initialize.
+Open:
 
----
+```text
+http://localhost:3000
+```
 
-## 🐳 Docker Compose (Self-hosted)
+Then visit `/setup` to create the first admin account.
+
+### Useful Commands
 
 ```bash
-# Copy and configure environment
+npm run dev
+npm run build
+npm run lint
+npm test
+npm run test:e2e
+npx prisma migrate dev
+npx prisma migrate deploy
+npx prisma generate
+```
+
+## Environment Variables
+
+Minimum local development values:
+
+```env
+DATABASE_URL="file:./dev.db"
+AUTH_SECRET="generate-a-strong-base64-secret"
+NEXTAUTH_URL="http://localhost:3000"
+AUTH_TRUST_HOST="true"
+USE_SECURE_COOKIES=false
+```
+
+Recommended production/offline values:
+
+```env
+AUTH_SECRET="32-byte-base64-secret"
+SEAL_SECRET="32-byte-base64-secret"
+INTERNAL_PRINT_TOKEN="random-hex-token"
+NEXTAUTH_URL="http://SERVER_IP_OR_DOMAIN"
+AUTH_URL="http://SERVER_IP_OR_DOMAIN"
+AUTH_TRUST_HOST="true"
+USE_SECURE_COOKIES=false
+DATABASE_ENCRYPTION_KEY="64-hex-character-key"
+BACKUP_ENCRYPTION_KEY="64-hex-character-key"
+```
+
+Notes:
+
+- Use `USE_SECURE_COOKIES=false` for local HTTP/LAN deployments.
+- Use secure cookies only behind HTTPS.
+- Keep `DATABASE_ENCRYPTION_KEY` and `BACKUP_ENCRYPTION_KEY` outside the lab
+  machine as well, for disaster recovery.
+- `INTERNAL_PRINT_TOKEN` protects internal PDF/print generation routes. In the
+  Docker compose files it can fall back to `AUTH_SECRET`, but a dedicated token
+  is preferred.
+
+## Docker Compose
+
+For self-hosted development or local server deployment:
+
+```bash
 cp .env.example .env
-# Edit .env: AUTH_SECRET, NEXTAUTH_URL
-
-# Build and start
-docker compose up -d
+docker compose up -d --build
 ```
 
-> [!IMPORTANT]
-> Database and uploads are stored in named Docker volumes (`nexlab-db`).
-> Your data persists across container restarts and updates.
-> Use the built-in recovery bundle feature for off-site backups.
+Data is stored in Docker volumes:
 
----
+- `nexlab-db`: SQLite database
+- uploads volume or mounted upload folder depending on compose file
 
-## 🏗 Project Structure
+Use the built-in backup and recovery-bundle tools for off-machine backups.
 
-```
-├── app/
-│   ├── (app)/              # Main application pages
-│   │   ├── analyses/       # Analysis list and detail pages
-│   │   ├── dashboard/      # Dashboard + admin modules
-│   │   └── page.tsx        # Main dashboard
-│   ├── (print)/            # Isolated print layouts
-│   └── api/                # 29 REST API endpoints
-├── components/
-│   ├── analyses/           # 39 analysis workflow components + hooks
-│   ├── print/              # Report, envelope, QC print templates
-│   ├── qc/                 # Quality control UI
-│   ├── inventory/          # Inventory management UI
-│   └── ui/                 # Generic design system components
-├── lib/
-│   ├── calculations.ts     # All clinical calculations (eGFR, CBC indices, hematology)
-│   ├── calculated-tests.ts # RPN formula engine for custom tests
-│   ├── status-flow.ts      # Analysis lifecycle state machine
-│   ├── recovery-bundles.ts # Backup and restore system
-│   └── ...                 # 50+ utility modules
-├── tests/
-│   ├── e2e/                # Playwright end-to-end test suites
-│   └── unit/               # Vitest unit tests
-├── nexlab-install/         # Offline installer package (Linux + Windows)
-├── scripts/                # Maintenance scripts (backups, demo DB, etc.)
-├── docker-compose.yml
-└── Dockerfile
+## Building the Offline Installer
+
+From the repository root:
+
+```powershell
+.\scripts\build-offline-installer.ps1
 ```
 
----
+or:
 
-## 🔧 Tech Stack
+```bash
+bash scripts/build-offline-installer.sh
+```
+
+This builds the Docker image and exports it as:
+
+```text
+nexlab-install/nexlab-image.tar
+```
+
+Zip or copy the `nexlab-install/` folder to the target machine.
+
+## Project Structure
+
+```text
+app/
+  (app)/                 Main authenticated application pages
+  (print)/               Print-only pages and report rendering routes
+  api/                   REST API routes grouped by auth, clinical, management,
+                         quality, and system domains
+components/
+  analyses/              Analysis creation, result entry, validation UI
+  print/                 Report and print templates
+  qc/                    Quality control UI
+  inventory/             Inventory UI
+  patients/              Patient UI
+  tests/                 Test catalog, ordering, import, LOINC helpers
+  database-settings/     Backup, recovery, and database supervision UI
+  ui/                    Shared UI primitives
+lib/
+  analysis/              Analysis lifecycle, status, history, updates
+  clinical/              Calculations, validation, QC readiness, formulas
+  db/                    Prisma, backups, integrity, recovery bundles
+  security/              Auth, audit, license, CSRF, validation seal
+  inventory/             Inventory business logic
+  documents/             PDF/report/document helpers
+prisma/
+  schema.prisma
+  migrations/
+scripts/
+  Installer, backup, migration, demo, recovery, and maintenance scripts
+tests/
+  unit/
+  e2e/
+```
+
+## Tech Stack
 
 | Layer | Technology |
-|---|---|
-| Framework | Next.js 16.1 (App Router) |
-| Language | TypeScript 5 (strict) |
-| Database | SQLite via Prisma ORM 7 |
+| --- | --- |
+| Framework | Next.js 16.2 App Router |
+| Runtime | React 19 |
+| Language | TypeScript 5 |
+| Database | SQLite with Prisma ORM 7 |
 | Styling | Tailwind CSS 4 |
-| Charts | Recharts |
-| Icons | Lucide React |
 | Auth | NextAuth.js v5 |
-| Testing | Vitest + Playwright |
-| Deployment | Docker + Docker Compose |
+| UI Icons | Lucide React |
+| Charts | Recharts |
+| PDF/Print | Puppeteer Core, Chromium, print routes |
+| Tests | Vitest and Playwright |
+| Deployment | Docker and Docker Compose |
 
----
+## Troubleshooting
 
-## 📜 License
+### Login works on server but not on phone
 
-**NexLab LIMS is proprietary software.**
+Set `.env` to the same URL used by the phone:
 
-The source code in this repository is made available for **transparency and evaluation purposes only**. You may not copy, redistribute, sublicense, or deploy NexLab commercially without a valid licence key issued by the author.
+```env
+NEXTAUTH_URL=http://192.168.1.50
+AUTH_URL=http://192.168.1.50
+USE_SECURE_COOKIES=false
+AUTH_TRUST_HOST=true
+```
 
-Commercial deployment requires a per-installation licence. Each licence is cryptographically bound to the target machine (Machine ID).
+Then run:
 
-For licensing inquiries: **contact the author directly.**
+```powershell
+docker compose down
+docker compose up -d --force-recreate
+```
 
----
+Clear site cookies on the phone and retry.
 
-## 🔑 Commercial Licensing
+### Internal print token warning
+
+Add:
+
+```env
+INTERNAL_PRINT_TOKEN="random-hex-token"
+```
+
+Then recreate the container. Docker compose can fall back to `AUTH_SECRET`, but
+a dedicated token is cleaner.
+
+### Database encryption warning
+
+Add a 64-character hex key:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+Use it as `DATABASE_ENCRYPTION_KEY`. Keep it secure. Without it, encrypted
+database backups cannot be restored.
+
+## License
+
+NexLab LIMS is proprietary software.
+
+The source code in this repository is made available for transparency and
+evaluation only. You may not copy, redistribute, sublicense, or deploy NexLab
+commercially without a valid license key issued by the author.
+
+Commercial deployment requires a per-installation license. Each license is
+cryptographically bound to the target machine.
+
+## Commercial Licensing
 
 NexLab uses an offline, machine-bound licensing system.
 
-- After installation, each instance receives a unique **Machine ID** (visible in Settings → Licence).
-- A licence key (JWT) is issued by the author, tied to that Machine ID and a validity period.
-- Without a valid licence, the application enters **read-only mode** — existing data is accessible but new analyses cannot be created.
-- Licences are available for trial (30 days), annual, and lifetime durations.
+- Each installation has a unique Machine ID.
+- A license key is issued by the author for that Machine ID.
+- Without a valid license, the application enters read-only mode.
+- Trial, annual, and lifetime licenses can be issued.
 
-To request a licence or discuss pricing, open an issue or reach out via LinkedIn.
+For licensing inquiries, contact the author directly.
 
----
+## Motto
 
-*NexLab — Precision and Care in Every Result.*
+NexLab: precision and care in every result.
