@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Save, Loader2, UploadCloud, Trash2, Image as ImageIcon } from 'lucide-react';
+import { Save, Loader2, UploadCloud, Trash2, Image as ImageIcon, CloudOff } from 'lucide-react';
+import { LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE } from '@/lib/core/deployment';
 
 interface Props {
   initialSettings: Record<string, string>;
+  uploadsDisabled?: boolean;
 }
 
 function ToggleSwitch({ checked, onChange, id }: { checked: boolean; onChange: (v: boolean) => void; id: string }) {
@@ -28,7 +30,7 @@ function ToggleSwitch({ checked, onChange, id }: { checked: boolean; onChange: (
   );
 }
 
-export function PrintSettingsForm({ initialSettings }: Props) {
+export function PrintSettingsForm({ initialSettings, uploadsDisabled = false }: Props) {
   const [values, setValues] = useState<Record<string, string>>(initialSettings);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -89,6 +91,10 @@ export function PrintSettingsForm({ initialSettings }: Props) {
     setUploadingLogo(true);
     setLogoError('');
     try {
+      if (uploadsDisabled) {
+        setLogoError(LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE);
+        return;
+      }
       const fd = new FormData();
       fd.append('logo', file);
       const res = await fetch('/api/settings/logo', { method: 'POST', body: fd });
@@ -106,6 +112,10 @@ export function PrintSettingsForm({ initialSettings }: Props) {
 
   const handleLogoDelete = async () => {
     try {
+      if (uploadsDisabled) {
+        setLogoError(LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE);
+        return;
+      }
       const res = await fetch('/api/settings/logo', { method: 'DELETE' });
       if (res.ok) {
         setLogoUrl('');
@@ -118,6 +128,10 @@ export function PrintSettingsForm({ initialSettings }: Props) {
     setUploadingStamp(true);
     setStampError('');
     try {
+      if (uploadsDisabled) {
+        setStampError(LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE);
+        return;
+      }
       const fd = new FormData();
       fd.append('stamp', file);
       const res = await fetch('/api/settings/stamp', { method: 'POST', body: fd });
@@ -135,6 +149,10 @@ export function PrintSettingsForm({ initialSettings }: Props) {
 
   const handleStampDelete = async () => {
     try {
+      if (uploadsDisabled) {
+        setStampError(LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE);
+        return;
+      }
       const res = await fetch('/api/settings/stamp', { method: 'DELETE' });
       if (res.ok) {
         setStampUrl('');
@@ -147,6 +165,10 @@ export function PrintSettingsForm({ initialSettings }: Props) {
     setUploadingSignature(true);
     setSignatureError('');
     try {
+      if (uploadsDisabled) {
+        setSignatureError(LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE);
+        return;
+      }
       const fd = new FormData();
       fd.append('signature', file);
       const res = await fetch('/api/settings/signature', { method: 'POST', body: fd });
@@ -164,6 +186,10 @@ export function PrintSettingsForm({ initialSettings }: Props) {
 
   const handleSignatureDelete = async () => {
     try {
+      if (uploadsDisabled) {
+        setSignatureError(LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE);
+        return;
+      }
       const res = await fetch('/api/settings/signature', { method: 'DELETE' });
       if (res.ok) {
         setSignatureUrl('');
@@ -196,7 +222,12 @@ export function PrintSettingsForm({ initialSettings }: Props) {
             <img src={url} alt={label} className="h-40 w-48 rounded-md border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-2 object-contain" />
             <button
               onClick={onDelete}
-              className="absolute -right-2 -top-2 rounded-full bg-rose-100 p-1.5 text-rose-600 opacity-0 transition-opacity hover:bg-rose-200 group-hover:opacity-100"
+              disabled={uploadsDisabled}
+              className={`absolute -right-2 -top-2 rounded-full p-1.5 opacity-0 transition-opacity group-hover:opacity-100 ${
+                uploadsDisabled
+                  ? 'cursor-not-allowed bg-slate-100 text-slate-400'
+                  : 'bg-rose-100 text-rose-600 hover:bg-rose-200'
+              }`}
               title={`Supprimer ${label.toLowerCase()}`}
             >
               <Trash2 size={14} />
@@ -211,20 +242,27 @@ export function PrintSettingsForm({ initialSettings }: Props) {
       </div>
       <div className="w-full space-y-3">
         <div
-          className={`relative cursor-pointer rounded-md border-2 border-dashed p-5 text-center transition-all ${
-            uploading ? 'border-slate-300 bg-[var(--color-surface-muted)]' : 'border-[var(--color-border)] bg-[var(--color-surface)] hover:border-slate-400 hover:bg-slate-50'
+          className={`relative rounded-md border-2 border-dashed p-5 text-center transition-all ${
+            uploadsDisabled
+              ? 'cursor-not-allowed border-amber-200 bg-amber-50 text-amber-900'
+              : uploading ? 'cursor-pointer border-slate-300 bg-[var(--color-surface-muted)]' : 'cursor-pointer border-[var(--color-border)] bg-[var(--color-surface)] hover:border-slate-400 hover:bg-slate-50'
           }`}
-          onClick={() => document.getElementById(inputId)?.click()}
+          onClick={() => {
+            if (!uploadsDisabled) document.getElementById(inputId)?.click();
+          }}
         >
           <input
             id={inputId}
             type="file"
             className="hidden"
             accept="image/jpeg,image/png,image/webp"
+            disabled={uploadsDisabled}
             onChange={(e) => { const f = e.target.files?.[0]; if (f) onUpload(f); }}
           />
           <div className="flex flex-col items-center gap-2">
-            {uploading ? (
+            {uploadsDisabled ? (
+              <><CloudOff size={22} className="text-amber-700" /><p className="text-xs font-semibold text-amber-900">Upload indisponible sur la demo hebergee</p><p className="text-xs text-amber-800 font-medium">{LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE}</p></>
+            ) : uploading ? (
               <><Loader2 size={22} className="animate-spin text-slate-600" /><p className="text-xs font-semibold text-slate-700">Chargement...</p></>
             ) : (
               <><UploadCloud size={22} className="text-slate-500" /><p className="text-xs font-semibold text-[var(--color-text)]">Cliquez ou glissez votre fichier ici</p><p className="text-xs text-slate-500 font-medium">JPG, PNG ou WebP — Max 2MB</p></>

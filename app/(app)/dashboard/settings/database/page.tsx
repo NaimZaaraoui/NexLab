@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Activity, ArchiveRestore, ChevronRight } from 'lucide-react';
+import { Activity, ArchiveRestore, ChevronRight, CloudOff } from 'lucide-react';
 import { DatabaseSectionNav } from '@/components/database-settings/DatabaseSectionNav';
+import { areLocalFileToolsUnavailable, LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE } from '@/lib/core/deployment';
 
 const sections = [
   {
@@ -24,6 +25,8 @@ const sections = [
 ] as const;
 
 export default function DatabaseSettingsOverviewPage() {
+  const localFileToolsUnavailable = areLocalFileToolsUnavailable();
+
   return (
     <div className="mx-auto max-w-[1500px] space-y-6 pb-16">
       <DatabaseSectionNav
@@ -32,12 +35,27 @@ export default function DatabaseSettingsOverviewPage() {
         description="Choisissez un espace de travail simple selon ce que vous voulez faire maintenant : agir sur les sauvegardes ou superviser la protection du système."
       />
 
+      {localFileToolsUnavailable && (
+        <section className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-amber-900">
+          <div className="flex items-start gap-3">
+            <CloudOff className="mt-0.5 h-5 w-5 shrink-0" />
+            <div>
+              <h2 className="text-sm font-semibold">Maintenance locale indisponible sur la demo hebergee</h2>
+              <p className="mt-1 text-sm leading-relaxed">{LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE}</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="grid gap-6 md:grid-cols-2">
         {sections.map((section) => (
           <Link
             key={section.href}
-            href={section.href}
-            className="group relative flex flex-col gap-6 overflow-hidden rounded-3xl border bg-[var(--color-surface)] p-6 text-left shadow-[0_8px_24px_rgba(15,31,51,0.05)] transition-all hover:ring-2 hover:ring-indigo-100"
+            href={localFileToolsUnavailable ? '/dashboard/settings' : section.href}
+            aria-disabled={localFileToolsUnavailable}
+            className={`group relative flex flex-col gap-6 overflow-hidden rounded-3xl border bg-[var(--color-surface)] p-6 text-left shadow-[0_8px_24px_rgba(15,31,51,0.05)] transition-all ${
+              localFileToolsUnavailable ? 'cursor-not-allowed opacity-60' : 'hover:ring-2 hover:ring-indigo-100'
+            }`}
           >
             <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${section.bg} ${section.color} transition-all group-hover:scale-105`}>
               <section.icon size={24} />
@@ -48,7 +66,7 @@ export default function DatabaseSettingsOverviewPage() {
                 {section.title}
               </h2>
               <p className="pr-6 text-sm leading-relaxed text-[var(--color-text-secondary)]">
-                {section.description}
+                {localFileToolsUnavailable ? LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE : section.description}
               </p>
             </div>
 

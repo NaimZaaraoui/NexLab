@@ -11,8 +11,27 @@ import { DatabaseRetentionSection } from '@/components/database-settings/Databas
 import { DatabaseSectionNav } from '@/components/database-settings/DatabaseSectionNav';
 import { NotificationToast } from '@/components/ui/notification-toast';
 import { useDatabaseSettings } from '@/components/database-settings/useDatabaseSettings';
+import { LocalFileToolsUnavailable } from '@/components/settings/LocalFileToolsUnavailable';
+import { areLocalFileToolsUnavailable } from '@/lib/core/deployment';
 
 export default function DatabaseSupervisionPage() {
+  if (areLocalFileToolsUnavailable()) {
+    return (
+      <div className="mx-auto max-w-[1500px] space-y-6 pb-16">
+        <DatabaseSectionNav
+          active="supervision"
+          title="Supervision et politique"
+          description="Outils de maintenance locale."
+        />
+        <LocalFileToolsUnavailable />
+      </div>
+    );
+  }
+
+  return <DatabaseSupervisionContent />;
+}
+
+function DatabaseSupervisionContent() {
   const {
     status,
     role,

@@ -9,8 +9,27 @@ import { DatabaseRestoreSummary } from '@/components/database-settings/DatabaseR
 import { DatabaseSectionNav } from '@/components/database-settings/DatabaseSectionNav';
 import { useDatabaseSettings } from '@/components/database-settings/useDatabaseSettings';
 import { formatBytes } from '@/components/database-settings/database-helpers';
+import { LocalFileToolsUnavailable } from '@/components/settings/LocalFileToolsUnavailable';
+import { areLocalFileToolsUnavailable } from '@/lib/core/deployment';
 
 export default function DatabaseBackupsPage() {
+  if (areLocalFileToolsUnavailable()) {
+    return (
+      <div className="mx-auto max-w-[1500px] space-y-6 pb-16">
+        <DatabaseSectionNav
+          active="backups"
+          title="Sauvegardes et reprise"
+          description="Outils de maintenance locale."
+        />
+        <LocalFileToolsUnavailable />
+      </div>
+    );
+  }
+
+  return <DatabaseBackupsContent />;
+}
+
+function DatabaseBackupsContent() {
   const {
     status,
     role,

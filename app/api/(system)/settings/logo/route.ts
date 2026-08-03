@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db/prisma';
 import fs from 'fs/promises';
 import path from 'path';
 import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { areLocalFileToolsUnavailable, LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE } from '@/lib/core/deployment';
 
 const UPLOAD_DIR = path.join(process.cwd(), 'public/uploads/logos');
 
@@ -12,6 +13,10 @@ export async function POST(request: Request) {
   const user = session?.user;
   if (user?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Accès refusé.' }, { status: 403 });
+  }
+
+  if (areLocalFileToolsUnavailable()) {
+    return NextResponse.json({ error: LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE }, { status: 501 });
   }
 
   try {
@@ -76,6 +81,10 @@ export async function DELETE(request: Request) {
   const user = session?.user;
   if (user?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Accès refusé.' }, { status: 403 });
+  }
+
+  if (areLocalFileToolsUnavailable()) {
+    return NextResponse.json({ error: LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE }, { status: 501 });
   }
 
   try {

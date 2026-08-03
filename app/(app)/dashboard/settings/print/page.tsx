@@ -1,6 +1,7 @@
 import { getSettings } from '@/lib/settings/settings';
 import { PrintSettingsForm } from './PrintSettingsForm';
 import { PageBackLink } from '@/components/ui/PageBackLink';
+import { areLocalFileToolsUnavailable } from '@/lib/core/deployment';
 
 const SETTINGS_KEYS = [
   'lab_name', 'lab_subtitle', 'lab_parent',
@@ -13,6 +14,7 @@ const SETTINGS_KEYS = [
 
 export default async function PrintSettingsPage() {
   const settings = await getSettings(SETTINGS_KEYS);
+  const uploadsDisabled = areLocalFileToolsUnavailable();
 
   return (
     <div className="mx-auto max-w-[1100px] space-y-6 pb-16">
@@ -24,7 +26,7 @@ export default async function PrintSettingsPage() {
         </p>
       </section>
 
-      <PrintSettingsForm initialSettings={settings} />
+      <PrintSettingsForm initialSettings={settings} uploadsDisabled={uploadsDisabled} />
     </div>
   );
 }

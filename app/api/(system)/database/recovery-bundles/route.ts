@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db/prisma';
 import { requireAnyRole } from '@/lib/security/authz';
 import { createAuditLog, getRequestMeta } from '@/lib/security/audit';
+import { areLocalFileToolsUnavailable, LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE } from '@/lib/core/deployment';
 import {
   createRecoveryBundle,
   getRecoveryBundleDirectory,
@@ -15,6 +16,9 @@ export const runtime = 'nodejs';
 export async function GET() {
   const guard = await requireAnyRole(['ADMIN']);
   if (!guard.ok) return guard.error;
+  if (areLocalFileToolsUnavailable()) {
+    return NextResponse.json({ error: LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE }, { status: 501 });
+  }
 
   try {
     const items = await listRecoveryBundles();
@@ -34,6 +38,9 @@ export async function GET() {
 export async function POST(request: Request) {
   const guard = await requireAnyRole(['ADMIN']);
   if (!guard.ok) return guard.error;
+  if (areLocalFileToolsUnavailable()) {
+    return NextResponse.json({ error: LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE }, { status: 501 });
+  }
 
   const meta = getRequestMeta({ headers: request.headers });
 
