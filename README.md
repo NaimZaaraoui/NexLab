@@ -1,124 +1,119 @@
 # NexLab LIMS
 
-NexLab CSSB is a production-oriented Laboratory Information Management System
-for small and medium medical biology laboratories, especially CSSB/public-health
-contexts. It covers the daily laboratory workflow: patient registration, test
-ordering, result entry, validation, printing, quality control, stock monitoring,
-audit trail, backup, and operational supervision.
+**NexLab** est un système de gestion d'informations de laboratoire (LIMS) conçu pour les laboratoires de biologie médicale des centres de santé de base (CSSB) et structures hospitalières similaires. Il couvre l'intégralité du flux quotidien : enregistrement des patients, commandes d'analyses, saisie des résultats, validation, impression de rapports professionnels, contrôle qualité, gestion des stocks, audit, sauvegarde et supervision opérationnelle.
 
-![NexLab Dashboard](public/showcase.png)
+> **Version actuelle : 1.0.0** — Première version commerciale.
 
-## Why NexLab
+---
 
-NexLab was built from inside a real laboratory workflow. The goal is not only to
-store results, but to make routine laboratory work faster, safer, and easier to
-audit:
+## Pourquoi NexLab
 
-- fewer transcription errors
-- faster keyboard-driven result entry
-- clear validation flow
-- professional printed reports
-- local/offline deployment
-- strong backup and recovery tools
+NexLab est né d'un besoin réel, formulé depuis l'intérieur d'un laboratoire en activité. L'objectif n'est pas de simplement stocker des résultats, mais de rendre le travail quotidien **plus rapide, plus sûr, et entièrement traçable**.
 
-## Main Features
+- Moins d'erreurs de transcription grâce à la saisie rapide au clavier
+- Navigation `Entrée → champ suivant` pour une saisie fluide
+- Workflow de validation clair (technique → biologique)
+- Rapports imprimés de qualité professionnelle, identiques sur tous les documents
+- Déploiement local/hors-ligne, sans dépendance à Internet
+- Outils de sauvegarde et de récupération robustes
 
-### Analysis Workflow
+---
 
-- Patient registration and existing-patient search
-- New analysis creation with test categories, bilan presets, and selected-test basket
-- Batch analysis workflow
-- Result entry grouped by category, with parent tests shown as section titles
-- Keyboard navigation with Enter-to-next-field
-- Technical and biological validation workflow
-- Role-based access control: Admin, Technician, Biologist/Doctor, Receptionist
-- Urgent analysis tracking and TAT monitoring
-- Result notes, global notes, specimens, payment state, and report metadata
+## Fonctionnalités Principales
 
-### Clinical Calculations
+### Workflow d'Analyse
 
-- Hematology indices: VGM/MCV, TCMH/MCH, CCMH/MCHC
-- CBC discrimination and inflammation indices for printed reports
-- eGFR calculation with adult and pediatric formula routing
-- Calculated tests using configurable arithmetic formulas
-- Abnormal result detection using sex-aware reference ranges
-- Delta check with previous patient results during entry
+- Enregistrement et recherche de patients
+- Création d'analyse avec catégories, présets (bilans) et panier de tests
+- Workflow d'analyse par lot (batch)
+- Saisie des résultats groupée par catégorie, avec navigation au clavier
+- Validation technique et biologique
+- Contrôle d'accès par rôle : Admin, Technicien, Biologiste/Médecin, Réceptionniste
+- Suivi des analyses urgentes et monitoring du délai de rendu (TAT)
+- Notes, spécimens, paiement et métadonnées de rapport
 
-### Reporting and Printing
+### Calculs Cliniques Natifs
 
-- Professional A4 medical reports
-- Multi-category and multi-page report layout
-- Previous result column
-- CBC indices page with interpretation
-- Analyzer histogram page for compatible CBC imports
-- PDF report generation and caching
-- Internal print route protection with `INTERNAL_PRINT_TOKEN`
-- Patient labels, analysis labels, envelopes, invoices, QC and temperature printouts
-- Lab branding: logo, stamp, signature, report settings
+- **Indices hématologiques** : VGM, TCMH, CCMH (calculés automatiquement depuis GR, HGB, HCT)
+- **Formule leucocytaire** : GRA, LYM, MID en valeurs absolues (depuis WBC et pourcentages)
+- **Fonction rénale** : eGFR (CKD-EPI) calculé automatiquement depuis la Créatinine, l'âge et le sexe
+- **Tests calculés configurables** : formules arithmétiques simples (ex: `CHOL / HDL`) ou mot-clé `AUTO` pour déléguer à un algorithme natif complexe
+- Détection des résultats anormaux par plages de référence différenciées par sexe
+- Delta check : affichage des résultats précédents du patient pendant la saisie
 
-### Quality Control
+### Rapports et Impression
 
-- QC materials and lots
-- Target values, SD, acceptable ranges, and control modes
-- QC result entry and Levey-Jennings style monitoring
-- QC accumulation support
-- QC readiness checks before technical validation
-- QC print views and dashboard summaries
+- Rapports médicaux A4 professionnels avec en-tête unifié (logo, cachet, signature)
+- Mise en page multi-catégories et multi-pages avec pagination automatique
+- Colonne "Résultat précédent" sur les rapports
+- Page d'indices érythrocytaires avec interprétation
+- Page d'histogramme d'automate (import compatible Diatron)
+- Génération et mise en cache de rapports PDF
+- Étiquettes patient, étiquettes analyse, enveloppes, **factures**, rapports QC et température — tous dans le même design Bento unifié
+- Personnalisation complète : logo, cachet, signature, paramètres d'impression
 
-### Inventory
+### Contrôle Qualité
 
-- Reagent and consumable catalog
-- Lot tracking and expiry monitoring
-- Receive, consume, waste, and adjust movements
-- Reorder rules
-- Inventory analytics
-- Link tests to inventory consumption rules
+- Gestion des matériaux QC, lots et niveaux
+- Valeurs cibles, SD, plages acceptables et modes de contrôle
+- Saisie et suivi des résultats QC (style Levey-Jennings)
+- Accumulation des résultats QC
+- Vérification de la disponibilité QC avant la validation technique
+- Vues d'impression et résumés tableau de bord QC
 
-### Patients and Documents
+### Gestion des Stocks
 
-- Patient directory and patient detail pages
-- Patient history
-- Patient export and purge tools
-- Document dashboard
-- Printable patient card
+- Catalogue des réactifs et consommables
+- Suivi des lots et alertes d'expiration
+- Mouvements : réception, consommation, mise au rebut, ajustement
+- Règles de réapprovisionnement
+- Analytiques d'inventaire
+- Liaison entre tests et règles de consommation inventaire
 
-### Operations and Security
+### Patients et Documents
 
-- Dashboard KPIs and active work overview
-- Audit logs, archive, and retention tools
-- Audit immutability triggers
-- Notifications
-- Statistics dashboards and Excel exports
-- CNAM-compatible export
-- License system with read-only behavior when expired
-- CSRF protection and rate limiting
-- Database health checks and supervision
+- Annuaire des patients et pages détaillées
+- Historique complet des analyses
+- Outils d'export et de purge des données patients
+- Tableau de bord documentaire
+- Fiche patient imprimable
 
-### Backup and Recovery
+### Opérations et Sécurité
 
-- Scheduled backups
-- Manual database backups
-- Recovery bundles containing database, uploads, and deployment files
-- Optional AES-256-GCM backup encryption
-- Database integrity checks
-- Migration safety helpers and rollback tooling
-- Optional external backup sync folder, for example Google Drive or Dropbox Desktop
+- KPIs tableau de bord et vue du travail en cours
+- Journaux d'audit, archives et outils de rétention
+- Déclencheurs d'immuabilité pour l'audit
+- Notifications internes
+- Tableaux de bord statistiques et exports Excel
+- Export compatible CNAM
+- Système de licences avec mode lecture seule si expirée
+- Protection CSRF et limitation de débit
+- Supervision de santé de la base de données
 
-## Quick Install: Offline Package
+### Sauvegarde et Récupération
 
-The recommended deployment for a lab workstation is the offline installer folder
-`nexlab-install/`. It contains the Docker image archive, compose file, scripts,
-and optional seed database.
+- Sauvegardes planifiées et manuelles
+- Bundles de récupération (base de données + uploads + fichiers de déploiement)
+- Chiffrement optionnel AES-256-GCM des sauvegardes
+- Vérification de l'intégrité de la base de données
+- Aides à la migration et outils de rollback
+- Synchronisation optionnelle vers un dossier externe (Google Drive, Dropbox Desktop...)
 
-### Requirements
+---
 
-- Docker Desktop on Windows/macOS, or Docker Engine on Linux
-- 4 to 6 GB free disk space minimum
-- Port 80 available on the server machine
+## Installation Rapide : Package Hors-Ligne
+
+La méthode recommandée pour un poste de laboratoire est le dossier installeur hors-ligne `nexlab-install/`. Il contient l'archive image Docker, le fichier compose, les scripts et une base de données d'amorçage optionnelle.
+
+### Prérequis
+
+- Docker Desktop (Windows/macOS) ou Docker Engine (Linux)
+- 4 à 6 Go d'espace disque disponible minimum
+- Port 80 disponible sur la machine serveur
 
 ### Windows
 
-Open PowerShell inside `nexlab-install/`:
+Ouvrir PowerShell dans `nexlab-install/` :
 
 ```powershell
 .\install.ps1
@@ -126,67 +121,102 @@ Open PowerShell inside `nexlab-install/`:
 
 ### Linux / macOS
 
-Open a terminal inside `nexlab-install/`:
+Ouvrir un terminal dans `nexlab-install/` :
 
 ```bash
 bash install.sh
 ```
 
-The installer will:
+L'installeur va :
 
-- load `nexlab-image.tar`
-- create persistent Docker volumes
-- create `.env` if missing
-- detect the server IP for `NEXTAUTH_URL`
-- restore `nexlab.db` if present
-- start NexLab on `http://localhost`
+- Charger `nexlab-image.tar`
+- Créer les volumes Docker persistants
+- Créer le fichier `.env` si absent
+- Détecter l'IP du serveur pour `NEXTAUTH_URL`
+- Restaurer `nexlab.db` si présent
+- Démarrer NexLab sur `http://localhost`
 
-On first launch, open `/setup` to initialize the application and create the
-first admin account.
+Au premier lancement, ouvrez `/setup` pour initialiser l'application et créer le premier compte administrateur.
 
-## Updating an Installed App
+---
 
-Build or copy the new `nexlab-image.tar` into `nexlab-install/`, then run:
+## Mise à Jour
+
+Copiez le nouveau `nexlab-image.tar` dans `nexlab-install/`, puis exécutez :
 
 ```powershell
 .\update.ps1
 ```
 
-or on Linux/macOS:
+ou sur Linux/macOS :
 
 ```bash
 bash update.sh
 ```
 
-If you changed `.env`, recreate the container so Docker reloads the variables:
+Si vous avez modifié `.env`, recréez le conteneur pour que Docker recharge les variables :
 
 ```powershell
 docker compose down
 docker compose up -d --force-recreate
 ```
 
-For LAN access from phones or other PCs, set:
+### Accès LAN (autres postes / téléphones)
 
 ```env
-NEXTAUTH_URL=http://YOUR_SERVER_IP
-AUTH_URL=http://YOUR_SERVER_IP
+NEXTAUTH_URL=http://VOTRE_IP_SERVEUR
+AUTH_URL=http://VOTRE_IP_SERVEUR
 USE_SECURE_COOKIES=false
 AUTH_TRUST_HOST=true
 ```
 
-Then recreate the container.
+---
 
-## Developer Setup
+## Variables d'Environnement
 
-### Requirements
+Valeurs minimales pour le développement local :
+
+```env
+DATABASE_URL="file:./dev.db"
+AUTH_SECRET="generate-a-strong-base64-secret"
+NEXTAUTH_URL="http://localhost:3000"
+AUTH_TRUST_HOST="true"
+USE_SECURE_COOKIES=false
+```
+
+Valeurs recommandées pour la production/hors-ligne :
+
+```env
+AUTH_SECRET="32-byte-base64-secret"
+SEAL_SECRET="32-byte-base64-secret"
+INTERNAL_PRINT_TOKEN="random-hex-token"
+NEXTAUTH_URL="http://IP_OU_DOMAINE_SERVEUR"
+AUTH_URL="http://IP_OU_DOMAINE_SERVEUR"
+AUTH_TRUST_HOST="true"
+USE_SECURE_COOKIES=false
+DATABASE_ENCRYPTION_KEY="64-hex-character-key"
+BACKUP_ENCRYPTION_KEY="64-hex-character-key"
+```
+
+Notes :
+
+- Utilisez `USE_SECURE_COOKIES=false` pour les déploiements HTTP/LAN locaux.
+- Conservez `DATABASE_ENCRYPTION_KEY` et `BACKUP_ENCRYPTION_KEY` en dehors de la machine du laboratoire.
+- `INTERNAL_PRINT_TOKEN` protège les routes de génération PDF internes.
+
+---
+
+## Configuration Développeur
+
+### Prérequis
 
 - Node.js 20+
 - npm
-- SQLite-compatible local environment
+- Environnement local compatible SQLite
 
-### Install
+### Installation
 
-Windows:
+Windows :
 
 ```powershell
 copy .env.example .env
@@ -195,7 +225,7 @@ npx prisma generate
 npm run dev
 ```
 
-Linux / macOS:
+Linux / macOS :
 
 ```bash
 cp .env.example .env
@@ -204,15 +234,9 @@ npx prisma generate
 npm run dev
 ```
 
-Open:
+Ouvrir `http://localhost:3000`, puis visiter `/setup` pour créer le premier compte.
 
-```text
-http://localhost:3000
-```
-
-Then visit `/setup` to create the first admin account.
-
-### Useful Commands
+### Commandes Utiles
 
 ```bash
 npm run dev
@@ -225,135 +249,78 @@ npx prisma migrate deploy
 npx prisma generate
 ```
 
-## Environment Variables
-
-Minimum local development values:
-
-```env
-DATABASE_URL="file:./dev.db"
-AUTH_SECRET="generate-a-strong-base64-secret"
-NEXTAUTH_URL="http://localhost:3000"
-AUTH_TRUST_HOST="true"
-USE_SECURE_COOKIES=false
-```
-
-Recommended production/offline values:
-
-```env
-AUTH_SECRET="32-byte-base64-secret"
-SEAL_SECRET="32-byte-base64-secret"
-INTERNAL_PRINT_TOKEN="random-hex-token"
-NEXTAUTH_URL="http://SERVER_IP_OR_DOMAIN"
-AUTH_URL="http://SERVER_IP_OR_DOMAIN"
-AUTH_TRUST_HOST="true"
-USE_SECURE_COOKIES=false
-DATABASE_ENCRYPTION_KEY="64-hex-character-key"
-BACKUP_ENCRYPTION_KEY="64-hex-character-key"
-```
-
-Notes:
-
-- Use `USE_SECURE_COOKIES=false` for local HTTP/LAN deployments.
-- Use secure cookies only behind HTTPS.
-- Keep `DATABASE_ENCRYPTION_KEY` and `BACKUP_ENCRYPTION_KEY` outside the lab
-  machine as well, for disaster recovery.
-- `INTERNAL_PRINT_TOKEN` protects internal PDF/print generation routes. In the
-  Docker compose files it can fall back to `AUTH_SECRET`, but a dedicated token
-  is preferred.
-
-## Docker Compose
-
-For self-hosted development or local server deployment:
-
-```bash
-cp .env.example .env
-docker compose up -d --build
-```
-
-Data is stored in Docker volumes:
-
-- `nexlab-db`: SQLite database
-- uploads volume or mounted upload folder depending on compose file
-
-Use the built-in backup and recovery-bundle tools for off-machine backups.
-
-## Building the Offline Installer
-
-From the repository root:
+### Construction du Package Hors-Ligne
 
 ```powershell
 .\scripts\build-offline-installer.ps1
 ```
 
-or:
+ou :
 
 ```bash
 bash scripts/build-offline-installer.sh
 ```
 
-This builds the Docker image and exports it as:
+---
 
-```text
-nexlab-install/nexlab-image.tar
-```
-
-Zip or copy the `nexlab-install/` folder to the target machine.
-
-## Project Structure
+## Structure du Projet
 
 ```text
 app/
-  (app)/                 Main authenticated application pages
-  (print)/               Print-only pages and report rendering routes
-  api/                   REST API routes grouped by auth, clinical, management,
-                         quality, and system domains
+  (app)/                 Pages principales de l'application authentifiée
+  (print)/               Pages d'impression et routes de rendu des rapports
+  api/                   Routes API REST groupées par domaine
 components/
-  analyses/              Analysis creation, result entry, validation UI
-  print/                 Report and print templates
-  qc/                    Quality control UI
-  inventory/             Inventory UI
-  patients/              Patient UI
-  tests/                 Test catalog, ordering, import, LOINC helpers
-  database-settings/     Backup, recovery, and database supervision UI
-  ui/                    Shared UI primitives
+  analyses/              Création, saisie des résultats, validation
+  print/                 Modèles de rapports et d'impression (design Bento unifié)
+  qc/                    Interface contrôle qualité
+  inventory/             Interface gestion des stocks
+  patients/              Interface patients
+  tests/                 Catalogue de tests, commandes, import, helpers LOINC
+  database-settings/     Sauvegarde, récupération et supervision
+  ui/                    Primitives UI partagées
 lib/
-  analysis/              Analysis lifecycle, status, history, updates
-  clinical/              Calculations, validation, QC readiness, formulas
-  db/                    Prisma, backups, integrity, recovery bundles
-  security/              Auth, audit, license, CSRF, validation seal
-  inventory/             Inventory business logic
-  documents/             PDF/report/document helpers
+  analysis/              Cycle de vie des analyses, statut, historique
+  clinical/              Calculs, validation, disponibilité QC, formules
+  db/                    Prisma, sauvegardes, intégrité, bundles de récupération
+  security/              Auth, audit, licence, CSRF, validation sceau
+  inventory/             Logique métier inventaire
+  documents/             Helpers PDF/rapport/document
 prisma/
   schema.prisma
   migrations/
 scripts/
-  Installer, backup, migration, demo, recovery, and maintenance scripts
+  Installeur, sauvegarde, migration, démo, récupération, maintenance
 tests/
   unit/
   e2e/
 ```
 
-## Tech Stack
+---
 
-| Layer | Technology |
-| --- | --- |
-| Framework | Next.js 16.2 App Router |
+## Stack Technique
+
+| Couche | Technologie |
+|---|---|
+| Framework | Next.js App Router |
 | Runtime | React 19 |
-| Language | TypeScript 5 |
-| Database | SQLite with Prisma ORM 7 |
-| Styling | Tailwind CSS 4 |
+| Langage | TypeScript 5 |
+| Base de données | SQLite avec Prisma ORM |
+| Stylisation | Tailwind CSS 4 |
 | Auth | NextAuth.js v5 |
-| UI Icons | Lucide React |
-| Charts | Recharts |
-| PDF/Print | Puppeteer Core, Chromium, print routes |
-| Tests | Vitest and Playwright |
-| Deployment | Docker and Docker Compose |
+| Icônes UI | Lucide React |
+| Graphiques | Recharts |
+| PDF/Impression | Puppeteer Core, Chromium |
+| Tests | Vitest et Playwright |
+| Déploiement | Docker et Docker Compose |
 
-## Troubleshooting
+---
 
-### Login works on server but not on phone
+## Dépannage Rapide
 
-Set `.env` to the same URL used by the phone:
+### Connexion OK sur le serveur, mais pas sur un téléphone
+
+Mettre à jour `.env` avec l'IP du serveur :
 
 ```env
 NEXTAUTH_URL=http://192.168.1.50
@@ -362,59 +329,82 @@ USE_SECURE_COOKIES=false
 AUTH_TRUST_HOST=true
 ```
 
-Then run:
+Puis : `docker compose down && docker compose up -d --force-recreate`. Vider les cookies du navigateur sur le téléphone.
 
-```powershell
-docker compose down
-docker compose up -d --force-recreate
-```
+### Avertissement Token d'impression interne
 
-Clear site cookies on the phone and retry.
-
-### Internal print token warning
-
-Add:
+Ajouter dans `.env` :
 
 ```env
 INTERNAL_PRINT_TOKEN="random-hex-token"
 ```
 
-Then recreate the container. Docker compose can fall back to `AUTH_SECRET`, but
-a dedicated token is cleaner.
+### Avertissement Chiffrement de base de données
 
-### Database encryption warning
-
-Add a 64-character hex key:
+Générer une clé :
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-Use it as `DATABASE_ENCRYPTION_KEY`. Keep it secure. Without it, encrypted
-database backups cannot be restored.
+Utiliser comme `DATABASE_ENCRYPTION_KEY` et la conserver en dehors de la machine laboratoire.
 
-## License
+---
 
-NexLab LIMS is proprietary software.
+## Changelog
 
-The source code in this repository is made available for transparency and
-evaluation only. You may not copy, redistribute, sublicense, or deploy NexLab
-commercially without a valid license key issued by the author.
+### v1.0.0 — 2026-08-09 — Première Version Commerciale
 
-Commercial deployment requires a per-installation license. Each license is
-cryptographically bound to the target machine.
+**Nouvelles fonctionnalités**
+- Système de licences machine-bound avec mode lecture seule à l'expiration
+- Sauvegarde et récupération avec chiffrement AES-256-GCM optionnel
+- Génération de rapports PDF et mise en cache
+- Import d'histogrammes d'automate (compatible Diatron)
+- Calcul natif eGFR (CKD-EPI) avec routage adulte/pédiatrique
+- Mot-clé `AUTO` pour déléguer les formules natives complexes dans les tests calculés
+- Delta check : affichage des résultats précédents pendant la saisie
+- Design Bento unifié sur tous les documents imprimables via `PrintDocHeader`
+- Supervision santé de la base de données
+- Exports statistiques Excel et CNAM
+- Synchronisation des sauvegardes vers dossier externe
 
-## Commercial Licensing
+**Corrections**
+- Barre de progression de saisie corrigée (exclut les tests calculés, optionnels et en-têtes de section)
+- Validation technique bloquée si résultats requis manquants
+- Gestion des variations de codes Créatinine pour le calcul eGFR
 
-NexLab uses an offline, machine-bound licensing system.
+---
 
-- Each installation has a unique Machine ID.
-- A license key is issued by the author for that Machine ID.
-- Without a valid license, the application enters read-only mode.
-- Trial, annual, and lifetime licenses can be issued.
+## Licence
 
-For licensing inquiries, contact the author directly.
+NexLab LIMS est un logiciel propriétaire.
 
-## Motto
+Le code source de ce dépôt est rendu disponible à titre de transparence et d'évaluation uniquement. Vous ne pouvez pas copier, redistribuer, sous-licencier ou déployer NexLab commercialement sans clé de licence valide émise par l'auteur.
 
-NexLab: precision and care in every result.
+Le déploiement commercial requiert une licence par installation. Chaque licence est liée cryptographiquement à la machine cible.
+
+| Type | Durée |
+|---|---|
+| Licence d'essai | Durée limitée, évaluation |
+| Licence annuelle | Renouvelable chaque année |
+| Licence perpétuelle | Validité illimitée |
+
+Sans licence valide, l'application passe en mode lecture seule.
+
+---
+
+## Mentions Légales
+
+NexLab implémente les standards médicaux internationaux ouverts suivants :
+- **CKD-EPI 2021** (Chronic Kidney Disease Epidemiology Collaboration) — calcul du débit de filtration glomérulaire.
+- **LOINC** (Logical Observation Identifiers Names and Codes) — catalogage des tests biologiques.
+
+---
+
+## Contact et Licences Commerciales
+
+Pour toute demande de licence commerciale, d'assistance technique ou de partenariat, contactez directement l'auteur via le dépôt GitHub.
+
+---
+
+*NexLab — Précision et soin dans chaque résultat.*
