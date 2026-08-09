@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useLicense } from '@/components/providers/LicenseProvider';
 import { ShieldCheck, ShieldAlert, Key, Copy, CheckCircle2, Server } from 'lucide-react';
 
+import pkg from '@/package.json';
+
 export default function LicenseSettingsPage() {
   const { status, loading, refresh } = useLicense();
   const [licenseInput, setLicenseInput] = useState('');
@@ -53,9 +55,14 @@ export default function LicenseSettingsPage() {
 
   return (
     <div className="max-w-4xl space-y-8 animate-fade-in">
-      <div>
-        <h1 className="text-2xl font-black tracking-tight text-[var(--color-text)]">Gestion de Licence</h1>
-        <p className="text-[var(--color-text-secondary)] mt-1 text-sm font-medium">Activez et gérez votre abonnement à NexLab LIMS.</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-black tracking-tight text-[var(--color-text)]">Gestion de Licence</h1>
+          <p className="text-[var(--color-text-secondary)] mt-1 text-sm font-medium">Activez et gérez votre abonnement à NexLab LIMS.</p>
+        </div>
+        <div className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500 border border-slate-200">
+          Version {pkg.version}
+        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">

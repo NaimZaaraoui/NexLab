@@ -2,6 +2,8 @@
 
 import { useMemo, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { FlaskConical } from 'lucide-react';
 import { PageBackLink } from '@/components/ui/PageBackLink';
 import { TestsList } from '@/components/tests/TestsList';
 import type { CategoryOption, TestWithInventory, TestsLabSettings } from '@/components/tests/types';
@@ -99,6 +101,13 @@ export function TestsPageClient({
               </div>
             </div>
           </div>
+          <Link
+            href="/tests/formulas"
+            className="btn-secondary h-9 gap-1.5 text-xs shrink-0 self-start md:self-center"
+          >
+            <FlaskConical size={14} />
+            Formules de calcul
+          </Link>
         </div>
       </section>
 

@@ -38,7 +38,14 @@ nexlab-install/
 nexlab-image.tar
 
 # Local Database
+# Local Database
 data/
 *.db
 *.db-journal
 *.sqlite
+
+# Security / Internal Setup Scripts
+add-admin.js
+groups.json
+diagnostic.json
+tests_response.json

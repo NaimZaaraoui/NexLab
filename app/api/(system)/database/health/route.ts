@@ -12,7 +12,7 @@ import {
 } from '@/lib/db/database-backups';
 import { listRecoveryBundles, validateRecoveryBundleFile } from '@/lib/db/recovery-bundles';
 import { checkAuditImmutabilityTriggers } from '@/lib/security/audit-trail-setup';
-import { checkDatabaseOpsRateLimit } from '@/lib/security/rate-limit';
+import { checkHealthRateLimit } from '@/lib/security/rate-limit';
 import { verifyValidationHash } from '@/lib/security/validation-seal';
 import { areLocalFileToolsUnavailable, LOCAL_FILE_TOOLS_UNAVAILABLE_MESSAGE } from '@/lib/core/deployment';
 
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   }
 
   const ip = (request.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0].trim();
-  const allowed = await checkDatabaseOpsRateLimit(`health:${ip}`);
+  const allowed = await checkHealthRateLimit(`health:${ip}`);
   if (!allowed) {
     return NextResponse.json(
       { error: 'Trop de requêtes. Réessayez dans quelques minutes.' },

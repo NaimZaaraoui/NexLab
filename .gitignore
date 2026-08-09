@@ -45,6 +45,12 @@ yarn-error.log*
 *.db
 *.db-shm
 *.db-wal
+dev.backup-*.db*
+*.db.backup
+temp.db
+diagnostic.json
+tests_response.json
+groups.json
 /logs
 /backups
 /database-checkpoints

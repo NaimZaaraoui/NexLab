@@ -67,14 +67,21 @@ export function AnalysisWorkflowActions() {
             <button onClick={onOpenLabels} className="btn-secondary h-10 px-4">
               <Tags size={16} /> Etiquettes
             </button>
-            <button
-              onClick={onSendEmail}
-              disabled={sendingEmail || !emailConfigured}
-              title={!emailConfigured ? 'Service email non configuré' : undefined}
-              className="btn-secondary h-10 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <Mail size={16} className={sendingEmail ? 'animate-pulse' : ''} /> Email
-            </button>
+            <div className="flex items-center gap-2 border-r pr-2 mr-2">
+              <button
+                onClick={onSendEmail}
+                disabled={sendingEmail || !emailConfigured}
+                title={!emailConfigured ? 'Service email non configuré' : undefined}
+                className="btn-secondary h-10 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Mail size={16} className={sendingEmail ? 'animate-pulse' : ''} /> Email
+              </button>
+              {!emailConfigured && (
+                <a href="/dashboard/settings/lab" className="text-[11px] font-semibold text-amber-600 hover:underline leading-tight whitespace-nowrap">
+                  Configurer<br/>le service
+                </a>
+              )}
+            </div>
             <button onClick={onPrint} className="btn-primary h-10 !bg-emerald-500 hover:!bg-emerald-600">
               <Printer size={16} /> Impression Finale
             </button>

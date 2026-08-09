@@ -24,6 +24,15 @@ const statisticsLimiter = new RateLimiterMemory({
 });
 
 /**
+ * Health checks de la base de données
+ * Max 30 requêtes par utilisateur par minute.
+ */
+const healthCheckLimiter = new RateLimiterMemory({
+  points: 30,
+  duration: 60,
+});
+
+/**
  * Opérations de base de données sensibles (backup, restore, integrity check)
  * Max 5 opérations par utilisateur toutes les 5 minutes.
  */
@@ -53,6 +62,15 @@ export async function checkExportRateLimit(key: string): Promise<boolean> {
 export async function checkStatisticsRateLimit(key: string): Promise<boolean> {
   try {
     await statisticsLimiter.consume(key);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function checkHealthRateLimit(key: string): Promise<boolean> {
+  try {
+    await healthCheckLimiter.consume(key);
     return true;
   } catch {
     return false;

@@ -85,25 +85,25 @@ export function useDatabaseSettings() {
       if (!backupsResponse.ok) throw new Error(backupsJson.error || 'Erreur lors du chargement des sauvegardes');
       if (!settingsResponse.ok) throw new Error(settingsJson.error || 'Erreur lors du chargement des paramètres système');
       if (!recoveryBundlesResponse.ok) throw new Error(recoveryJson.error || 'Erreur lors du chargement des bundles de reprise');
-      if (!healthResponse.ok) throw new Error((healthJson as { error?: string })?.error || 'Erreur lors du chargement de la santé système');
       if (!historyResponse.ok) throw new Error((historyJson as { error?: string })?.error || 'Erreur lors du chargement de l\'historique');
 
       setData(backupsJson as BackupsResponse);
       setRecoveryBundles(recoveryJson as RecoveryBundlesResponse);
-      setHealth(healthJson as HealthResponse);
-      setHistory((historyJson as DatabaseAuditResponse).items || []);
       setMaintenanceMode(settingsJson.maintenance_mode === 'true');
       setMaintenanceMessage(settingsJson.maintenance_message || '');
       setBackupRetentionCount(settingsJson.database_backup_retention_count || '10');
       setRecoveryRetentionCount(settingsJson.database_recovery_retention_count || '10');
       setExternalTarget(settingsJson.database_backup_external_target || '');
+      setHistory((historyJson as DatabaseAuditResponse).items || []);
+
+      // Health is non-critical: tolerate rate limiting without wiping UI
+      if (healthResponse.ok) {
+        setHealth(healthJson as HealthResponse);
+      }
     } catch (error) {
       console.error('Database backups load error:', error);
       showNotification('error', error instanceof Error ? error.message : 'Erreur lors du chargement');
-      setData(null);
-      setRecoveryBundles(null);
-      setHealth(null);
-      setHistory([]);
+      // Do NOT wipe existing data on transient errors — preserve what the user already sees
     } finally {
       setLoading(false);
     }

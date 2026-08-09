@@ -203,7 +203,7 @@ export async function createRecoveryBundle() {
       dockerCompose: copiedDockerCompose,
       prismaSchema: copiedSchema,
     },
-    requiredEnv: ['DATABASE_URL', 'NEXTAUTH_SECRET'],
+    requiredEnv: ['DATABASE_URL', 'AUTH_SECRET'],
     restoreNotes: [
       '1. Installer l application NexLab sur une machine saine.',
       '2. Restaurer data/database.sqlite comme base active SQLite.',
@@ -228,7 +228,7 @@ export async function createRecoveryBundle() {
       '1. Stopper l application.',
       '2. Remplacer la base SQLite active par data/database.sqlite.',
       '3. Restaurer public/uploads depuis app-files/uploads.',
-      '4. Verifier DATABASE_URL et NEXTAUTH_SECRET.',
+      '4. Verifier DATABASE_URL et AUTH_SECRET.',
       '5. Redemarrer l application.',
       '',
     ].join('\n'),
