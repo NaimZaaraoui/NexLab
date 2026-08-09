@@ -1,61 +1,49 @@
 'use client';
 
 import React from 'react';
-import { LucideMicroscope } from 'lucide-react';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 import type { Analysis } from '@/lib/core/types';
 import type { PrintSettings } from '@/components/print/types';
-import { resolvePrintBranding } from '@/lib/documents/report-generation';
+import { PrintDocHeader } from '@/components/print/PrintDocHeader';
 
 interface InvoiceHeaderProps {
   analysis: Analysis;
   settings?: PrintSettings;
 }
 
-/**
- * InvoiceHeader - Renders the branding and reference section of an invoice
- * 
- * Includes:
- * - Laboratory branding (logo, name, subtitle)
- * - Invoice title
- * - Order number and receipt number (if available)
- * - Print-safe styling with decorative bars
- * 
- * @param analysis - The analysis containing order and receipt numbers
- * @param settings - Print settings containing lab branding
- */
 export const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ analysis, settings }) => {
-  const { LAB_NAME, LAB_SUBTITLE } = resolvePrintBranding(settings);
+  const patientName = `${analysis.patient?.firstName || ''} ${analysis.patient?.lastName || ''}`.trim() || 'PATIENT SANS NOM';
+  const age = analysis.patient?.birthDate
+    ? Math.floor((new Date().getTime() - new Date(analysis.patient.birthDate).getTime()) / 31557600000)
+    : null;
+  const gender = analysis.patient?.gender === 'M' ? 'Homme' : 'Femme';
+  const dateFacture = format(new Date(), 'dd MMMM yyyy', { locale: fr });
+  const datePrel = format(new Date(analysis.creationDate), 'dd MMMM yyyy', { locale: fr });
 
   return (
-      <div className="flex justify-between items-end mb-4 relative z-10 px-4 pt-4">
-        {/* Lab identity: logo or icon + name */}
-        <div className="flex items-center gap-4 mb-4">
-          <div className="p-2 bg-black">
-            <LucideMicroscope size={40} className="text-white" />
-          </div>
-          <div className="flex flex-col ml-2">
-            <h1 className="text-3xl font-black text-[var(--color-text)] tracking-tight uppercase print:text-black leading-none">
-              {LAB_NAME}
-            </h1>
-            <div className="text-xs font-black text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mt-2 flex items-center gap-2">
-              <span className="w-6 h-[2px] bg-indigo-600 print:bg-black"></span>
-              {LAB_SUBTITLE}
-            </div>
-          </div>
-        </div>
-
-        {/* Invoice title */}
-        <div className="flex items-center justify-end gap-5 pr-6">
-          <div className="text-right">
-            <h2 className="text-2xl font-black text-[var(--color-text)] uppercase tracking-tight mb-1 print:text-black">FACTURE</h2>
-            <div className="flex flex-col items-end">
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Réf: {analysis.orderNumber}</p>
-              {analysis.receiptNumber && (
-                <p className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">Quittance: {analysis.receiptNumber}</p>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+    <PrintDocHeader
+      settings={settings}
+      docTitle="FACTURE"
+      docRef={`Réf: ${analysis.orderNumber}`}
+      docAccent={analysis.receiptNumber ? `Quittance: ${analysis.receiptNumber}` : undefined}
+      qrValue={analysis.orderNumber}
+      infoLabel="Patient"
+      infoTitle={patientName}
+      infoChips={
+        <>
+          {age !== null && <span>{age} ans</span>}
+          <span className="text-slate-300 print:text-black/30">·</span>
+          <span className="uppercase font-bold">{gender}</span>
+          <span className="text-slate-300 print:text-black/30">·</span>
+          <span>ID: <span className="font-bold font-mono text-[var(--color-text)] print:text-black">{analysis.dailyId || analysis.patientId.slice(0, 8).toUpperCase()}</span></span>
+        </>
+      }
+      metaCells={[
+        { label: 'Date Facture', value: dateFacture },
+        { label: 'Prélèvement', value: datePrel },
+      ]}
+    />
   );
 };
+

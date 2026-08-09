@@ -57,6 +57,11 @@ export function validateFormula(
     return { valid: false, dependencies: [], error: 'La formule est obligatoire.' };
   }
 
+  // Mot-clé réservé pour les formules natives (CKD-EPI, VGM, etc.)
+  if (trimmed.toUpperCase() === 'AUTO') {
+    return { valid: true, dependencies: [] };
+  }
+
   let tokens: FormulaToken[];
   try {
     tokens = tokenizeFormula(trimmed);
@@ -216,8 +221,12 @@ export function applyCalculatedTestFormulas(
     const test = result.test;
     if (!test || !isCalculatedFormulaTest(test)) continue;
     const formulaTest = test;
+    const formula = formulaTest.options || '';
+    if (formula.trim().toUpperCase() === 'AUTO') {
+      continue;
+    }
 
-    const evaluation = evaluateFormula(formulaTest.options || '', valuesByCode, formulaTest.decimals ?? 1);
+    const evaluation = evaluateFormula(formula, valuesByCode, formulaTest.decimals ?? 1);
     if (evaluation.ok) {
       updatedResults[result.id] = evaluation.value || '';
       valuesByCode[formulaTest.code.toUpperCase()] = evaluation.value || '';

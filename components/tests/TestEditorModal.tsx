@@ -188,14 +188,19 @@ export function TestEditorModal({
                   placeholder="Ex: (HGB / HCT) * 100"
                   className="input-premium min-h-[96px] bg-[var(--color-surface)] p-3 font-mono text-sm"
                 />
-                <div className="space-y-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-xs">
+                <div className="space-y-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-xs">
                   <p className="font-semibold text-[var(--color-text-secondary)]">
                     Utilisez les codes des tests avec seulement `+ - * / ( )`.
                   </p>
-                  <p className={formulaValidation?.valid ? 'text-emerald-600' : 'text-rose-600'}>
+                  <p className={formulaValidation?.valid ? 'text-emerald-600 font-bold' : 'text-rose-600 font-bold'}>
                     {formulaValidation?.valid
-                      ? `Dépendances détectées: ${formulaValidation.dependencies.join(', ')}`
+                      ? (form.formula?.trim().toUpperCase() === 'AUTO' ? 'Algorithme natif complexe sélectionné.' : `Dépendances détectées: ${formulaValidation.dependencies.join(', ')}`)
                       : (formulaValidation?.error || 'La formule est obligatoire.')}
+                  </p>
+                  <div className="h-px w-full bg-[var(--color-border)] opacity-50 my-2"></div>
+                  <p className="text-[var(--color-text-secondary)] leading-relaxed">
+                    <span className="font-bold text-indigo-600">💡 Astuce : </span>
+                    Pour les formules médicales internes complexes (ex: eGFR, Indices Hématologiques, Formule Leucocytaire), saisissez simplement le mot <code className="bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded font-mono font-bold text-indigo-700">AUTO</code>.
                   </p>
                 </div>
               </div>

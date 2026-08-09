@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
-import { LucideMicroscope, Printer } from 'lucide-react';
+import { Printer } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { PageBackLink } from '@/components/ui/PageBackLink';
+import { PrintDocHeader } from '@/components/print/PrintDocHeader';
+import type { PrintSettings } from '@/components/print/types';
 
 type PatientAnalysis = {
   id: string;
@@ -29,7 +31,7 @@ export default function PatientCardPrintPage() {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
   const [patient, setPatient] = useState<PatientData | null>(null);
-  const [settings, setSettings] = useState<Record<string, string>>({});
+  const [settings, setSettings] = useState<PrintSettings>({});
   const [loading, setLoading] = useState(true);
   const [ready, setReady] = useState(false);
   const autoPrint = searchParams.get('autoprint') === '1';
@@ -77,8 +79,9 @@ export default function PatientCardPrintPage() {
     return patient.analyses.slice(0, 1);
   }, [patient]);
 
-  const labName = settings.lab_name || 'NexLab';
-  const labSubtitle = settings.lab_subtitle || 'Centre de Santé';
+  const BIO_TITLE = settings.lab_bio_title || '';
+  const BIO_NAME = settings.lab_bio_name || '';
+  const BIO_ONMPT = settings.lab_bio_onmpt || '';
 
   if (loading) {
     return <div className="flex h-screen items-center justify-center text-sm font-medium text-[var(--color-text-secondary)] animate-pulse">Chargement...</div>;
@@ -90,12 +93,12 @@ export default function PatientCardPrintPage() {
   const dateEdition = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
 
   const Row = ({ label, value }: { label: string; value: string }) => (
-    <tr className="even:bg-[var(--color-surface-muted)]/30 break-inside-avoid">
-      <td className="py-2.5 pl-8">
-        <span className="text-[12px] font-bold text-[var(--color-text)] uppercase tracking-tight print:text-black">{label}</span>
+    <tr className="even:bg-[var(--color-surface-muted)]/30 print:even:bg-black/[0.025] break-inside-avoid">
+      <td className="py-2.5 pl-4 border-b border-[var(--color-surface-muted)] print:border-black/[0.06]">
+        <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.1em] print:text-black/60">{label}</span>
       </td>
-      <td className="py-2.5">
-        <span className="text-[14px] tracking-tight font-bold text-[var(--color-text)] print:text-black">{value || '—'}</span>
+      <td className="py-2.5 border-b border-[var(--color-surface-muted)] print:border-black/[0.06]">
+        <span className="text-[13px] font-bold text-[var(--color-text)] print:text-black">{value || '—'}</span>
       </td>
     </tr>
   );
@@ -114,16 +117,8 @@ export default function PatientCardPrintPage() {
         * { font-family: "NexLab Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif !important; }
         .break-inside-avoid { break-inside: avoid; }
         @media print {
-          @page {
-            margin: 12mm 10mm;
-            size: A4;
-          }
-          body {
-            background: white !important;
-            margin: 0;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
+          @page { margin: 12mm 10mm; size: A4; }
+          body { background: white !important; margin: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           tr { break-inside: avoid; }
         }
       `}</style>
@@ -146,75 +141,28 @@ export default function PatientCardPrintPage() {
       {/* A4 page */}
       <div className="w-[21cm] bg-white shadow-[0_40px_80px_rgba(15,31,51,0.12)] border border-[var(--color-border)] print:border-none print:shadow-none print:m-0 print:w-full flex flex-col">
 
-        {/* ── HEADER ── */}
-        <div>
-          <div className="flex justify-between items-end mb-4 pt-4 px-4">
-            <div className="flex items-center gap-4 mb-4">
-              {settings.lab_logo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={settings.lab_logo} alt={labName} className="h-14 w-auto max-w-[120px] object-contain" />
-              ) : (
-                <div className="p-2 bg-black rounded-xl">
-                  <LucideMicroscope size={40} className="text-white" />
-                </div>
-              )}
-              <div className="flex flex-col ml-2">
-                <h1 className="text-3xl font-black text-[var(--color-text)] tracking-tight uppercase print:text-black leading-none">{labName}</h1>
-                <div className="text-xs font-black text-[var(--color-text-secondary)] uppercase tracking-[0.08em] mt-2 flex items-center gap-2 print:text-black/70">
-                  <span className="w-6 h-[2px] bg-indigo-600 print:bg-black"></span>
-                  {labSubtitle}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-5 pr-6">
-              <div className="text-right">
-                <h2 className="text-2xl font-black text-[var(--color-text)] uppercase tracking-tight mb-1 print:text-black">FICHE PATIENT</h2>
-                <p className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-[0.08em] print:text-black/60">ID Dossier: {memberCode}</p>
-              </div>
-              {settings.report_show_barcode !== 'false' && (
-                <div className="p-1 bg-white border border-slate-200 rounded-lg shadow-sm print:border-black/20 print:shadow-none shrink-0 mix-blend-multiply">
-                  <QRCodeSVG value={memberCode} size={54} level="M" />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Patient identity bar */}
-          <div className="grid grid-cols-12 gap-4 mb-6 px-4">
-            <div className="col-span-12 h-px bg-[var(--color-surface-muted)] print:bg-black/10"></div>
-            <div className="col-span-4">
-              <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.08em] print:text-black">Patient</span>
-              <div className="flex flex-col mt-2">
-                <h3 className="text-2xl font-black text-[var(--color-text)] mb-2 print:text-black">{patientName}</h3>
-                <div className="flex gap-4 text-sm font-medium text-[var(--color-text-secondary)] print:text-black">
-                  <span>{patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('fr-FR') : 'N/A'}</span>
-                  <span className="text-slate-200 print:text-black/30">|</span>
-                  <span className="uppercase">{patient.gender === 'M' ? 'Homme' : 'Femme'}</span>
-                  <span className="text-slate-200 print:text-black/30">|</span>
-                  <span>ID: <span className="font-bold text-[var(--color-text)] print:text-black">{memberCode}</span></span>
-                </div>
-              </div>
-            </div>
-            <div className="col-span-8 grid grid-cols-2 gap-4 pl-8 border-l border-[var(--color-border)] print:border-black/10">
-              <div>
-                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Statut Dossier</span>
-                <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">
-                  {patient.analyses.length > 0 ? 'Dossier Existant' : 'Dossier Nouveau'}
-                </p>
-              </div>
-              <div>
-                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Édition</span>
-                <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{dateEdition}</p>
-              </div>
-              <div className="col-span-2">
-                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.08em] print:text-black/60">Établissement</span>
-                <p className="text-sm font-bold text-[var(--color-text)] mt-1 print:text-black">{labName}</p>
-              </div>
-            </div>
-            <div className="col-span-12 h-[2px] bg-indigo-600 print:bg-black rounded-full"></div>
-          </div>
-        </div>
+        {/* ── HEADER via shared component ── */}
+        <PrintDocHeader
+          settings={settings}
+          docTitle="FICHE PATIENT"
+          docRef={`ID Dossier: ${memberCode}`}
+          qrValue={memberCode}
+          infoLabel="Patient"
+          infoTitle={patientName}
+          infoChips={
+            <>
+              <span>{patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('fr-FR') : 'N/A'}</span>
+              <span className="text-slate-300 print:text-black/30">·</span>
+              <span className="uppercase font-bold">{patient.gender === 'M' ? 'Homme' : 'Femme'}</span>
+              <span className="text-slate-300 print:text-black/30">·</span>
+              <span>ID: <span className="font-bold text-[var(--color-text)] print:text-black">{memberCode}</span></span>
+            </>
+          }
+          metaCells={[
+            { label: 'Statut Dossier', value: patient.analyses.length > 0 ? 'Dossier Existant' : 'Dossier Nouveau' },
+            { label: 'Édition', value: dateEdition },
+          ]}
+        />
 
         {/* ── BODY ── */}
         <div className="flex-1 px-4 mb-4">

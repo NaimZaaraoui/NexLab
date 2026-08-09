@@ -138,16 +138,35 @@ export function calculateResultMetrics(
   analysis: Analysis,
   results: Record<string, string>
 ): ResultMetrics {
-  const leafResults = analysis.results.filter((result: Result) => !result.test?.isGroup);
-  const totalCount = leafResults.length;
-  const completedCount = leafResults.filter((result: Result) => {
+  // Identifier tous les tests qui agissent comme parents
+  const parentTestIds = new Set(
+    analysis.results
+      .map((r) => r.test?.parentId)
+      .filter((pid): pid is string => Boolean(pid))
+  );
+
+  // Pour la progression, on se base uniquement sur les tests requis (comme pour la validation technique)
+  const requiredResults = analysis.results.filter((result: Result) => {
+    return (
+      !result.test?.isGroup &&
+      result.test?.resultType !== 'calculated' &&
+      result.test?.resultType !== 'header' &&
+      !result.test?.isOptional &&
+      (!result.test?.id || !parentTestIds.has(result.test.id))
+    );
+  });
+
+  const totalCount = requiredResults.length;
+  const completedCount = requiredResults.filter((result: Result) => {
     const value = results[result.id];
     return Boolean(value) && value !== '';
   }).length;
-  const abnormalCount = leafResults.filter((result: Result) => {
-    const test = result.test;
-    if (!test) return false;
-    return isResultAbnormal(results[result.id], result, analysis.patient?.gender);
+
+  // Pour les anomalies, on vérifie tous les résultats qui ont une valeur (même optionnels ou calculés)
+  const abnormalCount = analysis.results.filter((result: Result) => {
+    const value = results[result.id];
+    if (!result.test || !value) return false;
+    return isResultAbnormal(value, result, analysis.patient?.gender);
   }).length;
 
   return {

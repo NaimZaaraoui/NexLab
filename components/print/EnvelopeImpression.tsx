@@ -45,27 +45,25 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
 
 
 
-         <div
+          <div
             className="absolute flex flex-col rotate-180 items-center justify-center gap-1.5"
             style={{
-              top:    '5mm',
-              left:   '67.875mm',
-              width:  '74.25mm',
+              top: '5mm',
+              left: '67.875mm',
+              width: '74.25mm',
               height: '67mm',
             }}
           >
-             
-             <div className="border-[1.5px] rounded-full w-28 h-28 flex flex-col items-center justify-center p-2 relative border-slate-300 print:border-black/30">
-                <div className="absolute inset-[3px] border rounded-full border-slate-800 print:border-black" />
-                <LucideMicroscope size={20} className="text-slate-400 mb-1.5 print:text-black" />
-                <p className="text-[9px] font-black text-slate-800 uppercase tracking-[0.08em] text-center leading-tight print:text-black">
-                  Prenez soin<br/>de vous
-                </p>
-                <div className="w-5 h-[1.5px] bg-slate-400 my-1.5 print:bg-black/60" />
-                <p className="text-[7px] font-bold text-slate-600 uppercase tracking-[0.1em] print:text-black/80">
-                  Bon rétablissement
-                </p>
-             </div>
+
+            <div className="border-[1.5px] rounded-full w-28 h-28 flex flex-col items-center justify-center p-2 relative border-slate-300 print:border-black/30">
+              <div className="absolute inset-[3px] border rounded-full border-slate-800 print:border-black" />
+              <LucideMicroscope size={20} className="text-slate-400 mb-1.5 print:text-black" />
+              <p className="text-[9px] font-black text-slate-800 uppercase tracking-[0.08em] text-center leading-tight print:text-black">
+                Prenez soin<br />de vous
+              </p>
+              <div className="w-5 h-[1.5px] bg-slate-400 my-1.5 print:bg-black/60" />
+
+            </div>
           </div>
 
 
@@ -76,9 +74,9 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
           <div
             className="absolute flex flex-col justify-between p-8 border-[0.2mm] border-[var(--color-border)] print:border-none overflow-hidden"
             style={{
-              top:    '67mm',
-              left:   '63mm',
-              width:  '210mm',   /* becomes the height after rotation */
+              top: '67mm',
+              left: '63mm',
+              width: '210mm',   /* becomes the height after rotation */
               height: '84mm', /* becomes the width after rotation */
               transformOrigin: 'top left',
               transform: 'rotate(90deg) translateY(-100%)',
@@ -86,9 +84,9 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
           >
             {/* ── Background Watermark: CONFIDENTIEL diagonal sur toute la longueur ── */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-               <span className="text-[4.5rem] font-black text-[var(--color-text)] opacity-[0.04] print:opacity-[0.1] print:text-black tracking-[0.1em] whitespace-nowrap -rotate-12 select-none">
-                 CONFIDENTIEL • CONFIDENTIEL • CONFIDENTIEL
-               </span>
+              <span className="text-[4.5rem] font-black text-[var(--color-text)] opacity-[0.04] print:opacity-[0.1] print:text-black tracking-[0.1em] whitespace-nowrap -rotate-12 select-none">
+                CONFIDENTIEL • CONFIDENTIEL • CONFIDENTIEL
+              </span>
             </div>
 
 
@@ -103,27 +101,27 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
                     <div>
                       <h1 className="text-xl flex gap-7 items-center font-black text-[var(--color-text)] tracking-tight leading-none print:text-black">
                         {LAB_NAME}
-                        <span className='flex-1 h-1 bg-slate-900'/>
+                        <span className='flex-1 h-1 bg-slate-900' />
                       </h1>
                       <div className="text-[11px] font-extrabold text-[var(--color-accent)] uppercase tracking-[0.08em] mt-0.5 print:text-black">
                         {LAB_SUBTITLE.toUpperCase()}
                       </div>
                     </div>
-                    
+
                     {/* Adresse avec icônes fines */}
                     <div className="flex flex-col gap-0.5 mt-1">
                       <div className="flex items-center gap-1.5 text-[var(--color-text-secondary)] print:text-black">
-                         <MapPin size={10} className="text-slate-500 print:text-black" />
-                         <span className="text-xs font-bold uppercase tracking-wide">
-                           {LAB_ADDRESS || 'El Gallel, Menzel Bouzaïene, Sidi Bouzid'}
-                         </span>
-                       </div>
-                       <div className="flex items-center gap-1.5 text-[var(--color-text-secondary)] print:text-black">
-                         <Phone size={10} className="text-slate-500 print:text-black" />
-                         <span className="text-xs font-bold tracking-wide">
-                           {LAB_PHONE || ''}
-                         </span>
-                       </div>
+                        <MapPin size={10} className="text-slate-500 print:text-black" />
+                        <span className="text-xs font-bold uppercase tracking-wide">
+                          {LAB_ADDRESS || 'El Gallel, Menzel Bouzaïene, Sidi Bouzid'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-[var(--color-text-secondary)] print:text-black">
+                        <Phone size={10} className="text-slate-500 print:text-black" />
+                        <span className="text-xs font-bold tracking-wide">
+                          {LAB_PHONE || ''}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -132,14 +130,14 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
 
               {/* ── Info patient (Minimalist & Modern) ── */}
               <div className="ml-12 mr-4 mb-4 relative group">
-               
+
                 <div className="relative border-[1.5px] border-slate-800 print:border-black pl-5 pr-4 py-4 print:bg-black/[0.04] rounded-sm w-[75mm] shadow-sm">
                   {analysis ? (
                     <div className="space-y-1.5">
                       <p className="text-xl font-black text-[var(--color-text)] print:text-black leading-tight uppercase tracking-tight">
                         {patientName}
                       </p>
-                      
+
                       <div className="flex items-center gap-3 text-[11px] text-[var(--color-text-secondary)] print:text-black font-semibold">
                         <span className="flex items-center gap-1.5">
                           ID: <span className="font-mono font-black text-[var(--color-text)] print:text-black">{dailyId}</span>
@@ -150,19 +148,19 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
                     </div>
                   ) : (
                     <div className="space-y-3.5">
-                         {/* Zone de saisie manuelle */}
-                         <div className="flex gap-3 items-end">
-                          <span className="text-[11px] font-black tracking-wide">NOM:</span>
-                          <div className="h-4 border-b border-[var(--color-border)] print:border-black/30 flex-1" />
-                         </div>
-                         <div className="flex gap-3 items-end">
-                            <span className="text-[11px] font-black tracking-wide">ID:</span>
-                            <div className="h-4 border-b border-[var(--color-border)] print:border-black/30 w-24" />
-                         </div>
-                         <div className="flex gap-3 items-end">
-                            <span className="text-[11px] font-black tracking-wide">DATE:</span>
-                            <div className="h-4 border-b border-[var(--color-border)] print:border-black/30 w-32" />
-                         </div>
+                      {/* Zone de saisie manuelle */}
+                      <div className="flex gap-3 items-end">
+                        <span className="text-[11px] font-black tracking-wide">NOM:</span>
+                        <div className="h-4 border-b border-[var(--color-border)] print:border-black/30 flex-1" />
+                      </div>
+                      <div className="flex gap-3 items-end">
+                        <span className="text-[11px] font-black tracking-wide">ID:</span>
+                        <div className="h-4 border-b border-[var(--color-border)] print:border-black/30 w-24" />
+                      </div>
+                      <div className="flex gap-3 items-end">
+                        <span className="text-[11px] font-black tracking-wide">DATE:</span>
+                        <div className="h-4 border-b border-[var(--color-border)] print:border-black/30 w-32" />
+                      </div>
                     </div>
                   )}
                 </div>
@@ -193,7 +191,7 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
             className="absolute top-0 left-0 right-0 border-b-[0.5mm] border-dotted border-slate-300 flex flex-col items-center justify-center print:border-black"
             style={{ height: '67mm' }}
           >
-            
+
           </div>
 
           {/* 2. Côté gauche — 66mm */}
@@ -201,7 +199,7 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
             className="absolute border-r-[0.5mm] border-dotted border-slate-300 bg-[var(--color-surface-muted)]/40 print:bg-transparent print:border-black flex items-center justify-center"
             style={{ top: '67mm', bottom: '20mm', left: 0, width: '63mm' }}
           >
-           
+
           </div>
 
           {/* 3. Côté droit — 66mm */}
@@ -209,7 +207,7 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
             className="absolute border-l-[0.5mm] border-dotted border-slate-300 bg-[var(--color-surface-muted)]/40 print:bg-transparent print:border-black flex items-center justify-center"
             style={{ top: '67mm', bottom: '20mm', right: 0, width: '63mm' }}
           >
-           
+
           </div>
 
           {/* 4. Fond bas — 20mm */}
@@ -217,10 +215,10 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
             className="absolute bottom-0 left-0 right-0 border-t-[0.5mm] border-dotted border-indigo-500 bg-indigo-50/30 print:bg-transparent print:border-black flex flex-col items-center justify-center"
             style={{ height: '20mm' }}
           >
-           
+
           </div>
 
-          
+
 
           {/* Coins à couper / coller */}
           {/* ── ZONES À COUPER : Rabat (haut) ── */}
@@ -231,7 +229,7 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
             <div className="absolute top-0 right-0 w-[0.4mm] h-full border-r-[0.5mm] border-dashed border-rose-400 print:border-black" />
             {/* Ligne de coupe horizontale (bas) */}
             <div className="absolute bottom-0 left-0 h-[0.4mm] w-full border-b-[0.5mm] border-dashed border-rose-400 print:border-black" />
-            
+
           </div>
           {/* Coin haut-droit ✂ */}
           <div className="absolute top-0 right-0 bg-rose-50/60 print:bg-transparent flex flex-col items-center justify-center gap-1"
@@ -240,7 +238,7 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
             <div className="absolute top-0 left-0 w-[0.4mm] h-full border-l-[0.5mm] border-dashed border-rose-400 print:border-black" />
             {/* Ligne de coupe horizontale (bas) */}
             <div className="absolute bottom-0 left-0 h-[0.4mm] w-full border-b-[0.5mm] border-dashed border-rose-400 print:border-black" />
-           
+
           </div>
 
           {/* ── ZONES À COUPER : Fond (bas) ── */}
@@ -251,7 +249,7 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
             <div className="absolute top-0 right-0 w-[0.4mm] h-full border-r-[0.5mm] border-dashed border-rose-400 print:border-black" />
             {/* Ligne de coupe horizontale (haut) */}
             <div className="absolute top-0 left-0 h-[0.4mm] w-full border-t-[0.5mm] border-dashed border-rose-400 print:border-black" />
-           
+
           </div>
           {/* Coin bas-droit ✂ */}
           <div className="absolute bottom-0 right-0 bg-rose-50/60 print:bg-transparent flex flex-col items-center justify-center gap-1"
@@ -260,7 +258,7 @@ export const EnvelopeImpression = forwardRef<HTMLDivElement, OptionalAnalysisPri
             <div className="absolute top-0 left-0 w-[0.4mm] h-full border-l-[0.5mm] border-dashed border-rose-400 print:border-black" />
             {/* Ligne de coupe horizontale (haut) */}
             <div className="absolute top-0 left-0 h-[0.4mm] w-full border-t-[0.5mm] border-dashed border-rose-400 print:border-black" />
-            
+
           </div>
 
           {/* ── ZONE CENTRALE FOND : à coller ── */}
